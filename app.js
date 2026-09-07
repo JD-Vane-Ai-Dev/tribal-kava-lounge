@@ -120,9 +120,9 @@ const seoDatabase = {
         }
     },
     'new-here': {
-        title: 'New to Kava or Kratom? Start Here | Tribal Kava Lounge',
-        description: 'Never tried kava or kratom before? Our beginner-friendly guide explains what kava is, what kratom is, what to order first, and how to enjoy responsibly.',
-        h1: 'Never Had Kava or Kratom? Start Here.',
+        title: 'Your First Visit to Tribal Kava Lounge | West Palm Beach',
+        description: 'New to kava? Explore drinks by flavor, see the menu, and plan your first visit to Tribal Kava Lounge at 770 S Military Trail, Unit A1 in West Palm Beach.',
+        h1: 'Your First Visit to Tribal Kava Lounge',
         slug: '/new-here',
         schema: {
             "@context": "https://schema.org",
