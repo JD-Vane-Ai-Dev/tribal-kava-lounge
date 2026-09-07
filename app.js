@@ -1680,14 +1680,54 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Reserve the dock's actual height, including safe-area and enlarged text.
+    // On home, reveal quick actions only after the main buttons leave the top.
     const conversionDock = document.querySelector('.mobile-conversion-dock');
-    if (conversionDock && 'ResizeObserver' in window) {
-        const dockObserver = new ResizeObserver(() => {
-            const height = conversionDock.getBoundingClientRect().height;
-            if (height > 0) document.documentElement.style.setProperty('--conversion-dock-space', `${Math.ceil(height)}px`);
+    if (conversionDock) {
+        const heroActions = document.querySelector('#view-home .hero-ctas');
+        let currentRoute = parsePathRoute().route;
+        const updateDockVisibility = () => {
+            const visible = currentRoute !== 'home' || !heroActions ||
+                heroActions.getBoundingClientRect().bottom < 0;
+            conversionDock.classList.toggle('is-visible', visible);
+            conversionDock.setAttribute('aria-hidden', String(!visible));
+            conversionDock.toggleAttribute('inert', !visible);
+            document.body.classList.toggle('conversion-dock-visible', visible);
+        };
+
+        window.addEventListener('tribal:navigation', (event) => {
+            currentRoute = event.detail.route;
+            updateDockVisibility();
         });
-        dockObserver.observe(conversionDock);
+        window.addEventListener('pageshow', updateDockVisibility);
+
+        if (heroActions && 'IntersectionObserver' in window) {
+            const actionsObserver = new IntersectionObserver(updateDockVisibility, {
+                threshold: 0
+            });
+            actionsObserver.observe(heroActions);
+        } else if (heroActions) {
+            let updatePending = false;
+            const scheduleDockUpdate = () => {
+                if (updatePending) return;
+                updatePending = true;
+                window.requestAnimationFrame(() => {
+                    updatePending = false;
+                    updateDockVisibility();
+                });
+            };
+            window.addEventListener('scroll', scheduleDockUpdate, { passive: true });
+            window.addEventListener('resize', scheduleDockUpdate);
+        }
+        updateDockVisibility();
+
+        // Preserve the measured height, including safe-area and enlarged text.
+        if ('ResizeObserver' in window) {
+            const dockObserver = new ResizeObserver(() => {
+                const height = conversionDock.getBoundingClientRect().height;
+                if (height > 0) document.documentElement.style.setProperty('--conversion-dock-space', `${Math.ceil(height)}px`);
+            });
+            dockObserver.observe(conversionDock);
+        }
     }
     
     // Floating Chat Bubble Toggle
