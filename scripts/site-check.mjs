@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { readFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (file) => readFile(path.join(root, file), 'utf8');
@@ -130,8 +131,21 @@ assert.match(robots, /www\.thetribalkavalounge\.com\/sitemap\.xml/, 'robots site
 assert.doesNotMatch(sitemap, /kratom-regulation|botanical-drink-trends|kava-bars-across-america/, 'unsafe legacy Daily URLs must not be indexed');
 assert.match(sitemap, /\/the-daily-kava\/crafted-kava-drinks/, 'new crafted-kava article URL must be indexed');
 assert.doesNotMatch(sitemap, /\/the-daily-kava\/what-is-a-kava-cloud/, 'retired Cloud article URL must not be indexed');
-assert.equal((sitemap.match(/<url>/g) || []).length, 38, 'sitemap must include 25 site routes and 13 Daily stories');
-assert.equal((sitemap.match(/\/the-daily-kava\//g) || []).length, 13, 'all 13 Daily stories must be indexed');
+const dailyPosts = runInNewContext(`${dailyKava}\n; dailyKavaPosts;`, Object.create(null), {
+  timeout: 1000,
+  contextCodeGeneration: { strings: false, wasm: false }
+});
+assert.ok(Array.isArray(dailyPosts) && dailyPosts.length >= 13, 'the 13 launch stories must remain alongside new Daily stories');
+const catalogSlugs = Array.from(dailyPosts, (post) => post.slug).sort();
+assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slugs must be unique');
+const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
+  .map((match) => match[1]).sort();
+assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
+assert.equal((sitemap.match(/<url>/g) || []).length, 25 + catalogSlugs.length, 'sitemap must include the 25 site routes and every catalog story');
+for (const post of dailyPosts) {
+  const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
+  assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);
+}
 assert.doesNotMatch(sitemap, /<loc>https:\/\/(?!www\.thetribalkavalounge\.com)/, 'sitemap URLs must use the canonical host');
 assert.ok(JSON.parse(config).navigationFallback, 'Azure SPA fallback must be configured');
 assert.equal(

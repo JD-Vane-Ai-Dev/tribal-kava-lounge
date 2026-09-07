@@ -1,6 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
@@ -44,13 +45,39 @@ const staticPaths = [
 const htmlTemplate = await readFile(path.join(root, 'index.html'), 'utf8');
 const appSource = await readFile(path.join(root, 'app.js'), 'utf8');
 const dailySource = await readFile(path.join(root, 'daily-kava.js'), 'utf8');
-const dailyEntries = [...dailySource.matchAll(/\n\s*slug:\s*'([^']+)',\n\s*title:\s*'([^']+)',\n\s*seoTitle:\s*'([^']+)',\n\s*metaDescription:\s*'([^']+)'[\s\S]*?\n\s*modified:\s*'(\d{4}-\d{2}-\d{2})'/g)]
-  .map((match) => ({
-    path: `/the-daily-kava/${match[1]}`,
-    title: `${match[3]} | Tribal Kava Lounge`,
-    description: match[4],
-    lastmod: match[5]
-  }));
+// This is the repository-owned static catalog, never draft/source JavaScript.
+// Read the actual array so both the launch literals and generated JSON entries
+// receive pre-rendered metadata and sitemap URLs.
+const dailyPosts = runInNewContext(`${dailySource}\n; dailyKavaPosts;`, Object.create(null), {
+  timeout: 1000,
+  contextCodeGeneration: { strings: false, wasm: false }
+});
+if (!Array.isArray(dailyPosts)) throw new Error('Daily Kava catalog must be an array');
+const catalogSlugs = new Set();
+const dailyEntries = dailyPosts.map((post) => {
+  if (!post || typeof post !== 'object' || typeof post.slug !== 'string'
+      || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug)) {
+    throw new Error('Daily Kava entry has an invalid slug');
+  }
+  if (catalogSlugs.has(post.slug)) throw new Error(`Duplicate Daily Kava slug: ${post.slug}`);
+  catalogSlugs.add(post.slug);
+  for (const field of ['title', 'seoTitle', 'metaDescription']) {
+    if (typeof post[field] !== 'string' || !post[field].trim()) {
+      throw new Error(`Daily Kava ${post.slug} is missing ${field}`);
+    }
+  }
+  if (typeof post.modified !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(post.modified)
+      || !Number.isFinite(Date.parse(`${post.modified}T00:00:00Z`))
+      || new Date(`${post.modified}T00:00:00Z`).toISOString().slice(0, 10) !== post.modified) {
+    throw new Error(`Daily Kava ${post.slug} has an invalid modified date`);
+  }
+  return {
+    path: `/the-daily-kava/${post.slug}`,
+    title: `${post.seoTitle} | Tribal Kava Lounge`,
+    description: post.metaDescription,
+    lastmod: post.modified
+  };
+});
 const dailyPaths = dailyEntries.map((entry) => entry.path);
 const dailyLastmod = new Map(dailyEntries.map((entry) => [entry.path, entry.lastmod]));
 const urls = [...staticPaths, ...dailyPaths]
