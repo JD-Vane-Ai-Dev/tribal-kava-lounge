@@ -842,7 +842,7 @@
     {
       "file": "drafts/digest-2026-09-07.md",
       "created_at": "2026-09-07T11:00:23.599791+00:00",
-      "status": "staged",
+      "status": "published",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMijgFBVV95cUxQT3p5SDE1cU51TWR2NVAzdUpwZnJZakFIOWQzc2pIMFFmNzRfZ3Z1anROenZ3Nmh3Uk96RXNpdnBCTkFfNFBJUFNpZEFWekN6aGktM2xGOC1YRnYxcnltZXZQZTNDOXZoaF9uVmxnNWpBM2NIaVY1Wm10bHV2WFBpTWNhYkhmXy14VnpCa2hB?oc=5",
         "https://news.google.com/rss/articles/CBMixgFBVV95cUxPMHBSYnZ2UGN5MnBZeUJybnZzSFlpRWRSejhuRlduelRBT1F4dGFiZF9aVnh6anI2SnZhajV0XzIydkE3VWluMkFPdlZRajFkMU93MmduWndkd2d3QldVYVVEekJ3YXdZcFZxLUo4S2M2UU9JTWJvUng0Qk5xQW5FVmlNNjNiNXhhc09CR3doMGZHT28tRElCdmlya2lscU1sc2w3b196VWxpc3RhU0YyNXNBWFJybjBGTmpqM2xyQ1M3cEtKaWc?oc=5",
@@ -865,7 +865,10 @@
       "checked_at": "2026-09-07T11:00:58.471691+00:00",
       "checked_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
       "staged_at": "2026-09-07T11:00:58.471691+00:00",
-      "staged_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899"
+      "staged_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
+      "published_at": "2026-09-07T11:01:28.530924+00:00",
+      "published_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-07"
     }
   ]
 }
