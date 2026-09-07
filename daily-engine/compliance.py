@@ -96,10 +96,42 @@ EDITORIAL_REJECT_PATTERNS = [
     (r"\b(?:anxiety|depression|pain|sleep|insomnia|health|medical)\b", "health or medical framing"),
 ]
 
-def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None) -> dict[str, Any]:
+TOPIC_ANCHOR = re.compile(
+    r"\b(?:kava|botanical[\s-]+(?:tea|drink|beverage|lounge)s?|"
+    r"non[\s-]?alcoholic|alcohol[\s-]?free|zero[\s-]?proof|sober(?:[\s-]curious)?)\b", re.I
+)
+
+
+def alcohol_promotion_flags(text: str) -> list[dict[str, str]]:
+    """Screen actual drink/event words, preserving explicit alcohol-free contexts.
+
+    Qualifying one drink does not exempt the rest of a mixed roundup.
+    """
+    text = html.unescape(re.sub(r"<[^>]+>", " ", text))
+    text = re.sub(
+        r"\b(?:non[\s-]?alcoholic|alcohol[\s-]?free|zero[\s-]?proof)\s+"
+        r"(?:craft\s+)?(?:beers?|wines?|cocktails?|brews?|champagne|mimosas?)\b", " ", text, flags=re.I
+    )
+    text = re.sub(r"\b(?:kava|tea|coffee)\s+(?:brews?|cocktails?)\b", " ", text, flags=re.I)
+    text = re.sub(r"\bcold[\s-]+brew\s+(?:coffee|tea)\b", " ", text, flags=re.I)
+    text = re.sub(
+        r"\b(?:without(?:\s+(?:the|any|mandatory))?|no|skip(?:ping)?)\s+"
+        r"(?:beer|wine|champagne|alcohol|cocktails?)\b", " ", text, flags=re.I
+    )
+    match = re.search(
+        r"\b(?:beers?|beerfest|brews?|brewery|breweries|brewfest|wines?|champagne|"
+        r"liquor|booze|mimosas?|cocktails?|oktoberfest)\b", text, re.I
+    )
+    return ([{"severity": "error", "rule": "editorial-alcohol-promotion", "match": match.group(0)}]
+            if match else [])
+
+def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None, require_relevant: bool = True) -> dict[str, Any]:
     """Reject Daily candidates that conflict with Tribal's positive editorial scope."""
     text = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary", "source")))
-    flags = []
+    flags = alcohol_promotion_flags(text)
+    topic = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary")))
+    if require_relevant and not TOPIC_ANCHOR.search(topic):
+        flags.append({"severity": "error", "rule": "editorial-unrelated-topic", "match": str(item.get("title", ""))})
     for pattern, label in EDITORIAL_REJECT_PATTERNS:
         match = re.search(pattern, text, flags=re.I)
         if match:
@@ -145,7 +177,7 @@ def check_text(text: str, *, context: str = "daily") -> dict[str, Any]:
         # Exempt only the exact trusted paragraph. A separator is not a boundary
         # that can conceal another story or arbitrary footer text from the gate.
         editorial_body = "\n".join(line for line in text.splitlines() if line != TRUSTED_RESPONSIBLE_USE_FOOTER)
-        editorial = check_candidate({"title": editorial_body, "summary": ""})
+        editorial = check_candidate({"title": editorial_body, "summary": ""}, require_relevant=False)
         flags.extend(editorial["flags"])
 
     for pattern, label in PROHIBITED:
@@ -241,6 +273,8 @@ def check_publishable(text: str, source_urls: list[str], now: datetime | None = 
     if not headings or len(headings) != len(urls):
         reject("incomplete-story-sections", "Each source needs a completed numbered story section")
     for index, heading in enumerate(headings):
+        # The boilerplate mentions kava; each source itself must be relevant.
+        flags.extend(check_candidate({"title": heading.group(2)})["flags"])
         section = text[heading.end():headings[index + 1].start() if index + 1 < len(headings) else len(text)]
         metadata = re.search(r"^\*\*Source:\*\* (.+?) · \*\*Published:\*\* (\d{4}-\d{2}-\d{2})\s*$", section, re.M)
         if not metadata or not is_fresh_published(metadata.group(2), now):
@@ -263,6 +297,26 @@ def check_publishable(text: str, source_urls: list[str], now: datetime | None = 
         "summary": "PASS" if not flags else f"HOLD ({errors} error(s), {warnings} warning(s))",
     })
     return result
+
+
+def check_catalog_post(post: dict[str, Any]) -> dict[str, Any]:
+    """Recheck deployed content, including entries already marked published.
+
+    Evergreen articles keep their approved scope. Feed roundups additionally
+    apply all Daily editorial exclusions to every source headline, without
+    expiring a legitimate archived article solely because it has aged.
+    """
+    body = str(post.get("body", ""))
+    visible = " ".join(str(post.get(k, "")) for k in ("title", "seoTitle", "metaDescription", "dek")) + " " + body
+    flags = alcohol_promotion_flags(visible)
+    if post.get("contentSha256") or str(post.get("slug", "")).startswith("daily-digest-"):
+        headings = re.findall(r"<h2[^>]*>(.*?)</h2>", body, re.S | re.I)
+        if not headings:
+            flags.append({"severity": "error", "rule": "missing-source-headlines", "match": post.get("slug", "")})
+        for heading in headings:
+            title = html.unescape(re.sub(r"<[^>]+>", " ", heading))
+            flags.extend(check_candidate({"title": title})["flags"])
+    return {"pass": not flags, "flags": flags, "summary": "PASS" if not flags else "HOLD: catalogue editorial check"}
 
 
 if __name__ == "__main__":

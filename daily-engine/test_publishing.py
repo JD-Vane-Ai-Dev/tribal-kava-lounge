@@ -95,6 +95,34 @@ class PublishingTests(unittest.TestCase):
         self.assertEqual(retry["posts"], [])
         self.assertEqual(len(publish.read_catalog()), 1)
 
+    def test_published_status_does_not_bypass_catalogue_editorial_gate(self):
+        markdown = self.markdown.replace('Kava culture brings a community together', 'Enjoy BBQ, Brews and Blues')
+        post = publish.create_post(self.root / 'daily-engine' / self.item['file'], markdown, self.item['source_urls'])
+        self.catalog.write_text('const dailyKavaPosts = [\n' + json.dumps(post) + '\n];\n\nfunction getDailyKavaPost(slug) {}\n')
+        item = copy.deepcopy(self.item)
+        item.update(status='published', published_at=self.day)
+        publish.save_json(self.queue, {'items': [item]})
+        with self.assertRaisesRegex(ValueError, 'editorial-alcohol-promotion'):
+            publish.check_catalog()
+        # A hand-added entry without publisher metadata must also be screened.
+        post.pop('contentSha256')
+        post['slug'] = 'local-weekend-picks'
+        self.catalog.write_text('const dailyKavaPosts = [\n' + json.dumps(post) + '\n];\n\nfunction getDailyKavaPost(slug) {}\n')
+        with self.assertRaisesRegex(ValueError, 'editorial-alcohol-promotion'):
+            publish.check_catalog()
+
+    def test_withdrawn_record_cannot_be_restaged_or_reintroduced(self):
+        item = copy.deepcopy(self.item)
+        item['status'] = 'withdrawn'
+        publish.save_json(self.queue, {'items': [item]})
+        manifest = publish.stage(self.manifest, self.item['file'])
+        self.assertEqual(manifest['posts'], [])
+        self.assertEqual(self.queue_items()[0]['status'], 'withdrawn')
+        post = publish.create_post(self.root / 'daily-engine' / self.item['file'], self.markdown, self.item['source_urls'])
+        self.catalog.write_text('const dailyKavaPosts = [\n' + json.dumps(post) + '\n];\n\nfunction getDailyKavaPost(slug) {}\n')
+        with self.assertRaisesRegex(ValueError, 'withdrawn content'):
+            publish.check_catalog()
+
     def test_duplicate_sources_in_new_draft_are_held(self):
         publish.stage(self.manifest)
         second = copy.deepcopy(self.item)

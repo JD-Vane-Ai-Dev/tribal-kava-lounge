@@ -14,11 +14,22 @@ not required for passing posts.
 3. The publisher checks current draft bytes, sources, freshness, and the editorial
    rules again. It holds excluded topics, stale or unverifiable sources,
    duplicates, and other flagged content.
+   Each source headline must establish a kava, botanical-drink, or alcohol-free
+   social connection; generic local food, arts, and event news does not qualify.
+   Beer, brewery, wine, and other alcohol promotion is held. Explicitly
+   alcohol-free drinks and kava/tea/coffee brews retain their intended meaning.
 4. Passing posts are staged in `daily-kava.js`. The site build generates their
    page metadata and sitemap entries, and the site and publisher tests must pass.
 5. The workflow saves staged/held state, deploys to the existing Azure Static Web
    App, and verifies that production serves the exact catalog hash.
 6. Only after live verification does the workflow record `published` status.
+
+Every site build also runs `auto_publish.py check-catalog`, including site-only
+deployments. This screens existing published entries as well as new additions.
+Withdrawn records are terminal and retain their source history for deduplication;
+they cannot be approved, staged, or restored to the deployed catalog by a retry.
+On September 7, the unrelated BBQ/beer digest was withdrawn, removed from the
+catalog and sitemap, and its former URL redirected to The Daily Kava index.
 
 The publisher requires the repository Actions secret
 `AZURE_STATIC_WEB_APPS_API_TOKEN`, containing the deployment token for the

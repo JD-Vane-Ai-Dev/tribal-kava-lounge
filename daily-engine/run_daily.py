@@ -275,7 +275,7 @@ def _record_check(item: dict, text: str, result: dict) -> None:
     item["checked_at"] = datetime.now(timezone.utc).isoformat()
     item["checked_sha256"] = digest
     item["content_sha256"] = digest
-    if previous == "published" or item.get("published_at"):
+    if previous in {"published", "withdrawn"} or item.get("published_at"):
         return
     if previous in {"approved", "staged"} and old_digest == digest and result["pass"]:
         return
@@ -344,6 +344,9 @@ def cmd_approve(file: str) -> int:
     item = next((i for i in queue.get("items", []) if i.get("file") in {rel, file}), None)
     if item is None:
         print("File not in queue. Run check first.")
+        return 1
+    if item.get("status") == "withdrawn":
+        print(f"Withdrawn content cannot be approved: {rel}")
         return 1
     if item.get("status") == "published" or item.get("published_at"):
         print(f"Already published: {rel}")

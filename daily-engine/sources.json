@@ -21,7 +21,7 @@
     {
       "id": "gnews-wpb-lounge",
       "type": "google_news",
-      "query": "West Palm Beach community events arts food",
+      "query": "\"West Palm Beach\" (kava OR \"alcohol-free\" OR \"non-alcoholic\" OR \"zero-proof\")",
       "category": "local"
     }
   ]

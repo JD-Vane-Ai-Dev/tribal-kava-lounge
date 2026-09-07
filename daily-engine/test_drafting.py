@@ -16,6 +16,12 @@ import run_daily
 
 NOW = datetime(2026, 9, 7, 12, tzinfo=timezone.utc)
 
+REJECTED_SEPTEMBER_HEADLINES = (
+    "Enjoy BBQ, Brews and Blues in Historic Northwest - Palm Beach Illustrated",
+    "It’s September! Check out BBQ & beer in West Palm Beach; Hispanic Heritage Month events and much more - Sun Sentinel",
+    "West Palm Beach is “Fired Up” for 11th Annual BBQ, Brews and Blues - City of West Palm Beach",
+)
+
 
 def candidate(**overrides):
     return {
@@ -61,6 +67,72 @@ class EditorialTests(unittest.TestCase):
             for forbidden in ("new kava legislation", "kratom news", "7&#45;OH", "pain relief", "overdose deaths"):
                 with self.subTest(field=field, forbidden=forbidden):
                     self.assertFalse(compliance.check_candidate(candidate(**{field: forbidden}))["pass"])
+
+    def test_reported_beer_roundup_is_rejected_at_intake_and_publication(self):
+        for title in REJECTED_SEPTEMBER_HEADLINES:
+            with self.subTest(title=title):
+                item = candidate(title=title, category="local")
+                self.assertFalse(compliance.check_candidate(item, category="local")["pass"])
+                text = self.draft(title=title)
+                self.assertFalse(compliance.check_publishable(text, [item["url"]], NOW)["pass"])
+
+    def test_local_arts_food_location_and_publisher_are_not_topic_relevance(self):
+        item = candidate(
+            title="West Palm Beach hosts neighborhood arts and food weekend",
+            summary="Live music, dining and community activities downtown.",
+            source="Kava Culture Daily", category="local",
+        )
+        self.assertFalse(compliance.check_candidate(item, category="local")["pass"])
+        text = run_daily._template_draft([item], NOW.date().isoformat())
+        self.assertFalse(compliance.check_publishable(text, [item["url"]], NOW)["pass"])
+
+    def test_positive_kava_and_alcohol_free_topics_remain_eligible(self):
+        for title in (
+            "Community gathers for traditional kava brewing",
+            "Kava and tea brews at a neighborhood lounge",
+            "Kava lounge adds cold brew coffee",
+            "Botanical tea lounge opens in West Palm Beach",
+            "Alcohol-free nightlife brings neighbors together",
+            "Non-alcoholic beer tasting at a sober social club",
+            "Zero-proof cocktails for a community gathering",
+            "Sober-curious evenings without champagne",
+        ):
+            with self.subTest(title=title):
+                item = candidate(title=title)
+                self.assertTrue(compliance.check_candidate(item)["pass"])
+                self.assertTrue(compliance.check_publishable(self.draft(title=title), [item["url"]], NOW)["pass"])
+
+    def test_relevant_summary_cannot_hide_alcohol_promotion(self):
+        for title in (
+            "Beerfest returns to downtown West Palm Beach",
+            "New brewery celebrates opening weekend",
+            "Kava lounge hosts wine and beer specials",
+            "Alcohol-free options available at a beer festival",
+        ):
+            with self.subTest(title=title):
+                self.assertFalse(compliance.check_candidate(candidate(
+                    title=title, summary="Kava and non-alcoholic options are also available.",
+                ))["pass"])
+        self.assertFalse(compliance.check_candidate(candidate(
+            summary="Join us for beer specials and wine tasting.",
+        ))["pass"])
+
+    def test_each_story_must_be_relevant_despite_roundup_wrapper(self):
+        unrelated = candidate(
+            title="Local arts and food festival opens this weekend",
+            summary="", url="https://example.com/arts-food",
+        )
+        for items in ([unrelated], [candidate(), unrelated]):
+            with self.subTest(story_count=len(items)):
+                text = run_daily._template_draft(items, NOW.date().isoformat())
+                self.assertIn("non-alcoholic social life", text)
+                result = compliance.check_publishable(text, [item["url"] for item in items], NOW)
+                self.assertFalse(result["pass"])
+
+    def test_mixed_good_and_beer_stories_do_not_pass_as_a_group(self):
+        bad = candidate(title=REJECTED_SEPTEMBER_HEADLINES[0], url="https://example.com/bbq-brews")
+        text = run_daily._template_draft([candidate(), bad], NOW.date().isoformat())
+        self.assertFalse(compliance.check_publishable(text, [candidate()["url"], bad["url"]], NOW)["pass"])
 
     def test_incomplete_and_unattributed_text_is_held(self):
         text = self.draft()
@@ -145,6 +217,14 @@ class QueueTests(unittest.TestCase):
         self.assertEqual(run_daily.cmd_draft(), 0)
         self.assertEqual(len(self.queue()["items"]), 1)
         self.assertEqual(len(list(run_daily.DRAFTS_DIR.glob("*.md"))), 1)
+
+    def test_persisted_beer_and_unrelated_candidates_are_rescreened(self):
+        titles = REJECTED_SEPTEMBER_HEADLINES + ("West Palm Beach arts and food weekend",)
+        self.pool([candidate(title=title, url=f"https://example.com/rejected-{index}")
+                   for index, title in enumerate(titles)])
+        self.assertEqual(run_daily.cmd_draft(), 0)
+        self.assertEqual(self.queue()["items"], [])
+        self.assertEqual(list(run_daily.DRAFTS_DIR.glob("*.md")), [])
 
     def test_same_source_in_multiple_pool_entries_and_crash_recovery(self):
         self.pool([candidate(), candidate()])

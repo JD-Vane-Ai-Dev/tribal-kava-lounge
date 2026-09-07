@@ -72,8 +72,33 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "2 arrested after toddler takes kratom pills, dies: Florida officers - WFLA"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "2 arrested after toddler takes kratom pills, dies: Florida officers - WFLA"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Mother urges Florida lawmakers to ban kratom after son's toxicology report - wtsp.com"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "ban"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
           },
           {
             "severity": "error",
@@ -82,13 +107,58 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "More 7-OH related products made illegal in Florida by a new emergency rule - Florida Phoenix"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-7-oh-coverage",
+            "match": "7-OH"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "More 7-OH related products made illegal in Florida by a new emergency rule - Florida Phoenix"
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "UF study finds kratom-derived products are frequently mislabeled - UF Health"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-health-or-medical-framing",
+            "match": "Health"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "UF study finds kratom-derived products are frequently mislabeled - UF Health"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Dangers of kratom abuse make strong argument for a ban in Florida - Tallahassee Democrat"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "ban"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "Dangers"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
           },
           {
             "severity": "error",
@@ -98,12 +168,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (16 error(s), 0 warning(s))"
+        "summary": "HOLD (30 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (16 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (30 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
       "content_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214"
     },
     {
@@ -163,8 +233,28 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Brevard County father, girlfriend arrested in 2-year-old's kratom death - Spectrum News 13"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "death"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Brevard County father, girlfriend arrested in 2-year-old's kratom death - Spectrum News 13"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "How Dry Bar Culture Has Become the Life of the Party - Artful Living Magazine"
           },
           {
             "severity": "error",
@@ -183,18 +273,23 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Dirty soda trend arrives in downtown St. Pete with new beverage bar Idyll Vice - St Pete Rising"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Dirty soda trend arrives in downtown St. Pete with new beverage bar Idyll Vice - St Pete Rising"
           }
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (13 error(s), 0 warning(s))"
+        "summary": "HOLD (18 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (18 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution",
       "content_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c"
     },
     {
@@ -212,6 +307,11 @@
         "pass": false,
         "score": 0,
         "flags": [
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "Brew"
+          },
           {
             "severity": "error",
             "rule": "editorial-legal-or-political-coverage",
@@ -254,6 +354,21 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "2 arrested after death of toddler who ingested kratom pills, West Melbourne police say - WESH"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "death"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "2 arrested after death of toddler who ingested kratom pills, West Melbourne police say - WESH"
           },
@@ -261,6 +376,16 @@
             "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Dry January gives Tulsans a trial run on sober lifestyle — and new route for profits - Tulsa Flyer"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "Brew"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Sobriety Brew - Morning Brew"
           },
           {
             "severity": "error",
@@ -280,12 +405,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (13 error(s), 0 warning(s))"
+        "summary": "HOLD (19 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (19 error(s), 0 warning(s)): editorial-alcohol-promotion, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-alcohol-promotion, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd"
     },
     {
@@ -340,6 +465,11 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Bill"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Sale of adulterated kava a serious concern, Kava Bill needs to have fines and blacklisting - Fijivillage"
           },
@@ -350,8 +480,28 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Kratom regulations, pros and cons discussed amongst Georgia representatives - WJBF"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Kratom regulations, pros and cons discussed amongst Georgia representatives - WJBF"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "The cost of influence: Kratom, money and Idaho politics - KTVB"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
           },
           {
             "severity": "error",
@@ -366,12 +516,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (12 error(s), 0 warning(s))"
+        "summary": "HOLD (17 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (12 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (17 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7"
     },
     {
@@ -431,8 +581,33 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Florida’s new 7-OH ban still misses the bigger kratom problem - Florida Politics"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-7-oh-coverage",
+            "match": "7-OH"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "ban"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Florida’s new 7-OH ban still misses the bigger kratom problem - Florida Politics"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Australia, Fiji sign mutual defence pact to boost Pacific security - South China Morning Post"
           },
           {
             "severity": "error",
@@ -441,13 +616,38 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Bill proposes 16-member Fiji Yaqona Council - The Fiji Times"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Bill"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Bill proposes 16-member Fiji Yaqona Council - The Fiji Times"
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "‘You don’t need Parliament to make a difference’ - Fiji Sun"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "‘You don’t need Parliament to make a difference’ - Fiji Sun"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Kratom product sales to be regulated in Virginia - Virginia Mercury"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
           },
           {
             "severity": "error",
@@ -457,12 +657,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (13 error(s), 0 warning(s))"
+        "summary": "HOLD (23 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (23 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
       "content_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79"
     },
     {
@@ -527,6 +727,21 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Florida cracks down on highly concentrated 7-OH products, but traditional kratom products may be safe - WTXL ABC 27 Tallahassee News"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-7-oh-coverage",
+            "match": "7-OH"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Florida cracks down on highly concentrated 7-OH products, but traditional kratom products may be safe - WTXL ABC 27 Tallahassee News"
           },
@@ -537,13 +752,58 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Better Weather Fix Elixir recall expands over kratom concerns - LiveNOW from FOX"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "recall"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Better Weather Fix Elixir recall expands over kratom concerns - LiveNOW from FOX"
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "The Food and Drug Administration and 'Gas Station Heroin' - The Kratom Crackdown That Wasn’t - Public Citizen"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "Crackdown"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "The Food and Drug Administration and 'Gas Station Heroin' - The Kratom Crackdown That Wasn’t - Public Citizen"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "End Kratom Addiction Hires Bob Good LLC on Drug Abuse - Legis1"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "Addiction"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
           },
           {
             "severity": "error",
@@ -553,12 +813,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (14 error(s), 0 warning(s))"
+        "summary": "HOLD (26 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (14 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (26 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
       "content_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e"
     },
     {
@@ -613,6 +873,16 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "RFK Jr. ends Tampa Q&A when asked about kratom ties - WMNF"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "RFK Jr. ends Tampa Q&A when asked about kratom ties - WMNF"
           },
@@ -628,8 +898,23 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "fine"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "$100k fine proposed for falsely labelling kava as Fijian - Fiji Sun"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "How Kratom, an Addictive Gas Station Drug, Found Allies in Trump’s Cabinet - The New York Times"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
           },
           {
             "severity": "error",
@@ -639,12 +924,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (12 error(s), 0 warning(s))"
+        "summary": "HOLD (17 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (12 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (17 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
       "content_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd"
     },
     {
@@ -704,8 +989,28 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "What's in kratom products? Tests find 85% conflict with labels - Medical Xpress"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "kratom"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-health-or-medical-framing",
+            "match": "Medical"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "What's in kratom products? Tests find 85% conflict with labels - Medical Xpress"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Bill"
           },
           {
             "severity": "error",
@@ -719,8 +1024,33 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Bill"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Kava Bill won’t suppress farmers, says Kamikamica - Fiji Sun"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Poison Control Center Data Support Regulatory Distinction Between Kratom Leaf And Synthetics - insights.citeline.com"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Regulatory"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "Poison"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
           },
           {
             "severity": "error",
@@ -730,12 +1060,12 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (13 error(s), 0 warning(s))"
+        "summary": "HOLD (22 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (22 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
       "content_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7"
     },
     {
@@ -805,8 +1135,23 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Florida cracks down on 7-OH products - Greene Publishing"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-7-oh-coverage",
+            "match": "7-OH"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Florida cracks down on 7-OH products - Greene Publishing"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Dry January trend impacts local bars and businesses - wwmtarc"
           },
           {
             "severity": "error",
@@ -815,13 +1160,48 @@
           },
           {
             "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "Bill"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "penalties"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Seruiratu demands rethink of proposed Kava Bill penalties - Fiji Sun"
           },
           {
             "severity": "error",
+            "rule": "editorial-regulatory-or-enforcement-coverage",
+            "match": "fine"
+          },
+          {
+            "severity": "error",
             "rule": "missing-or-stale-source-attribution",
             "match": "Seruiratu warns $10,000 kava fine could hurt ordinary families - The Fiji Times"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Kratom drink Feel Free gains popularity despite growing concerns about addiction, health impact and death - CBS News"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "addiction"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
+            "match": "Kratom"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-health-or-medical-framing",
+            "match": "health"
           },
           {
             "severity": "error",
@@ -831,18 +1211,18 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (15 error(s), 0 warning(s))"
+        "summary": "HOLD (25 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T13:12:24.139030+00:00",
+      "checked_at": "2026-09-07T14:27:17.783132+00:00",
       "checked_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26",
-      "held_at": "2026-09-07T13:12:24.139030+00:00",
-      "hold_reason": "HOLD (15 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
+      "held_at": "2026-09-07T14:27:17.783132+00:00",
+      "hold_reason": "HOLD (25 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution",
       "content_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26"
     },
     {
       "file": "drafts/digest-2026-09-07.md",
       "created_at": "2026-09-07T11:00:23.599791+00:00",
-      "status": "published",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMijgFBVV95cUxQT3p5SDE1cU51TWR2NVAzdUpwZnJZakFIOWQzc2pIMFFmNzRfZ3Z1anROenZ3Nmh3Uk96RXNpdnBCTkFfNFBJUFNpZEFWekN6aGktM2xGOC1YRnYxcnltZXZQZTNDOXZoaF9uVmxnNWpBM2NIaVY1Wm10bHV2WFBpTWNhYkhmXy14VnpCa2hB?oc=5",
         "https://news.google.com/rss/articles/CBMixgFBVV95cUxPMHBSYnZ2UGN5MnBZeUJybnZzSFlpRWRSejhuRlduelRBT1F4dGFiZF9aVnh6anI2SnZhajV0XzIydkE3VWluMkFPdlZRajFkMU93MmduWndkd2d3QldVYVVEekJ3YXdZcFZxLUo4S2M2UU9JTWJvUng0Qk5xQW5FVmlNNjNiNXhhc09CR3doMGZHT28tRElCdmlya2lscU1sc2w3b196VWxpc3RhU0YyNXNBWFJybjBGTmpqM2xyQ1M3cEtKaWc?oc=5",
@@ -868,7 +1248,9 @@
       "staged_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
       "published_at": "2026-09-07T11:01:28.530924+00:00",
       "published_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
-      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-07"
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-07",
+      "withdrawn_at": "2026-09-07T14:25:58.621455+00:00",
+      "withdrawal_reason": "Owner editorial policy: beer-promoting BBQ roundup unrelated to kava or alcohol-free lounge life. Removed from public catalog; retain source history to prevent republication."
     }
   ]
 }

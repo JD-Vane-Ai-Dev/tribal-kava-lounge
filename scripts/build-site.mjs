@@ -2,9 +2,12 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { runInNewContext } from 'node:vm';
+import { execFileSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
+// Every deployment, including unrelated site edits, checks the whole catalog.
+execFileSync('python3', [path.join(root, 'daily-engine/auto_publish.py'), 'check-catalog'], { cwd: root, stdio: 'inherit' });
 const files = [
   'index.html',
   'review-card.html',

@@ -14,7 +14,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from compliance import check_publishable
+from compliance import check_publishable, check_catalog_post
 
 ROOT = Path(__file__).resolve().parent.parent
 DAILY_KAVA_JS = ROOT / "daily-kava.js"
@@ -65,6 +65,24 @@ def read_catalog() -> list[dict]:
         check=True, capture_output=True, text=True, timeout=5,
     )
     return json.loads(result.stdout)
+
+
+def check_catalog() -> None:
+    failures = []
+    withdrawn = {
+        Path(item["file"]).stem.replace("digest-", "daily-digest-", 1)
+        for item in load_queue().get("items", [])
+        if item.get("status") == "withdrawn" and isinstance(item.get("file"), str)
+    }
+    for post in read_catalog():
+        result = check_catalog_post(post)
+        if post["slug"] in withdrawn:
+            failures.append(post["slug"] + ": withdrawn content cannot be deployed")
+        if not result["pass"]:
+            failures.append(post["slug"] + ": " + ", ".join(flag["rule"] for flag in result["flags"]))
+    if failures:
+        raise ValueError("Catalogue editorial check failed:\n" + "\n".join(failures))
+    print("Catalogue editorial checks passed.")
 
 
 def markdown_to_html(markdown: str) -> str:
@@ -153,7 +171,7 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
     # held/edited/expired draft cannot hitchhike on another post's deployment.
     restage_files = set()
     for item in queue.get("items", []):
-        if item.get("published_at") or item.get("status") == "published":
+        if item.get("published_at") or item.get("status") in {"published", "withdrawn"}:
             continue
         relative = item.get("file", "")
         if not isinstance(relative, str) or not re.fullmatch(r"drafts/digest-\d{4}-\d{2}-\d{2}(?:-\d+)?\.md", relative):
@@ -175,7 +193,7 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
     by_slug = {post["slug"]: post for post in posts}
     used_urls = {url for post in posts for url in post.get("sourceUrls", [])}
     for item in queue.get("items", []):
-        if item.get("status") == "published" or item.get("published_at"):
+        if item.get("status") in {"published", "withdrawn"} or item.get("published_at"):
             used_urls.update(item.get("source_urls") or [])
     now = datetime.now(timezone.utc).isoformat()
     manifest = {"posts": [], "held": [], "catalog_sha256": None}
@@ -185,7 +203,7 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
         if selected_file and item.get("file") != selected_file and item.get("file") not in restage_files:
             continue
         selected_found = selected_found or item.get("file") == selected_file
-        if item.get("published_at") or item.get("status") == "published":
+        if item.get("published_at") or item.get("status") in {"published", "withdrawn"}:
             continue
         try:
             path = draft_path(item.get("file"))
@@ -282,11 +300,16 @@ def finalize(manifest_path: Path) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("command", choices=["stage", "verify-live", "finalize"])
-    parser.add_argument("--manifest", type=Path, required=True)
+    parser.add_argument("command", choices=["stage", "verify-live", "finalize", "check-catalog"])
+    parser.add_argument("--manifest", type=Path)
     parser.add_argument("--file", help="One queue path, e.g. drafts/digest-2026-09-07.md")
     parser.add_argument("--origin", default=PRODUCTION_ORIGIN)
     args = parser.parse_args()
+    if args.command == "check-catalog":
+        check_catalog()
+        return 0
+    if args.manifest is None:
+        parser.error("--manifest is required for staging and verification")
     if args.command == "stage":
         stage(args.manifest, args.file)
     elif args.command == "verify-live":
