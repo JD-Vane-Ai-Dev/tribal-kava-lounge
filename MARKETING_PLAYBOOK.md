@@ -79,3 +79,11 @@ Public signup: https://docs.google.com/forms/d/e/1FAIpQLSeAs0kMJJ-7rFgeaewR6Qv4i
 Owner form: https://docs.google.com/forms/d/1dFzDuXK6Zlzv6H3mJxb0bw-IalDeGo8LNypZg8JwegQ/edit#settings
 
 Google Forms stores responses with timestamp, email, and the required consent answer. Responses are private; no public results summary or Google sign-in requirement. Form opening is tracked as event_signup_form_open, not a completed signup. Use the private Responses tab for actual subscriptions. No automatic campaign sending is configured. Before sending, remove opt-outs and exclude QA records, include the lounge identity and unsubscribe instructions, and never expose the list in a public spreadsheet or bulk To/CC field.
+
+## September 7: independent acquisition improvements
+
+- Seven existing event-detail pages and three nearby-area guides now deliver their actual text and actions in the initial HTML. Build reuses the client renderers. Static recurring labels remain valid between builds; no stale next-occurrence Event schema is frozen into the document.
+- Every Daily Kava article now has menu, directions, events, and email-list actions plus user-initiated SMS/WhatsApp sharing. Shared article links carry reader_share/referral/daily_kava attribution; share clicks are not counted as sent messages.
+- https://www.thetribalkavalounge.com/feed.xml is generated from the published catalogue on every build, including future passing posts. It contains titles, original dates, summaries, and canonical links. Readers can follow it using an RSS reader; an RSS file alone does not syndicate posts to social accounts or guarantee visits.
+- The email form remains published; browser timeouts still prevent a submitted-response test. Automatic event emails remain unconfigured.
+- JD confirmed he does not have Tribal Google Business Profile manager access. Do not request that access from him repeatedly; the website suggestion already submitted can be reviewed by Google independently. Instagram access may become available later.

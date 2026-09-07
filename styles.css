@@ -3029,3 +3029,9 @@ footer {
   .instagram-embed { min-height: 460px; }
   .vip-actions .btn { width: 100%; }
 }
+
+/* Useful next steps at the end of each local guide. */
+.daily-visit-actions { margin-top: 2rem; padding: 1.5rem; border: 1px solid var(--card-border); border-radius: 16px; background: rgba(255,255,255,.025); }
+.daily-action-links { display: flex; flex-wrap: wrap; gap: .65rem; margin: 1rem 0; }
+.daily-visit-actions p { line-height: 1.6; }
+@media(max-width: 600px) { .daily-action-links .btn { width: 100%; text-align: center; } }

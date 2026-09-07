@@ -165,4 +165,24 @@ assert.equal(
   'retired Cloud article must redirect permanently'
 );
 
+
+// Delivered HTML must contain the local content before the browser runs any JS.
+for (const [route, view, title] of [
+  ['events/friday-loteria', 'event-detail', 'Friday Lotería with Tony'],
+  ['events/karaoke', 'event-detail', 'Karaoke Night at Tribal'],
+  ['nearby/lake-worth', 'nearby-detail', 'Kava Lounge Near Lake Worth']
+]) {
+  const page = await read(`dist/${route}/index.html`);
+  assert.ok(page.includes(`id="view-${view}" class="spa-view" style="display: block;"`));
+  assert.ok(page.includes(`<h1>${title}</h1>`));
+  const schema = JSON.parse(page.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+  assert.ok(JSON.stringify(schema).includes(route));
+}
+assert.match(preRenderedLoteria, /Every Friday · 9 PM/, 'initial event content must not freeze a next date between builds');
+assert.match(preRenderedDaily, /Make it a Tribal night/, 'articles need a visible visit action');
+assert.match(preRenderedDaily, /article_share_whatsapp/, 'reader sharing must ship before JavaScript');
+const feed = await read('dist/feed.xml');
+assert.equal((feed.match(/<item>/g) || []).length, runInNewContext(dailyKava + '; dailyKavaPosts.length;', Object.create(null), { timeout: 1000 }));
+assert.ok(!feed.includes('undefined') && !feed.includes('Invalid Date'));
+
 console.log('Site checks passed.');

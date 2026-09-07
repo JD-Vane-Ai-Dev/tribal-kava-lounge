@@ -923,7 +923,7 @@ function renderEventDetail(slug) {
                 <div>
                     <p class="menu-eyebrow">Verified event proof</p>
                     <h2>${event.proofTitle}</h2>
-                    <p>The embedded post is the scheduling source. If its date has passed, use the source link above or the text button for the next confirmed night.</p>
+                    <p>The embedded post is the scheduling source. If its date has passed, use the source link above for the next confirmed night.</p>
                 </div>
                 <iframe class="instagram-embed" title="${event.proofTitle}" src="${event.embedUrl}" loading="lazy" allowtransparency="true"></iframe>
             </div>
@@ -1053,6 +1053,23 @@ function dailyKavaFAQHTML(faq = []) {
     `;
 }
 
+function dailyKavaActionsHTML(post) {
+    const canonical = `${SITE_ORIGIN}/the-daily-kava/${post.slug}`;
+    const sharedUrl = `${canonical}?utm_source=reader_share&utm_medium=referral&utm_campaign=daily_kava`;
+    const text = encodeURIComponent(`${post.title} ${sharedUrl}`);
+    return `<section class="daily-visit-actions" aria-label="Plan your visit and share this guide">
+        <h2>Make it a Tribal night.</h2>
+        <p>770 S Military Trail, Unit A1 · West Palm Beach · Free parking</p>
+        <div class="daily-action-links">
+            <a class="btn btn-accent" href="/menu" data-conversion="menu_view">See Menu &amp; Prices</a>
+            <a class="btn btn-secondary" href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" data-conversion="directions">Get Directions</a>
+            <a class="btn btn-secondary" href="/events" data-conversion="events_view">What’s On</a>
+            <a class="btn btn-secondary" href="/#vip">Join the Event Email List</a>
+        </div>
+        <p>Bring someone along: <a href="sms:?body=${text}" data-conversion="article_share_sms">Text this guide</a> · <a href="https://wa.me/?text=${text}" target="_blank" rel="noopener" data-conversion="article_share_whatsapp">Share on WhatsApp</a> · <a href="/feed.xml" data-conversion="rss_feed_open">Follow the RSS feed</a></p>
+    </section>`;
+}
+
 function renderDailyKavaArticle(slug) {
     const post = typeof getDailyKavaPost === 'function' ? getDailyKavaPost(slug) : null;
     const root = document.getElementById('daily-kava-article-root');
@@ -1068,6 +1085,7 @@ function renderDailyKavaArticle(slug) {
         <p class="daily-article-dek">${post.dek}</p>
         <div class="daily-article-body">${post.body}</div>
         ${dailyKavaFAQHTML(post.faq)}
+        ${dailyKavaActionsHTML(post)}
         <div class="daily-article-footer">
             <p>More from <a href="/the-daily-kava">The Daily Kava</a> · <a href="/menu">Menu</a> · <a href="/visit">Visit</a> · <a href="tel:+15613550561">(561) 355-0561</a></p>
             <p class="daily-note" style="margin-top: 1rem;">Kratom products are 21+ only. Valid ID required. Not intended to diagnose, treat, cure, or prevent any disease. Do not mix kava or kratom with alcohol or other substances.</p>

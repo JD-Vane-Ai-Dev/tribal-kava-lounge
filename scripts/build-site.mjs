@@ -102,25 +102,51 @@ for (const match of seoDatabaseSource.matchAll(/\n {4}'[^']+':\s*\{\n {8}title:\
   routeMetadata.set(match[3], { title: match[1], description: match[2] });
 }
 
-const eventDatabaseStart = appSource.indexOf('const eventDatabase = {');
-const eventDatabaseEnd = appSource.indexOf('\n};', eventDatabaseStart);
-const eventDatabaseSource = appSource.slice(eventDatabaseStart, eventDatabaseEnd);
-for (const match of eventDatabaseSource.matchAll(/\n {4}'([^']+)':\s*\{\n {8}seoKey:[^\n]+\n {8}eyebrow:[^\n]+\n {8}title:\s*'([^']+)',\n {8}intro:\s*'([^']+)',/g)) {
-  routeMetadata.set(`/events/${match[1]}`, {
-    title: `${match[2]} | Tribal Kava Lounge West Palm Beach`,
-    description: match[3]
-  });
+// Reuse the existing trusted page renderers so the initial document and SPA agree.
+// This isolated build context has no network, timers, or browser side effects.
+function sourceBetween(start, end) {
+  const a = appSource.indexOf(start);
+  const b = appSource.indexOf(end, a);
+  if (a < 0 || b <= a) throw new Error(`Missing build source boundary: ${start}`);
+  return appSource.slice(a, b);
 }
-
-const nearbyDatabaseStart = appSource.indexOf('const nearbyAreaDatabase = {');
-const nearbyDatabaseEnd = appSource.indexOf('\n};', nearbyDatabaseStart);
-const nearbyDatabaseSource = appSource.slice(nearbyDatabaseStart, nearbyDatabaseEnd);
-for (const match of nearbyDatabaseSource.matchAll(/\n {4}'([^']+)':\s*\{\n {8}seoKey:[^\n]+\n {8}areaName:[^\n]+\n {8}eyebrow:[^\n]+\n {8}title:\s*'([^']+)',\n {8}intro:[^\n]+\n {8}description:\s*'([^']+)',/g)) {
-  routeMetadata.set(`/nearby/${match[1]}`, {
-    title: `${match[2]} | Tribal Kava Lounge`,
-    description: match[3]
-  });
-}
+const detailRoots = {
+  'event-detail-root': { innerHTML: '' },
+  'nearby-detail-root': { innerHTML: '' }
+};
+const detailPages = runInNewContext(`
+  const seoDatabase = {};
+  ${sourceBetween("const EVENT_TIME_ZONE =", "// AI Guide Knowledge Base Responses")}
+  ${sourceBetween("function renderEventDetail(slug)", "function getDailyKavaSorted()")}
+  // The server document remains true between builds; the browser adds the next date.
+  eventDatabase['two-dollar-tuesday'].eyebrow = 'Every Tuesday · 2–5 PM';
+  eventDatabase['friday-loteria'].eyebrow = 'Every Friday · 9 PM';
+  const pages = [];
+  for (const [slug, event] of Object.entries(eventDatabase)) {
+    renderEventDetail(slug);
+    const metadata = seoDatabase[event.seoKey];
+    // Do not freeze a future event occurrence into a long-lived static document.
+    if (metadata.schema['@type'] === 'Event') metadata.schema = {
+      '@context': 'https://schema.org', '@type': 'WebPage',
+      name: event.title, description: event.intro,
+      url: SITE_ORIGIN + '/events/' + slug
+    };
+    pages.push({route: '/events/' + slug, view: 'event-detail',
+      html: document.getElementById('event-detail-root').innerHTML, metadata});
+  }
+  for (const [slug, area] of Object.entries(nearbyAreaDatabase)) {
+    renderNearbyArea(slug);
+    pages.push({route: '/nearby/' + slug, view: 'nearby-detail',
+      html: document.getElementById('nearby-detail-root').innerHTML,
+      metadata: seoDatabase[area.seoKey]});
+  }
+  pages;
+`, {
+  SITE_ORIGIN: origin,
+  document: { getElementById: id => detailRoots[id] },
+  injectSEO: () => {}
+}, { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } });
+for (const page of detailPages) routeMetadata.set(page.route, page.metadata);
 
 for (const entry of dailyEntries) {
   routeMetadata.set(entry.path, { title: entry.title, description: entry.description });
@@ -139,6 +165,12 @@ function escapeHtml(value) {
     .replaceAll('"', '&quot;');
 }
 
+const articleActions = runInNewContext(
+  sourceBetween('function dailyKavaActionsHTML(post)', 'function renderDailyKavaArticle(slug)') + '; dailyKavaActionsHTML;',
+  { SITE_ORIGIN: origin },
+  { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } }
+);
+
 function renderRouteHtml(route, metadata) {
   const title = escapeHtml(metadata.title);
   const description = escapeHtml(metadata.description);
@@ -152,12 +184,21 @@ function renderRouteHtml(route, metadata) {
     .replace(/<meta property="og:url" content="[^"]*" id="og-url">/, `<meta property="og:url" content="${canonical}" id="og-url">`);
 
   const post = dailyPosts.find(item => route === `/the-daily-kava/${item.slug}`);
-  const view = post ? 'the-daily-kava-article' : route === '/' ? 'home' : route.slice(1);
+  const detail = detailPages.find(page => page.route === route);
+  const view = detail ? detail.view : post ? 'the-daily-kava-article' : route === '/' ? 'home' : route.slice(1);
   // Serve the same readable content to visitors and crawlers before JS runs.
   // Keep all SPA views so client-side navigation still works after hydration.
   if (htmlTemplate.includes(`id="view-${view}"`)) {
     rendered = rendered.replace(/<div id="view-([^"]+)" class="spa-view"(?: style="[^"]*")?>/g,
       (_, name) => `<div id="view-${name}" class="spa-view" style="display: ${name === view ? 'block' : 'none'};">`);
+  }
+  if (detail) {
+    const marker = detail.view === 'event-detail'
+      ? '<div id="event-detail-root" class="container event-detail-shell"></div>'
+      : '<div class="container" id="nearby-detail-root" style="max-width: 1040px;"></div>';
+    rendered = rendered.replace(marker, () => marker.replace('</div>', detail.html + '</div>'));
+    const schema = JSON.stringify(detail.metadata.schema).replaceAll('<', '\\u003c');
+    rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`);
   }
   if (post) {
     const faq = (post.faq || []).map(item => `<details><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('');
@@ -167,7 +208,8 @@ function renderRouteHtml(route, metadata) {
       <p class="daily-article-dek">${escapeHtml(post.dek)}</p>
       <div class="daily-article-body">${post.body}</div>
       ${faq ? `<section class="daily-faq"><h2>Quick answers</h2>${faq}</section>` : ''}
-      <p><a href="/menu">Menu</a> · <a href="/visit">Visit Tribal</a> · <a href="/the-daily-kava">More stories</a></p>`;
+      ${articleActions(post)}
+      <p><a href="/the-daily-kava">More stories</a></p>`;
     rendered = rendered.replace('<article id="daily-kava-article-root" class="daily-article"></article>',
       () => `<article id="daily-kava-article-root" class="daily-article">${article}</article>`);
     const graph = [{
@@ -200,3 +242,14 @@ for (const route of [...staticPaths, ...dailyPaths]) {
 }
 
 console.log(`Built ${files.length} files, ${imageFiles.length} verified images, ${dailyPaths.length} Daily Kava URLs, and ${routeMetadata.size} pre-rendered routes into ${output}`);
+
+const feedItems = [...dailyPosts].sort((a, b) => b.date.localeCompare(a.date)).map(post => {
+  const url = `${origin}/the-daily-kava/${post.slug}`;
+  return `<item><title>${escapeHtml(post.title)}</title><link>${url}</link><guid isPermaLink="true">${url}</guid><pubDate>${new Date(post.date + 'T12:00:00Z').toUTCString()}</pubDate><description>${escapeHtml(post.dek)}</description></item>`;
+}).join('\n');
+await writeFile(path.join(output, 'feed.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel>
+<title>The Daily Kava — Tribal Kava Lounge</title><link>${origin}/the-daily-kava</link>
+<description>Local guides, lounge events, and first-visit answers from West Palm Beach.</description>
+<language>en-us</language><atom:link href="${origin}/feed.xml" rel="self" type="application/rss+xml"/>
+${feedItems}</channel></rss>\n`);
