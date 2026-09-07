@@ -7,6 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
 const files = [
   'index.html',
+  'review-card.html',
   'styles.css',
   'app.js',
   'daily-kava.js',

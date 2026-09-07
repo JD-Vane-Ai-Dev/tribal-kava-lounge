@@ -93,7 +93,8 @@ assert.match(html, /query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'Google review 
 assert.match(siteConfig, /destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'global directions must target the verified Tribal place ID');
 assert.match(socialProofCore, /query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'social-proof fallback must target the verified Tribal Business Profile');
 assert.doesNotMatch(`${html}\n${app}\n${socialProofCore}`, /maps\/search\/\?api=1(?:&amp;|&)query=Tribal\+Kava\+Lounge\+770/, 'fuzzy Google Business searches must not return');
-assert.match(html, /data-conversion="vip_sms"/, 'SMS VIP conversion must exist');
+assert.match(html, /data-conversion="event_signup_form_open"/, 'event signup form must be available');
+assert.match(html, /writereview\?placeid=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'review requests must target the verified Tribal Business Profile');
 assert.match(html, /data-conversion="order_online"/, 'DoorDash order conversion must exist');
 assert.match(html, /doordash\.com\/store\/tribal-kava-bar-w\.p\.b-west-palm-beach-41073365\/98494168\/\?pickup=true/, 'Active DoorDash storefront must be linked');
 assert.doesNotMatch(html, /order\.online\/store\/637148/, 'Inactive legacy DoorDash storefront must not be linked');

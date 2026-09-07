@@ -148,7 +148,7 @@
 
     const href = link.getAttribute('href') || '';
     if (href.startsWith('tel:')) return 'phone_call';
-    if (href.startsWith('sms:')) return 'vip_sms';
+    if (href.startsWith('sms:')) return 'sms_contact';
     if (href.startsWith('mailto:')) return href.includes('event') ? 'event_inquiry' : 'email';
     if (/google\.[^/]+\/maps|maps\.google/i.test(href)) return 'directions';
     if (/instagram\.com/i.test(href)) return 'instagram';
@@ -166,14 +166,17 @@
     const conversion = conversionForLink(link);
     if (!conversion) return;
 
+    const opensComposer = /^(mailto|sms):/i.test(link.getAttribute('href') || '');
     const details = {
       conversion_type: conversion,
       link_url: link.href,
-      link_text: (link.textContent || '').trim().slice(0, 100)
+      link_text: (link.textContent || '').trim().slice(0, 100),
+      interaction_type: opensComposer ? 'compose_open' : 'link_click'
     };
     send(conversion, details);
 
-    if (['phone_call', 'directions', 'vip_sms', 'vip_email', 'email', 'event_inquiry', 'event_interest'].includes(conversion)) {
+    // Opening an email/text composer cannot confirm a sent inquiry or enrollment.
+    if (!opensComposer && ['phone_call', 'directions', 'event_interest'].includes(conversion)) {
       send('generate_lead', Object.assign({ lead_type: conversion }, details));
     }
     if (conversion === 'order_online') {

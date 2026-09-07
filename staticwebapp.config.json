@@ -10,6 +10,61 @@
       "route": "/the-daily-kava/what-is-a-kava-cloud",
       "redirect": "/the-daily-kava/crafted-kava-drinks",
       "statusCode": 301
+    },
+    {
+      "route": "/go/google",
+      "redirect": "https://www.thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/google-menu",
+      "redirect": "https://www.thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/instagram",
+      "redirect": "https://www.thetribalkavalounge.com/?utm_source=instagram&utm_medium=social&utm_campaign=instagram_bio",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/facebook",
+      "redirect": "https://www.thetribalkavalounge.com/?utm_source=facebook&utm_medium=social&utm_campaign=facebook_profile",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/instagram-events",
+      "redirect": "https://www.thetribalkavalounge.com/events?utm_source=instagram&utm_medium=social&utm_campaign=weekly_events",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/facebook-events",
+      "redirect": "https://www.thetribalkavalounge.com/events?utm_source=facebook&utm_medium=social&utm_campaign=weekly_events",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/happykava",
+      "redirect": "https://www.thetribalkavalounge.com/new-here?utm_source=happykava&utm_medium=referral&utm_campaign=directory",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/happykava-menu",
+      "redirect": "https://www.thetribalkavalounge.com/menu?utm_source=happykava&utm_medium=referral&utm_campaign=directory",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/partner",
+      "redirect": "https://www.thetribalkavalounge.com/new-here?utm_source=local_partner&utm_medium=referral&utm_campaign=local_partners",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/counter",
+      "redirect": "https://www.thetribalkavalounge.com/press?utm_source=counter&utm_medium=qr&utm_campaign=review_request",
+      "statusCode": 302
+    },
+    {
+      "route": "/go/email",
+      "redirect": "https://docs.google.com/forms/d/e/1FAIpQLSeAs0kMJJ-7rFgeaewR6Qv4i_bLuHLcq99f8KQhRU-aO9vxCg/viewform?usp=publish-editor",
+      "statusCode": 302
     }
   ],
   "platform": {
@@ -19,7 +74,8 @@
     "rewrite": "/index.html",
     "exclude": [
       "/images/*.{png,jpg,jpeg,gif,webp,svg,avif}",
-      "/*.{css,js,json,xml,txt,ico,svg}"
+      "/*.{css,js,json,xml,txt,ico,svg}",
+      "/go/*"
     ]
   },
   "globalHeaders": {

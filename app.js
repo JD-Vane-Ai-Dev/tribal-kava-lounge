@@ -335,7 +335,7 @@ const seoDatabase = {
     },
     'gift-cards': {
         title: 'Gift Cards Coming Soon | Tribal Kava Lounge',
-        description: 'Gift cards for Tribal Kava Lounge are coming soon. Join the VIP list to be first when digital cards launch in West Palm Beach.',
+        description: 'Digital gift cards for Tribal Kava Lounge in West Palm Beach are coming soon. Contact the lounge for availability.',
         h1: 'Gift Cards',
         slug: '/gift-cards',
         schema: {
@@ -915,7 +915,7 @@ function renderEventDetail(slug) {
                 <a href="${event.sourceUrl}" ${external ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary" data-conversion="events_view">${event.sourceLabel}</a>
                 <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="directions">Get Directions</a>
                 ${event.calendarUrl ? `<a href="${event.calendarUrl}" class="btn" data-conversion="calendar_download">Add Weekly Calendar</a>` : ''}
-                <a href="sms:+15613550561?&amp;body=EVENTS%20%E2%80%94%20Please%20send%20me%20the%20next%20Tribal%20Kava%20event%20details." class="btn" data-conversion="event_inquiry">Text for Updates</a>
+                <a href="/#vip" class="btn">Request Event Updates</a>
             </div>
         </div>
         ${event.embedUrl ? `
