@@ -1,68 +1,184 @@
-name: Publish Approved Draft
+name: Publish Passing Kava Drafts
 
 on:
+  # The existing Azure job pushes these paths using its repository deploy key.
+  push:
+    branches: [master]
+    paths:
+      - 'daily-engine/drafts/**'
+      - 'daily-engine/state/**'
+  # GITHUB_TOKEN commits from the manual fallback do not emit a new push run.
+  workflow_run:
+    workflows: ['Manual Kava Draft Fallback']
+    branches: [master]
+    types: [completed]
   workflow_dispatch:
     inputs:
       draft_file:
-        description: 'Draft file to publish (e.g., digest-2026-08-20.md)'
-        required: true
+        description: 'Optional draft filename; leave blank to process all passing drafts'
+        required: false
         type: string
+
+concurrency:
+  group: daily-kava-production
+  cancel-in-progress: false
+
+permissions:
+  contents: read
 
 jobs:
   publish:
+    if: >-
+      github.repository == 'JD-Vane-Ai-Dev/tribal-kava-lounge' &&
+      github.ref == 'refs/heads/master' &&
+      (github.event_name != 'workflow_run' ||
+        (github.event.workflow_run.conclusion == 'success' &&
+         github.event.workflow_run.event == 'workflow_dispatch' &&
+         github.event.workflow_run.head_branch == 'master' &&
+         github.event.workflow_run.head_repository.full_name == github.repository))
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: write
-    
+    env:
+      DAILY_KAVA_MANIFEST: /tmp/daily-kava-manifest.json
+
     steps:
-      - name: Checkout repository
+      - name: Checkout current production branch
         uses: actions/checkout@v7
         with:
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Set up Python
         uses: actions/setup-python@v7
         with:
           python-version: '3.11'
-          
-      - name: Install Netlify CLI
-        run: npm install -g netlify-cli@27.4.1
-        
-      - name: Approve and publish draft
+
+      - name: Test publishing and content safeguards
+        run: python3 -m unittest discover -s daily-engine -p 'test_*.py' -v
+
+      - name: Recheck exact drafts and stage passing posts
+        id: stage
         env:
           DRAFT_FILE: ${{ inputs.draft_file }}
         run: |
-          cd daily-engine
-          python3 run_daily.py approve --file "drafts/$DRAFT_FILE"
-          python3 auto_publish.py
-          
-      - name: Commit and push changes
-        env:
-          DRAFT_FILE: ${{ inputs.draft_file }}
+          publish_args=(stage --manifest "$DAILY_KAVA_MANIFEST")
+          if [[ -n "$DRAFT_FILE" ]]; then
+            if [[ "$DRAFT_FILE" != drafts/* ]]; then
+              DRAFT_FILE="drafts/$DRAFT_FILE"
+            fi
+            publish_args+=(--file "$DRAFT_FILE")
+          fi
+          python3 daily-engine/auto_publish.py "${publish_args[@]}"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          manifest = json.loads(Path(os.environ['DAILY_KAVA_MANIFEST']).read_text())
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
+              output.write(f"count={len(manifest['posts'])}\n")
+              deploy = manifest['requires_deploy'] or os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
+              output.write(f"requires_deploy={str(deploy).lower()}\n")
+          PY
+
+      - name: Validate and build the exact staged site
+        if: steps.stage.outputs.requires_deploy == 'true'
+        run: npm test
+
+      - name: Save held queue and staged catalog for recovery
         run: |
           git config user.name "fckaemail-cyber"
           git config user.email "f.ckaemail@gmail.com"
+          git add daily-engine/state/ daily-kava.js
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: stage passing Daily Kava posts and hold flagged drafts"
+            git show -s --format='%an <%ae>' HEAD
+            git push origin HEAD:master
+          fi
+
+      - name: Require the existing Azure site's deployment secret
+        if: steps.stage.outputs.requires_deploy == 'true'
+        env:
+          TRIBAL_AZURE_DEPLOY_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+        run: |
+          if [[ -z "$TRIBAL_AZURE_DEPLOY_TOKEN" ]]; then
+            echo "::error::AZURE_STATIC_WEB_APPS_API_TOKEN is missing. Posts remain staged; no post has been marked published."
+            exit 1
+          fi
+
+      - name: Deploy tested site to Azure production
+        if: steps.stage.outputs.requires_deploy == 'true'
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: upload
+          production_branch: master
+          app_location: dist
+          skip_app_build: true
+          output_location: ''
+          api_location: api
+
+      - name: Verify the exact catalog is live
+        if: steps.stage.outputs.requires_deploy == 'true'
+        run: |
+          for attempt in 1 2 3 4; do
+            if python3 daily-engine/auto_publish.py verify-live \
+              --manifest "$DAILY_KAVA_MANIFEST" \
+              --origin https://www.thetribalkavalounge.com; then
+              exit 0
+            fi
+            if [[ "$attempt" != 4 ]]; then
+              echo "Waiting briefly for Azure production propagation (attempt $attempt/4)."
+              sleep 5
+            fi
+          done
+          echo "::error::Production did not serve the exact staged catalog; publication remains unacknowledged."
+          exit 1
+
+      - name: Finalize only verified live posts
+        if: steps.stage.outputs.requires_deploy == 'true'
+        id: finalize
+        run: |
+          python3 daily-engine/auto_publish.py finalize --manifest "$DAILY_KAVA_MANIFEST"
+          git config user.name "fckaemail-cyber"
+          git config user.email "f.ckaemail@gmail.com"
           git add daily-engine/state/
-          git add daily-kava.js
-          git commit -m "chore: publish $DRAFT_FILE" || exit 0
-          git push
-          
-      - name: Deploy to Netlify
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: record verified Daily Kava publication"
+            git show -s --format='%an <%ae>' HEAD
+            git push origin HEAD:master
+          fi
+
+      - name: Notify IndexNow of verified site URLs
+        if: steps.finalize.outcome == 'success'
+        continue-on-error: true
+        run: npm run submit:indexnow
+
+      - name: Publication and held-draft summary
+        if: always()
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-          DRAFT_FILE: ${{ inputs.draft_file }}
+          RUN_STATUS: ${{ job.status }}
+          FINALIZE_STATUS: ${{ steps.finalize.outcome }}
         run: |
-          netlify deploy --dir=. --auth="$NETLIFY_AUTH_TOKEN" --site="$NETLIFY_SITE_ID" --message "Published $DRAFT_FILE"
-          
-      - name: Summary
-        env:
-          DRAFT_FILE: ${{ inputs.draft_file }}
-        run: |
-          {
-            echo "## Draft Published Successfully"
-            echo "- Draft: $DRAFT_FILE"
-            echo "- Time: $(date -u)"
-            echo "- Status: Published and deployed"
-            echo "- Site: https://tribalkavalounge.com"
-          } >> "$GITHUB_STEP_SUMMARY"
+          python3 - <<'PY'
+          import json, os
+          from collections import Counter
+          from pathlib import Path
+          queue_path = Path('daily-engine/state/queue.json')
+          manifest_path = Path(os.environ['DAILY_KAVA_MANIFEST'])
+          queue = json.loads(queue_path.read_text()) if queue_path.exists() else {'items': []}
+          manifest = json.loads(manifest_path.read_text()) if manifest_path.exists() else {'posts': []}
+          statuses = Counter(item.get('status', 'unknown') for item in queue['items'])
+          verified = len(manifest['posts']) if os.environ['FINALIZE_STATUS'] == 'success' else 0
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary:
+              summary.write('## Daily Kava publication\n')
+              summary.write(f"- Run: {os.environ['RUN_STATUS']}\n")
+              summary.write(f"- Passing posts staged this run: {len(manifest['posts'])}\n")
+              summary.write(f'- Verified live and recorded this run: {verified}\n')
+              summary.write(f"- Held for review: {statuses['held']}\n")
+              summary.write(f"- Staged pending deployment or recovery: {statuses['staged']}\n")
+              summary.write('- Live site: https://www.thetribalkavalounge.com/the-daily-kava\n')
+              summary.write('- Flagged drafts remain in daily-engine/drafts/ with reasons in state/queue.json.\n')
+              if os.environ['RUN_STATUS'] != 'success':
+                  summary.write('- This run did not complete. Inspect the failed step, then rerun; passing content is rechecked and existing catalog entries are reused.\n')
+          PY

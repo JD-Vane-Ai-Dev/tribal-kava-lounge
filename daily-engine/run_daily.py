@@ -11,7 +11,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
+import html
 import re
 import sys
 import urllib.parse
@@ -21,9 +21,11 @@ from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
 from pathlib import Path
 
-from compliance import check_text, check_candidate
+from compliance import (check_candidate, check_publishable, published_datetime,
+                        TRUSTED_RESPONSIBLE_USE_FOOTER)
 
-# Daily editorial policy: celebrate culture, flavor, community, lounge life,\n# and fresh non-alcoholic social culture. Fear, health, legal, and regulatory\n# coverage is not eligible for publication.
+# Daily editorial policy: culture, flavor, community, lounge life, and
+# non-alcoholic social culture. Flagged stories remain held for review.
 
 ROOT = Path(__file__).resolve().parent
 STATE_DIR = ROOT / "state"
@@ -33,7 +35,7 @@ SEEN_PATH = STATE_DIR / "seen_urls.json"
 QUEUE_PATH = STATE_DIR / "queue.json"
 CANDIDATES_PATH = STATE_DIR / "candidates.json"
 
-UA = "TribalDailyKavaBot/1.0 (+https://tribalkavalounge.com; educational lounge content)"
+UA = "TribalDailyKavaBot/1.0 (+https://www.thetribalkavalounge.com; educational lounge content)"
 
 
 def _ensure_dirs() -> None:
@@ -76,14 +78,14 @@ def parse_rss(xml_bytes: bytes) -> list[dict]:
 
     # RSS 2.0
     for item in root.findall(".//item"):
-        title = (item.findtext("title") or "").strip()
+        title = html.unescape((item.findtext("title") or "").strip())
         link = (item.findtext("link") or "").strip()
         pub = (item.findtext("pubDate") or "").strip()
         source_el = item.find("source")
         source = (source_el.text or "").strip() if source_el is not None else ""
         desc = (item.findtext("description") or "").strip()
         # strip html tags lightly
-        desc = re.sub(r"<[^>]+>", "", desc)
+        desc = html.unescape(re.sub(r"<[^>]+>", "", desc))
         if not title or not link:
             continue
         published = None
@@ -144,7 +146,7 @@ def cmd_fetch() -> int:
                 blob = f"{entry['title']} {entry.get('summary','')}".lower()
                 if not any(k in blob for k in keywords):
                     continue
-            editorial = check_candidate(entry, category=category)
+            editorial = check_candidate(entry, category=category, require_fresh=True)
             if not editorial["pass"]:
                 print(f"[skip] {fid}: {editorial['summary']} — {entry['title'][:90]}")
                 continue
@@ -175,41 +177,40 @@ def cmd_fetch() -> int:
     return 0
 
 
+def _plain_feed_text(value: str) -> str:
+    """Keep source metadata on one line and outside Markdown/HTML syntax."""
+    value = re.sub(r"<[^>]*>", "", html.unescape(str(value)))
+    value = re.sub(r"[\\`*#_\[\]<>]", "", value)
+    return " ".join(value.split())
+
+
 def _template_draft(items: list[dict], day: str) -> str:
     lines = [
         f"# The Daily Kava Digest — {day}",
         "",
-        f"*Draft generated {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')} — human approval required before publish.*",
-        "",
-        "A short, original roundup of culture, flavor, community, lounge life, and fresh non-alcoholic social trends worth knowing in West Palm Beach. We summarize in our own words and link out.",
+        "Fresh reading on culture, community, lounge life, and non-alcoholic social life. "
+        "Explore this selection of source headlines, with links to each publisher’s coverage.",
         "",
     ]
-    for i, it in enumerate(items[:5], 1):
-        cat = it.get("category", "news")
-        lines.append(f"## {i}. {it['title']}")
-        lines.append("")
-        lines.append(
-            f"**Category:** {cat} · **Source feed:** {it.get('feed', 'rss')}"
-            + (f" · **Outlet:** {it['source']}" if it.get("source") else "")
-        )
-        lines.append("")
-        if it.get("summary"):
-            lines.append(f"Snippet context (not republished body): {it['summary'][:240]}")
-            lines.append("")
-        lines.append(
-            f"What it means for the lounge: add a specific, original 1–2 sentence takeaway about the culture, flavor, community, or social angle before approval. [Read the source]({it['url']})"
-        )
-        lines.append("")
-
+    for i, item in enumerate(items[:5], 1):
+        published = published_datetime(item.get("published"))
+        source = item.get("source") or urllib.parse.urlsplit(item["url"]).hostname
+        lines += [
+            f"## {i}. {_plain_feed_text(item['title'])}",
+            "",
+            f"**Source:** {_plain_feed_text(source)} · **Published:** {published.strftime('%Y-%m-%d') if published else 'Unknown'}",
+            "",
+            f"[Read the source]({item['url']})",
+            "",
+        ]
     lines += [
-        "---",
+        "---", "",
+        "Continue the conversation at Tribal. "
+        "[Explore the menu](https://www.thetribalkavalounge.com/menu) · "
+        "[New here?](https://www.thetribalkavalounge.com/new-here) · "
+        "[Plan a visit](https://www.thetribalkavalounge.com/visit)",
         "",
-        "**Local CTAs:** [Menu](https://tribalkavalounge.com/menu) · [New Here?](https://tribalkavalounge.com/new-here) · [Visit](https://tribalkavalounge.com/visit)",
-        "",
-        "**Responsible use:** Kratom products are for adults 21+ only. Valid ID required. "
-        "Products are not intended to diagnose, treat, cure, or prevent any disease. "
-        "Do not mix kava or kratom with alcohol or other substances. "
-        "If you are pregnant, nursing, taking medications, or have health concerns, speak with a qualified professional.",
+        TRUSTED_RESPONSIBLE_USE_FOOTER,
         "",
         "*Tribal Kava Lounge — 770 S Military Trail, Unit A1, West Palm Beach, FL 33415 · (561) 355-0561*",
         "",
@@ -217,143 +218,102 @@ def _template_draft(items: list[dict], day: str) -> str:
     return "\n".join(lines)
 
 
-def _llm_polish(markdown: str) -> str:
-    api_key = os.environ.get("OPENAI_API_KEY")
-    if not api_key:
-        return markdown
-    model = os.environ.get("OPENAI_MODEL", "gpt-4o-mini")
-    system = (
-        "You rewrite kava/kratom lounge blog digests. Rules: original words only; short summaries; "
-        "attribute and link sources; never medical/health/benefit/effect claims; never dosing; "
-        "never energy/pain/anxiety/sleep claims; kratom always 21+; flavor/culture/social lounge framing; "
-        "keep responsible-use footer; keep internal links to tribalkavalounge.com. "
-        "Humorous, human, not a wellness brochure. Return markdown only."
-    )
-    body = {
-        "model": model,
-        "messages": [
-            {"role": "system", "content": system},
-            {"role": "user", "content": markdown},
-        ],
-        "temperature": 0.4,
-    }
-    data = json.dumps(body).encode()
-    req = urllib.request.Request(
-        "https://api.openai.com/v1/chat/completions",
-        data=data,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json",
-            "User-Agent": UA,
-        },
-        method="POST",
-    )
-    with urllib.request.urlopen(req, timeout=90) as resp:
-        payload = json.loads(resp.read().decode())
-    return payload["choices"][0]["message"]["content"].strip()
-
-
 def cmd_draft(use_llm: bool = False) -> int:
     _ensure_dirs()
+    if use_llm:
+        print("[info] --llm is retired; using the attributed headline roundup.")
     pool = _load_json(CANDIDATES_PATH, {"items": []}).get("items", [])
-    if not pool:
-        print("No candidates. Run: python3 run_daily.py fetch")
-        return 1
-
-    # Re-screen the pool in case an older candidate predates the editorial filter.
-    pool = [c for c in pool if check_candidate(c, category=c.get("category", ""))["pass"]]
-    if not pool:
-        print("No publishable candidates after the Daily editorial filter.")
-        return 1
-
-    # Prefer not-yet-drafted URLs
+    # Re-screen old persisted candidates using today's dates and editorial rules.
+    pool = [c for c in pool if check_candidate(c, category=c.get("category", ""), require_fresh=True)["pass"]]
     queue = _load_json(QUEUE_PATH, {"items": []})
     used = {u for item in queue.get("items", []) for u in item.get("source_urls", [])}
-    fresh = [c for c in reversed(pool) if c["url"] not in used][:5]
+    eligible = {c["url"]: c for c in pool if c["url"] not in used}
+    fresh = sorted(eligible.values(), key=lambda c: published_datetime(c["published"]), reverse=True)[:5]
     if not fresh:
-        fresh = list(reversed(pool))[:3]
-        print("[info] Reusing recent candidates (all URLs already queued once).")
+        print("No fresh, eligible, unused sources. Nothing to draft.")
+        return 0
 
     day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     md = _template_draft(fresh, day)
-    if use_llm:
-        try:
-            md = _llm_polish(md)
-            print("[info] LLM polish applied.")
-        except Exception as e:
-            print(f"[warn] LLM polish failed, keeping template: {e}", file=sys.stderr)
-
     slug = f"digest-{day}"
     out = DRAFTS_DIR / f"{slug}.md"
-    # Avoid overwrite
     n = 2
     while out.exists():
+        # A retry after writing a draft but before saving its queue must recover
+        # that same file instead of creating another copy of today's content.
+        if out.read_text() == md:
+            break
         out = DRAFTS_DIR / f"{slug}-{n}.md"
         n += 1
     out.write_text(md)
-
-    queue_item = {
+    queue.setdefault("items", []).append({
         "file": str(out.relative_to(ROOT)),
         "created_at": datetime.now(timezone.utc).isoformat(),
         "status": "drafted",
         "source_urls": [c["url"] for c in fresh],
+        "source_published": {c["url"]: c["published"] for c in fresh},
+        "content_sha256": hashlib.sha256(md.encode()).hexdigest(),
         "compliance": None,
-    }
-    queue.setdefault("items", []).append(queue_item)
+    })
     _save_json(QUEUE_PATH, queue)
     print(f"Draft written: {out}")
     return 0
 
 
+def _resolve_draft(file: str) -> Path:
+    path = Path(file)
+    if not path.is_absolute() and not path.exists():
+        path = ROOT / path
+    return path
+
+
+def _record_check(item: dict, text: str, result: dict) -> None:
+    digest = hashlib.sha256(text.encode()).hexdigest()
+    old_digest = item.get("checked_sha256")
+    previous = item.get("status")
+    item["compliance"] = result
+    item["checked_at"] = datetime.now(timezone.utc).isoformat()
+    item["checked_sha256"] = digest
+    item["content_sha256"] = digest
+    if previous == "published" or item.get("published_at"):
+        return
+    if previous in {"approved", "staged"} and old_digest == digest and result["pass"]:
+        return
+    item["status"] = "passed" if result["pass"] else "held"
+    if old_digest != digest:
+        item.pop("approved_at", None)
+        item.pop("approved_sha256", None)
+
+
 def cmd_check(file: str | None = None) -> int:
     _ensure_dirs()
     queue = _load_json(QUEUE_PATH, {"items": []})
-    targets = []
-    if file:
-        targets = [Path(file)]
-    else:
-        targets = sorted(DRAFTS_DIR.glob("*.md"))
-
+    targets = [_resolve_draft(file)] if file else sorted(DRAFTS_DIR.glob("*.md"))
     if not targets:
         print("No drafts to check.")
-        return 1
-
+        return 0
     exit_code = 0
     for path in targets:
-        text = path.read_text()
-        result = check_text(text, context="daily")
-        rel = str(path.relative_to(ROOT)) if path.is_absolute() and ROOT in path.parents else str(path)
-        # normalize rel
+        if not path.exists():
+            print(f"Missing draft: {path}", file=sys.stderr)
+            exit_code = 2
+            continue
+        text = path.read_bytes().decode("utf-8")
         try:
             rel = str(path.resolve().relative_to(ROOT))
-        except Exception:
+        except ValueError:
             rel = str(path)
-
+        item = next((i for i in queue.get("items", []) if i.get("file") in {rel, str(path)}), None)
+        if item is None:
+            item = {"file": rel, "source_urls": []}
+            queue.setdefault("items", []).append(item)
+        result = check_publishable(text, item.get("source_urls", []))
+        _record_check(item, text, result)
         print(f"{rel}: {result['summary']} (score {result['score']})")
-        for f in result["flags"]:
-            print(f"  - [{f['severity']}] {f['rule']}: {f.get('match','')[:80]}")
-
-        # Update queue
-        found = False
-        for item in queue.get("items", []):
-            if item.get("file") == rel or item.get("file") == str(path):
-                item["compliance"] = result
-                item["status"] = "passed" if result["pass"] else "failed"
-                item["checked_at"] = datetime.now(timezone.utc).isoformat()
-                found = True
-        if not found:
-            queue.setdefault("items", []).append(
-                {
-                    "file": rel,
-                    "status": "passed" if result["pass"] else "failed",
-                    "compliance": result,
-                    "checked_at": datetime.now(timezone.utc).isoformat(),
-                    "source_urls": [],
-                }
-            )
+        for flag in result["flags"]:
+            print(f"  - [{flag['severity']}] {flag['rule']}: {flag.get('match', '')[:80]}")
         if not result["pass"]:
             exit_code = 2
-
     _save_json(QUEUE_PATH, queue)
     return exit_code
 
@@ -373,35 +333,55 @@ def cmd_status() -> int:
 def cmd_approve(file: str) -> int:
     _ensure_dirs()
     queue = _load_json(QUEUE_PATH, {"items": []})
-    rel = file
-    path = Path(file)
-    if path.exists():
-        try:
-            rel = str(path.resolve().relative_to(ROOT))
-        except Exception:
-            rel = file
-    updated = False
-    for item in queue.get("items", []):
-        if item.get("file") == rel or item.get("file") == file:
-            if item.get("status") == "failed":
-                print("Refusing approve: last compliance check failed. Fix and re-check.")
-                return 1
-            item["status"] = "approved"
-            item["approved_at"] = datetime.now(timezone.utc).isoformat()
-            updated = True
-    if not updated:
+    path = _resolve_draft(file)
+    if not path.exists():
+        print("Draft file does not exist.")
+        return 1
+    try:
+        rel = str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        rel = str(path)
+    item = next((i for i in queue.get("items", []) if i.get("file") in {rel, file}), None)
+    if item is None:
         print("File not in queue. Run check first.")
         return 1
+    if item.get("status") == "published" or item.get("published_at"):
+        print(f"Already published: {rel}")
+        return 0
+    # An old successful check never approves changed bytes or a now-stale post.
+    text = path.read_bytes().decode("utf-8")
+    result = check_publishable(text, item.get("source_urls", []))
+    _record_check(item, text, result)
+    if not result["pass"]:
+        _save_json(QUEUE_PATH, queue)
+        print(f"Refusing approval: {result['summary']}. Fix the flagged draft and re-check.")
+        return 1
+    if item.get("status") != "staged":
+        item["status"] = "approved"
+    item["approved_at"] = datetime.now(timezone.utc).isoformat()
+    item["approved_sha256"] = item["checked_sha256"]
     _save_json(QUEUE_PATH, queue)
-    print(f"Approved: {rel}")
-    print("Next: manually port into ../daily-kava.js and deploy. (No auto-publish by design.)")
+    print(f"Approved exact checked content: {rel}")
     return 0
+
+
+def cmd_run(use_llm: bool = False) -> int:
+    rc = cmd_fetch()
+    if rc != 0:
+        return rc
+    rc = cmd_draft(use_llm=use_llm)
+    if rc != 0:
+        return rc
+    # Content rejection is a normal review outcome. Persist holds so the routine
+    # job can continue to stage passing posts while keeping flagged drafts back.
+    rc = cmd_check()
+    return 0 if rc == 2 else rc
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="The Daily Kava content engine")
     parser.add_argument("command", choices=["fetch", "draft", "check", "status", "approve", "run"])
-    parser.add_argument("--llm", action="store_true", help="Use OpenAI-compatible polish when drafting")
+    parser.add_argument("--llm", action="store_true", help="Compatibility flag; deterministic drafting does not use an AI API")
     parser.add_argument("--file", help="Specific draft for check/approve")
     args = parser.parse_args()
 
@@ -419,13 +399,7 @@ def main() -> int:
             return 1
         return cmd_approve(args.file)
     if args.command == "run":
-        rc = cmd_fetch()
-        if rc != 0:
-            return rc
-        rc = cmd_draft(use_llm=args.llm)
-        if rc != 0:
-            return rc
-        return cmd_check()
+        return cmd_run(use_llm=args.llm)
     return 1
 
 

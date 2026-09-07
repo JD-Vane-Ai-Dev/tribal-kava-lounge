@@ -1,16 +1,17 @@
 name: Manual Kava Draft Fallback
 
 on:
-  # Scheduling moved to the isolated Azure Container Apps job. Keep this only
-  # as an operator-triggered fallback so the two systems cannot run at once.
+  # Scheduling stays in the existing Azure Container Apps job.
+  # Successful manual runs also trigger Publish Passing Kava Drafts.
   workflow_dispatch:
 
 concurrency:
-  group: daily-kava-${{ github.ref }}
+  group: daily-kava-production
   cancel-in-progress: false
 
 jobs:
   auto-publish:
+    if: github.repository == 'JD-Vane-Ai-Dev/tribal-kava-lounge' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -19,6 +20,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v7
         with:
+          ref: master
           token: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Set up Python
@@ -37,14 +39,17 @@ jobs:
           git config user.email "f.ckaemail@gmail.com"
           git add daily-engine/state/
           git add daily-engine/drafts/
-          git commit -m "chore: daily draft $(date +%Y-%m-%d) - awaiting review" || exit 0
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: daily draft $(date +%Y-%m-%d) - ready for automatic content checks"
+            git show -s --format='%an <%ae>' HEAD
+            git push origin HEAD:master
+          fi
           
       - name: Summary
         run: |
           {
             echo "## Manual Kava Draft Created"
             echo "- Time: $(date -u)"
-            echo "- Status: Draft created and awaiting manual review"
-            echo "- Next: Review draft in daily-engine/drafts/, then manually approve and publish"
+            echo "- Status: Draft pipeline completed"
+            echo "- Next: Publish Passing Kava Drafts will recheck current content, publish passing posts, and hold flagged drafts for review"
           } >> "$GITHUB_STEP_SUMMARY"

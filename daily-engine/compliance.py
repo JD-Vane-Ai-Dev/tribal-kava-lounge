@@ -9,7 +9,42 @@ No medical advice. No network. Safe to run offline on every draft.
 from __future__ import annotations
 
 import re
+import html
+from datetime import datetime, timezone
 from typing import Any
+from urllib.parse import urlsplit
+
+MAX_SOURCE_AGE_DAYS = 14
+TRUSTED_RESPONSIBLE_USE_FOOTER = (
+    "**Responsible use:** Kratom products are for adults 21+ only. Valid ID required. "
+    "Products are not intended to diagnose, treat, cure, or prevent any disease. "
+    "Do not mix kava or kratom with alcohol or other substances. "
+    "If you are pregnant, nursing, taking medications, or have health concerns, speak with a qualified professional."
+)
+
+
+def published_datetime(value: Any) -> datetime | None:
+    try:
+        parsed = datetime.fromisoformat(str(value).replace("Z", "+00:00"))
+        return parsed.replace(tzinfo=timezone.utc) if parsed.tzinfo is None else parsed.astimezone(timezone.utc)
+    except (ValueError, TypeError):
+        return None
+
+
+def is_fresh_published(value: Any, now: datetime | None = None) -> bool:
+    published = published_datetime(value)
+    current = now or datetime.now(timezone.utc)
+    return published is not None and 0 <= (current.date() - published.date()).days <= MAX_SOURCE_AGE_DAYS
+
+
+def valid_source_url(value: Any) -> bool:
+    if not isinstance(value, str) or re.search(r"[\s<>\"'()]", value):
+        return False
+    try:
+        parsed = urlsplit(value)
+        return bool(parsed.scheme in {"http", "https"} and parsed.hostname and not parsed.username and not parsed.password)
+    except ValueError:
+        return False
 
 # Standard disclaimer language is ALLOWED (strip before claim scan)
 ALLOWED_DISCLAIMER_PATTERNS = [
@@ -56,14 +91,14 @@ EDITORIAL_REJECT_PATTERNS = [
     (r"\b(?:7[\s-]?oh|7-hydroxymitragynine)\b", "7-OH coverage"),
     (r"\b(?:regulation|regulatory|legislation|legislative|bill|law|laws|legal|policy|political|lobby(?:ing|ist)?)\b", "legal or political coverage"),
     (r"\b(?:fda|dea|ban(?:ned|s)?|crackdown|fine|penalt(?:y|ies)|enforcement|court|lawsuit|recall|warning)\b", "regulatory or enforcement coverage"),
-    (r"\b(?:addiction|addicted|withdrawal|overdose|death|died|fatal|hospitali[sz]|poison|contaminat(?:ed|ion)|danger(?:ous)?|risk|scare|harm)\b", "negative or scare coverage"),
+    (r"\b(?:addiction|addicted|withdrawal|overdoses?|deaths?|died|fatal(?:ity|ities)?|hospitali[sz]\w*|poison\w*|contaminat\w*|danger\w*|risks?|scares?|harms?)\b", "negative or scare coverage"),
     (r"\b(?:kratom|mitragynine)\b", "kratom news is outside the Daily editorial scope"),
-    (r"\b(?:anxiety|depression|pain|sleep|insomnia|health benefit|medical)\b", "health or medical framing"),
+    (r"\b(?:anxiety|depression|pain|sleep|insomnia|health|medical)\b", "health or medical framing"),
 ]
 
-def check_candidate(item: dict[str, Any], *, category: str = "") -> dict[str, Any]:
+def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None) -> dict[str, Any]:
     """Reject Daily candidates that conflict with Tribal's positive editorial scope."""
-    text = " ".join(str(item.get(k, "")) for k in ("title", "summary", "source"))
+    text = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary", "source")))
     flags = []
     for pattern, label in EDITORIAL_REJECT_PATTERNS:
         match = re.search(pattern, text, flags=re.I)
@@ -71,6 +106,11 @@ def check_candidate(item: dict[str, Any], *, category: str = "") -> dict[str, An
             flags.append({"severity": "error", "rule": "editorial-" + label.lower().replace(" ", "-"), "match": match.group(0)})
     if category.lower() in {"regulation", "legal", "politics"}:
         flags.append({"severity": "error", "rule": "editorial-disallowed-category", "match": category})
+    if require_fresh:
+        if not is_fresh_published(item.get("published"), now):
+            flags.append({"severity": "error", "rule": "source-date-unknown-or-stale", "match": str(item.get("published"))})
+        if not valid_source_url(item.get("url")):
+            flags.append({"severity": "error", "rule": "invalid-source-url", "match": str(item.get("url"))})
     return {
         "pass": not flags,
         "flags": flags,
@@ -102,9 +142,9 @@ def check_text(text: str, *, context: str = "daily") -> dict[str, Any]:
     scan = _strip_allowed(text)
 
     if context == "daily":
-        # Story body only: the responsible-use footer may mention regulated products
-        # and is not editorial content.
-        editorial_body = text.split("\n---", 1)[0]
+        # Exempt only the exact trusted paragraph. A separator is not a boundary
+        # that can conceal another story or arbitrary footer text from the gate.
+        editorial_body = "\n".join(line for line in text.splitlines() if line != TRUSTED_RESPONSIBLE_USE_FOOTER)
         editorial = check_candidate({"title": editorial_body, "summary": ""})
         flags.extend(editorial["flags"])
 
@@ -160,6 +200,69 @@ def check_text(text: str, *, context: str = "daily") -> dict[str, Any]:
         "context": context,
         "summary": "PASS" if not errors else f"FAIL ({len(errors)} error(s))",
     }
+
+
+def check_publishable(text: str, source_urls: list[str], now: datetime | None = None) -> dict[str, Any]:
+    """Fail closed on unfinished, uncredited, stale, or flagged Daily content.
+
+    Source headlines and publication dates are carried from the feed into each
+    numbered section; no article-body summary is inferred from an RSS snippet.
+    This check is run again on the exact bytes immediately before staging.
+    """
+    result = check_text(text, context="daily")
+    flags = result["flags"]
+
+    def reject(rule: str, match: str) -> None:
+        flags.append({"severity": "error", "rule": rule, "match": match})
+
+    title = re.match(r"\A# The Daily Kava Digest — (\d{4}-\d{2}-\d{2})\s*\n", text)
+    if not title or not is_fresh_published(title.group(1), now):
+        reject("missing-or-stale-digest-title", "A current, dated Daily Kava title is required")
+    for pattern in (
+        r"\b(?:TODO|TBD|placeholder|lorem ipsum)\b", r"\[insert\b",
+        r"human approval required", r"Snippet context", r"add a specific",
+        r"before approval", r"we summarize in our own words", r"worth a glance if you care",
+    ):
+        if re.search(pattern, text, re.I):
+            reject("unfinished-draft", pattern)
+    if TRUSTED_RESPONSIBLE_USE_FOOTER not in text.splitlines():
+        reject("missing-trusted-footer", "The complete responsible-use footer is required")
+    if re.search(r"</?[A-Za-z][^>]*>", text):
+        reject("raw-html", "Raw HTML is not eligible for automatic publication")
+
+    urls = source_urls if isinstance(source_urls, list) else []
+    if not urls or any(not valid_source_url(url) for url in urls):
+        reject("invalid-source-urls", "At least one valid HTTP(S) source URL is required")
+    elif len(set(urls)) != len(urls):
+        reject("duplicate-source-url", "Each source must appear once")
+
+    headings = list(re.finditer(r"^## (\d+)\. (.+)$", text, re.M))
+    cited = []
+    if not headings or len(headings) != len(urls):
+        reject("incomplete-story-sections", "Each source needs a completed numbered story section")
+    for index, heading in enumerate(headings):
+        section = text[heading.end():headings[index + 1].start() if index + 1 < len(headings) else len(text)]
+        metadata = re.search(r"^\*\*Source:\*\* (.+?) · \*\*Published:\*\* (\d{4}-\d{2}-\d{2})\s*$", section, re.M)
+        if not metadata or not is_fresh_published(metadata.group(2), now):
+            reject("missing-or-stale-source-attribution", heading.group(2))
+        links = re.findall(r"\[Read the source\]\(([^)]+)\)", section)
+        if len(links) != 1 or len(heading.group(2).strip()) < 6:
+            reject("incomplete-story-section", heading.group(2))
+        cited.extend(links)
+    if not all(isinstance(url, str) for url in urls) or sorted(cited) != sorted(urls):
+        reject("source-links-mismatch", "Story links must match the queued sources exactly")
+    for url in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
+        if not valid_source_url(url):
+            reject("unsafe-link", url)
+
+    errors = sum(flag["severity"] == "error" for flag in flags)
+    warnings = sum(flag["severity"] == "warning" for flag in flags)
+    result.update({
+        "pass": not flags,
+        "score": max(0, 100 - 25 * errors - 5 * warnings),
+        "summary": "PASS" if not flags else f"HOLD ({errors} error(s), {warnings} warning(s))",
+    })
+    return result
 
 
 if __name__ == "__main__":

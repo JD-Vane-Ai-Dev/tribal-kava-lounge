@@ -1,66 +1,122 @@
-# The Daily Kava — Content Engine (Phase 3 first slice)
+# The Daily Kava — Content Engine
 
-Automates **discovery → draft → compliance check → human approval queue**.  
-**Nothing auto-publishes to the live site.** You approve drafts, then paste/merge into `daily-kava.js` and deploy the reviewed site to Azure.
+The existing pipeline discovers sources, writes an attributed headline roundup,
+and checks the exact draft. Passing posts publish automatically to the live
+Azure site. Flagged drafts stay in the queue for review; individual approval is
+not required for passing posts.
 
-## Quick start
+## Automatic flow
+
+1. The existing Azure Container Apps job keeps its 11:00 UTC schedule and pushes
+   only `daily-engine/state/` and `daily-engine/drafts/` to `master`.
+2. **Publish Passing Kava Drafts** runs on those pushes. A successful
+   **Manual Kava Draft Fallback** run also triggers it through `workflow_run`.
+3. The publisher checks current draft bytes, sources, freshness, and the editorial
+   rules again. It holds excluded topics, stale or unverifiable sources,
+   duplicates, and other flagged content.
+4. Passing posts are staged in `daily-kava.js`. The site build generates their
+   page metadata and sitemap entries, and the site and publisher tests must pass.
+5. The workflow saves staged/held state, deploys to the existing Azure Static Web
+   App, and verifies that production serves the exact catalog hash.
+6. Only after live verification does the workflow record `published` status.
+
+The publisher requires the repository Actions secret
+`AZURE_STATIC_WEB_APPS_API_TOKEN`, containing the deployment token for the
+existing `tribal-kava-lounge-site` Static Web App. If it is missing or deployment
+fails, the workflow fails visibly and leaves posts staged for recovery. It does
+not mark them published.
+
+No GitHub schedule, new service, or external social posting is added. The
+fallback and publishing workflows share one production concurrency group and
+do not cancel a running publication.
+
+## Local draft tools
+
+Run from `daily-engine/`:
 
 ```bash
-cd ~/tribal-kava-lounge/daily-engine
-
-# 1) Fetch Google News RSS + other feeds, dedupe, write candidates
 python3 run_daily.py fetch
-
-# 2) Draft a short digest from new candidates (template + optional LLM)
 python3 run_daily.py draft
-
-# 3) Run v0 Compliance API (rules checker) on drafts/
 python3 run_daily.py check
-
-# 4) List queue status
 python3 run_daily.py status
 
-# Full pipeline (fetch → draft → check)
+# Full discovery → draft → check pipeline; does not deploy by itself.
 python3 run_daily.py run
 ```
 
-Optional LLM (OpenAI-compatible env):
+Drafts use linked, attributed source headlines. They do not invent article
+summaries or takeaways from unseen full text. No LLM key is required.
+
+## Held drafts and manual recovery
+
+Review `hold_reason` and `compliance` in `state/queue.json`, edit the associated
+`drafts/*.md` file, and commit the corrected draft to `master`. The publisher
+rechecks it automatically; an old approval or passed status cannot bypass a
+current failure.
+
+To retry after a deployment/configuration failure, run **Publish Passing Kava
+Drafts** on `master`. Leave `draft_file` blank to process all eligible drafts,
+or enter a filename such as `digest-2026-09-07.md` to select one. Selection does
+not override content checks. Existing unacknowledged staged entries are rechecked
+and rebuilt before any deployment, including previously staged drafts outside a
+manual selection. Entries that now fail checks are held and removed from the
+pending catalog, so they cannot ride along with another passing post. If removing
+pending content changes the catalog, the safe catalog is deployed even with no
+new passing posts. A retry does not append duplicates.
+
+A concurrent remote change causes a visible non-fast-forward failure. The
+workflows do not force-push or auto-resolve queue conflicts. Rerun against
+current `master`; if deployment succeeded but the final state push failed, the
+post remains unacknowledged until it is rechecked and verified live on retry.
+
+A manual publisher run also deploys the tested current site when no new draft
+passes, so site repairs do not depend on publishing a new story. After a verified
+deployment, the existing IndexNow helper submits the sitemap URLs. IndexNow
+failure is reported separately and does not turn a verified publication into a
+failed one.
+
+## Search and referral visibility
+
+The build includes article text, visible FAQs, matching BlogPosting/FAQ schema,
+and article index links in the delivered HTML. These do not require JavaScript
+or Search Console access to read. Metadata and sitemap entries remain dynamic.
+
+Application Insights distinguishes organic-search referrals, recognized AI
+referrals, campaigns, other referrals, and direct/unknown traffic. Explicit UTM
+tags take priority, session attribution expires after inactivity, and obsolete
+cross-session campaign storage is no longer reused. Referrer hostnames are
+recorded without private paths or query strings.
+
+These measurements start with deployment; old direct traffic cannot be
+reclassified. A missing referrer does not prove a direct visit, and referral
+counts do not measure AI citations or rankings. Google query/impression/indexing
+reports still require Search Console access.
+
+For local staging/verification from the repository root:
 
 ```bash
-export OPENAI_API_KEY=...
-export OPENAI_MODEL=gpt-4o-mini   # optional
-python3 run_daily.py draft --llm
+python3 daily-engine/auto_publish.py stage --manifest /tmp/daily-kava-manifest.json
+npm test
+
+# Run only after the staged build has actually been deployed to production.
+python3 daily-engine/auto_publish.py verify-live \
+  --manifest /tmp/daily-kava-manifest.json \
+  --origin https://www.thetribalkavalounge.com
+python3 daily-engine/auto_publish.py finalize --manifest /tmp/daily-kava-manifest.json
 ```
 
-Without an API key, drafts use a **compliant template** from feed titles + links (safe default).
+`stage` does not deploy. `finalize` refuses to acknowledge publication without
+verification of the exact catalog and matching draft content.
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
-| `sources.json` | RSS / Google News query list |
-| `state/seen_urls.json` | Dedupe store |
-| `state/queue.json` | Draft statuses: drafted / passed / failed / approved / published |
-| `drafts/` | Markdown drafts awaiting human review |
-| `compliance.py` | v0 Compliance API (deterministic rules from §3) |
-| `run_daily.py` | CLI orchestrator |
-
-## Human gate
-
-1. Open `drafts/*.md` files with status `passed` in `state/queue.json`
-2. Edit voice/facts as needed
-3. Re-run `python3 run_daily.py check --file drafts/your-file.md`
-4. Mark approved: `python3 run_daily.py approve drafts/your-file.md`
-5. Manually add the post to `../daily-kava.js`
-6. From the repository root, run `npm run deploy:azure` (publish step is intentional)
-
-## Cron (optional)
-
-```cron
-# 6am ET ≈ 10/11 UTC depending on DST — adjust
-0 11 * * * cd /Users/jd/tribal-kava-lounge/daily-engine && /usr/bin/python3 run_daily.py run >> logs/cron.log 2>&1
-```
-
-## Compliance note
-
-Kratom/kava content is claim-sensitive. This pipeline **never** posts to Instagram or the live Azure site by itself. Fan-out captions can be drafted later behind the same checker + human gate.
+| `sources.json` | RSS / Google News source list |
+| `state/seen_urls.json` | Discovery deduplication |
+| `state/queue.json` | Draft, passed, held, staged, and published state plus checks |
+| `drafts/` | Draft source Markdown, including held content |
+| `compliance.py` | Editorial, source, and publishability checks |
+| `run_daily.py` | Discovery/drafting/checking CLI |
+| `auto_publish.py` | Stage → verify-live → finalize CLI |
+| `test_*.py` | Content and publication regression checks |

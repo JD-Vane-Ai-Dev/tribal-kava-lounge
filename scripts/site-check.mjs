@@ -3,6 +3,7 @@ import { execFileSync } from 'node:child_process';
 import { readFile, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { runInNewContext } from 'node:vm';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (file) => readFile(path.join(root, file), 'utf8');
@@ -36,6 +37,16 @@ assert.match(preRenderedMenu, /<title>Menu \| Kava Shells, Kratom Tea &amp; Craf
 assert.match(preRenderedLoteria, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/events\/friday-loteria"/, 'Lotería must ship its own canonical before JavaScript runs');
 assert.match(preRenderedLakeWorth, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/nearby\/lake-worth"/, 'Lake Worth page must ship its own canonical before JavaScript runs');
 assert.match(preRenderedDaily, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/kava-bar-west-palm-beach-first-visit"/, 'Daily stories must ship their own canonicals before JavaScript runs');
+assert.match(preRenderedDaily, /<div id="view-the-daily-kava-article" class="spa-view" style="display: block;">/, 'article content must be visible before JavaScript runs');
+assert.match(preRenderedDaily, /<article id="daily-kava-article-root"[^>]*>[\s\S]*?<h1[^>]*>Looking for a Kava Bar in West Palm Beach\? Start Here\.<\/h1>/, 'article H1 must be in delivered HTML');
+assert.match(preRenderedDaily, /<h2>What should a first-time guest expect\?<\/h2>/, 'article body must be in delivered HTML');
+const preRenderedSchema = JSON.parse(preRenderedDaily.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert.equal(preRenderedSchema['@graph'][0]['@type'], 'BlogPosting');
+assert.equal(preRenderedSchema['@graph'][1]['@type'], 'FAQPage');
+assert.ok(preRenderedSchema['@graph'][1].mainEntity.every(item => preRenderedDaily.includes(item.name)), 'schema questions must match visible FAQ content');
+const preRenderedIndex = await read('dist/the-daily-kava/index.html');
+assert.match(preRenderedIndex, /<div id="daily-kava-grid"[^>]*>[\s\S]*?<a href="\/the-daily-kava\/kava-bar-west-palm-beach-first-visit">/, 'article discovery links must be in delivered HTML');
+assert.match(preRenderedMenu, /<div id="view-menu" class="spa-view" style="display: block;">/, 'static menu must be visible without JavaScript');
 assert.match(html, /daily-kava\.js/, 'public Daily Kava feed must be loaded');
 assert.match(html, /analytics\.js/, 'conversion tracker must be loaded');
 assert.match(html, /\/images\/tribal-logo-cutout\.png/, 'transparent Tribal logo must be used');
@@ -130,8 +141,21 @@ assert.match(robots, /www\.thetribalkavalounge\.com\/sitemap\.xml/, 'robots site
 assert.doesNotMatch(sitemap, /kratom-regulation|botanical-drink-trends|kava-bars-across-america/, 'unsafe legacy Daily URLs must not be indexed');
 assert.match(sitemap, /\/the-daily-kava\/crafted-kava-drinks/, 'new crafted-kava article URL must be indexed');
 assert.doesNotMatch(sitemap, /\/the-daily-kava\/what-is-a-kava-cloud/, 'retired Cloud article URL must not be indexed');
-assert.equal((sitemap.match(/<url>/g) || []).length, 38, 'sitemap must include 25 site routes and 13 Daily stories');
-assert.equal((sitemap.match(/\/the-daily-kava\//g) || []).length, 13, 'all 13 Daily stories must be indexed');
+const dailyPosts = runInNewContext(`${dailyKava}\n; dailyKavaPosts;`, Object.create(null), {
+  timeout: 1000,
+  contextCodeGeneration: { strings: false, wasm: false }
+});
+assert.ok(Array.isArray(dailyPosts) && dailyPosts.length >= 13, 'the 13 launch stories must remain alongside new Daily stories');
+const catalogSlugs = Array.from(dailyPosts, (post) => post.slug).sort();
+assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slugs must be unique');
+const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
+  .map((match) => match[1]).sort();
+assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
+assert.equal((sitemap.match(/<url>/g) || []).length, 25 + catalogSlugs.length, 'sitemap must include the 25 site routes and every catalog story');
+for (const post of dailyPosts) {
+  const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
+  assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);
+}
 assert.doesNotMatch(sitemap, /<loc>https:\/\/(?!www\.thetribalkavalounge\.com)/, 'sitemap URLs must use the canonical host');
 assert.ok(JSON.parse(config).navigationFallback, 'Azure SPA fallback must be configured');
 assert.equal(
