@@ -69,6 +69,29 @@ workflows do not force-push or auto-resolve queue conflicts. Rerun against
 current `master`; if deployment succeeded but the final state push failed, the
 post remains unacknowledged until it is rechecked and verified live on retry.
 
+A manual publisher run also deploys the tested current site when no new draft
+passes, so site repairs do not depend on publishing a new story. After a verified
+deployment, the existing IndexNow helper submits the sitemap URLs. IndexNow
+failure is reported separately and does not turn a verified publication into a
+failed one.
+
+## Search and referral visibility
+
+The build includes article text, visible FAQs, matching BlogPosting/FAQ schema,
+and article index links in the delivered HTML. These do not require JavaScript
+or Search Console access to read. Metadata and sitemap entries remain dynamic.
+
+Application Insights distinguishes organic-search referrals, recognized AI
+referrals, campaigns, other referrals, and direct/unknown traffic. Explicit UTM
+tags take priority, session attribution expires after inactivity, and obsolete
+cross-session campaign storage is no longer reused. Referrer hostnames are
+recorded without private paths or query strings.
+
+These measurements start with deployment; old direct traffic cannot be
+reclassified. A missing referrer does not prove a direct visit, and referral
+counts do not measure AI citations or rankings. Google query/impression/indexing
+reports still require Search Console access.
+
 For local staging/verification from the repository root:
 
 ```bash

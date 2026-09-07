@@ -90,6 +90,7 @@ vm.runInNewContext(source, {
   sessionStorage: storage(),
   localStorage: storage(),
   CustomEvent: FakeCustomEvent,
+  URL,
   URLSearchParams,
   console
 }, { filename: 'analytics.js' });
@@ -104,4 +105,40 @@ windowEvents.dispatchEvent(new FakeCustomEvent('tribal:navigation', {
 }));
 assert.equal(pageViews.length, 2, 'a later SPA navigation must still produce one additional page view');
 
-console.log('Analytics checks passed.');
+function attributionFor({referrer = '', search = '', saved = null, blocked = false} = {}) {
+  const events = [];
+  const session = storage();
+  if (saved) session.setItem('tribal_campaign_attribution', JSON.stringify(saved));
+  const failStorage = {getItem() {throw Error('blocked');}, setItem() {throw Error('blocked');}};
+  const testLocation = {...location, search, href: location.href + search};
+  const win = {...fakeWindow, location: testLocation, addEventListener() {}, dispatchEvent() {},
+    Microsoft: {ApplicationInsights: {ApplicationInsights: class {
+      loadAppInsights() {}
+      trackPageView(event) {events.push(event.properties);}
+      trackEvent() {}
+    }}}};
+  vm.runInNewContext(source, {
+    window: win, document: {...fakeDocument, readyState: 'complete', referrer},
+    location: testLocation, sessionStorage: blocked ? failStorage : session,
+    localStorage: {getItem() {throw Error('stale attribution must not be read');}},
+    CustomEvent: FakeCustomEvent, URL, URLSearchParams, console
+  });
+  return events[0];
+}
+assert.equal(attributionFor({referrer:'https://www.google.com/search?q=kava'}).traffic_channel, 'organic_search');
+assert.equal(attributionFor({referrer:'https://www.google.co.uk/'}).campaign_source, 'www.google.co.uk');
+for (const host of ['chatgpt.com', 'www.perplexity.ai', 'claude.ai', 'gemini.google.com', 'copilot.microsoft.com']) {
+  assert.equal(attributionFor({referrer:`https://${host}/some-private-path`}).traffic_channel, 'ai_referral');
+}
+assert.equal(attributionFor({referrer:'https://chatgpt.com.attacker.example/'}).traffic_channel, 'referral');
+assert.equal(attributionFor({referrer:'https://google.example.com/'}).traffic_channel, 'referral');
+assert.equal(attributionFor({referrer:'https://www.google.com/',search:'?utm_source=instagram&utm_medium=paid'}).campaign_source, 'instagram');
+assert.equal(attributionFor({search:'?utm_source=chatgpt.com'}).traffic_channel, 'ai_referral');
+assert.equal(attributionFor({search:'?utm_medium=qa'}).traffic_channel, 'qa');
+const recent = {attribution_version:2, captured_at:new Date().toISOString(), utm_source:'bing.com', utm_medium:'organic', traffic_channel:'organic_search'};
+assert.equal(attributionFor({referrer:'https://www.thetribalkavalounge.com/menu',saved:recent}).campaign_source, 'bing.com');
+assert.equal(attributionFor({saved:{...recent,captured_at:'2020-01-01'}}).traffic_channel, 'direct_or_unknown');
+assert.equal(attributionFor({saved:{utm_source:'old-campaign'}}).campaign_source, '(direct)');
+assert.equal(attributionFor({referrer:'https://www.google.com/',blocked:true}).traffic_channel, 'organic_search');
+assert.equal(attributionFor({referrer:'https://chatgpt.com/private?secret=1'}).referrer_host, 'chatgpt.com');
+console.log('Analytics checks passed (routing, organic/AI referrals, campaign priority, storage failures, and stale attribution).');

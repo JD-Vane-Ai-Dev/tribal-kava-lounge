@@ -12,6 +12,18 @@
   const campaignKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
   const campaignStorageKey = 'tribal_campaign_attribution';
 
+  const matchesHost = (host, domain) => host === domain || host.endsWith(`.${domain}`);
+  function referralChannel(host) {
+    if (['chatgpt.com', 'chat.openai.com', 'perplexity.ai', 'claude.ai', 'copilot.microsoft.com', 'gemini.google.com'].some(domain => matchesHost(host, domain))) return 'ai_referral';
+    if (/(^|\.)google\.(com|[a-z]{2}|co\.[a-z]{2}|com\.[a-z]{2})$/.test(host)
+        || ['bing.com', 'duckduckgo.com', 'search.yahoo.com', 'search.brave.com', 'ecosia.org'].some(domain => matchesHost(host, domain))) return 'organic_search';
+    return 'referral';
+  }
+
+  function saveCampaign(value) {
+    try { sessionStorage.setItem(campaignStorageKey, JSON.stringify(value)); } catch (_) { /* Tracking still works when storage is blocked. */ }
+  }
+
   function currentCampaign() {
     const params = new URLSearchParams(window.location.search);
     const incoming = {};
@@ -20,19 +32,37 @@
       if (value) incoming[key] = value.slice(0, 120);
     });
 
-    if (Object.keys(incoming).length) {
-      incoming.landing_page = window.location.pathname;
-      incoming.captured_at = new Date().toISOString();
-      sessionStorage.setItem(campaignStorageKey, JSON.stringify(incoming));
-      localStorage.setItem(campaignStorageKey, JSON.stringify(incoming));
-      return incoming;
-    }
-
+    let referrerHost = '';
     try {
-      return JSON.parse(sessionStorage.getItem(campaignStorageKey) || localStorage.getItem(campaignStorageKey) || '{}');
-    } catch (_) {
-      return {};
+      referrerHost = new URL(document.referrer || '').hostname.toLowerCase();
+    } catch (_) { /* Missing referrers remain unknown/direct. */ }
+    const external = referrerHost && !matchesHost(referrerHost, 'thetribalkavalounge.com');
+    if (Object.keys(incoming).length) {
+      const channel = referralChannel(String(incoming.utm_source || '').toLowerCase());
+      incoming.traffic_channel = incoming.utm_medium === 'qa' ? 'qa'
+        : channel === 'ai_referral' ? channel
+        : incoming.utm_medium === 'organic' ? 'organic_search' : 'campaign';
+      incoming.attribution_method = 'utm';
+    } else if (external) {
+      incoming.utm_source = referrerHost;
+      incoming.traffic_channel = referralChannel(referrerHost);
+      incoming.utm_medium = incoming.traffic_channel === 'organic_search' ? 'organic' : 'referral';
+      incoming.attribution_method = 'referrer';
+    } else {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(campaignStorageKey) || '{}');
+        const age = Date.now() - Date.parse(saved.last_seen_at || saved.captured_at);
+        if (saved.attribution_version === 2 && age >= 0 && age < 30 * 60 * 1000) return saved;
+      } catch (_) { /* Start a fresh session attribution. */ }
+      incoming.traffic_channel = 'direct_or_unknown';
+      incoming.attribution_method = 'unavailable';
     }
+    incoming.referrer_host = external ? referrerHost : '';
+    incoming.landing_page = window.location.pathname;
+    incoming.captured_at = new Date().toISOString();
+    incoming.attribution_version = 2;
+    saveCampaign(incoming);
+    return incoming;
   }
 
   const attribution = currentCampaign();
@@ -69,12 +99,18 @@
   }
 
   function send(eventName, parameters) {
+    attribution.last_seen_at = new Date().toISOString();
+    saveCampaign(attribution);
     const payload = Object.assign({
       page_location: window.location.href,
       page_path: `${window.location.pathname}${window.location.search}`,
-      campaign_source: attribution.utm_source || '(direct)',
-      campaign_medium: attribution.utm_medium || '(none)',
-      campaign_name: attribution.utm_campaign || '(not set)'
+      campaign_source: attribution.utm_source || (attribution.attribution_method === 'utm' ? '(not set)' : '(direct)'),
+      campaign_medium: attribution.utm_medium || (attribution.attribution_method === 'utm' ? '(not set)' : '(none)'),
+      campaign_name: attribution.utm_campaign || '(not set)',
+      traffic_channel: attribution.traffic_channel,
+      referrer_host: attribution.referrer_host || '',
+      attribution_method: attribution.attribution_method,
+      attribution_version: 2
     }, parameters || {});
 
     if (isProductionHost && hasAnalytics && typeof window.gtag === 'function') {

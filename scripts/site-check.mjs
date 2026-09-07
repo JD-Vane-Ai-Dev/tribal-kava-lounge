@@ -37,6 +37,16 @@ assert.match(preRenderedMenu, /<title>Menu \| Kava Shells, Kratom Tea &amp; Craf
 assert.match(preRenderedLoteria, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/events\/friday-loteria"/, 'Lotería must ship its own canonical before JavaScript runs');
 assert.match(preRenderedLakeWorth, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/nearby\/lake-worth"/, 'Lake Worth page must ship its own canonical before JavaScript runs');
 assert.match(preRenderedDaily, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/kava-bar-west-palm-beach-first-visit"/, 'Daily stories must ship their own canonicals before JavaScript runs');
+assert.match(preRenderedDaily, /<div id="view-the-daily-kava-article" class="spa-view" style="display: block;">/, 'article content must be visible before JavaScript runs');
+assert.match(preRenderedDaily, /<article id="daily-kava-article-root"[^>]*>[\s\S]*?<h1[^>]*>Looking for a Kava Bar in West Palm Beach\? Start Here\.<\/h1>/, 'article H1 must be in delivered HTML');
+assert.match(preRenderedDaily, /<h2>What should a first-time guest expect\?<\/h2>/, 'article body must be in delivered HTML');
+const preRenderedSchema = JSON.parse(preRenderedDaily.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert.equal(preRenderedSchema['@graph'][0]['@type'], 'BlogPosting');
+assert.equal(preRenderedSchema['@graph'][1]['@type'], 'FAQPage');
+assert.ok(preRenderedSchema['@graph'][1].mainEntity.every(item => preRenderedDaily.includes(item.name)), 'schema questions must match visible FAQ content');
+const preRenderedIndex = await read('dist/the-daily-kava/index.html');
+assert.match(preRenderedIndex, /<div id="daily-kava-grid"[^>]*>[\s\S]*?<a href="\/the-daily-kava\/kava-bar-west-palm-beach-first-visit">/, 'article discovery links must be in delivered HTML');
+assert.match(preRenderedMenu, /<div id="view-menu" class="spa-view" style="display: block;">/, 'static menu must be visible without JavaScript');
 assert.match(html, /daily-kava\.js/, 'public Daily Kava feed must be loaded');
 assert.match(html, /analytics\.js/, 'conversion tracker must be loaded');
 assert.match(html, /\/images\/tribal-logo-cutout\.png/, 'transparent Tribal logo must be used');

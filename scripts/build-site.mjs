@@ -142,13 +142,52 @@ function renderRouteHtml(route, metadata) {
   const title = escapeHtml(metadata.title);
   const description = escapeHtml(metadata.description);
   const canonical = `${origin}${route === '/' ? '/' : route}`;
-  return htmlTemplate
+  let rendered = htmlTemplate
     .replace(/<title>[\s\S]*?<\/title>/, `<title>${title}</title>`)
     .replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${description}">`)
     .replace(/<link rel="canonical" href="[^"]+" id="seo-canonical">/, `<link rel="canonical" href="${canonical}" id="seo-canonical">`)
     .replace(/<meta property="og:title" content="[^"]*" id="og-title">/, `<meta property="og:title" content="${title}" id="og-title">`)
     .replace(/<meta property="og:description" content="[^"]*" id="og-desc">/, `<meta property="og:description" content="${description}" id="og-desc">`)
     .replace(/<meta property="og:url" content="[^"]*" id="og-url">/, `<meta property="og:url" content="${canonical}" id="og-url">`);
+
+  const post = dailyPosts.find(item => route === `/the-daily-kava/${item.slug}`);
+  const view = post ? 'the-daily-kava-article' : route === '/' ? 'home' : route.slice(1);
+  // Serve the same readable content to visitors and crawlers before JS runs.
+  // Keep all SPA views so client-side navigation still works after hydration.
+  if (htmlTemplate.includes(`id="view-${view}"`)) {
+    rendered = rendered.replace(/<div id="view-([^"]+)" class="spa-view"(?: style="[^"]*")?>/g,
+      (_, name) => `<div id="view-${name}" class="spa-view" style="display: ${name === view ? 'block' : 'none'};">`);
+  }
+  if (post) {
+    const faq = (post.faq || []).map(item => `<details><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('');
+    const article = `<a class="daily-back" href="/the-daily-kava">← The Daily Kava</a>
+      <p class="daily-card-meta">${escapeHtml(post.category)} · ${escapeHtml(post.date)}</p>
+      <h1 class="daily-article-title">${escapeHtml(post.title)}</h1>
+      <p class="daily-article-dek">${escapeHtml(post.dek)}</p>
+      <div class="daily-article-body">${post.body}</div>
+      ${faq ? `<section class="daily-faq"><h2>Quick answers</h2>${faq}</section>` : ''}
+      <p><a href="/menu">Menu</a> · <a href="/visit">Visit Tribal</a> · <a href="/the-daily-kava">More stories</a></p>`;
+    rendered = rendered.replace('<article id="daily-kava-article-root" class="daily-article"></article>',
+      () => `<article id="daily-kava-article-root" class="daily-article">${article}</article>`);
+    const graph = [{
+      '@type': 'BlogPosting', headline: post.title, description: post.metaDescription,
+      datePublished: post.date, dateModified: post.modified,
+      author: {'@type': 'Organization', name: 'Tribal Kava Lounge'},
+      publisher: {'@type': 'Organization', name: 'Tribal Kava Lounge', url: origin},
+      mainEntityOfPage: canonical, url: canonical, articleSection: post.category,
+      keywords: (post.keywords || post.tags || []).join(', '),
+      isPartOf: {'@type': 'Blog', name: 'The Daily Kava', url: `${origin}/the-daily-kava`}
+    }];
+    if (post.faq?.length) graph.push({'@type': 'FAQPage', mainEntity: post.faq.map(item => ({
+      '@type': 'Question', name: item.question, acceptedAnswer: {'@type': 'Answer', text: item.answer}
+    }))});
+    const schema = JSON.stringify({'@context': 'https://schema.org', '@graph': graph}).replaceAll('<', '\\u003c');
+    rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`)
+      .replace(/<meta property="og:type" content="[^"]*" id="og-type">/, '<meta property="og:type" content="article" id="og-type">');
+  }
+  const cards = dailyPosts.map(item => `<article class="daily-card"><h2 class="daily-card-title"><a href="/the-daily-kava/${item.slug}">${escapeHtml(item.title)}</a></h2><p>${escapeHtml(item.dek)}</p></article>`).join('\n');
+  rendered = rendered.replace('<div id="daily-kava-grid" class="daily-grid"></div>', () => `<div id="daily-kava-grid" class="daily-grid">${cards}</div>`);
+  return rendered;
 }
 
 for (const route of [...staticPaths, ...dailyPaths]) {

@@ -77,7 +77,8 @@ jobs:
           manifest = json.loads(Path(os.environ['DAILY_KAVA_MANIFEST']).read_text())
           with open(os.environ['GITHUB_OUTPUT'], 'a') as output:
               output.write(f"count={len(manifest['posts'])}\n")
-              output.write(f"requires_deploy={str(manifest['requires_deploy']).lower()}\n")
+              deploy = manifest['requires_deploy'] or os.environ.get('GITHUB_EVENT_NAME') == 'workflow_dispatch'
+              output.write(f"requires_deploy={str(deploy).lower()}\n")
           PY
 
       - name: Validate and build the exact staged site
@@ -147,6 +148,11 @@ jobs:
             git show -s --format='%an <%ae>' HEAD
             git push origin HEAD:master
           fi
+
+      - name: Notify IndexNow of verified site URLs
+        if: steps.finalize.outcome == 'success'
+        continue-on-error: true
+        run: npm run submit:indexnow
 
       - name: Publication and held-draft summary
         if: always()
