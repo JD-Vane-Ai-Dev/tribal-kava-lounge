@@ -6,11 +6,6 @@
       "statusCode": 301
     },
     {
-      "route": "/the-daily-kava/daily-digest-2026-09-07/",
-      "redirect": "/the-daily-kava",
-      "statusCode": 301
-    },
-    {
       "route": "/api/*",
       "allowedRoles": [
         "anonymous"

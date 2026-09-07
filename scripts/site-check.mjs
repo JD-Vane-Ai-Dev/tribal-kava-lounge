@@ -219,6 +219,8 @@ for (const post of dailyPosts) {
 }
 assert.doesNotMatch(sitemap, /<loc>https:\/\/(?!www\.thetribalkavalounge\.com)/, 'sitemap URLs must use the canonical host');
 assert.ok(JSON.parse(config).navigationFallback, 'Azure SPA fallback must be configured');
+const normalizedAzureRoutes = JSON.parse(config).routes.map(({ route }) => route.replace(/\/+$/, '') || '/');
+assert.equal(new Set(normalizedAzureRoutes).size, normalizedAzureRoutes.length, 'Azure normalizes trailing slashes; redirect routes must remain unique');
 assert.equal(
   JSON.parse(config).routes.find(({ route }) => route === '/the-daily-kava/what-is-a-kava-cloud')?.statusCode,
   301,
