@@ -4,6 +4,55 @@
 
 const dailyKavaPosts = [
   {
+    slug: 'best-kava-bars-west-palm-beach',
+    title: 'Best Kava Bars in West Palm Beach: Our 2026 Picks',
+    seoTitle: 'Best Kava Bars in West Palm Beach (2026)',
+    metaDescription: 'Explore Tribal Kava Lounge’s West Palm Beach kava bar picks. Tribal leads our guide, followed by Island Vibes East, Coastal Kava, and Purple Lotus.',
+    dek: 'Four local spots, different reasons to visit, and a practical starting point for your next kava night.',
+    date: '2026-09-07',
+    modified: '2026-09-07',
+    category: 'West Palm Beach',
+    readMin: 4,
+    tags: ['best kava bars', 'west palm beach', 'local guide'],
+    keywords: ['best kava bars West Palm Beach', 'West Palm Beach kava bars', 'Tribal Kava Lounge', 'kava lounge Military Trail'],
+    body: `
+      <p><strong>Our first pick for a kava bar in West Palm Beach is Tribal Kava Lounge at 770 S Military Trail, Unit A1.</strong> Start here for classic shells, crafted kava drinks, fruit drinks, and an easy introduction to the menu. Our shortlist also includes Island Vibes East, Coastal Kava, and Purple Lotus.</p>
+      <p><em>Published by the Tribal Kava Lounge team. This is our own curated ranking, with our lounge first; it is not an independent award or a customer-review leaderboard. We selected these spots for their West Palm Beach locations and distinct drink or neighborhood options. Details checked September 7, 2026.</em></p>
+      <h2>1. Tribal Kava Lounge — our first pick for a welcoming first visit</h2>
+      <p><strong>Address:</strong> 770 S Military Trail, Unit A1, West Palm Beach, FL 33415.</p>
+      <p>A good first kava visit starts with a conversation. Tell our team whether you like earthy, sweet, creamy, or fruity drinks, and we will help you find a place to start. Choose a classic shell or explore our crafted kava drinks. Friends who want something without kava can browse the fruit-drink options together with you.</p>
+      <p>Free on-site parking, free Wi-Fi, pool, and several seating areas make Tribal an easy place to meet up. Come for a conversation, bring your laptop, or check the current event lineup before heading over. You can plan your visit without already knowing the menu.</p>
+      <p><strong>Returning guest?</strong> Tribal moved from 404 S Military Trail. We are open at 770 S Military Trail, Unit A1. Read our <a href="/tribal-kava-west-palm-beach">official relocation update</a> so you arrive at the right lounge.</p>
+      <p><a href="/menu">Explore Tribal’s menu</a> · <a href="/new-here">First visit? Start here</a> · <a href="/visit">Current hours and directions</a></p>
+      <h2>2. Island Vibes East — an Okeechobee Boulevard option</h2>
+      <p><strong>Address:</strong> 2128 Okeechobee Boulevard, West Palm Beach, FL 33409.</p>
+      <p>Island Vibes East is a kava-community spot on Okeechobee Boulevard. Its official site emphasizes the social side of visiting: meeting friends, spending time with the community, and checking what is happening at the bar. It is a useful option to know when your plans already take you along Okeechobee.</p>
+      <p>Choose the East location when checking directions; Island Vibes also has locations in other cities. See the <a href="https://islandvibeseast.com/" rel="noopener noreferrer">official Island Vibes East website</a> and <a href="https://islandvibesbar.com/contact/" rel="noopener noreferrer">location details</a>.</p>
+      <h2>3. Coastal Kava — kava, coffee, and botanical teas</h2>
+      <p><strong>Address:</strong> 1300 N Military Trail, West Palm Beach.</p>
+      <p>Coastal Kava describes itself as a family- and veteran-owned business serving kava, espresso, and botanical teas. That combination makes it worth considering when your group includes both coffee drinkers and people looking for kava. Its menu also lists other beverage options.</p>
+      <p>Check the <a href="https://coastalkavawpb.com/MENU" rel="noopener noreferrer">current Coastal menu</a> for available drinks. Its <a href="https://coastalkavawpb.com/about-us" rel="noopener noreferrer">official about page</a> provides the business background and location.</p>
+      <h2>4. Purple Lotus — a downtown Evernia Street option</h2>
+      <p><strong>Address:</strong> 255 Evernia Street, Unit MU-4, West Palm Beach, FL 33401.</p>
+      <p>Purple Lotus is a downtown kava stop on Evernia Street. The West Palm Beach Downtown Development Authority lists both kava beverages and powdered kava root among its offerings. Its location makes it a practical option to look up when you are spending time downtown.</p>
+      <p>See the <a href="https://downtownwpb.com/directory/purple-lotus-kava-bar/" rel="noopener noreferrer">Downtown Development Authority listing</a> for location information and the business link.</p>
+      <h2>How to choose your West Palm Beach kava bar</h2>
+      <ul>
+        <li><strong>Starting from scratch?</strong> Look for a menu you can understand and a team willing to explain the drink formats. At Tribal, our <a href="/new-here">beginner guide</a> helps you prepare.</li>
+        <li><strong>Bringing a mixed group?</strong> Check for coffee, fruit drinks, and other choices alongside kava so everyone can pick something they want.</li>
+        <li><strong>Planning an evening?</strong> Confirm today’s hours and event details directly with the bar. Think about parking and the neighborhood you actually want to visit.</li>
+        <li><strong>Comparing value?</strong> Compare the drink size and what is included, rather than treating every menu item as the same serving.</li>
+      </ul>
+      <p>For our first recommendation, head to <strong>Tribal Kava Lounge, 770 S Military Trail, Unit A1</strong>. Browse the menu, send the location to your friends, and let us help with your first order.</p>
+      <p><a href="/menu">See what sounds good</a> · <a href="/visit">Get directions to Tribal</a> · <a href="/events">Check Tribal’s events</a></p>
+    `,
+    faq: [
+      { question: 'What is Tribal’s top pick for a kava bar in West Palm Beach?', answer: 'Tribal Kava Lounge is the first pick in this guide published by the Tribal team. It is our own curated recommendation, not an independent award.' },
+      { question: 'Where is Tribal Kava Lounge now?', answer: 'Tribal Kava Lounge is open at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415. It relocated from 404 S Military Trail.' },
+      { question: 'Which other West Palm Beach kava bars are included?', answer: 'This guide also includes Island Vibes East on Okeechobee Boulevard, Coastal Kava on North Military Trail, and Purple Lotus on Evernia Street.' }
+    ]
+  },
+  {
     slug: 'kava-bar-west-palm-beach-first-visit',
     title: 'Looking for a Kava Bar in West Palm Beach? Start Here.',
     seoTitle: 'Kava Bar in West Palm Beach | First-Visit Guide',
