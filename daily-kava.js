@@ -411,7 +411,35 @@ const dailyKavaPosts = [
       { question: 'Are there options for friends who do not want kava?', answer: 'Yes. fruit drinks provide fruit-forward, zero-botanical choices.' },
       { question: 'Can a group reserve a private event?', answer: 'Groups can submit an inquiry through the Tribal private-events page.' }
     ]
-  }
+  },
+  {
+  "slug": "daily-digest-2026-09-07",
+  "title": "The Daily Kava Digest \u2014 2026-09-07",
+  "seoTitle": "Daily Kava Reading List \u2014 2026-09-07",
+  "metaDescription": "A linked reading list on kava culture, flavor, community, and alcohol-free social life from Tribal Kava Lounge in West Palm Beach.",
+  "dek": "A linked reading list on kava culture, flavor, community, and alcohol-free social life from Tribal Kava Lounge in West Palm Beach.",
+  "date": "2026-09-07",
+  "modified": "2026-09-07",
+  "category": "Community",
+  "readMin": 1,
+  "tags": [
+    "kava culture",
+    "community",
+    "alcohol-free social life"
+  ],
+  "keywords": [
+    "kava culture",
+    "Tribal Kava Lounge",
+    "West Palm Beach"
+  ],
+  "body": "<p>Fresh reading on culture, community, lounge life, and non-alcoholic social life. Explore this selection of source headlines, with links to each publisher\u2019s coverage.</p>\n<h2>1. Enjoy BBQ, Brews and Blues in Historic Northwest - Palm Beach Illustrated</h2>\n<p><strong>Source:</strong> Palm Beach Illustrated \u00b7 <strong>Published:</strong> 2026-09-02</p>\n<p><a href=\"https://news.google.com/rss/articles/CBMijgFBVV95cUxQT3p5SDE1cU51TWR2NVAzdUpwZnJZakFIOWQzc2pIMFFmNzRfZ3Z1anROenZ3Nmh3Uk96RXNpdnBCTkFfNFBJUFNpZEFWekN6aGktM2xGOC1YRnYxcnltZXZQZTNDOXZoaF9uVmxnNWpBM2NIaVY1Wm10bHV2WFBpTWNhYkhmXy14VnpCa2hB?oc=5\" rel=\"noopener noreferrer\">Read the source</a></p>\n<h2>2. It\u2019s September! Check out BBQ &amp; beer in West Palm Beach; Hispanic Heritage Month events and much more - Sun Sentinel</h2>\n<p><strong>Source:</strong> Sun Sentinel \u00b7 <strong>Published:</strong> 2026-08-26</p>\n<p><a href=\"https://news.google.com/rss/articles/CBMixgFBVV95cUxPMHBSYnZ2UGN5MnBZeUJybnZzSFlpRWRSejhuRlduelRBT1F4dGFiZF9aVnh6anI2SnZhajV0XzIydkE3VWluMkFPdlZRajFkMU93MmduWndkd2d3QldVYVVEekJ3YXdZcFZxLUo4S2M2UU9JTWJvUng0Qk5xQW5FVmlNNjNiNXhhc09CR3doMGZHT28tRElCdmlya2lscU1sc2w3b196VWxpc3RhU0YyNXNBWFJybjBGTmpqM2xyQ1M3cEtKaWc?oc=5\" rel=\"noopener noreferrer\">Read the source</a></p>\n<h2>3. West Palm Beach is \u201cFired Up\u201d for 11th Annual BBQ, Brews and Blues - City of West Palm Beach</h2>\n<p><strong>Source:</strong> City of West Palm Beach \u00b7 <strong>Published:</strong> 2026-08-25</p>\n<p><a href=\"https://news.google.com/rss/articles/CBMid0FVX3lxTFAyU3M4aXZGa1YxRU53SjRJbXlTcmx2d1VXempEbVRTZ3dQaXpIcEpqOVhjZHE3UU55d0JLYl96UTRiWlFVR2FvOVc0VWEzOUh5NEVXMnE4Qm02S3NIV0t3UEltNk5QbjZ1MnBwamk4T1FmRE44NTlr?oc=5\" rel=\"noopener noreferrer\">Read the source</a></p>\n<hr>\n<p>Continue the conversation at Tribal. <a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">Explore the menu</a> \u00b7 <a href=\"https://www.thetribalkavalounge.com/new-here\" rel=\"noopener noreferrer\">New here?</a> \u00b7 <a href=\"https://www.thetribalkavalounge.com/visit\" rel=\"noopener noreferrer\">Plan a visit</a></p>\n<p><strong>Responsible use:</strong> Kratom products are for adults 21+ only. Valid ID required. Products are not intended to diagnose, treat, cure, or prevent any disease. Do not mix kava or kratom with alcohol or other substances. If you are pregnant, nursing, taking medications, or have health concerns, speak with a qualified professional.</p>\n<p><em>Tribal Kava Lounge \u2014 770 S Military Trail, Unit A1, West Palm Beach, FL 33415 \u00b7 (561) 355-0561</em></p>",
+  "sourceUrls": [
+    "https://news.google.com/rss/articles/CBMijgFBVV95cUxQT3p5SDE1cU51TWR2NVAzdUpwZnJZakFIOWQzc2pIMFFmNzRfZ3Z1anROenZ3Nmh3Uk96RXNpdnBCTkFfNFBJUFNpZEFWekN6aGktM2xGOC1YRnYxcnltZXZQZTNDOXZoaF9uVmxnNWpBM2NIaVY1Wm10bHV2WFBpTWNhYkhmXy14VnpCa2hB?oc=5",
+    "https://news.google.com/rss/articles/CBMixgFBVV95cUxPMHBSYnZ2UGN5MnBZeUJybnZzSFlpRWRSejhuRlduelRBT1F4dGFiZF9aVnh6anI2SnZhajV0XzIydkE3VWluMkFPdlZRajFkMU93MmduWndkd2d3QldVYVVEekJ3YXdZcFZxLUo4S2M2UU9JTWJvUng0Qk5xQW5FVmlNNjNiNXhhc09CR3doMGZHT28tRElCdmlya2lscU1sc2w3b196VWxpc3RhU0YyNXNBWFJybjBGTmpqM2xyQ1M3cEtKaWc?oc=5",
+    "https://news.google.com/rss/articles/CBMid0FVX3lxTFAyU3M4aXZGa1YxRU53SjRJbXlTcmx2d1VXempEbVRTZ3dQaXpIcEpqOVhjZHE3UU55d0JLYl96UTRiWlFVR2FvOVc0VWEzOUh5NEVXMnE4Qm02S3NIV0t3UEltNk5QbjZ1MnBwamk4T1FmRE44NTlr?oc=5"
+  ],
+  "contentSha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899"
+}
 ];
 
 function getDailyKavaPost(slug) {
