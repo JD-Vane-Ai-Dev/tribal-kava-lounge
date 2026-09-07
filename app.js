@@ -901,6 +901,10 @@ function navigateTo(path, { replace = false } = {}) {
     handleRoute();
 }
 
+function preferredScrollBehavior() {
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+}
+
 function handleRoute() {
     let { route, dailySlug, eventSlug, nearbySlug } = parsePathRoute();
 
@@ -964,12 +968,12 @@ function handleRoute() {
     });
 
     const drawer = document.getElementById('mobile-drawer');
-    if (drawer) drawer.classList.remove('open');
+    if (drawer?.open) drawer.close();
 
     // Deep-link anchors like /#vip after path load
     if (window.location.hash && !window.location.hash.startsWith('#/')) {
-        const el = document.querySelector(window.location.hash);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const el = document.getElementById(window.location.hash.slice(1));
+        if (el) el.scrollIntoView({ behavior: preferredScrollBehavior() });
     } else {
         window.scrollTo(0, 0);
     }
@@ -995,7 +999,7 @@ function renderEventDetail(slug) {
             <div class="event-detail-actions">
                 <a href="${event.sourceUrl}" ${external ? 'target="_blank" rel="noopener"' : ''} class="btn btn-secondary" data-conversion="events_view">${event.sourceLabel}</a>
                 <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="directions">Get Directions</a>
-                ${event.calendarUrl ? `<a href="${event.calendarUrl}" class="btn" data-conversion="calendar_download">Add Weekly Calendar</a>` : ''}
+                ${event.calendarUrl ? `<a href="${event.calendarUrl}" download="tribal-weekly-events.ics" class="btn" data-conversion="calendar_download">Add Weekly Calendar</a>` : ''}
                 <a href="/#vip" class="btn">Request Event Updates</a>
             </div>
         </div>
@@ -1635,19 +1639,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!a) return;
         const href = a.getAttribute('href');
         if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('#')) return;
-        if (a.target === '_blank' || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        if (e.defaultPrevented || e.button !== 0 || a.hasAttribute('download') || (a.target && a.target !== '_self') || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         // Internal path navigation
         if (href.startsWith('/')) {
+            // Only application routes belong to the SPA. Let the browser open files.
+            const targetUrl = new URL(href, window.location.href);
+            if (targetUrl.origin !== window.location.origin) return;
+            const pathname = targetUrl.pathname.replace(/\/$/, '') || '/';
+            const route = pathname === '/' ? 'home' : pathname.slice(1);
+            if (!VALID_ROUTES.has(route) && !/^\/(events|nearby|the-daily-kava)\/[^/.]+$/.test(pathname)) return;
             e.preventDefault();
-            // Support /#vip style — path + hash
-            navigateTo(href.split('#')[0] || '/');
-            if (href.includes('#')) {
-                const id = href.split('#')[1];
-                setTimeout(() => {
-                    const el = document.getElementById(id);
-                    if (el) el.scrollIntoView({ behavior: 'smooth' });
-                }, 50);
-            }
+            // Keep category and signup anchors in history; handleRoute scrolls to them.
+            navigateTo(href);
         }
     });
     handleRoute();
@@ -1657,13 +1660,34 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeSocialProof) applyGoogleRatingToSchema(activeSocialProof.google);
     });
     
-    // Hamburger menu toggle
+    // A modal dialog provides focus containment, Escape dismissal, and focus return.
     const hamburger = document.getElementById('nav-toggle');
     const drawer = document.getElementById('mobile-drawer');
     if (hamburger && drawer) {
         hamburger.addEventListener('click', () => {
-            drawer.classList.toggle('open');
+            drawer.showModal();
+            hamburger.setAttribute('aria-expanded', 'true');
+            document.body.classList.add('mobile-nav-open');
         });
+        document.getElementById('nav-close')?.addEventListener('click', () => drawer.close());
+        drawer.addEventListener('close', () => {
+            hamburger.setAttribute('aria-expanded', 'false');
+            document.body.classList.remove('mobile-nav-open');
+        });
+        const desktopNav = window.matchMedia('(min-width: 1101px)');
+        desktopNav.addEventListener('change', (event) => {
+            if (event.matches && drawer.open) drawer.close();
+        });
+    }
+
+    // Reserve the dock's actual height, including safe-area and enlarged text.
+    const conversionDock = document.querySelector('.mobile-conversion-dock');
+    if (conversionDock && 'ResizeObserver' in window) {
+        const dockObserver = new ResizeObserver(() => {
+            const height = conversionDock.getBoundingClientRect().height;
+            if (height > 0) document.documentElement.style.setProperty('--conversion-dock-space', `${Math.ceil(height)}px`);
+        });
+        dockObserver.observe(conversionDock);
     }
     
     // Floating Chat Bubble Toggle
@@ -1846,7 +1870,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             const result = document.getElementById('drink-finder-result');
             result.hidden = false;
-            result.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            result.scrollIntoView({ behavior: preferredScrollBehavior(), block: 'nearest' });
             window.tribalTrack?.('drink_recommendation', {
                 botanical,
                 flavor,

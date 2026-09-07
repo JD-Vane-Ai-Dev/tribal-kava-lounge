@@ -78,47 +78,46 @@
                 Tribal Kava
             </a>
             
-            <nav>
+            <nav aria-label="Primary navigation">
                 <ul class="nav-menu">
-                    <li><a href="/" class="active">Home</a></li>
                     <li><a href="/menu">Menu</a></li>
                     <li><a href="/new-here">New Here?</a></li>
                     <li><a href="/events">Events</a></li>
-                    <li><a href="/the-daily-kava">The Daily Kava</a></li>
-                    <li><a href="/plan-your-visit">Plan Visit</a></li>
                     <li><a href="/visit">Visit Us</a></li>
-                    <li><a href="/faq">FAQ</a></li>
                 </ul>
             </nav>
 
-            <button class="hamburger" id="nav-toggle" aria-label="Toggle Menu">
+            <button class="hamburger" id="nav-toggle" type="button" aria-label="Open menu" aria-controls="mobile-drawer" aria-expanded="false" aria-haspopup="dialog">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
             </button>
         </div>
     </header>
 
     <!-- Mobile Navigation Drawer -->
-    <div class="mobile-nav-drawer" id="mobile-drawer">
+    <dialog class="mobile-nav-drawer" id="mobile-drawer" aria-label="Site navigation">
+        <button class="btn btn-secondary mobile-nav-close" id="nav-close" type="button">Close menu</button>
+        <nav class="mobile-nav-scroll" aria-label="Mobile navigation">
         <ul class="mobile-nav-links">
-            <li><a href="/">Home</a></li>
             <li><a href="/menu">Menu</a></li>
             <li><a href="/new-here">New Here?</a></li>
+            <li><a href="/events">Events</a></li>
+            <li><a href="/visit">Visit Us</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/plan-your-visit">Plan Your Visit</a></li>
             <li><a href="/kava-vs-kratom">Kava vs. Kratom</a></li>
             <li><a href="/what-is-kava">What Is Kava?</a></li>
             <li><a href="/what-is-kratom">What Is Kratom?</a></li>
-            <li><a href="/events">Events</a></li>
             <li><a href="/the-daily-kava">The Daily Kava</a></li>
-            <li><a href="/plan-your-visit">Plan Your Visit</a></li>
             <li><a href="/private-events">Private Events</a></li>
             <li><a href="/press">Press</a></li>
             <li><a href="/gift-cards">Gift Cards</a></li>
-            <li><a href="/visit">Visit Us</a></li>
             <li><a href="/faq">FAQ</a></li>
         </ul>
+        </nav>
         <div style="margin-top: auto; border-top: 1px solid var(--card-border); padding-top: 1.5rem;">
             <p style="font-size: 0.8rem; color: var(--text-muted);">Age 21+ required for kratom. Visit responsibly.</p>
         </div>
-    </div>
+    </dialog>
 
     <!-- MAIN VIEWS WRAPPER -->
     <main class="content-wrapper">
@@ -138,9 +137,9 @@
                             Kava, brewed kratom tea, fruit drinks, games, and good people—built for first-timers, date nights, study sessions, and late-night hangs.
                         </p>
                         <div class="hero-ctas">
-                            <a href="https://www.doordash.com/store/tribal-kava-bar-w.p.b-west-palm-beach-41073365/98494168/?pickup=true" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="order_online">Order Online</a>
+                            <a href="/menu" class="btn btn-accent" data-conversion="menu_view">View Menu</a>
                             <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" class="btn btn-secondary" data-conversion="directions">Get Directions</a>
-                            <a href="/menu" class="btn btn-secondary" data-conversion="menu_view">View Menu</a>
+                            <a href="https://www.doordash.com/store/tribal-kava-bar-w.p.b-west-palm-beach-41073365/98494168/?pickup=true" target="_blank" rel="noopener" class="btn btn-secondary" data-conversion="order_online">Order Online</a>
                             <a href="tel:+15613550561" class="btn btn-secondary" data-conversion="phone_call">Call Now</a>
                         </div>
                         <div class="hero-trust-row" aria-label="Lounge highlights">
@@ -233,7 +232,7 @@
                             <span><strong>The tribe came to race</strong><small>Nine competitors, nine serious game faces</small></span>
                         </a>
                     </div>
-                    <p class="owned-media-source" id="instagram-gallery-status" role="status" aria-live="polite">Curated from a verified <a href="https://www.instagram.com/tribalkavalounge/p/DcMhfR2kY2X/" target="_blank" rel="noopener">@TribalKavaLounge post published August 18, 2026</a>. Automatic refresh is ready for the official Instagram token.</p>
+                    <p class="owned-media-source" id="instagram-gallery-status" role="status" aria-live="polite">Curated from a verified <a href="https://www.instagram.com/tribalkavalounge/p/DcMhfR2kY2X/" target="_blank" rel="noopener">@TribalKavaLounge post published August 18, 2026</a>. Follow us on Instagram for more lounge moments and upcoming events.</p>
                 </div>
             </section>
 
@@ -392,7 +391,7 @@
                 <div class="container">
                     <div class="section-head">
                         <h2 style="font-family: var(--font-display); font-size: 2.25rem; font-weight: 800;">Plan the night. Host the room. Stay in the loop.</h2>
-                        <p style="color: var(--text-muted); max-width: 640px; margin: 0.75rem auto 0;">Premium hospitality layer — first visits, private bookings, gift cards, and social proof.</p>
+                        <p style="color: var(--text-muted); max-width: 640px; margin: 0.75rem auto 0;">Plan your first visit, host a private event, explore gift cards, or see what guests are saying.</p>
                     </div>
                     <div class="grid grid-4" style="margin-top: 2rem;">
                         <a href="/plan-your-visit" class="card hospitality-card" style="text-decoration:none; color:inherit;">
@@ -442,6 +441,7 @@
                         <p class="menu-eyebrow">Tribal Kava Lounge</p>
                         <h1>Kava, Tea &amp; Crafted Drinks</h1>
                         <p>A clear menu for regulars and first-timers. Ask your kavatender if you want help choosing a flavor.</p>
+                        <p><strong>In-lounge prices are listed below.</strong> Ordering pickup? <a href="/menu#doordash-menu-title">See the separate DoorDash menu and prices</a>, then confirm your total at checkout.</p>
                         <p class="relocation-notice">Looking for Tribal Kava Bar? <a href="/tribal-kava-west-palm-beach">We relocated and are open at 770 S Military Trail, Unit A1.</a></p>
                         <div class="clean-menu-actions">
                             <a href="https://www.doordash.com/store/tribal-kava-bar-w.p.b-west-palm-beach-41073365/98494168/?pickup=true" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="order_online">Order Online</a>
@@ -455,6 +455,22 @@
                     </aside>
 
                     <p class="happy-hour-note"><strong>Four daily happy-hour windows:</strong> 7–9 AM · 12–1 PM · 5–7 PM · 11 PM–12 AM. <a href="https://www.instagram.com/tribalkavalounge/p/DZC5nDruES3/" target="_blank" rel="noopener">See the current Instagram post for details.</a></p>
+
+                    <aside class="card menu-first-visit" aria-labelledby="menu-first-visit-title">
+                        <h2 id="menu-first-visit-title">First visit? Start with a flavor.</h2>
+                        <p>Explore <a href="/menu#clean-menu-kava">traditional kava shells</a> for earthy flavors, <a href="/menu#clean-menu-crafted-kava">crafted kava</a> for creamy or dessert-inspired flavors, or <a href="/menu#clean-menu-fruit">fruit drinks</a> for no kava and no kratom. Ask your kavatender about ingredients before choosing.</p>
+                        <a href="/new-here" class="event-source-link">What to expect on your first visit →</a>
+                    </aside>
+
+                    <nav class="delivery-menu-cats menu-category-links" aria-label="In-lounge menu categories">
+                        <a href="/menu#clean-menu-kava">Kava Shells</a>
+                        <a href="/menu#clean-menu-crafted-kava">Crafted Kava</a>
+                        <a href="/menu#clean-menu-tea">Kratom Tea · 21+</a>
+                        <a href="/menu#clean-menu-kratom-drinks">Crafted Kratom · 21+</a>
+                        <a href="/menu#clean-menu-shots">Punches &amp; Shots</a>
+                        <a href="/menu#clean-menu-fruit">Fruit Drinks</a>
+                        <a href="/menu#doordash-menu-title">DoorDash Pickup</a>
+                    </nav>
 
                     <div class="menu-board">
                         <section class="menu-section" aria-labelledby="clean-menu-kava">
@@ -544,8 +560,8 @@
                         <div class="delivery-menu-head">
                             <div>
                                 <p class="menu-eyebrow">DoorDash pickup menu · verified August 31, 2026</p>
-                                <h2 id="doordash-menu-title">The full online menu, without the app scavenger hunt.</h2>
-                                <p>Six live items, every size, every modifier, and a few straightforward first-order ideas. DoorDash marketplace prices are shown here separately from the in-lounge prices above.</p>
+                                <h2 id="doordash-menu-title">DoorDash pickup menu &amp; prices</h2>
+                                <p>Six items with size and modifier choices, recorded August 31, 2026. DoorDash marketplace prices are shown here separately from the in-lounge prices above. Check DoorDash for today’s availability, prices, and final total.</p>
                             </div>
                             <a href="https://www.doordash.com/store/tribal-kava-bar-w.p.b-west-palm-beach-41073365/98494168/?pickup=true" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="order_online">Start a pickup order</a>
                         </div>
@@ -750,16 +766,16 @@
                     </div>
 
                     <!-- Embedded AI Guide Interface -->
-                    <div style="border: 1px solid var(--electric-blue); border-radius: 24px; padding: 3rem; background: rgba(7, 9, 14, 0.4); backdrop-filter: blur(15px); position: relative; overflow: hidden;" id="ask-guide-section">
+                    <div class="guide-panel" style="border: 1px solid var(--electric-blue); border-radius: 24px; background: rgba(7, 9, 14, 0.4); backdrop-filter: blur(15px); position: relative; overflow: hidden;" id="ask-guide-section">
                         <div style="position: absolute; top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(var(--electric-blue-rgb), 0.1) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; filter: blur(50px); pointer-events: none; z-index: -1;"></div>
                         
                         <div style="text-align: center; margin-bottom: 2.5rem;">
                             <div class="badge badge-kava" style="margin-bottom: 1rem;">Concierge Assistant</div>
-                            <h2 style="font-family: var(--font-display); font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem;">Still confused? Ask the Kava Guide.</h2>
+                            <h2 style="font-family: var(--font-display); font-weight: 800; margin-bottom: 0.5rem;">Still confused? Ask the Kava Guide.</h2>
                             <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Ask anything before you visit. Try clicking one of the common starter questions below or type your own question.</p>
                         </div>
 
-                        <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 3rem; align-items: start;">
+                        <div class="guide-grid">
                             <!-- Interactive Chat Widget -->
                             <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--card-border); border-radius: 16px; height: 400px; display: flex; flex-direction: column; overflow: hidden;">
                                 <div class="chat-messages" id="embed-chat-messages" style="height: 330px;">
@@ -877,7 +893,7 @@
                     </div>
 
                     <div class="promo-banner" style="margin-bottom: 3rem;">
-                        <h2>Weekly at Tribal</h2>
+                        <h2>Next weekly events</h2>
                         <p class="promo-sub">Recurring weekly lineup — no ticket required unless noted at the door.</p>
                         <div class="promo-windows">
                             <div class="promo-window">
@@ -890,16 +906,16 @@
                             </div>
                             <div class="promo-window">
                                 <strong>Rotating</strong>
-                                <span>Karaoke · games · art · poker</span>
+                                <span><a href="/events#rotating-events">Karaoke · games · art · poker</a></span>
                             </div>
                         </div>
-                        <p class="events-freshness">Weekly dates update automatically in Eastern Time. Rotating nights stay un-dated until Tribal publishes a new flyer.</p>
+                        <p class="events-freshness">Weekly times are shown in Eastern Time. Confirm the next rotating night with Tribal before making plans.</p>
                         <div class="events-calendar-action">
-                            <a href="/events.ics" class="btn btn-secondary" data-conversion="calendar_download">Add Weekly Events to Calendar</a>
+                            <a href="/events.ics" download="tribal-weekly-events.ics" class="btn btn-secondary" data-conversion="calendar_download">Add Weekly Events to Calendar</a>
                         </div>
                     </div>
 
-                    <div class="grid grid-2">
+                    <div class="grid grid-2" aria-label="Weekly event details">
                         <div class="card">
                             <div class="event-day" data-next-tuesday>Every Tuesday · 2:00 PM – 5:00 PM</div>
                             <div class="badge badge-kava" style="margin-bottom: 1rem;">Promo</div>
@@ -907,6 +923,20 @@
                             <p style="margin-bottom: 1.5rem;">Single shells for <strong style="color: var(--gold-accent);">$2</strong> from 2 PM to 5 PM. Classic kava shell special — pull up early and stack the afternoon.</p>
                             <a href="/events/two-dollar-tuesday" class="event-source-link">Share Tuesday details →</a>
                         </div>
+                        <div class="card">
+                            <div class="event-day" data-next-loteria>Every Friday · 9:00 PM</div>
+                            <div class="badge badge-kratom" style="margin-bottom: 1rem;">Community</div>
+                            <h3>Lotería Night</h3>
+                            <p style="margin-bottom: 1.5rem;">Tony Robles hosts classic Lotería with prizes and bar-tab bragging rights. Boards are $1 each.</p>
+                            <a href="/events/friday-loteria" class="event-source-link">Share Friday details →</a>
+                        </div>
+                    </div>
+
+                    <div class="section-head" style="margin-top: 3rem;">
+                        <h2 id="rotating-events">Rotating nights at Tribal</h2>
+                        <p>Karaoke, games, poker, and art return on rotating dates. Check the event details or Instagram for the next confirmed date before heading over.</p>
+                    </div>
+                    <div class="grid grid-3" style="margin-bottom: 2rem;">
                         <div class="card">
                             <div class="event-day">Recurring Night</div>
                             <div class="badge badge-nonbotanical" style="margin-bottom: 1rem;">Live</div>
@@ -921,31 +951,6 @@
                             <p style="margin-bottom: 1.5rem;">Friendly competition, blue-shell chaos, and community game nights hosted by Connor when scheduled.</p>
                             <a href="/events/mario-kart" class="event-source-link">Share game-night details →</a>
                         </div>
-                        <div class="card">
-                            <div class="event-day" data-next-loteria>Every Friday · 9:00 PM</div>
-                            <div class="badge badge-kratom" style="margin-bottom: 1rem;">Community</div>
-                            <h3>Lotería Night</h3>
-                            <p style="margin-bottom: 1.5rem;">Tony Robles hosts classic Lotería with prizes and bar-tab bragging rights. Boards are $1 each.</p>
-                            <a href="/events/friday-loteria" class="event-source-link">Share Friday details →</a>
-                        </div>
-                    </div>
-
-                    <div class="social-embed-card">
-                        <div class="social-embed-copy">
-                            <p class="menu-eyebrow">From @TribalKavaLounge</p>
-                            <h2>Real lounge updates, straight from Tribal.</h2>
-                            <p>See Tribal’s happy-hour flyer and recent lounge updates on Instagram. Confirm current offer times with the team before making a special trip.</p>
-                            <a href="https://www.instagram.com/tribalkavalounge/p/DZC5nDruES3/" target="_blank" rel="noopener" class="btn btn-secondary" data-conversion="instagram">Open on Instagram</a>
-                        </div>
-                        <iframe class="instagram-embed" title="Tribal Kava Lounge happy hours on Instagram" src="https://www.instagram.com/p/DZC5nDruES3/embed/captioned/" loading="lazy" allowtransparency="true"></iframe>
-                    </div>
-
-
-                    <div class="section-head" style="margin-top: 3rem;">
-                        <h2 style="font-family: var(--font-display); font-size: 1.75rem;">More happenings (rotating)</h2>
-                        <p style="color: var(--text-muted);">These have already happened at Tribal. Follow Instagram for the next date instead of trusting an old flyer.</p>
-                    </div>
-                    <div class="grid grid-3" style="margin-bottom: 2rem;">
                         <div class="card">
                             <div class="badge badge-beginner" style="margin-bottom: 0.75rem;">Cards</div>
                             <h3>Poker Night</h3>
@@ -965,6 +970,17 @@
                             <a href="/events/sip-and-paint" class="event-source-link">Share Sip &amp; Paint details →</a>
                         </div>
                     </div>
+
+                    <div class="social-embed-card">
+                        <div class="social-embed-copy">
+                            <p class="menu-eyebrow">From @TribalKavaLounge</p>
+                            <h2>Real lounge updates, straight from Tribal.</h2>
+                            <p>See Tribal’s happy-hour flyer and recent lounge updates on Instagram. Confirm current offer times with the team before making a special trip.</p>
+                            <a href="https://www.instagram.com/tribalkavalounge/p/DZC5nDruES3/" target="_blank" rel="noopener" class="btn btn-secondary" data-conversion="instagram">Open on Instagram</a>
+                        </div>
+                        <iframe class="instagram-embed" title="Tribal Kava Lounge happy hours on Instagram" src="https://www.instagram.com/p/DZC5nDruES3/embed/captioned/" loading="lazy" allowtransparency="true"></iframe>
+                    </div>
+
                     <div style="text-align:center; margin-bottom: 2rem;">
                         <a href="/private-events" class="btn btn-secondary" data-conversion="event_interest">Book a private night</a>
                         <a href="/#vip" class="btn" style="margin-left:0.5rem;">Request Event Updates</a>
@@ -996,6 +1012,10 @@
                         <h1>Visit Our Kava Lounge in West Palm Beach</h1>
                         <p>We are located in the heart of West Palm Beach on Military Trail — an easy drive from Lake Worth, Greenacres, Palm Springs, and Haverhill. Come check out our modern, botanical-inspired lounge.</p>
                         <p class="relocation-notice">Returning to Tribal? Our former location was 404 S Military Trail. <a href="/tribal-kava-west-palm-beach">Tribal Kava relocated—visit us at 770 S Military Trail, Unit A1.</a></p>
+                        <div class="clean-menu-actions">
+                            <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="directions">Get Directions</a>
+                            <a href="tel:+15613550561" class="btn btn-secondary" data-conversion="phone_call">Call (561) 355-0561</a>
+                        </div>
                     </div>
 
                     <div class="visit-brand-banner">
@@ -1017,9 +1037,9 @@
                             <p style="margin-bottom: 2rem;">📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/tribalkavalounge" target="_blank" style="color: var(--text-cream);">@TribalKavaLounge</a> · <strong>Web:</strong> <a href="https://www.thetribalkavalounge.com" target="_blank" style="color: var(--text-cream);">TribalKavaLounge.com</a></p>
 
                             <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                                <a href="tel:+15613550561" class="btn btn-accent">Call (561) 355-0561</a>
-                                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" class="btn">Get Directions</a>
-                                <a href="https://www.instagram.com/tribalkavalounge" target="_blank" class="btn btn-secondary">Follow Us</a>
+                                <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415&amp;destination_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" target="_blank" rel="noopener" class="btn btn-accent" data-conversion="directions">Get Directions</a>
+                                <a href="tel:+15613550561" class="btn btn-secondary" data-conversion="phone_call">Call (561) 355-0561</a>
+                                <a href="https://www.instagram.com/tribalkavalounge" target="_blank" rel="noopener" class="btn btn-secondary" data-conversion="instagram">Follow Us</a>
                             </div>
                         </div>
 
