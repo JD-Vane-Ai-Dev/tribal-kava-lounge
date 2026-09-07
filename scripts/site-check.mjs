@@ -24,10 +24,81 @@ const barPhoto = await readFile(path.join(root, 'images/tribal-bar-game-night.we
 const racersPhoto = await readFile(path.join(root, 'images/tribal-mario-kart-racers.webp'));
 const indexNowKey = await readFile(path.join(root, 'dist/34a68ae0477ea10ed9d8a543952e0cdb.txt'), 'utf8');
 const preRenderedMenu = await readFile(path.join(root, 'dist/menu/index.html'), 'utf8');
+const preRenderedHome = await read('dist/index.html');
+const preRenderedVisit = await read('dist/visit/index.html');
 const preRenderedLoteria = await readFile(path.join(root, 'dist/events/friday-loteria/index.html'), 'utf8');
 const preRenderedLakeWorth = await readFile(path.join(root, 'dist/nearby/lake-worth/index.html'), 'utf8');
 const preRenderedDaily = await readFile(path.join(root, 'dist/the-daily-kava/kava-bar-west-palm-beach-first-visit/index.html'), 'utf8');
 const publishedImages = (await readdir(path.join(root, 'dist/images'))).sort();
+
+function readRouteSchema(document, route) {
+  const scripts = [...document.matchAll(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/g)];
+  assert.equal(scripts.length, 1, `${route} must deliver exactly one route-specific schema script`);
+  return JSON.parse(scripts[0][1]);
+}
+
+// Crawlers must get the current business and menu facts from the delivered HTML.
+for (const [route, document] of [['/', preRenderedHome], ['/visit', preRenderedVisit]]) {
+  const business = readRouteSchema(document, route);
+  assert.ok(business['@type'].includes('LocalBusiness'));
+  assert.equal(business['@id'], 'https://www.thetribalkavalounge.com/#lounge');
+  assert.equal(business.name, 'Tribal Kava Lounge');
+  assert.equal(business.telephone, '+1-561-355-0561');
+  assert.equal(business.address.streetAddress, '770 S Military Trail, Unit A1');
+  assert.equal(business.address.addressLocality, 'West Palm Beach');
+  assert.equal(business.address.postalCode, '33415');
+  assert.equal(business.hasMenu, 'https://www.thetribalkavalounge.com/menu');
+  assert.ok(!('aggregateRating' in business), 'a dated review snapshot must not become a static rating claim');
+}
+const menuSchema = readRouteSchema(preRenderedMenu, '/menu');
+assert.equal(menuSchema['@type'], 'Menu');
+assert.equal(menuSchema.mainEntityOfPage, 'https://www.thetribalkavalounge.com/menu');
+assert.ok(menuSchema.hasMenuSection.some(section => section.name === 'Kava Shells'));
+assert.ok(menuSchema.hasMenuSection.some(section => section.name === 'DoorDash Pickup Menu'), 'menu schema must preserve separate marketplace pricing');
+
+// Start with the delivered home schema and exercise the real client injector.
+// Navigation must replace that node, keeping stale business or menu data out.
+const seoHead = {
+  children: [],
+  appendChild(node) { this.children.push(node); }
+};
+function seoElement(tagName) {
+  return {
+    tagName, attributes: {}, text: '',
+    setAttribute(name, value) { this.attributes[name] = value; },
+    remove() { seoHead.children.splice(seoHead.children.indexOf(this), 1); }
+  };
+}
+for (const id of ['seo-json-ld', 'seo-canonical', 'og-title', 'og-desc', 'og-url', 'og-type']) {
+  const node = seoElement(id === 'seo-json-ld' ? 'script' : 'meta');
+  node.id = id;
+  if (id === 'seo-json-ld') node.text = JSON.stringify(readRouteSchema(preRenderedHome, '/'));
+  seoHead.appendChild(node);
+}
+const seoDocument = {
+  head: seoHead,
+  getElementById: id => seoHead.children.find(node => node.id === id),
+  querySelector: () => seoHead.children.find(node => node.attributes.name === 'description'),
+  createElement: seoElement
+};
+const databaseStart = app.indexOf('const seoDatabase = {');
+const databaseEnd = app.indexOf('\n};', databaseStart) + 3;
+const injectorStart = app.indexOf('function injectSEO(route)');
+const injectorEnd = app.indexOf('// AI Assistant Response Logic', injectorStart);
+const navigateSEO = runInNewContext(
+  `${app.slice(databaseStart, databaseEnd)}\n${app.slice(injectorStart, injectorEnd)}\n; injectSEO;`,
+  { SITE_ORIGIN: 'https://www.thetribalkavalounge.com', document: seoDocument },
+  { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } }
+);
+for (const [route, type] of [['menu', 'Menu'], ['visit', 'LocalBusiness'], ['home', 'LocalBusiness'], ['faq', 'FAQPage']]) {
+  navigateSEO(route);
+  const scripts = seoHead.children.filter(node => node.id === 'seo-json-ld');
+  assert.equal(scripts.length, 1, `${route} navigation must replace the pre-rendered schema`);
+  const schema = JSON.parse(scripts[0].text);
+  assert.ok([schema['@type']].flat().includes(type), `${route} navigation must expose only the current schema`);
+  assert.equal(seoDocument.getElementById('seo-canonical').attributes.href,
+    `https://www.thetribalkavalounge.com/${route === 'home' ? '' : route}`);
+}
 
 const relocationRoute = '/tribal-kava-west-palm-beach';
 const relocationTitle = 'Tribal Kava Lounge Is Open — Now at 770 S Military Trail';

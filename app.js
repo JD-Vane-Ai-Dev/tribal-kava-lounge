@@ -13,6 +13,7 @@ const seoDatabase = {
             "@context": "https://schema.org",
             "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
             "name": "Tribal Kava Lounge",
+            "alternateName": "Tribal Kava Bar",
             "logo": `${SITE_ORIGIN}/images/tribal-logo-cutout.png`,
             "image": [
                 `${SITE_ORIGIN}/images/tribal-community-game-night.webp`,
@@ -21,14 +22,10 @@ const seoDatabase = {
             ],
             "@id": `${SITE_ORIGIN}/#lounge`,
             "url": SITE_ORIGIN,
+            "hasMenu": `${SITE_ORIGIN}/menu`,
             "telephone": "+1-561-355-0561",
             "email": "join@tribalkavalounge.co",
             "priceRange": "$$",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.8",
-                "reviewCount": "269"
-            },
             "hasMap": "https://www.google.com/maps/search/?api=1&query=Tribal+Kava+Lounge&query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y",
             "contactPoint": {
                 "@type": "ContactPoint",
@@ -236,13 +233,20 @@ const seoDatabase = {
         schema: {
             "@context": "https://schema.org",
             "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
+            "@id": `${SITE_ORIGIN}/#lounge`,
             "name": "Tribal Kava Lounge",
+            "alternateName": "Tribal Kava Bar",
+            "url": SITE_ORIGIN,
+            "telephone": "+1-561-355-0561",
+            "hasMenu": `${SITE_ORIGIN}/menu`,
+            "hasMap": "https://www.google.com/maps/search/?api=1&query=Tribal+Kava+Lounge&query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y",
             "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "770 S Military Trail, Unit A1",
                 "addressLocality": "West Palm Beach",
                 "addressRegion": "FL",
-                "postalCode": "33415"
+                "postalCode": "33415",
+                "addressCountry": "US"
             }
         }
     },
@@ -1602,7 +1606,8 @@ function applySocialProof(payload) {
             : 'Showing the Google rating snapshot checked August 31, 2026. Open Google for the current live listing.';
     });
 
-    applyGoogleRatingToSchema(payload.google);
+    // Keep the dated editorial snapshot visible, but never present it as live schema data.
+    if (googleLive) applyGoogleRatingToSchema(payload.google);
     renderInstagramGallery(payload.instagram, payload?.providerStatus?.instagram);
 }
 

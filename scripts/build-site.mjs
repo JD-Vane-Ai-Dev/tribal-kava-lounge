@@ -100,19 +100,17 @@ await writeFile(
 const routeMetadata = new Map();
 const seoDatabaseStart = appSource.indexOf('const seoDatabase = {');
 const seoDatabaseEnd = appSource.indexOf('\n};', seoDatabaseStart);
-const seoDatabaseSource = appSource.slice(seoDatabaseStart, seoDatabaseEnd);
-for (const match of seoDatabaseSource.matchAll(/\n {4}'[^']+':\s*\{\n {8}title:\s*'([^']+)',\n {8}description:\s*'([^']+)',[\s\S]*?\n {8}slug:\s*'([^']+)',/g)) {
-  routeMetadata.set(match[3], { title: match[1], description: match[2] });
+if (seoDatabaseStart < 0 || seoDatabaseEnd <= seoDatabaseStart) {
+  throw new Error('Missing static SEO database');
 }
-// Ship the relocation facts and matching FAQs as structured data before JS runs.
+// Ship each route's existing structured data before JavaScript runs.
 // Read the same repository-owned definitions used by the SPA, without browser APIs.
 const staticSeoDatabase = runInNewContext(
   `${appSource.slice(seoDatabaseStart, seoDatabaseEnd + 3)}\n; seoDatabase;`,
   { SITE_ORIGIN: origin },
   { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } }
 );
-for (const key of ['tribal-kava-west-palm-beach', 'faq']) {
-  const metadata = staticSeoDatabase[key];
+for (const metadata of Object.values(staticSeoDatabase)) {
   routeMetadata.set(metadata.slug, metadata);
 }
 
@@ -211,10 +209,8 @@ function renderRouteHtml(route, metadata) {
       ? '<div id="event-detail-root" class="container event-detail-shell"></div>'
       : '<div class="container" id="nearby-detail-root" style="max-width: 1040px;"></div>';
     rendered = rendered.replace(marker, () => marker.replace('</div>', detail.html + '</div>'));
-    const schema = JSON.stringify(detail.metadata.schema).replaceAll('<', '\\u003c');
-    rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`);
   }
-  if (!detail && !post && metadata.schema) {
+  if (!post && metadata.schema) {
     const schema = JSON.stringify(metadata.schema).replaceAll('<', '\\u003c');
     rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`);
   }
