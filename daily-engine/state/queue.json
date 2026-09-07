@@ -100,9 +100,9 @@
         "context": "daily",
         "summary": "HOLD (16 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (16 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214"
     },
@@ -191,9 +191,9 @@
         "context": "daily",
         "summary": "HOLD (13 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c"
     },
@@ -282,9 +282,9 @@
         "context": "daily",
         "summary": "HOLD (13 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd"
     },
@@ -368,9 +368,9 @@
         "context": "daily",
         "summary": "HOLD (12 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (12 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7"
     },
@@ -459,9 +459,9 @@
         "context": "daily",
         "summary": "HOLD (13 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79"
     },
@@ -555,9 +555,9 @@
         "context": "daily",
         "summary": "HOLD (14 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (14 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e"
     },
@@ -641,9 +641,9 @@
         "context": "daily",
         "summary": "HOLD (12 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (12 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd"
     },
@@ -732,9 +732,9 @@
         "context": "daily",
         "summary": "HOLD (13 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (13 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7"
     },
@@ -833,9 +833,9 @@
         "context": "daily",
         "summary": "HOLD (15 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T12:58:06.469514+00:00",
+      "checked_at": "2026-09-07T13:12:24.139030+00:00",
       "checked_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26",
-      "held_at": "2026-09-07T12:58:06.469514+00:00",
+      "held_at": "2026-09-07T13:12:24.139030+00:00",
       "hold_reason": "HOLD (15 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
       "content_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26"
     },
