@@ -246,6 +246,74 @@ const seoDatabase = {
             }
         }
     },
+    'tribal-kava-west-palm-beach': {
+        title: 'Tribal Kava Lounge Is Open — Now at 770 S Military Trail',
+        description: 'Tribal Kava Bar relocated from 404 S Military Trail. Tribal Kava Lounge is open at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415. Get directions, menu, and contact details.',
+        h1: 'Tribal Kava Lounge Is Open — Now at 770 S Military Trail',
+        slug: '/tribal-kava-west-palm-beach',
+        schema: {
+            '@context': 'https://schema.org',
+            '@graph': [
+                {
+                    '@type': 'WebPage',
+                    '@id': `${SITE_ORIGIN}/tribal-kava-west-palm-beach#page`,
+                    url: `${SITE_ORIGIN}/tribal-kava-west-palm-beach`,
+                    name: 'Tribal Kava Lounge Is Open — Now at 770 S Military Trail',
+                    description: 'Tribal Kava Bar relocated from 404 S Military Trail and continues operating as Tribal Kava Lounge at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415.',
+                    about: { '@id': `${SITE_ORIGIN}/#lounge` },
+                    publisher: { '@id': `${SITE_ORIGIN}/#lounge` }
+                },
+                {
+                    '@type': ['CafeOrCoffeeShop', 'LocalBusiness'],
+                    '@id': `${SITE_ORIGIN}/#lounge`,
+                    name: 'Tribal Kava Lounge',
+                    alternateName: 'Tribal Kava Bar',
+                    url: SITE_ORIGIN,
+                    telephone: '+1-561-355-0561',
+                    hasMenu: `${SITE_ORIGIN}/menu`,
+                    hasMap: 'https://www.google.com/maps/search/?api=1&query=Tribal+Kava+Lounge&query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y',
+                    address: {
+                        '@type': 'PostalAddress',
+                        streetAddress: '770 S Military Trail, Unit A1',
+                        addressLocality: 'West Palm Beach',
+                        addressRegion: 'FL',
+                        postalCode: '33415',
+                        addressCountry: 'US'
+                    }
+                },
+                {
+                    '@type': 'FAQPage',
+                    '@id': `${SITE_ORIGIN}/tribal-kava-west-palm-beach#faq`,
+                    mainEntity: [
+                        {
+                            '@type': 'Question',
+                            name: 'Is Tribal Kava permanently closed?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'No. Tribal Kava Bar relocated from 404 S Military Trail and continues operating as Tribal Kava Lounge at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415.'
+                            }
+                        },
+                        {
+                            '@type': 'Question',
+                            name: 'Where is Tribal Kava now?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'Visit Tribal Kava Lounge at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415. Use the current-location directions on this page, or call (561) 355-0561 for help finding us.'
+                            }
+                        },
+                        {
+                            '@type': 'Question',
+                            name: 'Is Lowkey Kava the same business as Tribal Kava?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'No. Lowkey Kava is a separate business at the former 404 S Military Trail location. Tribal Kava Lounge operates at 770 S Military Trail, Unit A1.'
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    },
     'faq': {
         title: 'Kava & Kratom FAQ | Tribal Kava Lounge',
         description: 'Get answers to common questions about kava, kratom, first-time visits, age requirements, non-alcoholic drinks, beginner-friendly options, and responsible use.',
@@ -255,6 +323,14 @@ const seoDatabase = {
             "@context": "https://schema.org",
             "@type": "FAQPage",
             "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": "Did Tribal Kava close or relocate?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "Tribal Kava Bar relocated from 404 S Military Trail. Tribal Kava Lounge is open at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415."
+                    }
+                },
                 {
                     "@type": "Question",
                     "name": "Is kratom 21+?",
@@ -768,7 +844,8 @@ const VALID_ROUTES = new Set([
     'home', 'menu', 'new-here', 'kava-vs-kratom', 'events', 'visit', 'faq',
     'event-detail', 'nearby', 'nearby-detail', 'the-daily-kava', 'the-daily-kava-article',
     'what-is-kava', 'what-is-kratom',
-    'plan-your-visit', 'private-events', 'press', 'gift-cards'
+    'plan-your-visit', 'private-events', 'press', 'gift-cards',
+    'tribal-kava-west-palm-beach'
 ]);
 
 function parsePathRoute() {

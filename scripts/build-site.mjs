@@ -41,7 +41,7 @@ const staticPaths = [
   '/faq', '/nearby', '/nearby/west-palm-beach', '/nearby/lake-worth', '/nearby/greenacres',
   '/events/two-dollar-tuesday', '/events/friday-loteria', '/events/karaoke',
   '/events/mario-kart', '/events/poker-night', '/events/art-club', '/events/sip-and-paint',
-  '/the-daily-kava'
+  '/the-daily-kava', '/tribal-kava-west-palm-beach'
 ];
 const htmlTemplate = await readFile(path.join(root, 'index.html'), 'utf8');
 const appSource = await readFile(path.join(root, 'app.js'), 'utf8');
@@ -100,6 +100,17 @@ const seoDatabaseEnd = appSource.indexOf('\n};', seoDatabaseStart);
 const seoDatabaseSource = appSource.slice(seoDatabaseStart, seoDatabaseEnd);
 for (const match of seoDatabaseSource.matchAll(/\n {4}'[^']+':\s*\{\n {8}title:\s*'([^']+)',\n {8}description:\s*'([^']+)',[\s\S]*?\n {8}slug:\s*'([^']+)',/g)) {
   routeMetadata.set(match[3], { title: match[1], description: match[2] });
+}
+// Ship the relocation facts and matching FAQs as structured data before JS runs.
+// Read the same repository-owned definitions used by the SPA, without browser APIs.
+const staticSeoDatabase = runInNewContext(
+  `${appSource.slice(seoDatabaseStart, seoDatabaseEnd + 3)}\n; seoDatabase;`,
+  { SITE_ORIGIN: origin },
+  { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } }
+);
+for (const key of ['tribal-kava-west-palm-beach', 'faq']) {
+  const metadata = staticSeoDatabase[key];
+  routeMetadata.set(metadata.slug, metadata);
 }
 
 // Reuse the existing trusted page renderers so the initial document and SPA agree.
@@ -198,6 +209,10 @@ function renderRouteHtml(route, metadata) {
       : '<div class="container" id="nearby-detail-root" style="max-width: 1040px;"></div>';
     rendered = rendered.replace(marker, () => marker.replace('</div>', detail.html + '</div>'));
     const schema = JSON.stringify(detail.metadata.schema).replaceAll('<', '\\u003c');
+    rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`);
+  }
+  if (!detail && !post && metadata.schema) {
+    const schema = JSON.stringify(metadata.schema).replaceAll('<', '\\u003c');
     rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`);
   }
   if (post) {

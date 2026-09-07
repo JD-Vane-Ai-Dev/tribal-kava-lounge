@@ -29,6 +29,66 @@ const preRenderedLakeWorth = await readFile(path.join(root, 'dist/nearby/lake-wo
 const preRenderedDaily = await readFile(path.join(root, 'dist/the-daily-kava/kava-bar-west-palm-beach-first-visit/index.html'), 'utf8');
 const publishedImages = (await readdir(path.join(root, 'dist/images'))).sort();
 
+const relocationRoute = '/tribal-kava-west-palm-beach';
+const relocationTitle = 'Tribal Kava Lounge Is Open — Now at 770 S Military Trail';
+const relocationDocument = await read(`dist${relocationRoute}/index.html`);
+const relocationBody = relocationDocument.split(`<div id="view-${relocationRoute.slice(1)}"`)[1].split('<!-- ================= NEARBY AREAS')[0];
+assert.ok(relocationDocument.includes(`<title>${relocationTitle}</title>`), 'relocation page must ship its factual title');
+assert.ok(relocationDocument.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com${relocationRoute}"`), 'relocation canonical must exist without JS');
+assert.ok(relocationBody.startsWith(' class="spa-view" style="display: block;">'), 'relocation content must be visible without JS');
+assert.equal((relocationDocument.match(/class="spa-view" style="display: block;"/g) || []).length, 1, 'only the requested SPA view may be initially visible');
+assert.ok(relocationBody.includes(`<h1>${relocationTitle}</h1>`));
+assert.match(relocationBody, /relocated from 404 S Military Trail/);
+assert.match(relocationBody, /770 S Military Trail, Unit A1, West Palm Beach, FL 33415/);
+assert.match(relocationBody, /data-conversion="directions"/);
+assert.match(relocationBody, /href="\/menu"[^>]*data-conversion="menu_view"/);
+assert.match(relocationBody, /href="tel:\+15613550561"[^>]*data-conversion="phone_call"/);
+assert.doesNotMatch(relocationBody, /href="[^"]*(?:404|lowkey)/i, 'directions must not send customers to the old location or competitor');
+assert.equal((relocationBody.match(/Lowkey Kava/g) || []).length, 2, 'competitor reference must stay within one neutral question and answer');
+const relocationSchema = JSON.parse(relocationDocument.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+const relocationBusiness = relocationSchema['@graph'].find(item => item['@id'] === 'https://www.thetribalkavalounge.com/#lounge');
+assert.equal(relocationBusiness.address.streetAddress, '770 S Military Trail, Unit A1');
+assert.equal(relocationBusiness.alternateName, 'Tribal Kava Bar');
+assert.equal(relocationBusiness.telephone, '+1-561-355-0561');
+const relocationFaq = relocationSchema['@graph'].find(item => item['@type'] === 'FAQPage');
+assert.equal(relocationFaq.mainEntity.length, 3);
+for (const item of relocationFaq.mainEntity) {
+  assert.ok(relocationBody.includes(`<summary>${item.name}</summary>`), 'structured FAQ must match visible questions');
+  assert.ok(relocationBody.includes(item.acceptedAnswer.text), 'structured FAQ must match visible answers');
+}
+const seoStart = app.indexOf('const seoDatabase = {');
+const seoEnd = app.indexOf('\n};', seoStart) + 3;
+const browserSeo = runInNewContext(`${app.slice(seoStart, seoEnd)}\n; seoDatabase;`, { SITE_ORIGIN: 'https://www.thetribalkavalounge.com' }, { timeout: 1000 });
+assert.equal(JSON.stringify(browserSeo[relocationRoute.slice(1)].schema), JSON.stringify(relocationSchema), 'SPA and static relocation schema must agree');
+for (const route of ['home', 'menu', 'visit', 'faq']) {
+  const body = html.split(`<div id="view-${route}"`)[1].split('<div id="view-')[0];
+  assert.ok(body.includes(`href="${relocationRoute}"`), `${route} must link to current-location information`);
+}
+assert.ok(html.split('<footer>')[1].includes(`href="${relocationRoute}"`), 'global footer must link to relocation page');
+assert.equal((sitemap.match(/<loc>https:\/\/www\.thetribalkavalounge\.com\/tribal-kava-west-palm-beach<\/loc>/g) || []).length, 1);
+const mainFaqDocument = await read('dist/faq/index.html');
+const mainFaqSchema = JSON.parse(mainFaqDocument.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
+assert.equal(mainFaqSchema.mainEntity[0].name, 'Did Tribal Kava close or relocate?');
+assert.ok(mainFaqDocument.includes(mainFaqSchema.mainEntity[0].acceptedAnswer.text));
+
+// Exercise real SPA route selection; hydration must not send the new page home.
+for (const suffix of ['', '/']) {
+  const views = { 'view-home': { style: {} }, [`view-${relocationRoute.slice(1)}`]: { style: {} } };
+  let injectedRoute;
+  let navigationEvent;
+  runInNewContext(app.slice(app.indexOf('const VALID_ROUTES ='), app.indexOf('function renderEventDetail(slug)')) + '\nhandleRoute();', {
+    window: { location: { pathname: relocationRoute + suffix, hash: '' }, scrollTo() {}, dispatchEvent(event) { navigationEvent = event; } },
+    document: { getElementById: id => views[id], querySelectorAll: selector => selector === '.spa-view' ? Object.values(views) : [] },
+    history: { replaceState() { assert.fail('relocation route must not redirect home'); } },
+    injectSEO(route) { injectedRoute = route; },
+    CustomEvent: class { constructor(type, options) { this.type = type; this.detail = options.detail; } }
+  }, { timeout: 1000 });
+  assert.equal(views[`view-${relocationRoute.slice(1)}`].style.display, 'block');
+  assert.equal(views['view-home'].style.display, 'none');
+  assert.equal(injectedRoute, relocationRoute.slice(1));
+  assert.equal(navigationEvent.detail.route, relocationRoute.slice(1));
+}
+
 assert.match(html, /https:\/\/www\.thetribalkavalounge\.com\//, 'canonical domain must use www');
 assert.match(html, /<meta name="google-site-verification" content="zXsp7qWCsUyKjaGf-yWfi92M_A_csa1mz6SO2WbTjP0">/, 'Google Search Console verification must remain in the public home page');
 assert.match(html, /<meta name="msvalidate\.01" content="988E2FE2A28E101485C326DA89BB091C">/, 'Bing Webmaster verification must remain in the public home page');
@@ -152,7 +212,7 @@ assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slu
 const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
   .map((match) => match[1]).sort();
 assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
-assert.equal((sitemap.match(/<url>/g) || []).length, 25 + catalogSlugs.length, 'sitemap must include the 25 site routes and every catalog story');
+assert.equal((sitemap.match(/<url>/g) || []).length, 26 + catalogSlugs.length, 'sitemap must include the 26 site routes and every catalog story');
 for (const post of dailyPosts) {
   const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
   assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);

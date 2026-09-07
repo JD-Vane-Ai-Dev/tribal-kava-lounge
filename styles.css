@@ -1746,6 +1746,45 @@ section {
     margin-bottom: 2rem;
 }
 
+.relocation-notice {
+    border-left: 3px solid var(--gold-accent);
+    padding: 0.85rem 1rem;
+    margin: 1.25rem 0;
+    background: rgba(var(--gold-accent-rgb), 0.07);
+    color: var(--text-cream);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.relocation-notice a,
+.relocation-page a:not(.btn),
+.relocation-faq a,
+.footer-brand > p > a {
+    color: var(--gold-accent);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.relocation-page { max-width: 1000px; }
+.relocation-page h1 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.12;
+    margin-bottom: 1.5rem;
+}
+.relocation-page .section-head > p + p { margin-top: 1rem; }
+.relocation-faq { margin: 2rem 0; }
+.relocation-faq h2 { margin-bottom: 1.25rem; }
+.relocation-faq details {
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+}
+.relocation-faq summary { cursor: pointer; font-weight: 700; }
+.relocation-faq details p { margin-top: 1rem; line-height: 1.7; color: var(--text-muted); }
+
 .hero-ctas,
 .hero-trust-row {
     display: flex;
