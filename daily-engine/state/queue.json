@@ -170,7 +170,7 @@
         "context": "daily",
         "summary": "HOLD (30 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.583121+00:00",
       "checked_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (30 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
@@ -286,7 +286,7 @@
         "context": "daily",
         "summary": "HOLD (18 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.613717+00:00",
       "checked_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (18 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution",
@@ -407,7 +407,7 @@
         "context": "daily",
         "summary": "HOLD (19 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.617710+00:00",
       "checked_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (19 error(s), 0 warning(s)): editorial-alcohol-promotion, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-alcohol-promotion, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
@@ -442,6 +442,11 @@
             "severity": "error",
             "rule": "editorial-kratom-news-is-outside-the-daily-editorial-scope",
             "match": "Kratom"
+          },
+          {
+            "severity": "error",
+            "rule": "missing-or-stale-digest-title",
+            "match": "A current, dated Daily Kava title is required"
           },
           {
             "severity": "error",
@@ -516,9 +521,9 @@
         ],
         "required_additions": [],
         "context": "daily",
-        "summary": "HOLD (17 error(s), 0 warning(s))"
+        "summary": "HOLD (18 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.622141+00:00",
       "checked_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (17 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
@@ -659,7 +664,7 @@
         "context": "daily",
         "summary": "HOLD (23 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.626892+00:00",
       "checked_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (23 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
@@ -815,7 +820,7 @@
         "context": "daily",
         "summary": "HOLD (26 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.631300+00:00",
       "checked_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (26 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
@@ -926,7 +931,7 @@
         "context": "daily",
         "summary": "HOLD (17 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.635464+00:00",
       "checked_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (17 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
@@ -1062,7 +1067,7 @@
         "context": "daily",
         "summary": "HOLD (22 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.714039+00:00",
       "checked_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (22 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
@@ -1213,7 +1218,7 @@
         "context": "daily",
         "summary": "HOLD (25 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T18:08:09.373265+00:00",
+      "checked_at": "2026-09-08T11:00:22.718091+00:00",
       "checked_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26",
       "held_at": "2026-09-07T18:08:09.373265+00:00",
       "hold_reason": "HOLD (25 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution",
@@ -1235,14 +1240,50 @@
       },
       "content_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
       "compliance": {
-        "pass": true,
-        "score": 100,
-        "flags": [],
+        "pass": false,
+        "score": 0,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "Brews"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "Brews"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "Enjoy BBQ, Brews and Blues in Historic Northwest - Palm Beach Illustrated"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "beer"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "It’s September! Check out BBQ & beer in West Palm Beach; Hispanic Heritage Month events and much more - Sun Sentinel"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "Brews"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-unrelated-topic",
+            "match": "West Palm Beach is “Fired Up” for 11th Annual BBQ, Brews and Blues - City of West Palm Beach"
+          }
+        ],
         "required_additions": [],
         "context": "daily",
-        "summary": "PASS"
+        "summary": "HOLD (7 error(s), 0 warning(s))"
       },
-      "checked_at": "2026-09-07T11:00:58.471691+00:00",
+      "checked_at": "2026-09-08T11:00:22.720610+00:00",
       "checked_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
       "staged_at": "2026-09-07T11:00:58.471691+00:00",
       "staged_sha256": "802b28e67a4810c51c8099d65f0add5e922fd73ef5f9640d467c2709ea4ac899",
