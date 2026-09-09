@@ -33,8 +33,8 @@ export GIT_SSH_COMMAND="ssh -i $key_file -o IdentitiesOnly=yes -o UserKnownHosts
 git clone --depth 1 --branch "$branch" "git@github.com:$repository.git" "$workspace/repository"
 cd "$workspace/repository"
 
-git config user.name "azure-container-apps[bot]"
-git config user.email "azure-container-apps[bot]@users.noreply.github.com"
+git config user.name "fckaemail-cyber"
+git config user.email "f.ckaemail@gmail.com"
 
 cd daily-engine
 python3 run_daily.py run

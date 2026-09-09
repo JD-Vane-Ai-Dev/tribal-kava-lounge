@@ -1,0 +1,62 @@
+{
+  "updated": "2026-09-09",
+  "rule": "Kratom is a full editorial subject across categories, not flavor-only. Briefs require research and complete original writing before intake.",
+  "topics": [
+    {
+      "subject": "kratom",
+      "title": "Kratom leaves, tea, and menu language",
+      "primaryKeyword": "kratom leaf tea terminology",
+      "brief": "An evergreen explanation of leaf-based tea terminology; explain labels without effects promises. Link /what-is-kratom, not a duplicate plant overview.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kratom",
+      "title": "How kratom became part of modern lounge culture",
+      "primaryKeyword": "kratom tea lounge culture",
+      "brief": "Research the development of modern tea-lounge culture from dated first-hand reporting; distinguish traditional contexts from Florida venues.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kratom",
+      "title": "A real first kratom-tea order at a kava bar",
+      "primaryKeyword": "first kratom tea kava bar experience",
+      "brief": "Read a full public first-person account of an actual visit. Attribute the narrator and venue; separate their anecdote from factual guidance.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kava",
+      "title": "A first kava-bar visit that started with one question",
+      "primaryKeyword": "first kava bar experience story",
+      "brief": "Find a real positive or humorous bar visit, not home preparation. Do not invent a visit or its outcome.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kratom",
+      "title": "Kratom history: where the leaf fits in everyday culture",
+      "primaryKeyword": "kratom cultural history",
+      "brief": "Use primary cultural/historical sources about Southeast Asian communities. No regulation, medical framing, sweeping traditions, or invented history.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kava",
+      "title": "What a shell means in different kava settings",
+      "primaryKeyword": "kava shell culture",
+      "brief": "Read cultural institutions or community sources; do not treat one tradition as universal.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kratom",
+      "title": "The friend who asks what is in everybody’s drink",
+      "primaryKeyword": "kratom lounge menu humor",
+      "brief": "Original observational humor about menu curiosity with clear ingredient context; no fake named customers.",
+      "status": "research-needed"
+    },
+    {
+      "subject": "kava",
+      "title": "Your first solo kava-lounge visit",
+      "primaryKeyword": "going to a kava bar alone",
+      "brief": "A specific plan for choosing a time, seating, and optional activities; avoid duplicating the broad first-visit FAQ.",
+      "status": "research-needed"
+    }
+  ]
+}

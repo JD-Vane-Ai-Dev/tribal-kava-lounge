@@ -9,6 +9,7 @@ No medical advice. No network. Safe to run offline on every draft.
 from __future__ import annotations
 
 import re
+import json
 import html
 from datetime import datetime, timezone
 from typing import Any
@@ -102,13 +103,12 @@ EDITORIAL_REJECT_PATTERNS = [
     (r"\b(?:regulation|regulatory|legislation|legislative|bill|law|laws|legal|policy|political|lobby(?:ing|ist)?)\b", "legal or political coverage"),
     (r"\b(?:fda|dea|ban(?:ned|s)?|crackdown|fine|penalt(?:y|ies)|enforcement|court|lawsuit|recall|warning)\b", "regulatory or enforcement coverage"),
     (r"\b(?:addiction|addicted|withdrawal|overdoses?|deaths?|died|fatal(?:ity|ities)?|hospitali[sz]\w*|poison\w*|contaminat\w*|danger\w*|risks?|scares?|harms?)\b", "negative or scare coverage"),
-    (r"\b(?:kratom|mitragynine)\b", "kratom news is outside the Daily editorial scope"),
     (r"\b(?:anxiety|depression|pain|sleep|insomnia|health|medical)\b", "health or medical framing"),
     (r"\b(?:smoking|tobacco)\b|\b(?:reduce|stop|quit|curb)\s+kava\s+(?:drinking|consumption)\b", "health or consumption-warning coverage"),
 ]
 
 TOPIC_ANCHOR = re.compile(
-    r"\b(?:kava|botanical[\s-]+(?:tea|drink|beverage|lounge)s?|"
+    r"\b(?:kava|kratom|botanical[\s-]+(?:tea|drink|beverage|lounge)s?|"
     r"non[\s-]?alcoholic|alcohol[\s-]?free|zero[\s-]?proof|sober(?:[\s-]curious)?)\b", re.I
 )
 
@@ -123,7 +123,7 @@ def alcohol_promotion_flags(text: str) -> list[dict[str, str]]:
         r"\b(?:non[\s-]?alcoholic|alcohol[\s-]?free|zero[\s-]?proof)\s+"
         r"(?:craft\s+)?(?:beers?|wines?|cocktails?|brews?|champagne|mimosas?)\b", " ", text, flags=re.I
     )
-    text = re.sub(r"\b(?:kava|tea|coffee)\s+(?:brews?|cocktails?)\b", " ", text, flags=re.I)
+    text = re.sub(r"\b(?:kava|kratom|tea|coffee)\s+(?:brews?|cocktails?)\b", " ", text, flags=re.I)
     text = re.sub(r"\bcold[\s-]+brew\s+(?:coffee|tea)\b", " ", text, flags=re.I)
     text = re.sub(
         r"\b(?:without(?:\s+(?:the|any|mandatory))?|no|skip(?:ping)?)\s+"
@@ -238,7 +238,7 @@ def check_text(text: str, *, context: str = "daily") -> dict[str, Any]:
                 )
 
     # Copyright: huge pasted blocks (heuristic)
-    if len(text) > 6000:
+    if len(text) > 30000:
         flags.append(
             {
                 "severity": "warning",
@@ -261,69 +261,112 @@ def check_text(text: str, *, context: str = "daily") -> dict[str, Any]:
     }
 
 
+def parse_article(text: str) -> tuple[dict, str]:
+    """JSON front matter is part of the exact checked manuscript bytes."""
+    match = re.match(r"\A---\r?\n(.*?)\r?\n---\r?\n(.*)\Z", text, re.S)
+    if not match:
+        raise ValueError("Original article JSON front matter is required")
+    try:
+        metadata = json.loads(match[1])
+    except (ValueError, TypeError) as error:
+        raise ValueError("Invalid article metadata") from error
+    if not isinstance(metadata, dict):
+        raise ValueError("Article metadata must be an object")
+    return metadata, match[2]
+
+
 def check_publishable(text: str, source_urls: list[str], now: datetime | None = None) -> dict[str, Any]:
-    """Fail closed on unfinished, uncredited, stale, or flagged Daily content.
+    """Require a complete original manuscript; headlines never become a post.
 
-    Source headlines and publication dates are carried from the feed into each
-    numbered section; no article-body summary is inferred from an RSS snippet.
-    This check is run again on the exact bytes immediately before staging.
+    These structural checks supplement editorial review, not proof of factual
+    accuracy or originality. All metadata, FAQs and text are checked together.
+    Evergreen references do not expire just because they are over 14 days old.
     """
-    result = check_text(text, context="daily")
-    flags = result["flags"]
-
-    def reject(rule: str, match: str) -> None:
-        flags.append({"severity": "error", "rule": rule, "match": match})
-
-    title = re.match(r"\A# The Daily Kava Digest — (\d{4}-\d{2}-\d{2})\s*\n", text)
-    if not title or not is_fresh_published(title.group(1), now):
-        reject("missing-or-stale-digest-title", "A current, dated Daily Kava title is required")
-    for pattern in (
-        r"\b(?:TODO|TBD|placeholder|lorem ipsum)\b", r"\[insert\b",
-        r"human approval required", r"Snippet context", r"add a specific",
-        r"before approval", r"we summarize in our own words", r"worth a glance if you care",
-    ):
-        if re.search(pattern, text, re.I):
-            reject("unfinished-draft", pattern)
-    if TRUSTED_RESPONSIBLE_USE_FOOTER not in text.splitlines():
-        reject("missing-trusted-footer", "The complete responsible-use footer is required")
-    if re.search(r"</?[A-Za-z][^>]*>", text):
-        reject("raw-html", "Raw HTML is not eligible for automatic publication")
-
-    urls = source_urls if isinstance(source_urls, list) else []
-    if not urls or any(not publisher_source_url(url) for url in urls):
-        reject("invalid-source-urls", "Direct publisher article URLs are required; discovery wrappers are not attribution")
-    elif len(set(urls)) != len(urls):
-        reject("duplicate-source-url", "Each source must appear once")
-
-    headings = list(re.finditer(r"^## (\d+)\. (.+)$", text, re.M))
-    cited = []
-    if not headings or len(headings) != len(urls):
-        reject("incomplete-story-sections", "Each source needs a completed numbered story section")
-    for index, heading in enumerate(headings):
-        # The boilerplate mentions kava; each source itself must be relevant.
-        flags.extend(check_candidate({"title": heading.group(2)})["flags"])
-        section = text[heading.end():headings[index + 1].start() if index + 1 < len(headings) else len(text)]
-        metadata = re.search(r"^\*\*Source:\*\* (.+?) · \*\*Published:\*\* (\d{4}-\d{2}-\d{2})\s*$", section, re.M)
-        if not metadata or not is_fresh_published(metadata.group(2), now):
-            reject("missing-or-stale-source-attribution", heading.group(2))
-        links = re.findall(r"\[Read the source\]\(([^)]+)\)", section)
-        if len(links) != 1 or len(heading.group(2).strip()) < 6:
-            reject("incomplete-story-section", heading.group(2))
-        cited.extend(links)
-    if not all(isinstance(url, str) for url in urls) or sorted(cited) != sorted(urls):
-        reject("source-links-mismatch", "Story links must match the queued sources exactly")
-    for url in re.findall(r"\[[^\]]+\]\(([^)]+)\)", text):
-        if not valid_source_url(url):
-            reject("unsafe-link", url)
-
-    errors = sum(flag["severity"] == "error" for flag in flags)
-    warnings = sum(flag["severity"] == "warning" for flag in flags)
-    result.update({
-        "pass": not flags,
-        "score": max(0, 100 - 25 * errors - 5 * warnings),
-        "summary": "PASS" if not flags else f"HOLD ({errors} error(s), {warnings} warning(s))",
-    })
-    return result
+    flags = []
+    def reject(rule, match):
+        flags.append({"severity": "error", "rule": rule, "match": str(match)})
+    try:
+        meta, body = parse_article(text)
+    except ValueError as error:
+        return {"pass": False, "score": 0, "flags": [{"severity": "error", "rule": "original-article-required", "match": str(error)}], "required_additions": [], "summary": "HOLD: original article required"}
+    visible_meta = " ".join(str(meta.get(k, "")) for k in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword", "tags", "keywords", "faq"))
+    flags.extend(check_text(body + "\n" + visible_meta, context="daily")["flags"])
+    for key in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword"):
+        if not isinstance(meta.get(key), str) or not meta[key].strip() or re.search(r"[<>]", meta[key]):
+            reject("missing-or-unsafe-metadata", key)
+    if meta.get("contentFormat") != "original-article":
+        reject("original-article-required", "contentFormat")
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*", str(meta.get("slug", ""))) or str(meta.get("slug", "")).startswith("daily-digest-"):
+        reject("invalid-article-slug", meta.get("slug"))
+    today = (now or datetime.now(timezone.utc)).date()
+    for key in ("date", "modified"):
+        value = meta.get(key)
+        stamp = published_datetime(value)
+        if not isinstance(value, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", value) or not stamp or stamp.date() > today:
+            reject("invalid-article-date", key)
+    if str(meta.get("modified", "")) < str(meta.get("date", "")):
+        reject("modified-before-publication", "modified")
+    if not re.search(r"^# " + re.escape(str(meta.get("title", ""))) + r"\s*$", body, re.M) or len(re.findall(r"^# ", body, re.M)) != 1:
+        reject("article-title-mismatch", "One matching H1 is required")
+    if not TOPIC_ANCHOR.search(str(meta.get("title", ""))):
+        reject("editorial-unrelated-topic", meta.get("title"))
+    main = body.split("\n## Sources")[0].replace(TRUSTED_RESPONSIBLE_USE_FOOTER, "")
+    prose = re.sub(r"\[[^\]]+\]\([^)]+\)", "", main)
+    words = re.findall(r"\b[\w’'-]+\b", prose)
+    if len(words) < 450:
+        reject("thin-article", "At least 450 substantive words; write to answer the question, never pad")
+    if len(re.findall(r"^## ", main, re.M)) < 3:
+        reject("incomplete-article-sections", "Three useful sections are required")
+    for pattern in (r"\b(?:TODO|TBD|placeholder|lorem ipsum)\b", r"\[insert\b", r"Read the source", r"selection of source headlines", r"^## \d+\. "):
+        if re.search(pattern, body, re.I | re.M):
+            reject("unfinished-or-headline-digest", pattern)
+    if re.search(r"</?[A-Za-z][^>]*>", body):
+        reject("raw-html", "Use manuscript Markdown")
+    if TRUSTED_RESPONSIBLE_USE_FOOTER not in body.splitlines():
+        reject("missing-trusted-footer", "Complete footer required")
+    for key in ("tags", "keywords"):
+        values = meta.get(key)
+        if not isinstance(values, list) or not values or any(not isinstance(v, str) or not v.strip() or re.search(r"[<>]", v) for v in values):
+            reject("invalid-metadata-list", key)
+    faq = meta.get("faq")
+    if not isinstance(faq, list) or len(faq) < 2 or any(not isinstance(f, dict) or any(not isinstance(f.get(k), str) or not f[k].strip() or re.search(r"[<>]", f[k]) for k in ("question", "answer")) for f in faq):
+        reject("incomplete-faq", "At least two useful answers are required")
+    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", body)
+    if any(not valid_source_url(url) for url in links):
+        reject("unsafe-link", "Use complete https links")
+    internal = {urlsplit(url).path for url in links if valid_source_url(url) and urlsplit(url).hostname == "www.thetribalkavalounge.com"}
+    if len(internal) < 2 or not internal.intersection({"/menu", "/visit", "/new-here"}):
+        reject("missing-internal-links", "Link relevant learning and visit/menu pages")
+    sources = meta.get("sources")
+    if not isinstance(sources, list) or not sources:
+        reject("missing-evidence", "Read sources and document what each supports")
+        sources = []
+    urls = []
+    for source in sources:
+        if not isinstance(source, dict):
+            reject("invalid-evidence", source)
+            continue
+        url = source.get("url")
+        urls.append(url)
+        checked = published_datetime(source.get("verifiedAt"))
+        if not publisher_source_url(url) or url not in links or not source.get("title") or not source.get("supports") or not checked or checked.date() > today:
+            reject("incomplete-source-evidence", url)
+    if not isinstance(source_urls, list) or urls != source_urls or len(set(str(u) for u in urls)) != len(urls):
+        reject("source-links-mismatch", "Queue and manuscript evidence must match")
+    if meta.get("storyType") not in {"guide", "culture", "humor", "reported-experience"}:
+        reject("invalid-story-type", meta.get("storyType"))
+    if meta.get("storyType") == "reported-experience":
+        evidence = meta.get("experienceEvidence")
+        if not isinstance(evidence, dict) or evidence.get("kind") != "actual-kava-bar-visit" or evidence.get("url") not in urls or not evidence.get("attribution") or not evidence.get("visitEvidence"):
+            reject("unverified-first-visit-story", "A real bar visit and visible attribution are required")
+        elif evidence["attribution"] not in body:
+            reject("missing-story-attribution", evidence["attribution"])
+    if re.search(r"\b(?:I|we) (?:visited|walked into|tried kava for the first time)\b", body, re.I) and meta.get("storyType") != "reported-experience":
+        reject("unsupported-first-person-experience", "Use a sourced account; do not invent a visit")
+    paragraphs = [re.sub(r"\W+", " ", p).strip().lower() for p in main.split("\n\n") if len(p.split()) > 35]
+    if len(paragraphs) != len(set(paragraphs)):
+        reject("repeated-prose", "Repeated paragraphs do not make a complete article")
+    return {"pass": not flags, "score": max(0, 100 - 25 * len(flags)), "flags": flags, "required_additions": [], "summary": "PASS" if not flags else "HOLD: " + ", ".join(f["rule"] for f in flags)}
 
 
 def check_catalog_post(post: dict[str, Any]) -> dict[str, Any]:
@@ -336,7 +379,9 @@ def check_catalog_post(post: dict[str, Any]) -> dict[str, Any]:
     body = str(post.get("body", ""))
     visible = " ".join(str(post.get(k, "")) for k in ("title", "seoTitle", "metaDescription", "dek")) + " " + body
     flags = alcohol_promotion_flags(visible)
-    if post.get("contentSha256") or str(post.get("slug", "")).startswith("daily-digest-"):
+    if str(post.get("slug", "")).startswith("daily-digest-") or "Read the source" in body:
+        flags.append({"severity": "error", "rule": "retired-headline-digest", "match": post.get("slug", "")})
+    if post.get("contentFormat") != "original-article" and (post.get("contentSha256") or str(post.get("slug", "")).startswith("daily-digest-")):
         headings = re.findall(r"<h2[^>]*>(.*?)</h2>", body, re.S | re.I)
         if not headings:
             flags.append({"severity": "error", "rule": "missing-source-headlines", "match": post.get("slug", "")})

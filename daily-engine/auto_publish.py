@@ -14,7 +14,7 @@ import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
-from compliance import check_publishable, check_catalog_post
+from compliance import check_publishable, check_catalog_post, parse_article
 
 ROOT = Path(__file__).resolve().parent.parent
 DAILY_KAVA_JS = ROOT / "daily-kava.js"
@@ -45,7 +45,7 @@ def draft_path(relative: str) -> Path:
     path = ROOT / "daily-engine" / relative
     if path.is_symlink() or not path.resolve().is_relative_to(DRAFTS_DIR.resolve()):
         raise ValueError("Draft path escapes drafts/.")
-    if not re.fullmatch(r"digest-\d{4}-\d{2}-\d{2}(?:-\d+)?\.md", path.name):
+    if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*\.md", path.name):
         raise ValueError("Unsupported Daily draft filename.")
     return path
 
@@ -76,6 +76,17 @@ def check_catalog() -> None:
     }
     for post in read_catalog():
         result = check_catalog_post(post)
+        if post.get("contentFormat") == "original-article":
+            try:
+                path = draft_path("drafts/" + post["slug"] + ".md")
+                markdown = path.read_bytes().decode("utf-8")
+                checked = check_publishable(markdown, post.get("sourceUrls", []))
+                if not checked["pass"]:
+                    failures.append(post["slug"] + ": " + checked["summary"])
+                if create_post(path, markdown, post.get("sourceUrls", [])) != post:
+                    failures.append(post["slug"] + ": catalogue differs from the exact checked manuscript")
+            except (ValueError, OSError, KeyError) as error:
+                failures.append(post["slug"] + ": " + str(error))
         if post["slug"] in withdrawn:
             failures.append(post["slug"] + ": withdrawn content cannot be deployed")
         if not result["pass"]:
@@ -130,22 +141,14 @@ def markdown_to_html(markdown: str) -> str:
 
 
 def create_post(path: Path, markdown: str, source_urls: list[str]) -> dict:
-    title = re.search(r"^# (.+)$", markdown, re.M)[1]
-    day = re.search(r"\d{4}-\d{2}-\d{2}", title)[0]
-    description = "A linked reading list on kava culture, flavor, community, and alcohol-free social life from Tribal Kava Lounge in West Palm Beach."
+    meta, body = parse_article(markdown)
+    if meta["slug"] != path.stem:
+        raise ValueError("Article slug must match the manuscript filename")
+    fields = ("slug", "title", "seoTitle", "metaDescription", "dek", "date", "modified", "category", "tags", "keywords", "faq", "primaryKeyword", "contentFormat", "storyType")
     return {
-        "slug": path.stem.replace("digest-", "daily-digest-", 1),
-        "title": title,
-        "seoTitle": f"Daily Kava Reading List — {day}",
-        "metaDescription": description,
-        "dek": description,
-        "date": day,
-        "modified": day,
-        "category": "Community",
-        "readMin": max(1, round(len(markdown.split()) / 200)),
-        "tags": ["kava culture", "community", "alcohol-free social life"],
-        "keywords": ["kava culture", "Tribal Kava Lounge", "West Palm Beach"],
-        "body": markdown_to_html(markdown),
+        **{key: meta[key] for key in fields},
+        "readMin": max(1, round(len(body.split()) / 200)),
+        "body": markdown_to_html(body),
         "sourceUrls": source_urls,
         "contentSha256": sha256(markdown.encode()),
     }
@@ -174,7 +177,7 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
         if item.get("published_at") or item.get("status") in {"published", "withdrawn"}:
             continue
         relative = item.get("file", "")
-        if not isinstance(relative, str) or not re.fullmatch(r"drafts/digest-\d{4}-\d{2}-\d{2}(?:-\d+)?\.md", relative):
+        if not isinstance(relative, str) or not re.fullmatch(r"drafts/[a-z0-9]+(?:-[a-z0-9]+)*\.md", relative):
             continue
         pending_slug = Path(relative).stem.replace("digest-", "daily-digest-", 1)
         # Match by deterministic file identity too: a crash may replace the
@@ -219,8 +222,12 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
             existing = by_slug.get(post["slug"])
             if existing and existing.get("contentSha256") != post["contentSha256"]:
                 raise ValueError("Slug already exists with different or unverified content.")
-            if not existing and used_urls.intersection(source_urls):
-                raise ValueError("Source already appears in a published or staged post.")
+            if not existing:
+                for other in by_slug.values():
+                    if other.get("primaryKeyword", "").casefold() == post["primaryKeyword"].casefold():
+                        raise ValueError("Search intent already has an article; update its existing URL")
+                    if other.get("body") == post["body"]:
+                        raise ValueError("Duplicate article body")
             if not existing:
                 additions.append(post)
                 by_slug[post["slug"]] = post

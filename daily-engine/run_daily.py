@@ -23,7 +23,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 
 from compliance import (check_candidate, check_publishable, published_datetime,
-                        publisher_source_url, MAX_SOURCE_AGE_DAYS, TRUSTED_RESPONSIBLE_USE_FOOTER)
+                        publisher_source_url, MAX_SOURCE_AGE_DAYS, TRUSTED_RESPONSIBLE_USE_FOOTER, parse_article)
 
 # Daily editorial policy: culture, flavor, community, lounge life, and
 # non-alcoholic social culture. Flagged stories remain held for review.
@@ -35,6 +35,7 @@ SOURCES = ROOT / "sources.json"
 SEEN_PATH = STATE_DIR / "seen_urls.json"
 QUEUE_PATH = STATE_DIR / "queue.json"
 CANDIDATES_PATH = STATE_DIR / "candidates.json"
+MANUSCRIPTS_DIR = ROOT / "manuscripts"
 
 UA = "TribalDailyKavaBot/1.0 (+https://www.thetribalkavalounge.com; educational lounge content)"
 
@@ -296,80 +297,41 @@ def _plain_feed_text(value: str) -> str:
     return " ".join(value.split())
 
 
-def _template_draft(items: list[dict], day: str) -> str:
-    lines = [
-        f"# The Daily Kava Digest — {day}",
-        "",
-        "Fresh reading on culture, community, lounge life, and non-alcoholic social life. "
-        "Explore this selection of source headlines, with links to each publisher’s coverage.",
-        "",
-    ]
-    for i, item in enumerate(items[:5], 1):
-        published = published_datetime(item.get("published"))
-        source = item.get("source") or urllib.parse.urlsplit(item["url"]).hostname
-        lines += [
-            f"## {i}. {_plain_feed_text(item['title'])}",
-            "",
-            f"**Source:** {_plain_feed_text(source)} · **Published:** {published.strftime('%Y-%m-%d') if published else 'Unknown'}",
-            "",
-            f"[Read the source]({item['url']})",
-            "",
-        ]
-    lines += [
-        "---", "",
-        "Continue the conversation at Tribal. "
-        "[Explore the menu](https://www.thetribalkavalounge.com/menu) · "
-        "[New here?](https://www.thetribalkavalounge.com/new-here) · "
-        "[Plan a visit](https://www.thetribalkavalounge.com/visit)",
-        "",
-        TRUSTED_RESPONSIBLE_USE_FOOTER,
-        "",
-        "*Tribal Kava Lounge — 770 S Military Trail, Unit A1, West Palm Beach, FL 33415 · (561) 355-0561*",
-        "",
-    ]
-    return "\n".join(lines)
-
-
 def cmd_draft(use_llm: bool = False) -> int:
+    """Enqueue one researched, authored manuscript; never turn feeds into copy.
+
+    Manuscripts are written in the editorial workflow described in EDITORIAL.md.
+    Empty inventory is visible and creates no filler, duplicates or API spend.
+    """
     _ensure_dirs()
     if use_llm:
-        print("[info] --llm is retired; using the attributed headline roundup.")
-    pool = _load_json(CANDIDATES_PATH, {"items": []}).get("items", [])
-    # Re-screen old persisted candidates using today's dates and editorial rules.
-    pool = _eligible_pool(pool)
-    _save_json(CANDIDATES_PATH, {"updated_at": datetime.now(timezone.utc).isoformat(), "items": pool})
+        print("[info] --llm does not call an API; supply a complete original manuscript.")
     queue = _load_json(QUEUE_PATH, {"items": []})
-    used = {u for item in queue.get("items", []) for u in item.get("source_urls", [])}
-    eligible = {c["url"]: c for c in pool if c["url"] not in used}
-    fresh = sorted(eligible.values(), key=lambda c: published_datetime(c["published"]), reverse=True)[:5]
-    if not fresh:
-        print("No fresh, eligible, unused sources. Nothing to draft.")
+    used = {item.get("file") for item in queue.get("items", [])}
+    for source in sorted(MANUSCRIPTS_DIR.glob("*.md")):
+        if not re.fullmatch(r"[a-z0-9]+(?:-[a-z0-9]+)*\.md", source.name):
+            continue
+        relative = "drafts/" + source.name
+        if relative in used:
+            continue
+        text = source.read_bytes().decode("utf-8")
+        try:
+            meta, _ = parse_article(text)
+            urls = [entry["url"] for entry in meta.get("sources", [])]
+        except (ValueError, KeyError, TypeError):
+            urls = []
+        target = DRAFTS_DIR / source.name
+        if target.exists() and target.read_bytes() != source.read_bytes():
+            raise ValueError("Existing draft differs from manuscript; reconcile before enqueueing")
+        target.write_bytes(source.read_bytes())
+        item = {"file": relative, "created_at": datetime.now(timezone.utc).isoformat(), "status": "drafted", "source_urls": urls}
+        result = check_publishable(text, urls)
+        _record_check(item, text, result)
+        queue.setdefault("items", []).append(item)
+        _save_json(QUEUE_PATH, queue)
+        print(f"Original manuscript queued: {source.name} — {result['summary']}")
         return 0
-
-    day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    md = _template_draft(fresh, day)
-    slug = f"digest-{day}"
-    out = DRAFTS_DIR / f"{slug}.md"
-    n = 2
-    while out.exists():
-        # A retry after writing a draft but before saving its queue must recover
-        # that same file instead of creating another copy of today's content.
-        if out.read_text() == md:
-            break
-        out = DRAFTS_DIR / f"{slug}-{n}.md"
-        n += 1
-    out.write_text(md)
-    queue.setdefault("items", []).append({
-        "file": str(out.relative_to(ROOT)),
-        "created_at": datetime.now(timezone.utc).isoformat(),
-        "status": "drafted",
-        "source_urls": [c["url"] for c in fresh],
-        "source_published": {c["url"]: c["published"] for c in fresh},
-        "content_sha256": hashlib.sha256(md.encode()).hexdigest(),
-        "compliance": None,
-    })
-    _save_json(QUEUE_PATH, queue)
-    print(f"Draft written: {out}")
+    print("EDITORIAL INVENTORY EMPTY: add a researched original manuscript; no headline fallback.")
     return 0
 
 
@@ -482,9 +444,6 @@ def cmd_approve(file: str) -> int:
 
 
 def cmd_run(use_llm: bool = False) -> int:
-    rc = cmd_fetch()
-    if rc != 0:
-        return rc
     rc = cmd_draft(use_llm=use_llm)
     if rc != 0:
         return rc
@@ -497,7 +456,7 @@ def cmd_run(use_llm: bool = False) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="The Daily Kava content engine")
     parser.add_argument("command", choices=["fetch", "draft", "check", "status", "approve", "run"])
-    parser.add_argument("--llm", action="store_true", help="Compatibility flag; deterministic drafting does not use an AI API")
+    parser.add_argument("--llm", action="store_true", help="Compatibility flag; original manuscripts do not use an AI API")
     parser.add_argument("--file", help="Specific draft for check/approve")
     args = parser.parse_args()
 

@@ -454,15 +454,15 @@ const seoDatabase = {
         }
     },
     'the-daily-kava': {
-        title: 'West Palm Beach Kava Stories & Local Guides | The Daily Kava',
-        description: 'Fun, useful guides to kava, alcohol-free nightlife, date ideas, late-night study spots, events, and first visits in West Palm Beach.',
+        title: 'Kava & Kratom Blog: Guides and Culture | The Daily Kava',
+        description: 'Original kava and kratom explainers, culture, humor, first-visit guides, and West Palm Beach lounge life from Tribal Kava Lounge.',
         h1: 'The Daily Kava',
         slug: '/the-daily-kava',
         schema: {
             "@context": "https://schema.org",
             "@type": "Blog",
             "name": "The Daily Kava",
-            "description": "Education, stories, and lounge life from Tribal Kava Lounge in West Palm Beach.",
+            "description": "Original kava and kratom education, culture, humor, and first-visit guides from Tribal Kava Lounge in West Palm Beach.",
             "url": `${SITE_ORIGIN}/the-daily-kava`,
             "publisher": {
                 "@type": "Organization",
@@ -1086,18 +1086,18 @@ function renderNearbyArea(slug) {
 
 function getDailyKavaSorted() {
     if (typeof dailyKavaPosts === 'undefined') return [];
-    return [...dailyKavaPosts].sort((a, b) => (a.date < b.date ? 1 : -1));
+    return [...dailyKavaPosts].sort((a, b) => (b.modified || b.date).localeCompare(a.modified || a.date) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug));
 }
 
 function dailyKavaCardHTML(post) {
     return `
         <article class="card daily-card">
             <div class="daily-card-meta">
-                <span class="daily-cat">${post.category}</span>
+                <span class="daily-cat">${escapeDailyKavaText(post.category)}</span>
                 <span class="daily-date">${formatDailyDate(post.date)} · ${post.readMin} min</span>
             </div>
-            <h2 class="daily-card-title"><a href="/the-daily-kava/${post.slug}">${post.title}</a></h2>
-            <p class="daily-card-dek">${post.dek}</p>
+            <h2 class="daily-card-title"><a href="/the-daily-kava/${post.slug}">${escapeDailyKavaText(post.title)}</a></h2>
+            <p class="daily-card-dek">${escapeDailyKavaText(post.dek)}</p>
             <a class="daily-read-link" href="/the-daily-kava/${post.slug}">Read story →</a>
         </article>
     `;
@@ -1163,11 +1163,11 @@ function renderDailyKavaArticle(slug) {
     root.innerHTML = `
         <a class="daily-back" href="/the-daily-kava">← The Daily Kava</a>
         <div class="daily-card-meta" style="margin-top: 1.25rem;">
-            <span class="daily-cat">${post.category}</span>
+            <span class="daily-cat">${escapeDailyKavaText(post.category)}</span>
             <span class="daily-date">${formatDailyDate(post.date)} · ${post.readMin} min read</span>
         </div>
         <h1 class="daily-article-title">${post.title}</h1>
-        <p class="daily-article-dek">${post.dek}</p>
+        <p class="daily-article-dek">${escapeDailyKavaText(post.dek)}</p>
         <div class="daily-article-body">${post.body}</div>
         ${dailyKavaFAQHTML(post.faq)}
         ${dailyKavaActionsHTML(post)}

@@ -1,0 +1,45 @@
+{
+  "date": "2026-09-09",
+  "fromCommit": "862cec08f236dce2b73ebce252571ebdc3dab86f",
+  "articles": [
+    {
+      "slug": "first-time-kava-lounge-faq",
+      "action": "rewrite",
+      "reason": "Useful existing search intent; preserve URL and original publication date"
+    },
+    {
+      "slug": "what-does-kava-taste-like",
+      "action": "rewrite",
+      "reason": "Useful existing search intent; preserve URL and original publication date"
+    },
+    {
+      "slug": "kava-lounge-west-palm-beach-groups",
+      "action": "rewrite",
+      "reason": "Useful existing search intent; preserve URL and original publication date"
+    },
+    {
+      "slug": "daily-digest-2026-09-09",
+      "action": "retire",
+      "reason": "Outbound multi-headline roundup; no original article to retain",
+      "redirect": "/the-daily-kava"
+    }
+  ],
+  "retiredDrafts": [
+    "drafts/digest-2026-08-20.md",
+    "drafts/digest-2026-08-21.md",
+    "drafts/digest-2026-08-23.md",
+    "drafts/digest-2026-08-24.md",
+    "drafts/digest-2026-08-25.md",
+    "drafts/digest-2026-08-26.md",
+    "drafts/digest-2026-08-28.md",
+    "drafts/digest-2026-08-29.md",
+    "drafts/digest-2026-08-30.md",
+    "drafts/digest-2026-09-07.md",
+    "drafts/digest-2026-09-09.md"
+  ],
+  "newArticles": [
+    "kratom-tea-at-a-kava-bar",
+    "how-to-make-kratom-tea-taste-delicious",
+    "kava-bar-etiquette"
+  ]
+}

@@ -242,7 +242,7 @@ function renderRouteHtml(route, metadata) {
     rendered = rendered.replace('</head>', () => `<script id="seo-json-ld" type="application/ld+json">${schema}</script>\n</head>`)
       .replace(/<meta property="og:type" content="[^"]*" id="og-type">/, '<meta property="og:type" content="article" id="og-type">');
   }
-  const cards = dailyPosts.map(item => `<article class="daily-card"><h2 class="daily-card-title"><a href="/the-daily-kava/${item.slug}">${escapeHtml(item.title)}</a></h2><p>${escapeHtml(item.dek)}</p></article>`).join('\n');
+  const cards = [...dailyPosts].sort((a, b) => (b.modified || b.date).localeCompare(a.modified || a.date) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug)).map(item => `<article class="daily-card"><h2 class="daily-card-title"><a href="/the-daily-kava/${item.slug}">${escapeHtml(item.title)}</a></h2><p>${escapeHtml(item.dek)}</p></article>`).join('\n');
   rendered = rendered.replace('<div id="daily-kava-grid" class="daily-grid"></div>', () => `<div id="daily-kava-grid" class="daily-grid">${cards}</div>`);
   return rendered;
 }

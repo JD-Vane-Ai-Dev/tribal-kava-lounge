@@ -3,7 +3,7 @@
     {
       "file": "drafts/digest-2026-08-20.md",
       "created_at": "2026-08-20T16:12:29.977339+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMiogFBVV95cUxOek9GclBfRGxjblEzUDhyalNUX2ZvU0V4ckRndHo0ZUNpRG5VV09kbzBpVWtrVkFnN0pLLXVpbnBPa2IzNkxiVFNIa08telZiQzZLOHFKQUZrd3cxZEpBb3h4QXdGa09Rck1WLV9VNUVKdTMxNW12VWVRYTV0d1BxbW9RX19XQTQ2aVJfQS1xNTdjRjhRQ3NhRWo5RUQ4clVWQ3fSAacBQVVfeXFMTzMxMVBrQzM2MllFaFBLV3ZLUEtjY3FsZjBwS20zUGg4TTh4c0gySGVnZTlIYlhvaFNFcGItelpqYUZndDFrcDkzelRHTllqV1lvSnoxS1h6Tk9fdjRMei16SExnN2VPRTJmR1hSUHVCdkxVRFVOSy1pbzdSX1ByVngwLW5Md3JyN3I1N3FFWGN2bHJFci1QWUEtbzlSaDJ2NWs3TjFGV0U?oc=5",
         "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNb3VxTVdtVDltY0tfM294V3dlUkprY3hTMTNMbnVFSjZZTDBXVHE1WjF0LVRLVWtKTTR2NUR1R29XLWlJWFpVbkFnRFlKRVF4QldtZnNTbkNlaXdCQTh2SnF5bTNHZEd1dmRZcUZNSy1zY2hiYUgyVWNrcnNwRUREY3dWcGg1SDZtWEVQbTluSkp1OTNnQVpKVjVkZFNrNU5FSU5sOUlrY3ZiX1JJTG4zdXpldUYxeC1USy1tcm43djVUZ0ZLV202bWt2M01oVUh2OUprejhxbWlXYTQ?oc=5",
@@ -179,12 +179,14 @@
       "checked_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (31 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
-      "content_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214"
+      "content_sha256": "2137c12530939fd44718ef6a8cc104446c35fdf2917dac54d58ccc1ee9eb8214",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-21.md",
       "created_at": "2026-08-21T11:15:09.921827+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMingFBVV95cUxPNTdJRzlBRldVOXB4MkkyNVRLM3ZpU3p6eUtkWGRKc3o0dG41SjVSMmpDR245SjluTDYtRTk5NmVHS2hDZHgwWGZhdkhKaXBhT3BkU3ZmdFRnU2wzbVNCZVd5bU1JQVI5OG5mVEZ6X01vbE5acXhlQWN5T2djcm95ZWhWWnZDUGpiOTZvRXN6WmZrSDNqdjRUQVZxbEozdw?oc=5",
         "https://news.google.com/rss/articles/CBMidkFVX3lxTFBKU2w0QVIyTktZc2ZOZHpueFRPZ2dQc19RZ1RYQTczLUhVSkRoYkx1dDVROTQtaEVLMU4xRm9hZ0gwRnBDZXJlai1ILWV1Nkp2OTd1RXo2cE9oUlNpQXVvWWstLTRDSlhYR1B4V2pLeFdOWXgzSEE?oc=5",
@@ -300,12 +302,14 @@
       "checked_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (19 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution",
-      "content_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c"
+      "content_sha256": "69bb0990405395a46d29e5e93e44793b98611351b734141c93bc492277ae183c",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-23.md",
       "created_at": "2026-08-23T11:10:33.191102+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMihgFBVV95cUxQSzhsZDZQeXl5NDE3UUJGd3lJNDBMY0J2TUNaa05mOHNDaHZhRkdzZ2FNdHhscURsNmZnU3pEbmY0UDZwM0dJdjc5SWstX0pPS0QtbGxpWUdtNVVnQkhiZ2t5anQtVUR4NTN5MERuWTJ4MkxSNXM4ZXVNVVphemY1eVZqUTBYUQ?oc=5",
         "https://news.google.com/rss/articles/CBMiqwFBVV95cUxQdnE2Mi1JUDRfYnh4Y3VVem4xUS0xX0FLQmpqSEZrYTAyNlliQmtwMWtNYlpHRVN4dFpHdGJ2TU1ibkNuRmlocUg4R0dpeGl4Z1AtVWVTMWtJM21GZk03ZGtVc052Z2p2eExHSFZhZjR3VlBYNXZjd3h0SGw0NW5RMzhjdmtuaktpMzFRVFA2V1lCcXpzajNscTFaVUppdmN1dXZWNl9CN1FFQ1E?oc=5",
@@ -426,12 +430,14 @@
       "checked_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (20 error(s), 0 warning(s)): editorial-alcohol-promotion, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-alcohol-promotion, editorial-unrelated-topic, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
-      "content_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd"
+      "content_sha256": "448ab2b3130bffdba28d108675eb08bc137ac2eaa9a666212989b3ac12ed70cd",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-24.md",
       "created_at": "2026-08-24T11:16:54.856817+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMiygFBVV95cUxPcHRXV1lnV0JBWG92QkwtbXhOM0JZUU9ldFFsME8xRzJKUFJfRE95Nk5JYXlvaml3Q0Z4RVNlZEZYSEVqS2hDblN1dGVZdVZYYjZud2d2M2M2QWNFb1FpYkE3QUVxT3oxSnI3Uk9Rc3EtdVJWUzczVklXcERybDllUXZpNFJKZXNzWk8zUkhvVENTZUpYNnBCME1NZUoxV2FhS09xSDg2NnB2YzlmN280UUVVcFU2UVk0RTVVZ3BYMjdBekkyWWdxZ3pR?oc=5",
         "https://news.google.com/rss/articles/CBMiogFBVV95cUxOcWdITXJ0aFI0cm4tU1JHOGdiNTh3NmY1OGlKZHhHT1Fxd0JfcGVMNVNmRzRwQWhIMU53MTkyblR6RkJ3VmpCbU1SXzVUMlFBNVpBLS1IN2c1VDAyVlg4VEJxUFF5eEloTE5vWS1jUzR4UHpnS0REeWdaR3dueU1UVWl1ZzNqbzhZQUFOVko0VWpMenVvRmpUVUJIZF9hYVZ3REE?oc=5",
@@ -547,12 +553,14 @@
       "checked_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (19 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution",
-      "content_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7"
+      "content_sha256": "65874d79f6b2ee1f0e728177f4dc8c3063643857a163a7c57fb5e130e36f8ee7",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-25.md",
       "created_at": "2026-08-25T11:15:30.673201+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNUHFkMGo0VlNXTDU2aDBLemlQOHh2bHdQejg5cmtsakJVdEFRdnhRcTNIV2JaRFF6NkpmTUlBZndzMy0zNThaeGlzaGJnX0tacURlR21Bd1JidjExVmRfZk91aU5hdmpoRUlTNlN4bkwxWjkwbHljT1FPQTZsWHB5SUdEa2dMa0N5bW1tVC1TMDZBYkljbmFkdnVqTnBkQkZ5ZjBoN1hrLVI?oc=5",
         "https://news.google.com/rss/articles/CBMivgFBVV95cUxQVWRoaDJuUmUtbGNfVS1Lang3bzF3YWN5NEV0b1h5eFotX2pheUZCZ0xpc3FJcDc5Q0ZxZ28xWUdnWHczUFljWnFvTkUyMXNtYmZhZEI1SjdydlR3bV9SWWRyRTdnSXoxTVcwQ1lhQVN4SEZ4T0RkUzFoT05GY0x2LXVzOVA1TG55REsxTXBEeEdGVndIQlFybnZyQkxFSzVYanhEdHU0a0R3X1BXWFpuc1VuOHhLVC1QOERCUnZR0gG-AUFVX3lxTE5rd0o3aFU0eDNja0pxMGR1NFR6X2phNkRUbDZKOXZkYkZkdmdpUWhobzVMOGswUFM1TkstbUFBQTN1LXVBZnRpek0zaTFrbDNvQXQwV2xiN0ZIWFlYUHM4LXV1OFZKSVlpeTBpNDZwWTI0dldVaXZ3dUZqRHNlM0hUTENEZTFsQ21LbVQ4VWtZMzVvLUNxamsxRHY1V3NCU1VhZWZmRjVRR3VJd3pOWm9SUE5QYUhNc0cteVRXSVE?oc=5",
@@ -698,12 +706,14 @@
       "checked_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (25 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-digest-title, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
-      "content_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79"
+      "content_sha256": "71c13f5ecce53904ed61d4ea79583bf43ecd9aa67072683009e0552a0ab58d79",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-26.md",
       "created_at": "2026-08-26T11:18:34.769622+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPdmVYbmJzTGhla3VMUlBKbENUdGo1QTRMYzNqdF9zaUt1ME1DY1hIS2J1YldneGFPbHNJZTBaTTg2d1BsS19LeHlYVGV0dmFZSW1WWF90TFdESFZmSzdCOFFQUmtpcnpDTmU3d2MwbnIwa0J3LXpMdW5SODlNU0g4cWlLVXg4V0xiblkyZDlPVWZNb0R3dlJHc3R4T0U5dlpvQ0M1Ml95dHFCSUVnRi13Qy1oMFc1UzB6bXBmV2dVNkxmRDhVT0JxbVFtaTkzSUZaRVVNclo5YnFkT2FZUXhoaGtFNkVLbHBEREZudFNKenRPUQ?oc=5",
         "https://news.google.com/rss/articles/CBMi5wFBVV95cUxOTDlPS0tXMVJ6UUVleHVoNjFZY1oxaWg2dVhxcXZVakV0XzItSWJvU2llWG9ic0JlNndVeTdQc1V2d3FuX0czZVB2R0dQTEJWRTMyVWdyaHJZUFRGNkhNdFZ6d29FcjBVeFNHNlU2Y2VNSWtjb0VZRFFFdDREVnllcnRaQlFrdDdueGhaMVN3UDNNSXdPS2hwVFlUQTRSUkxWcHhrcEFfdHUtbEdocHA3cUlxSTl5Ty1zQ1R1RS0tdnJOM2dFcGl1T0d2YzQ4WjBleXlTTlNtWFl3MFh5QnpoLWg0dHBJR1U?oc=5",
@@ -859,12 +869,14 @@
       "checked_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (27 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-7-oh-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
-      "content_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e"
+      "content_sha256": "580e3182572c55ead13b7ad015cbae9a046bc75bcde8428359f08091b2d6d04e",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-28.md",
       "created_at": "2026-08-28T21:17:39.245191+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMie0FVX3lxTE9wRG82VFRBdVg4aEVqU0cySHpSM2tHbVFDbHpPSUYxdmY4LUJJSGc2RXNHazVlQnUtM21MUGpTTHRnQkVaRFUtYTdTXzAwZjJIX2dJREtSbmJ6UklDMzVOYkxvQ296SFAzSzN3WXBoYkt4RnFJdjZLMjlidw?oc=5",
         "https://news.google.com/rss/articles/CBMivgFBVV95cUxOQ0tJOXM2TW16MEV4SS1BLWpXUkVGV3lCYWxfd3NaQW1aelprX1k4VHNBODA5ZXB6cjAtOE5FUmxaeWoxUU5vXzRsZTJqNFZyYVFLb0hKbzBrX09jY2I3Wi1iOFBzSEdqeElnUi1BZmRvX0RWRVZBTVNYcU15OWFpbXpfbnoxSlVscVBxRFZUU1dBNEdYa04tQ1FjaDBhUW16dlVkbmRBSHQyOHZSbVdub2NYaVV4NkFxQWZMbldn?oc=5",
@@ -975,12 +987,14 @@
       "checked_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (18 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution, missing-or-stale-source-attribution, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
-      "content_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd"
+      "content_sha256": "90b5625cd5fa93e16a13cc5e6cfc38baf8d58882a90d8e6b4be7b6c625f0b0dd",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-29.md",
       "created_at": "2026-08-29T15:22:20.305702+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMid0FVX3lxTFBQdFlqel92eVFjWGpsWnNEQ0JqOUFnVnpRTnlWR3V2dlU1cnBaNmVGcm42LU5KSExJV1pMMTVldnBQSUc2ZEZJUjYyNlU1SVU1UlhlcnIzRXg2ZnRYR25YRGFtUTFKbFd6bVEwZkNnX0tVRTlsNHFv?oc=5",
         "https://news.google.com/rss/articles/CBMigAFBVV95cUxNb3J1MThSbE90WUtYRnVuVUhPYlJsMUNsaTdjaU1vSTVET1VFdko1amowclhuREJDTWRjR21zUTF3dGRNTkFVeGljR2JDak95ajB4Si1yMWR2VnJDSENFcTVkeVQ5UWtNbEwyMUp3TEltRnphWDRNR0hWdWIybTJrVA?oc=5",
@@ -1126,12 +1140,14 @@
       "checked_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (25 error(s), 0 warning(s)): editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, editorial-health-or-consumption-warning-coverage, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-health-or-consumption-warning-coverage, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-legal-or-political-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, missing-or-stale-source-attribution",
-      "content_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7"
+      "content_sha256": "0d830c59b026ca52ae80e3b22e7ce8e43b993eac292875eca5c20b3a4254dae7",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-08-30.md",
       "created_at": "2026-08-30T13:41:46.565279+00:00",
-      "status": "held",
+      "status": "withdrawn",
       "source_urls": [
         "https://news.google.com/rss/articles/CBMiekFVX3lxTFA0S1doaF9SSjFwNWVKdHkzNDAxNGZocjBPQU1VOXVRcmNXYUNKMzZhNUc3ZjhpekFFTGdTdTExU0Rub0x1MkowWTNIUkNMVlRac05pV1BmRkxmcXVmaVMwUVdSVW1PTUdmLWZiaUg2WUZOVHZBcHVfRld3?oc=5",
         "https://news.google.com/rss/articles/CBMi-wFBVV95cUxPdkhBZEFXbXhhZmpHNURwdThBRzJIdUhFTGdvV1hHdGJ5dllsMTNQaHdlY2FJTC10NmIwbk5MSzZydXhUdzVIWGFieUVjcWhrSnZKSWJoT3I3NU00WU5kSGRzN295V1haalRwdWcyaXJPMTRTbVVwb2tMY2hyNUNpdG9DWm90U2hPaHpQOC1TRjQ2emdqdzNWcTZhTTVBdF9NQ2hIbHNqU0dNMkVkSG1iOGxIcml0cXF0Z3hhYy1JRGp2ZklHYnk3TGZPU3RJdnlUQmo3ekxoTFJjTXlCQkhobnI5Z3VGclY0czJJdi1NbG5ZSWN5bzRVTG9XMA?oc=5",
@@ -1282,7 +1298,9 @@
       "checked_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26",
       "held_at": "2026-09-09T15:31:43.616265+00:00",
       "hold_reason": "HOLD (26 error(s), 0 warning(s)): editorial-7-oh-coverage, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, unfinished-draft, unfinished-draft, unfinished-draft, unfinished-draft, invalid-source-urls, editorial-unrelated-topic, editorial-7-oh-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, missing-or-stale-source-attribution, editorial-legal-or-political-coverage, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-regulatory-or-enforcement-coverage, missing-or-stale-source-attribution, editorial-unrelated-topic, editorial-negative-or-scare-coverage, editorial-kratom-news-is-outside-the-daily-editorial-scope, editorial-health-or-medical-framing, missing-or-stale-source-attribution",
-      "content_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26"
+      "content_sha256": "e2241e1078dfc5f6d65bf6f09544f1dc1c8295a27ad1a3a87da6ce1387977a26",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
     },
     {
       "file": "drafts/digest-2026-09-07.md",
@@ -1366,7 +1384,7 @@
     {
       "file": "drafts/digest-2026-09-09.md",
       "created_at": "2026-09-09T15:25:13.754416+00:00",
-      "status": "published",
+      "status": "withdrawn",
       "source_urls": [
         "https://www.littletonindependent.net/business/tonic-zero-proof-bar-opens-in-littleton-bringing-alcohol-free-option/article_2fce19b8-0c67-4a7d-9844-46f0750eb5b8.html",
         "https://www.tpr.org/news/2026-09-02/as-young-people-drink-less-bars-add-more-nonalcoholic-options-to-menus",
@@ -1392,7 +1410,140 @@
       "staged_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675",
       "published_at": "2026-09-09T15:32:33.453644+00:00",
       "published_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675",
-      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-09"
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-09",
+      "withdrawn_at": "2026-09-09T00:00:00+00:00",
+      "withdrawal_reason": "Editorial migration: headline digest retired; retained in history, excluded from original-article publishing"
+    },
+    {
+      "file": "drafts/first-time-kava-lounge-faq.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/new-here",
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/events"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "81395aead57005e17858f398bd5b63b0c18a481b643225a47e0286e50f103eb2",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "81395aead57005e17858f398bd5b63b0c18a481b643225a47e0286e50f103eb2"
+    },
+    {
+      "file": "drafts/kava-lounge-west-palm-beach-groups.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/events",
+        "https://www.thetribalkavalounge.com/private-events"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "0a9311eea99072bdf00d1b7de099d751e628fb44a25eb882293b61a34b1030a0",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "0a9311eea99072bdf00d1b7de099d751e628fb44a25eb882293b61a34b1030a0"
+    },
+    {
+      "file": "drafts/kratom-tea-at-a-kava-bar.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/what-is-kratom",
+        "https://www.thetribalkavalounge.com/new-here",
+        "https://www.thetribalkavalounge.com/events"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "ab6e74335428ad04d648e604d7a2ef58615cc42cd4f017e073ca0702ae0ae705",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "ab6e74335428ad04d648e604d7a2ef58615cc42cd4f017e073ca0702ae0ae705"
+    },
+    {
+      "file": "drafts/what-does-kava-taste-like.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/what-is-kava",
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/new-here"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "5a12518ff47043f580cdcd62348ba7c16beba1f7bc9d363ced96964e25d9aabb",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "5a12518ff47043f580cdcd62348ba7c16beba1f7bc9d363ced96964e25d9aabb"
+    },
+    {
+      "file": "drafts/how-to-make-kratom-tea-taste-delicious.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/what-is-kratom",
+        "https://www.thetribalkavalounge.com/new-here"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "1b69d1362e4bd834f8fc5ef28bacb825ebdb956589f4ac06ae967f665d76d1a7",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "1b69d1362e4bd834f8fc5ef28bacb825ebdb956589f4ac06ae967f665d76d1a7"
+    },
+    {
+      "file": "drafts/kava-bar-etiquette.md",
+      "status": "staged",
+      "created_at": "2026-09-09T00:00:00+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/new-here",
+        "https://www.thetribalkavalounge.com/events",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/private-events"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_at": "2026-09-09T21:43:28.457287+00:00",
+      "checked_sha256": "3a25a4999f5b17ab81b3b5e9c890fc1d6367e23f8647b96b55a036711267f519",
+      "staged_at": "2026-09-09T21:43:28.457287+00:00",
+      "staged_sha256": "3a25a4999f5b17ab81b3b5e9c890fc1d6367e23f8647b96b55a036711267f519"
     }
   ]
 }

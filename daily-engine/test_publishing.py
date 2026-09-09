@@ -10,6 +10,8 @@ from unittest.mock import patch
 
 import auto_publish as publish
 import run_daily
+from test_article_fixture import article, encode
+from compliance import parse_article
 
 
 class PublishingTests(unittest.TestCase):
@@ -29,15 +31,10 @@ class PublishingTests(unittest.TestCase):
             self.addCleanup(patcher.stop)
         self.day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
         self.item = {
-            "file": f"drafts/digest-{self.day}.md", "status": "passed",
+            "file": "drafts/test-kava-article.md", "status": "passed",
             "source_urls": ["https://example.com/kava-culture"],
         }
-        self.markdown = run_daily._template_draft([{
-            "title": "Kava culture brings a community together",
-            "source": "Community Journal", "feed": "culture", "category": "culture",
-            "published": self.day + "T09:00:00+00:00",
-            "url": self.item["source_urls"][0], "summary": "",
-        }], self.day)
+        self.markdown = article()
         (self.root / "daily-engine" / self.item["file"]).write_text(self.markdown)
         publish.save_json(self.queue, {"items": [self.item]})
 
@@ -123,11 +120,11 @@ class PublishingTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'withdrawn content'):
             publish.check_catalog()
 
-    def test_duplicate_sources_in_new_draft_are_held(self):
+    def test_duplicate_search_intent_is_held_even_with_a_new_slug(self):
         publish.stage(self.manifest)
         second = copy.deepcopy(self.item)
-        second["file"] = f"drafts/digest-{self.day}-2.md"
-        (self.root / "daily-engine" / second["file"]).write_text(self.markdown)
+        second["file"] = "drafts/test-kava-article-two.md"
+        (self.root / "daily-engine" / second["file"]).write_text(article(slug="test-kava-article-two"))
         items = self.queue_items() + [second]
         publish.save_json(self.queue, {"items": items})
         publish.stage(self.manifest)
@@ -172,7 +169,7 @@ class PublishingTests(unittest.TestCase):
 
     def test_manual_selection_does_not_publish_other_queue_items(self):
         second = copy.deepcopy(self.item)
-        second["file"] = f"drafts/digest-{self.day}-2.md"
+        second["file"] = "drafts/test-kava-article-two.md"
         second["source_urls"] = ["https://example.com/another-culture-story"]
         (self.root / "daily-engine" / second["file"]).write_text(self.markdown.replace(self.item["source_urls"][0], second["source_urls"][0]))
         publish.save_json(self.queue, {"items": [self.item, second]})
