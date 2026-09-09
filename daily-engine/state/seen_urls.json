@@ -1079,6 +1079,24 @@
       "seen_at": "2026-09-07T11:00:23.593139+00:00",
       "feed": "gnews-wpb-lounge",
       "title": "Enjoy BBQ, Brews and Blues in Historic Northwest - Palm Beach Illustrated"
+    },
+    "https://www.ospreyobserver.com/2026/08/chill-cawfee-quigs-kava-lounge-brings-coffee-food-and-connection-to-fishhawk/": {
+      "hash": "8453bd6d96da4cad",
+      "seen_at": "2026-09-09T15:23:55.920755+00:00",
+      "feed": "gnews-kava-lounge",
+      "title": "Chill Cawfee & Quigs Kava Lounge Brings Coffee, Food And Connection To Fishhawk"
+    },
+    "https://www.littletonindependent.net/business/tonic-zero-proof-bar-opens-in-littleton-bringing-alcohol-free-option/article_2fce19b8-0c67-4a7d-9844-46f0750eb5b8.html": {
+      "hash": "3f27148826135134",
+      "seen_at": "2026-09-09T15:24:18.970377+00:00",
+      "feed": "gnews-kava-lounge",
+      "title": "Tonic Zero Proof Bar opens in Littleton, bringing alcohol-free option"
+    },
+    "https://www.tpr.org/news/2026-09-02/as-young-people-drink-less-bars-add-more-nonalcoholic-options-to-menus": {
+      "hash": "71c482548d668acc",
+      "seen_at": "2026-09-09T15:25:09.158170+00:00",
+      "feed": "gnews-non-alc-social",
+      "title": "As young people drink less, bars add more nonalcoholic options to menus"
     }
   }
 }

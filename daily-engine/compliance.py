@@ -46,6 +46,16 @@ def valid_source_url(value: Any) -> bool:
     except ValueError:
         return False
 
+
+def publisher_source_url(value: Any) -> bool:
+    """Attribution must point to an article, not a discovery/consent wrapper."""
+    if not valid_source_url(value):
+        return False
+    parsed = urlsplit(value)
+    host = parsed.hostname.lower()
+    return (host not in {"google.com", "www.google.com", "news.google.com", "consent.google.com"}
+            and bool(parsed.path.strip("/")))
+
 # Standard disclaimer language is ALLOWED (strip before claim scan)
 ALLOWED_DISCLAIMER_PATTERNS = [
     r"not intended to diagnose,? treat,? cure,? or prevent any disease",
@@ -94,6 +104,7 @@ EDITORIAL_REJECT_PATTERNS = [
     (r"\b(?:addiction|addicted|withdrawal|overdoses?|deaths?|died|fatal(?:ity|ities)?|hospitali[sz]\w*|poison\w*|contaminat\w*|danger\w*|risks?|scares?|harms?)\b", "negative or scare coverage"),
     (r"\b(?:kratom|mitragynine)\b", "kratom news is outside the Daily editorial scope"),
     (r"\b(?:anxiety|depression|pain|sleep|insomnia|health|medical)\b", "health or medical framing"),
+    (r"\b(?:smoking|tobacco)\b|\b(?:reduce|stop|quit|curb)\s+kava\s+(?:drinking|consumption)\b", "health or consumption-warning coverage"),
 ]
 
 TOPIC_ANCHOR = re.compile(
@@ -125,11 +136,13 @@ def alcohol_promotion_flags(text: str) -> list[dict[str, str]]:
     return ([{"severity": "error", "rule": "editorial-alcohol-promotion", "match": match.group(0)}]
             if match else [])
 
-def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None, require_relevant: bool = True) -> dict[str, Any]:
+def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None, require_relevant: bool = True, require_canonical: bool = False) -> dict[str, Any]:
     """Reject Daily candidates that conflict with Tribal's positive editorial scope."""
     text = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary", "source")))
     flags = alcohol_promotion_flags(text)
-    topic = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary")))
+    # The headline is what we publish. A snippet or publisher name cannot make
+    # an unrelated headline eligible at intake but fail later in the publisher.
+    topic = html.unescape(re.sub(r"<[^>]+>", " ", str(item.get("title") or "")))
     if require_relevant and not TOPIC_ANCHOR.search(topic):
         flags.append({"severity": "error", "rule": "editorial-unrelated-topic", "match": str(item.get("title", ""))})
     for pattern, label in EDITORIAL_REJECT_PATTERNS:
@@ -139,10 +152,24 @@ def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: 
     if category.lower() in {"regulation", "legal", "politics"}:
         flags.append({"severity": "error", "rule": "editorial-disallowed-category", "match": category})
     if require_fresh:
+        # Apply the publisher's claim checks before assembling a multi-source
+        # draft, so one performance/medical headline cannot hold clean stories.
+        for pattern, label in PROHIBITED:
+            match = re.search(pattern, text, re.I)
+            if match:
+                flags.append({"severity": "error", "rule": label, "match": match.group(0)})
+        if len(topic.strip()) < 6:
+            flags.append({"severity": "error", "rule": "missing-source-title", "match": topic})
         if not is_fresh_published(item.get("published"), now):
             flags.append({"severity": "error", "rule": "source-date-unknown-or-stale", "match": str(item.get("published"))})
         if not valid_source_url(item.get("url")):
             flags.append({"severity": "error", "rule": "invalid-source-url", "match": str(item.get("url"))})
+    if require_canonical:
+        if (not publisher_source_url(item.get("url"))
+                or item.get("canonical_url") != item.get("url")
+                or not str(item.get("source") or "").strip()
+                or not is_fresh_published(item.get("source_verified_at"), now)):
+            flags.append({"severity": "error", "rule": "unverified-canonical-attribution", "match": str(item.get("url"))})
     return {
         "pass": not flags,
         "flags": flags,
@@ -263,8 +290,8 @@ def check_publishable(text: str, source_urls: list[str], now: datetime | None = 
         reject("raw-html", "Raw HTML is not eligible for automatic publication")
 
     urls = source_urls if isinstance(source_urls, list) else []
-    if not urls or any(not valid_source_url(url) for url in urls):
-        reject("invalid-source-urls", "At least one valid HTTP(S) source URL is required")
+    if not urls or any(not publisher_source_url(url) for url in urls):
+        reject("invalid-source-urls", "Direct publisher article URLs are required; discovery wrappers are not attribution")
     elif len(set(urls)) != len(urls):
         reject("duplicate-source-url", "Each source must appear once")
 

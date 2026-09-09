@@ -460,7 +460,35 @@ const dailyKavaPosts = [
       { question: 'Are there options for friends who do not want kava?', answer: 'Yes. fruit drinks provide fruit-forward, zero-botanical choices.' },
       { question: 'Can a group reserve a private event?', answer: 'Groups can submit an inquiry through the Tribal private-events page.' }
     ]
-  }
+  },
+  {
+  "slug": "daily-digest-2026-09-09",
+  "title": "The Daily Kava Digest \u2014 2026-09-09",
+  "seoTitle": "Daily Kava Reading List \u2014 2026-09-09",
+  "metaDescription": "A linked reading list on kava culture, flavor, community, and alcohol-free social life from Tribal Kava Lounge in West Palm Beach.",
+  "dek": "A linked reading list on kava culture, flavor, community, and alcohol-free social life from Tribal Kava Lounge in West Palm Beach.",
+  "date": "2026-09-09",
+  "modified": "2026-09-09",
+  "category": "Community",
+  "readMin": 1,
+  "tags": [
+    "kava culture",
+    "community",
+    "alcohol-free social life"
+  ],
+  "keywords": [
+    "kava culture",
+    "Tribal Kava Lounge",
+    "West Palm Beach"
+  ],
+  "body": "<p>Fresh reading on culture, community, lounge life, and non-alcoholic social life. Explore this selection of source headlines, with links to each publisher\u2019s coverage.</p>\n<h2>1. Tonic Zero Proof Bar opens in Littleton, bringing alcohol-free option</h2>\n<p><strong>Source:</strong> Littleton Independent \u00b7 <strong>Published:</strong> 2026-09-06</p>\n<p><a href=\"https://www.littletonindependent.net/business/tonic-zero-proof-bar-opens-in-littleton-bringing-alcohol-free-option/article_2fce19b8-0c67-4a7d-9844-46f0750eb5b8.html\" rel=\"noopener noreferrer\">Read the source</a></p>\n<h2>2. As young people drink less, bars add more nonalcoholic options to menus</h2>\n<p><strong>Source:</strong> TPR \u00b7 <strong>Published:</strong> 2026-09-02</p>\n<p><a href=\"https://www.tpr.org/news/2026-09-02/as-young-people-drink-less-bars-add-more-nonalcoholic-options-to-menus\" rel=\"noopener noreferrer\">Read the source</a></p>\n<h2>3. Chill Cawfee &amp; Quigs Kava Lounge Brings Coffee, Food And Connection To Fishhawk</h2>\n<p><strong>Source:</strong> Osprey Observer \u00b7 <strong>Published:</strong> 2026-08-31</p>\n<p><a href=\"https://www.ospreyobserver.com/2026/08/chill-cawfee-quigs-kava-lounge-brings-coffee-food-and-connection-to-fishhawk/\" rel=\"noopener noreferrer\">Read the source</a></p>\n<hr>\n<p>Continue the conversation at Tribal. <a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">Explore the menu</a> \u00b7 <a href=\"https://www.thetribalkavalounge.com/new-here\" rel=\"noopener noreferrer\">New here?</a> \u00b7 <a href=\"https://www.thetribalkavalounge.com/visit\" rel=\"noopener noreferrer\">Plan a visit</a></p>\n<p><strong>Responsible use:</strong> Kratom products are for adults 21+ only. Valid ID required. Products are not intended to diagnose, treat, cure, or prevent any disease. Do not mix kava or kratom with alcohol or other substances. If you are pregnant, nursing, taking medications, or have health concerns, speak with a qualified professional.</p>\n<p><em>Tribal Kava Lounge \u2014 770 S Military Trail, Unit A1, West Palm Beach, FL 33415 \u00b7 (561) 355-0561</em></p>",
+  "sourceUrls": [
+    "https://www.littletonindependent.net/business/tonic-zero-proof-bar-opens-in-littleton-bringing-alcohol-free-option/article_2fce19b8-0c67-4a7d-9844-46f0750eb5b8.html",
+    "https://www.tpr.org/news/2026-09-02/as-young-people-drink-less-bars-add-more-nonalcoholic-options-to-menus",
+    "https://www.ospreyobserver.com/2026/08/chill-cawfee-quigs-kava-lounge-brings-coffee-food-and-connection-to-fishhawk/"
+  ],
+  "contentSha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675"
+}
 ];
 
 function getDailyKavaPost(slug) {

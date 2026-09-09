@@ -24,7 +24,7 @@ REJECTED_SEPTEMBER_HEADLINES = (
 
 
 def candidate(**overrides):
-    return {
+    item = {
         "title": "Community gathers for kava culture festival",
         "url": "https://example.com/culture",
         "source": "Culture Daily",
@@ -33,6 +33,7 @@ def candidate(**overrides):
         "category": "culture",
         **overrides,
     }
+    return {"canonical_url": item["url"], "source_verified_at": NOW.isoformat(), **item}
 
 
 class EditorialTests(unittest.TestCase):
@@ -153,6 +154,34 @@ class EditorialTests(unittest.TestCase):
                 self.assertFalse(compliance.check_publishable(self.draft(published=published), [candidate()["url"]], NOW)["pass"])
         self.assertFalse(compliance.check_publishable(self.draft(), [candidate()["url"]], NOW + timedelta(days=15))["pass"])
 
+    def test_snippet_cannot_supply_a_missing_or_unrelated_headline(self):
+        for title in ("", None, "West Palm Beach hosts an arts weekend"):
+            with self.subTest(title=title):
+                result = compliance.check_candidate(candidate(
+                    title=title, summary="Kava and alcohol-free community news.",
+                ), require_fresh=True, now=NOW)
+                self.assertFalse(result["pass"])
+
+    def test_consumption_warning_is_not_positive_kava_coverage(self):
+        item = candidate(title="Methodist Church backs push for ministers to stop smoking and reduce kava drinking - Fijivillage")
+        self.assertFalse(compliance.check_candidate(item, require_fresh=True, now=NOW)["pass"])
+        item = candidate(title="Non-Alcoholic Beer Has Changed What Happens After a Workout")
+        self.assertFalse(compliance.check_candidate(item, require_fresh=True, now=NOW)["pass"])
+
+    def test_canonical_attribution_required_before_selection(self):
+        for changes in (
+            {"url": "https://news.google.com/rss/articles/wrapper"},
+            {"url": "https://example.com/"},
+            {"canonical_url": "https://other.example/story"},
+            {"source": ""}, {"source_verified_at": None},
+        ):
+            with self.subTest(changes=changes):
+                self.assertFalse(compliance.check_candidate(candidate(**changes),
+                    require_fresh=True, require_canonical=True, now=NOW)["pass"])
+        url = "https://news.google.com/rss/articles/wrapper"
+        self.assertFalse(compliance.check_publishable(self.draft(url=url), [url], NOW)["pass"])
+
+
     def test_unsafe_or_mismatched_links_and_warnings_hold(self):
         for url in ("javascript:alert(1)", "https://example.com/other", ""):
             with self.subTest(url=url):
@@ -161,6 +190,85 @@ class EditorialTests(unittest.TestCase):
         result = compliance.check_publishable(lengthy, [candidate()["url"]], NOW)
         self.assertFalse(result["pass"])
         self.assertTrue(any(flag["severity"] == "warning" for flag in result["flags"]))
+
+
+class SourceResolutionTests(unittest.TestCase):
+    def test_google_wrapper_resolves_only_the_original_article_rpc_result(self):
+        metadata = run_daily._SourceMetadata()
+        metadata.feed('<c-wiz data-n-a-sg="signature" data-n-a-ts="1788967175"></c-wiz>')
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+            def read(self, limit):
+                return (')]}' + "\n\n" + json.dumps([
+                    ["wrb.fr", "Fbv4je", json.dumps(["garturlres", "https://example.com/culture", 1])],
+                ])).encode()
+        with patch.object(run_daily.urllib.request, "urlopen", return_value=Response()):
+            self.assertEqual(run_daily._google_destination(
+                "https://news.google.com/rss/articles/article123", metadata,
+            ), "https://example.com/culture")
+        with self.assertRaises(ValueError):
+            run_daily._google_destination("https://news.google.com/articles/id", run_daily._SourceMetadata())
+
+    def test_discovery_requests_the_same_freshness_window_as_validation(self):
+        query = run_daily.urllib.parse.parse_qs(run_daily.urllib.parse.urlsplit(
+            run_daily.google_news_rss_url('"West Palm Beach" kava')
+        ).query)["q"][0]
+        self.assertEqual(query, f'"West Palm Beach" kava when:{compliance.MAX_SOURCE_AGE_DAYS}d')
+
+    def test_rss_publisher_suffix_cannot_supply_headline_relevance(self):
+        item = run_daily.parse_rss(b'''<rss><channel><item>
+          <title>Neighborhood arts weekend - Kava Culture Daily</title>
+          <link>https://example.com/arts</link>
+          <source url="https://example.com">Kava Culture Daily</source>
+        </item></channel></rss>''')[0]
+        self.assertEqual(item["title"], "Neighborhood arts weekend")
+        self.assertEqual(item["source_url"], "https://example.com")
+        self.assertFalse(compliance.check_candidate(item)["pass"])
+
+    def resolve(self, *, final_url="https://example.com/culture?tracking=rss", canonical="/culture",
+                title="Community gathers for kava culture festival", published=NOW.isoformat(), source_url="https://example.com"):
+        class Response:
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+            def geturl(self): return final_url
+            def read(self, limit):
+                return (f'<link rel="canonical" href="{canonical}">'
+                        f'<meta property="og:title" content="{title}">'
+                        '<meta property="og:site_name" content="Culture Daily">'
+                        f'<meta property="article:published_time" content="{published}">').encode()
+        with patch.object(run_daily.urllib.request, "urlopen", return_value=Response()):
+            return run_daily._resolve_source(candidate(
+                url="https://news.google.com/rss/articles/wrapper", source_url=source_url,
+            ))
+
+    def test_publisher_redirect_resolves_title_date_and_canonical_link(self):
+        item = self.resolve()
+        self.assertEqual(item["url"], "https://example.com/culture")
+        self.assertEqual(item["canonical_url"], item["url"])
+        self.assertEqual(item["title"], candidate()["title"])
+        self.assertEqual(item["source"], "Culture Daily")
+        self.assertTrue(item["discovery_url"].startswith("https://news.google.com/"))
+
+    def test_wrapper_missing_title_and_mismatched_canonical_are_rejected(self):
+        for changes in (
+            {"final_url": "https://news.google.com/rss/articles/wrapper"},
+            {"canonical": ""}, {"canonical": "/"},
+            {"canonical": "https://unrelated.example/culture"},
+            {"source_url": "https://another-publisher.example"}, {"title": ""},
+        ):
+            with self.subTest(changes=changes), self.assertRaises(ValueError):
+                self.resolve(**changes)
+
+    def test_current_publisher_metadata_cannot_be_hidden_by_feed_metadata(self):
+        for changes in (
+            {"title": REJECTED_SEPTEMBER_HEADLINES[2]},
+            {"published": (NOW - timedelta(days=15)).isoformat()},
+        ):
+            with self.subTest(changes=changes):
+                item = self.resolve(**changes)
+                self.assertFalse(compliance.check_candidate(item, require_fresh=True, now=NOW)["pass"])
+
 
 
 class QueueTests(unittest.TestCase):
@@ -225,6 +333,31 @@ class QueueTests(unittest.TestCase):
         self.assertEqual(run_daily.cmd_draft(), 0)
         self.assertEqual(self.queue()["items"], [])
         self.assertEqual(list(run_daily.DRAFTS_DIR.glob("*.md")), [])
+        self.assertEqual(json.loads(run_daily.CANDIDATES_PATH.read_text())["items"], [])
+
+    def test_fetch_prunes_persisted_candidates_even_when_feed_is_unavailable(self):
+        self.pool([candidate(title=REJECTED_SEPTEMBER_HEADLINES[2], url="https://example.com/bbq"),
+                   candidate(published=(NOW - timedelta(days=15)).isoformat(), url="https://example.com/stale"),
+                   candidate(canonical_url=None, url="https://example.com/unverified"), candidate()])
+        with patch.object(run_daily, "_fetch_url", side_effect=OSError("Feed unavailable")):
+            self.assertEqual(run_daily.cmd_fetch(), 0)
+        pool = json.loads(run_daily.CANDIDATES_PATH.read_text())["items"]
+        self.assertEqual([item["title"] for item in pool], [candidate()["title"]])
+
+    def test_fetch_rechecks_resolved_headline_before_marking_source_seen(self):
+        source_file = self.root / "sources.json"
+        source_file.write_text(json.dumps({"feeds": [{"id": "test", "url": "https://example.com/rss"}]}))
+        for resolved in (candidate(title=REJECTED_SEPTEMBER_HEADLINES[2]), candidate()):
+            with patch.object(run_daily, "SOURCES", source_file), \
+                 patch.object(run_daily, "_fetch_url", return_value=b"rss"), \
+                 patch.object(run_daily, "parse_rss", return_value=[candidate()]), \
+                 patch.object(run_daily, "_resolve_source", return_value=resolved):
+                self.assertEqual(run_daily.cmd_fetch(), 0)
+            pool = json.loads(run_daily.CANDIDATES_PATH.read_text())["items"]
+            seen = json.loads(run_daily.SEEN_PATH.read_text())["urls"]
+            expected = int(resolved["title"] == candidate()["title"])
+            self.assertEqual(len(pool), expected)
+            self.assertEqual(len(seen), expected)
 
     def test_same_source_in_multiple_pool_entries_and_crash_recovery(self):
         self.pool([candidate(), candidate()])

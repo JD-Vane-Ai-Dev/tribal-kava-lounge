@@ -19,10 +19,11 @@ import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
 from email.utils import parsedate_to_datetime
+from html.parser import HTMLParser
 from pathlib import Path
 
 from compliance import (check_candidate, check_publishable, published_datetime,
-                        TRUSTED_RESPONSIBLE_USE_FOOTER)
+                        publisher_source_url, MAX_SOURCE_AGE_DAYS, TRUSTED_RESPONSIBLE_USE_FOOTER)
 
 # Daily editorial policy: culture, flavor, community, lounge life, and
 # non-alcoholic social culture. Flagged stories remain held for review.
@@ -65,7 +66,7 @@ def _fetch_url(url: str, timeout: int = 25) -> bytes:
 
 
 def google_news_rss_url(query: str) -> str:
-    q = urllib.parse.quote_plus(query)
+    q = urllib.parse.quote_plus(f"{query} when:{MAX_SOURCE_AGE_DAYS}d")
     return f"https://news.google.com/rss/search?q={q}&hl=en-US&gl=US&ceid=US:en"
 
 
@@ -83,6 +84,8 @@ def parse_rss(xml_bytes: bytes) -> list[dict]:
         pub = (item.findtext("pubDate") or "").strip()
         source_el = item.find("source")
         source = (source_el.text or "").strip() if source_el is not None else ""
+        if source and title.endswith(" - " + source):
+            title = title[:-(len(source) + 3)].strip()
         desc = (item.findtext("description") or "").strip()
         # strip html tags lightly
         desc = html.unescape(re.sub(r"<[^>]+>", "", desc))
@@ -100,6 +103,7 @@ def parse_rss(xml_bytes: bytes) -> list[dict]:
                 "url": link,
                 "published": published,
                 "source": source,
+                "source_url": source_el.get("url", "") if source_el is not None else "",
                 "summary": desc[:400],
             }
         )
@@ -115,6 +119,106 @@ def parse_rss(xml_bytes: bytes) -> list[dict]:
                 items.append({"title": title, "url": link, "published": None, "source": "", "summary": ""})
 
     return items
+
+
+class _SourceMetadata(HTMLParser):
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.canonical = ""
+        self.meta = {}
+        self.google_params = {}
+
+    def handle_starttag(self, tag, attrs):
+        attrs = dict(attrs)
+        if attrs.get("data-n-a-sg") and attrs.get("data-n-a-ts"):
+            self.google_params = {"signature": attrs["data-n-a-sg"], "timestamp": attrs["data-n-a-ts"]}
+        if tag == "link" and "canonical" in attrs.get("rel", "").lower().split():
+            self.canonical = attrs.get("href", "")
+        if tag == "meta":
+            key = (attrs.get("property") or attrs.get("name") or "").lower()
+            self.meta[key] = attrs.get("content", "")
+
+
+def _google_destination(url: str, metadata: _SourceMetadata) -> str:
+    """Resolve Google's article wrapper; never use a search or guessed URL.
+
+    The public page's Fbv4je RPC returns its original article destination.
+    Protocol reference: SSujitX/google-news-url-decoder (new_decoderv3.py).
+    Missing parameters, changed response formats and rate limits fail closed.
+    """
+    article_id = urllib.parse.urlsplit(url).path.rsplit("/", 1)[-1]
+    params = metadata.google_params
+    if not re.fullmatch(r"[A-Za-z0-9_-]+", article_id) or not params:
+        raise ValueError("Google News destination parameters are missing")
+    context = [["X", "X", ["X", "X"], None, None, 1, 1, "US:en", None, 1,
+                None, None, None, None, None, 0, 1],
+               "X", "X", 1, [1, 1, 1], 1, 1, None, 0, 0, None, 0]
+    argument = json.dumps(["garturlreq", context, article_id, int(params["timestamp"]), params["signature"]])
+    body = urllib.parse.urlencode({"f.req": json.dumps([[["Fbv4je", argument]]])}).encode()
+    request = urllib.request.Request(
+        "https://news.google.com/_/DotsSplashUi/data/batchexecute", data=body,
+        headers={"User-Agent": UA, "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"},
+    )
+    with urllib.request.urlopen(request, timeout=15) as response:
+        payload = response.read(1_000_000).decode("utf-8")
+    for line in payload.splitlines():
+        if not line.startswith("["):
+            continue
+        for row in json.loads(line):
+            if len(row) >= 3 and row[:2] == ["wrb.fr", "Fbv4je"]:
+                result = json.loads(row[2])
+                if result[0] == "garturlres" and publisher_source_url(result[1]):
+                    return result[1]
+    raise ValueError("Google News did not return an original article URL")
+
+
+def _resolve_source(entry: dict, *, resolve_google: bool = True) -> dict:
+    """Use the publisher's current headline and canonical link, or reject it.
+
+    HTTP redirects are followed normally. An unresolved Google News wrapper,
+    access failure, or missing publisher metadata never becomes a made-up URL.
+    """
+    request = urllib.request.Request(entry["url"], headers={"User-Agent": UA, "Accept": "text/html"})
+    with urllib.request.urlopen(request, timeout=15) as response:
+        final_url = response.geturl()
+        metadata = _SourceMetadata()
+        metadata.feed(response.read(2_000_000).decode("utf-8", errors="replace"))
+    if urllib.parse.urlsplit(final_url).hostname == "news.google.com":
+        if not resolve_google:
+            raise ValueError("Publisher redirected back to the discovery wrapper")
+        destination = _google_destination(final_url, metadata)
+        expected = (urllib.parse.urlsplit(entry.get("source_url", "")).hostname or "").lower().removeprefix("www.")
+        actual = (urllib.parse.urlsplit(destination).hostname or "").lower().removeprefix("www.")
+        if not expected or expected != actual:
+            raise ValueError("Google News destination does not match the named publisher")
+        resolved = _resolve_source({**entry, "url": destination}, resolve_google=False)
+        return {**resolved, "discovery_url": entry["url"]}
+    if not publisher_source_url(final_url):
+        raise ValueError("Source did not resolve to a publisher article")
+    canonical = urllib.parse.urldefrag(urllib.parse.urljoin(final_url, metadata.canonical)).url
+    host = lambda url: (urllib.parse.urlsplit(url).hostname or "").lower().removeprefix("www.")
+    if (not metadata.canonical or not publisher_source_url(canonical)
+            or host(canonical) != host(final_url)
+            or (entry.get("source_url") and host(entry["source_url"]) != host(canonical))):
+        raise ValueError("Missing or mismatched publisher canonical attribution")
+    title = _plain_feed_text(metadata.meta.get("og:title", ""))
+    if len(title) < 6:
+        raise ValueError("Publisher's current headline is missing")
+    return {
+        **entry, "title": title, "url": canonical, "canonical_url": canonical,
+        "discovery_url": entry["url"],
+        "source": metadata.meta.get("og:site_name") or entry.get("source") or host(canonical),
+        "published": metadata.meta.get("article:published_time") or entry.get("published"),
+        "source_verified_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def _eligible_pool(items: list[dict]) -> list[dict]:
+    """Prune persisted state as well as new results under the same intake gate."""
+    eligible = {c["url"]: c for c in items if check_candidate(
+        c, category=c.get("category", ""), require_fresh=True, require_canonical=True,
+    )["pass"]}
+    return sorted(eligible.values(), key=lambda c: published_datetime(c["published"]), reverse=True)[:40]
 
 
 def cmd_fetch() -> int:
@@ -150,6 +254,15 @@ def cmd_fetch() -> int:
             if not editorial["pass"]:
                 print(f"[skip] {fid}: {editorial['summary']} — {entry['title'][:90]}")
                 continue
+            try:
+                entry = _resolve_source(entry)
+            except Exception as error:
+                print(f"[skip] {fid}: unverified-canonical-attribution — {entry['title'][:90]} ({error})")
+                continue
+            editorial = check_candidate(entry, category=category, require_fresh=True, require_canonical=True)
+            if not editorial["pass"]:
+                print(f"[skip] {fid}: {editorial['summary']} — {entry['title'][:90]}")
+                continue
             url_key = entry["url"]
             url_hash = hashlib.sha256(url_key.encode()).hexdigest()[:16]
             if url_key in seen["urls"] or url_hash in seen["urls"]:
@@ -169,11 +282,10 @@ def cmd_fetch() -> int:
     by_url = {c["url"]: c for c in prev.get("items", [])}
     for c in candidates:
         by_url[c["url"]] = c
-    merged = list(by_url.values())
-    # Prefer newest first — no reliable date always
-    _save_json(CANDIDATES_PATH, {"updated_at": datetime.now(timezone.utc).isoformat(), "items": merged[-40:]})
+    merged = _eligible_pool(list(by_url.values()))
+    _save_json(CANDIDATES_PATH, {"updated_at": datetime.now(timezone.utc).isoformat(), "items": merged})
     _save_json(SEEN_PATH, seen)
-    print(f"Fetched. New unique URLs: {new_count}. Candidate pool: {len(merged[-40:])}.")
+    print(f"Fetched. New unique URLs: {new_count}. Eligible candidate pool: {len(merged)}.")
     return 0
 
 
@@ -224,7 +336,8 @@ def cmd_draft(use_llm: bool = False) -> int:
         print("[info] --llm is retired; using the attributed headline roundup.")
     pool = _load_json(CANDIDATES_PATH, {"items": []}).get("items", [])
     # Re-screen old persisted candidates using today's dates and editorial rules.
-    pool = [c for c in pool if check_candidate(c, category=c.get("category", ""), require_fresh=True)["pass"]]
+    pool = _eligible_pool(pool)
+    _save_json(CANDIDATES_PATH, {"updated_at": datetime.now(timezone.utc).isoformat(), "items": pool})
     queue = _load_json(QUEUE_PATH, {"items": []})
     used = {u for item in queue.get("items", []) for u in item.get("source_urls", [])}
     eligible = {c["url"]: c for c in pool if c["url"] not in used}

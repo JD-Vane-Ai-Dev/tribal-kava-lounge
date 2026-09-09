@@ -18,6 +18,15 @@ not required for passing posts.
    social connection; generic local food, arts, and event news does not qualify.
    Beer, brewery, wine, and other alcohol promotion is held. Explicitly
    alcohol-free drinks and kava/tea/coffee brews retain their intended meaning.
+   Intake applies this same headline-level relevance check before drafting and
+   prunes rejected, stale, or unattributed entries from the persisted candidate
+   pool. Discovery requests the past 14 days, and sources must pass the same
+   date check locally. Publisher pages must supply a
+   current headline and a canonical article link on the matching publisher host;
+   unresolved Google News wrappers, missing metadata, and failed source fetches
+   are skipped. Publisher publication dates take precedence over RSS dates when
+   available. A local location or a kava mention only in the snippet does not
+   qualify an otherwise unrelated headline. Empty eligible pools create no draft.
 4. Passing posts are staged in `daily-kava.js`. The site build generates their
    page metadata and sitemap entries, and the site and publisher tests must pass.
 5. The workflow saves staged/held state, deploys to the existing Azure Static Web
