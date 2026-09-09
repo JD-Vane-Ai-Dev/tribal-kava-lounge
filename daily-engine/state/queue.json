@@ -1366,7 +1366,7 @@
     {
       "file": "drafts/digest-2026-09-09.md",
       "created_at": "2026-09-09T15:25:13.754416+00:00",
-      "status": "staged",
+      "status": "published",
       "source_urls": [
         "https://www.littletonindependent.net/business/tonic-zero-proof-bar-opens-in-littleton-bringing-alcohol-free-option/article_2fce19b8-0c67-4a7d-9844-46f0750eb5b8.html",
         "https://www.tpr.org/news/2026-09-02/as-young-people-drink-less-bars-add-more-nonalcoholic-options-to-menus",
@@ -1389,7 +1389,10 @@
       "checked_at": "2026-09-09T15:31:43.616265+00:00",
       "checked_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675",
       "staged_at": "2026-09-09T15:31:43.616265+00:00",
-      "staged_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675"
+      "staged_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675",
+      "published_at": "2026-09-09T15:32:33.453644+00:00",
+      "published_sha256": "e3ae060dc080b5d95908e5f93a4fb5f24fb67aa0f16fcd8115d145d41aa60675",
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/daily-digest-2026-09-09"
     }
   ]
 }
