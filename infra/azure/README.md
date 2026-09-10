@@ -27,7 +27,9 @@ Security boundaries:
   managed identity; the ACR admin account is disabled.
 - The container pins GitHub's current SSH public host keys and refuses unknown
   hosts.
-- The optional Azure writer uses the job's managed identity for model access.
+- The optional Azure writer prefers the job's managed identity for model access;
+  an explicitly authorized resource key can instead use encrypted job-secret
+  storage with `AZURE_OPENAI_AUTH_MODE=api_key`.
   The draft container does not receive the site's deployment token. Deployment
   stays in the existing GitHub publishing workflow. Writer setup, activation
   status, source requirements and usage limits are in `daily-engine/WRITER.md`.

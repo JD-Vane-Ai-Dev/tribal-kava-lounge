@@ -108,6 +108,63 @@ class AzureWriterTests(unittest.TestCase):
         self.assertIsNone(model.get_header("X-identity-header"))
         self.assertIsNone(model.get_header("Api-key"))
 
+    def test_explicit_key_mode_ignores_unrelated_job_identity(self):
+        self.opener.open.return_value = Response(completion())
+        # A job can retain identity for GitHub or ACR without giving it model access.
+        env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": "api_key",
+               "IDENTITY_ENDPOINT": "invalid-unrelated-identity-endpoint",
+               "AZURE_CLIENT_ID": "unrelated-identity-client"}
+        client = AzureWriter(env)
+        self.assertTrue(azure_writer.configured(env))
+        client.complete("System", "User")
+        self.opener.open.assert_called_once()
+        request = self.opener.open.call_args.args[0]
+        self.assertEqual(request.get_header("Api-key"), API_ENV["AZURE_OPENAI_API_KEY"])
+        self.assertIsNone(request.get_header("Authorization"))
+        self.assertIsNone(request.get_header("X-identity-header"))
+
+    def test_explicit_key_mode_requires_key_even_when_identity_available(self):
+        env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": "api_key", "AZURE_OPENAI_API_KEY": ""}
+        self.assertFalse(azure_writer.configured(env))
+        with self.assertRaisesRegex(WriterConnectionError, "Azure API credential"):
+            AzureWriter(env)
+        self.opener.open.assert_not_called()
+
+    def test_explicit_identity_mode_requires_complete_identity_even_when_key_available(self):
+        for missing in ("IDENTITY_ENDPOINT", "IDENTITY_HEADER"):
+            env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": "managed_identity", missing: ""}
+            with self.subTest(missing=missing):
+                self.assertFalse(azure_writer.configured(env))
+                with self.assertRaises(WriterConnectionError):
+                    AzureWriter(env)
+        self.opener.open.assert_not_called()
+
+    def test_explicit_identity_mode_uses_bearer_only(self):
+        env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": "managed_identity"}
+        self.opener.open.side_effect = [Response({"access_token": "test-bearer"}), Response(completion())]
+        self.assertTrue(azure_writer.configured(env))
+        AzureWriter(env).complete("System", "User")
+        model = self.opener.open.call_args_list[1].args[0]
+        self.assertEqual(model.get_header("Authorization"), "Bearer test-bearer")
+        self.assertIsNone(model.get_header("Api-key"))
+
+    def test_auto_mode_with_partial_identity_does_not_fall_back_to_key(self):
+        for mode in ("auto", "", "  "):
+            env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": mode, "IDENTITY_HEADER": ""}
+            with self.subTest(mode=mode):
+                self.assertFalse(azure_writer.configured(env))
+                with self.assertRaises(WriterConnectionError):
+                    AzureWriter(env)
+        self.opener.open.assert_not_called()
+
+    def test_unknown_auth_mode_rejected_without_exposing_value(self):
+        env = {**MI_ENV, "AZURE_OPENAI_AUTH_MODE": "unexpected-private-value"}
+        self.assertFalse(azure_writer.configured(env))
+        with self.assertRaisesRegex(WriterConnectionError, "AZURE_OPENAI_AUTH_MODE") as caught:
+            AzureWriter(env)
+        self.assertNotIn("unexpected-private-value", str(caught.exception))
+        self.opener.open.assert_not_called()
+
     def test_identity_failure_never_falls_back_to_saved_api_key(self):
         self.opener.open.side_effect = TimeoutError("sensitive remote detail")
         client = AzureWriter(MI_ENV)

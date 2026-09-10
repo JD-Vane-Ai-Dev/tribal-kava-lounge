@@ -2,8 +2,9 @@
 
 AZURE_OPENAI_ENDPOINT is an Azure resource origin, and AZURE_OPENAI_DEPLOYMENT
 is a deployment name (not a guessed model name). Container Apps managed identity
-is preferred; AZURE_OPENAI_API_KEY is a local/secret-store fallback. Credentials
-and remote error bodies never enter error messages.
+is preferred in the default auto mode; AZURE_OPENAI_AUTH_MODE can explicitly
+select api_key or managed_identity. Failed identity calls never fall back to a
+key. Credentials and remote error bodies never enter error messages.
 """
 
 import http.client
@@ -25,6 +26,7 @@ REQUEST_TIMEOUT_SECONDS = 90
 IDENTITY_TIMEOUT_SECONDS = 10
 IDENTITY_RESOURCE = "https://cognitiveservices.azure.com/"
 REASONING_EFFORTS = frozenset(("low", "medium", "high", "minimal", "none", "xhigh", "max"))
+AUTH_MODES = frozenset(("auto", "api_key", "managed_identity"))
 
 
 class WriterConnectionError(RuntimeError):
@@ -34,16 +36,32 @@ class WriterConnectionError(RuntimeError):
 def configured(environ: Mapping[str, str] | None = None) -> bool:
     """Presence only: this does not prove access, configuration validity or credit."""
     env = os.environ if environ is None else environ
+    try:
+        mode = _auth_mode(env)
+    except WriterConnectionError:
+        return False
+    identity_selected = _uses_identity(env, mode)
+    credential_present = (
+        env.get("IDENTITY_ENDPOINT", "").strip() and env.get("IDENTITY_HEADER", "").strip()
+        if identity_selected else env.get("AZURE_OPENAI_API_KEY", "").strip()
+    )
     return bool(
         env.get("AZURE_OPENAI_ENDPOINT", "").strip()
         and env.get("AZURE_OPENAI_DEPLOYMENT", "").strip()
-        and (
-            env.get("AZURE_OPENAI_API_KEY", "").strip()
-            or (
-                env.get("IDENTITY_ENDPOINT", "").strip()
-                and env.get("IDENTITY_HEADER", "").strip()
-            )
-        )
+        and credential_present
+    )
+
+
+def _auth_mode(env):
+    mode = env.get("AZURE_OPENAI_AUTH_MODE", "auto").strip() or "auto"
+    if mode not in AUTH_MODES:
+        raise WriterConnectionError("AZURE_OPENAI_AUTH_MODE must be auto, api_key, or managed_identity.")
+    return mode
+
+
+def _uses_identity(env, mode):
+    return mode == "managed_identity" or (
+        mode == "auto" and bool(env.get("IDENTITY_ENDPOINT") or env.get("IDENTITY_HEADER"))
     )
 
 
@@ -147,10 +165,11 @@ class AzureWriter:
         self.reasoning_effort = env.get("AZURE_OPENAI_REASONING_EFFORT", "").strip()
         if self.reasoning_effort and self.reasoning_effort not in REASONING_EFFORTS:
             raise WriterConnectionError("AZURE_OPENAI_REASONING_EFFORT is not a supported setting.")
+        self.auth_mode = _auth_mode(env)
         self._identity_url = None
         self._identity_header = None
         self._api_key = None
-        if env.get("IDENTITY_ENDPOINT") or env.get("IDENTITY_HEADER"):
+        if _uses_identity(env, self.auth_mode):
             self._identity_url = _identity_url(
                 env.get("IDENTITY_ENDPOINT", ""), env.get("AZURE_CLIENT_ID", "").strip()
             )

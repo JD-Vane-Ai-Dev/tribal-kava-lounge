@@ -10,10 +10,14 @@ the source packet and editorial rules. A separate paid humanizer is unnecessary.
 Azure access was restored from the owner's existing saved login command on
 September 10, 2026. The selected existing deployment is `gpt-5-mini` on
 `micdrop-foundry-f19ae782.openai.azure.com`, with low reasoning effort.
-Automatic approval review blocked granting the scheduled job's managed identity
-model inference access. That permission change requires explicit owner approval;
-no new role was granted and the production writer remains disabled. The prepared
-integration is preserved in draft PR #2 while live verification is completed.
+The owner approved model inference access for the scheduled job's managed
+identity. Azure then rejected the role assignment because the saved
+administrative principal has Contributor access, which cannot assign roles.
+Automatic approval review separately rejected reading the resource's account
+keys: that broader credential access was not included in the identity approval.
+No role or writer secret was added, and the production writer remains disabled.
+The prepared integration is preserved in draft PR #2 pending authorized model
+access and live verification.
 
 Configure these settings on the existing `tribal-kava-daily-job` container:
 
@@ -23,15 +27,22 @@ Configure these settings on the existing `tribal-kava-daily-job` container:
 | `AZURE_OPENAI_ENDPOINT` | Existing Azure resource HTTPS origin |
 | `AZURE_OPENAI_DEPLOYMENT` | Verified deployment name, not a guessed model ID |
 | `AZURE_OPENAI_REASONING_EFFORT` | `low` for the selected GPT-5 mini deployment |
+| `AZURE_OPENAI_AUTH_MODE` | `auto` (default), `managed_identity`, or explicitly authorized `api_key` |
 | `AZURE_CLIENT_ID` | Existing job's user-assigned managed identity client ID |
 | `TRIBAL_WRITER_RESERVE_REMOTE` | `1` on the scheduled job; pushes the daily reservation before inference |
 
 Grant that identity model inference access on the selected resource. Container
 Apps supplies `IDENTITY_ENDPOINT` and `IDENTITY_HEADER`. The client uses the
 local identity endpoint to request a short-lived token; secrets never enter
-manuscripts, Git, browser code or logs. A local environment may instead provide
-`AZURE_OPENAI_API_KEY` securely. The saved service-principal credential is for
-administration, and must not be copied into the job or repository.
+manuscripts, Git, browser code or logs. An authorized alternative may provide
+`AZURE_OPENAI_API_KEY` from encrypted secret storage and explicitly select
+`AZURE_OPENAI_AUTH_MODE=api_key`. This is necessary when a job retains identity
+for its registry or GitHub secret but that identity lacks model access. Resource
+keys have broader service access than a scoped inference role; obtaining and
+storing one requires authorization for that credential access. In `auto` mode,
+an available identity takes precedence; a failed identity call never falls back
+to a key. The saved service-principal credential is for administration, and must
+not be copied into the job or repository.
 
 `infra/azure/job.bicep` exposes optional writer settings, disabled by default.
 Use the existing resource group, job, identity and schedule. The normal job
@@ -78,7 +89,7 @@ python3 -m unittest discover -s daily-engine -p 'test_*.py' -v
 npm test
 ```
 
-After Azure access is restored, first exercise a real draft in an isolated
+After model access is configured, first exercise a real draft in an isolated
 checkout with secure environment settings using `python3 daily-engine/run_daily.py
 draft --llm`. Read the full article and evidence, confirm the voice, and verify
 both a passing draft and a held draft through the existing publisher before
