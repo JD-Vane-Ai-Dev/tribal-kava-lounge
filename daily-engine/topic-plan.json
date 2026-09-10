@@ -1,13 +1,28 @@
 {
-  "updated": "2026-09-09",
-  "rule": "Kratom is a full editorial subject across categories, not flavor-only. Briefs require research and complete original writing before intake.",
+  "updated": "2026-09-10",
+  "rule": "Kratom is a full editorial subject across categories, not flavor-only. Only writer-ready briefs with direct source URLs enter the connected writer. Fetch and read every complete source at run time; unresolved cultural and actual-visit research stays pending.",
   "topics": [
     {
       "subject": "kratom",
       "title": "Kratom leaves, tea, and menu language",
       "primaryKeyword": "kratom leaf tea terminology",
       "brief": "An evergreen explanation of leaf-based tea terminology; explain labels without effects promises. Link /what-is-kratom, not a duplicate plant overview.",
-      "status": "research-needed"
+      "status": "writer-ready",
+      "slug": "kratom-leaf-tea-menu-terms",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current leaf labels and distinctions between brewed tea, crafted kratom drinks and drinks without botanicals; no claims about effects or universal processing methods."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/what-is-kratom",
+          "supports": "Owned kratom introduction and terminology; do not duplicate its broad botanical overview."
+        }
+      ],
+      "relatedPaths": [
+        "/the-daily-kava/kratom-tea-at-a-kava-bar"
+      ]
     },
     {
       "subject": "kratom",
@@ -49,14 +64,44 @@
       "title": "The friend who asks what is in everybody’s drink",
       "primaryKeyword": "kratom lounge menu humor",
       "brief": "Original observational humor about menu curiosity with clear ingredient context; no fake named customers.",
-      "status": "research-needed"
+      "status": "writer-ready",
+      "slug": "kratom-menu-group-chat-humor",
+      "storyType": "humor",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current drink categories and ingredient labels; the social situations in the piece are clearly hypothetical."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "First-visit ordering context and asking the team questions; no invented customer accounts."
+        }
+      ],
+      "relatedPaths": [
+        "/the-daily-kava/kratom-tea-at-a-kava-bar"
+      ]
     },
     {
       "subject": "kava",
       "title": "Your first solo kava-lounge visit",
       "primaryKeyword": "going to a kava bar alone",
       "brief": "A specific plan for choosing a time, seating, and optional activities; avoid duplicating the broad first-visit FAQ.",
-      "status": "research-needed"
+      "status": "writer-ready",
+      "slug": "going-to-a-kava-bar-alone",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Current location, parking, seating and amenities. Avoid hours or recurring events if the page contains conflicting information."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "First-visit context and how to ask ordering questions. A solo visit plan is advice, not a reported customer story."
+        }
+      ],
+      "relatedPaths": [
+        "/the-daily-kava/kava-bar-etiquette"
+      ]
     }
   ]
 }

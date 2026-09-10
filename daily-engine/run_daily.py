@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-The Daily Kava — fetch → dedupe → draft → compliance check → queue.
+The Daily Kava — original manuscript or configured writer → checks → queue.
 
 Usage:
   python3 run_daily.py fetch|draft|check|status|approve|run [--llm] [--file PATH]
@@ -12,6 +12,7 @@ import argparse
 import hashlib
 import json
 import html
+import os
 import re
 import sys
 import urllib.parse
@@ -304,8 +305,6 @@ def cmd_draft(use_llm: bool = False) -> int:
     Empty inventory is visible and creates no filler, duplicates or API spend.
     """
     _ensure_dirs()
-    if use_llm:
-        print("[info] --llm does not call an API; supply a complete original manuscript.")
     queue = _load_json(QUEUE_PATH, {"items": []})
     used = {item.get("file") for item in queue.get("items", [])}
     for source in sorted(MANUSCRIPTS_DIR.glob("*.md")):
@@ -331,6 +330,24 @@ def cmd_draft(use_llm: bool = False) -> int:
         _save_json(QUEUE_PATH, queue)
         print(f"Original manuscript queued: {source.name} — {result['summary']}")
         return 0
+    if use_llm or os.getenv('TRIBAL_WRITER_ENABLED') == '1':
+        from writer import generate
+        generated = generate(ROOT, force_enabled=use_llm)
+        if generated:
+            # Enqueue these exact bytes without re-entering model generation.
+            text = generated.read_text()
+            meta, _ = parse_article(text)
+            urls = [entry['url'] for entry in meta['sources']]
+            target = DRAFTS_DIR / generated.name
+            if target.exists() and target.read_bytes() != generated.read_bytes():
+                raise ValueError('Existing draft differs from generated manuscript')
+            target.write_bytes(generated.read_bytes())
+            item = {'file': 'drafts/' + generated.name, 'created_at': datetime.now(timezone.utc).isoformat(), 'source_urls': urls}
+            _record_check(item, text, check_publishable(text, urls))
+            queue.setdefault('items', []).append(item)
+            _save_json(QUEUE_PATH, queue)
+            print('Writer manuscript queued: ' + generated.name + ' — ' + item['status'])
+            return 0
     print("EDITORIAL INVENTORY EMPTY: add a researched original manuscript; no headline fallback.")
     return 0
 
@@ -456,7 +473,7 @@ def cmd_run(use_llm: bool = False) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description="The Daily Kava content engine")
     parser.add_argument("command", choices=["fetch", "draft", "check", "status", "approve", "run"])
-    parser.add_argument("--llm", action="store_true", help="Compatibility flag; original manuscripts do not use an AI API")
+    parser.add_argument("--llm", action="store_true", help="Use the configured Azure writer when manuscript inventory is empty")
     parser.add_argument("--file", help="Specific draft for check/approve")
     args = parser.parse_args()
 

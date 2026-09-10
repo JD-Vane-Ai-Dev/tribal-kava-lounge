@@ -61,6 +61,16 @@ These are editorial exclusions, not permission to misstate any factual answer.
    checked date and exactly what it supports. Do not copy article passages or
    images. A source timestamp field is an editorial record, not automatic proof.
 
+## Voice
+
+Follow [WRITER-VOICE.md](WRITER-VOICE.md): a knowledgeable lounge regular who is
+warm, down to earth, useful, and naturally funny. Answer the question early, use
+ordinary language, and let a little observational humor fit the subject. Avoid
+corporate filler, forced slang, repetitive hooks, and jokes at a newcomer's or
+culture's expense. Search terms should fit naturally into a helpful article.
+Human-sounding writing never means fabricated visits, quotes, sensory tests, or
+customer stories. Kratom gets the same editorial range and care as kava.
+
 ## Production contract
 
 A manuscript is UTF-8 Markdown with JSON front matter between `---` lines.
@@ -82,9 +92,15 @@ publishable drafts.
 
 Add complete manuscripts to `manuscripts/`. The existing daily job copies one
 unused manuscript to `drafts/`, checks it, and records it in `state/queue.json`.
-It does not call an AI API or write prose from headline templates. Replenishing
-manuscripts requires editorial research and writing; empty inventory is reported
-explicitly and produces no filler. `topic-plan.json` contains briefs, not articles.
+When `TRIBAL_WRITER_ENABLED=1` and inventory is empty, the connected Azure writer
+selects a distinct `writer-ready` brief from `topic-plan.json`, reads every supplied
+source in full, writes a complete article, edits for the voice brief, and reviews
+the final text against the same evidence. Other briefs remain in research.
+There is no outbound headline template or unsourced model-memory fallback.
+See `WRITER.md` for connection settings, limits, failure behavior and activation.
+A writer review is bound to the exact metadata and body; editing either requires
+a fresh review. Model review supplements the existing deterministic checks and
+does not prove factual accuracy or originality.
 
 Passing manuscripts publish automatically through the existing Azure workflow.
 Flagged manuscripts stay held. Do not bypass checks, mark staged work published,
