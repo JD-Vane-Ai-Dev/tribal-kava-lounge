@@ -36,6 +36,35 @@ class ExtractionTests(unittest.TestCase):
                 f"<title>Source</title>{markup}".encode(), "text/html"
             )[1], WORDS)
 
+    def test_prerendered_page_excludes_inactive_views_and_keeps_active_view(self):
+        for hidden_style in ("display:none", " DISPLAY : NoNe ; ",
+                             "color: red; display : NONE ! important;",
+                             "visibility:hidden", " VISIBILITY : HiDdEn !IMPORTANT "):
+            payload = f"""<title>Active menu page</title><main>
+                <div class="spa-view" style="{hidden_style}">
+                    <article><h1>INACTIVE VIEW</h1><p>Hidden page content.</p></article>
+                </div>
+                <div class="spa-view" style="display: block; visibility: visible">
+                    <h1>Active menu</h1><p>{WORDS}</p><p>Active final paragraph.</p>
+                </div>
+                </main>""".encode()
+            with self.subTest(style=hidden_style):
+                title, text = research.extract_source_text(payload, "text/html")
+                self.assertEqual(title, "Active menu page")
+                self.assertTrue(text.startswith("Active menu"))
+                self.assertIn(WORDS, text)
+                self.assertTrue(text.endswith("Active final paragraph."))
+                self.assertNotIn("INACTIVE VIEW", text)
+                self.assertNotIn("Hidden page content", text)
+
+    def test_complete_page_above_previous_size_cap_is_read_without_truncation(self):
+        payload = PAGE.replace(b"</main>", b" " * 150_000 + b"<p>Last source detail.</p></main>")
+        self.assertGreater(len(payload), 150_000)
+        self.assertLess(len(payload), research.MAX_SOURCE_BYTES)
+        self.assertTrue(research.extract_source_text(payload, "text/html")[1].endswith(
+            "Last source detail."
+        ))
+
     def test_oversize_short_feed_and_nontext_are_rejected(self):
         for payload, kind in (
             (b"x" * (research.MAX_SOURCE_BYTES + 1), "text/plain"),

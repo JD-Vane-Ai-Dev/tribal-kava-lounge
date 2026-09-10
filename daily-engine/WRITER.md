@@ -7,12 +7,13 @@ the source packet and editorial rules. A separate paid humanizer is unnecessary.
 
 ## Connection and activation
 
-This integration is prepared but **not activated or tested against a live
-model**. The saved Azure service-principal login was rejected on September 10,
-2026 (`invalid_client`, `AADSTS7000215`). No model deployment has been selected.
-Restore Azure access, list the available deployments, and test the selected
-deployment before enabling the production job. Do not infer model availability
-from a model name or from the account's credit balance.
+Azure access was restored from the owner's existing saved login command on
+September 10, 2026. The selected existing deployment is `gpt-5-mini` on
+`micdrop-foundry-f19ae782.openai.azure.com`, with low reasoning effort.
+Automatic approval review blocked granting the scheduled job's managed identity
+model inference access. That permission change requires explicit owner approval;
+no new role was granted and the production writer remains disabled. The prepared
+integration is preserved in draft PR #2 while live verification is completed.
 
 Configure these settings on the existing `tribal-kava-daily-job` container:
 
@@ -21,6 +22,7 @@ Configure these settings on the existing `tribal-kava-daily-job` container:
 | `TRIBAL_WRITER_ENABLED` | `1` to enable, omitted or `0` to leave disabled |
 | `AZURE_OPENAI_ENDPOINT` | Existing Azure resource HTTPS origin |
 | `AZURE_OPENAI_DEPLOYMENT` | Verified deployment name, not a guessed model ID |
+| `AZURE_OPENAI_REASONING_EFFORT` | `low` for the selected GPT-5 mini deployment |
 | `AZURE_CLIENT_ID` | Existing job's user-assigned managed identity client ID |
 | `TRIBAL_WRITER_RESERVE_REMOTE` | `1` on the scheduled job; pushes the daily reservation before inference |
 
@@ -44,7 +46,10 @@ manuscripts unless a writer connection is separately configured there.
 - Only `writer-ready` briefs with direct source URLs are eligible. Unfinished
   history and actual-visit research stays pending; the model cannot invent a
   source or mark those briefs ready. Review and replenish this finite inventory.
-- Source retrieval reads complete bounded HTML/text, not headlines or snippets.
+- Source retrieval reads complete HTML/text up to 250,000 bytes per page, not
+  headlines or snippets. Inactive views hidden by inline display or visibility
+  styles are excluded. The separate 120,000-byte model input cap is unchanged;
+  neither sources nor model input are truncated to fit.
   Unreadable, oversized or unsafe destinations stop that attempt. Source pages
   are treated as evidence, never instructions. The writer receives the existing
   catalog to avoid repeating its search intent.

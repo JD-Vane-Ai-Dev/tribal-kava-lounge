@@ -18,7 +18,7 @@ from html.parser import HTMLParser
 
 
 MAX_SOURCES = 6
-MAX_SOURCE_BYTES = 150_000
+MAX_SOURCE_BYTES = 250_000
 MIN_SOURCE_WORDS = 100
 TIMEOUT_SECONDS = 25
 
@@ -145,7 +145,12 @@ class _PageText(HTMLParser):
     def handle_starttag(self, tag, attrs):
         attributes = dict(attrs)
         excluded = (tag in self.EXCLUDED or "hidden" in attributes
-                    or attributes.get("aria-hidden", "").lower() == "true")
+                    or (attributes.get("aria-hidden") or "").strip().lower() == "true"
+                    or re.search(
+                        r"(?:^|;)\s*(?:display\s*:\s*none|visibility\s*:\s*hidden)"
+                        r"\s*(?:!\s*important\s*)?(?:;|$)",
+                        attributes.get("style") or "", re.I,
+                    ) is not None)
         if tag not in self.VOID:
             self.stack.append((tag, excluded))
         if tag in self.BLOCKS:

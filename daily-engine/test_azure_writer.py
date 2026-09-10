@@ -65,18 +65,38 @@ class AzureWriterTests(unittest.TestCase):
         self.assertEqual(payload["max_completion_tokens"], 2200)
         self.assertEqual(payload["response_format"], {"type": "json_object"})
         self.assertNotIn("temperature", payload)
+        self.assertNotIn("reasoning_effort", payload)
         self.assertIn("JSON", payload["messages"][0]["content"])
         self.assertEqual(request.get_header("Api-key"), API_ENV["AZURE_OPENAI_API_KEY"])
         self.assertIsNone(request.get_header("X-identity-header"))
-        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 45)
+        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 90)
         self.assertEqual(client.call_count, 1)
         self.assertEqual(client.usage, {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150})
+
+    def test_configured_reasoning_effort_is_forwarded_to_model(self):
+        self.opener.open.return_value = Response(completion())
+        AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "low"}).complete("System", "User")
+        payload = json.loads(self.opener.open.call_args.args[0].data)
+        self.assertEqual(payload["reasoning_effort"], "low")
+
+    def test_blank_reasoning_effort_is_omitted(self):
+        self.opener.open.return_value = Response(completion())
+        AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "  "}).complete("System", "User")
+        self.assertNotIn("reasoning_effort", json.loads(self.opener.open.call_args.args[0].data))
+
+    def test_invalid_reasoning_effort_fails_before_auth_or_network(self):
+        with self.assertRaisesRegex(WriterConnectionError, "AZURE_OPENAI_REASONING_EFFORT") as caught:
+            AzureWriter({**MI_ENV, "AZURE_OPENAI_REASONING_EFFORT": "unexpected-private-value"})
+        self.assertNotIn("unexpected-private-value", str(caught.exception))
+        self.opener.open.assert_not_called()
 
     def test_managed_identity_preferred_and_secret_headers_do_not_cross_endpoints(self):
         self.opener.open.side_effect = [Response({"access_token": "test-bearer", "token_type": "Bearer"}), Response(completion())]
         client = AzureWriter(MI_ENV)
         client.complete("System", "User")
         identity, model = [call.args[0] for call in self.opener.open.call_args_list]
+        self.assertEqual(self.opener.open.call_args_list[0].kwargs["timeout"], 10)
+        self.assertEqual(self.opener.open.call_args_list[1].kwargs["timeout"], 90)
         query = urllib.parse.parse_qs(urllib.parse.urlsplit(identity.full_url).query)
         self.assertEqual(query["resource"], ["https://cognitiveservices.azure.com/"])
         self.assertEqual(query["api-version"], ["2019-08-01"])

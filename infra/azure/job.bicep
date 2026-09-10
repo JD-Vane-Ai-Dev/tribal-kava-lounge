@@ -16,6 +16,7 @@ param githubSecretName string = 'github-deploy-key-b64'
 param writerEnabled bool = false
 param writerEndpoint string = ''
 param writerDeployment string = ''
+param writerReasoningEffort string = 'low'
 
 resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: registryName
@@ -100,6 +101,10 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
             {
               name: 'AZURE_OPENAI_DEPLOYMENT'
               value: writerDeployment
+            }
+            {
+              name: 'AZURE_OPENAI_REASONING_EFFORT'
+              value: writerReasoningEffort
             }
             {
               name: 'AZURE_CLIENT_ID'

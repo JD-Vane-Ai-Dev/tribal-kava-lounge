@@ -21,9 +21,10 @@ MAX_CALLS = 3
 MAX_COMPLETION_TOKENS = 6000
 MAX_INPUT_BYTES = 120_000
 MAX_RESPONSE_BYTES = 256_000
-REQUEST_TIMEOUT_SECONDS = 45
+REQUEST_TIMEOUT_SECONDS = 90
 IDENTITY_TIMEOUT_SECONDS = 10
 IDENTITY_RESOURCE = "https://cognitiveservices.azure.com/"
+REASONING_EFFORTS = frozenset(("low", "medium", "high", "minimal", "none", "xhigh", "max"))
 
 
 class WriterConnectionError(RuntimeError):
@@ -143,6 +144,9 @@ class AzureWriter:
         self.deployment = env.get("AZURE_OPENAI_DEPLOYMENT", "").strip()
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", self.deployment):
             raise WriterConnectionError("AZURE_OPENAI_DEPLOYMENT must name an existing deployment.")
+        self.reasoning_effort = env.get("AZURE_OPENAI_REASONING_EFFORT", "").strip()
+        if self.reasoning_effort and self.reasoning_effort not in REASONING_EFFORTS:
+            raise WriterConnectionError("AZURE_OPENAI_REASONING_EFFORT is not a supported setting.")
         self._identity_url = None
         self._identity_header = None
         self._api_key = None
@@ -205,7 +209,7 @@ class AzureWriter:
             raise WriterConnectionError("Writer instructions must be valid Unicode.") from None
         if input_bytes > MAX_INPUT_BYTES:
             raise WriterConnectionError("Writer input exceeded its size limit.")
-        payload = json.dumps({
+        payload_data = {
             "model": self.deployment,
             "messages": [
                 {"role": "system", "content": system + "\nReturn one JSON object only."},
@@ -213,7 +217,10 @@ class AzureWriter:
             ],
             "response_format": {"type": "json_object"},
             "max_completion_tokens": max_tokens,
-        }, ensure_ascii=False).encode("utf-8")
+        }
+        if self.reasoning_effort:
+            payload_data["reasoning_effort"] = self.reasoning_effort
+        payload = json.dumps(payload_data, ensure_ascii=False).encode("utf-8")
         # Failed attempts consume a slot too; callers cannot accidentally retry forever.
         self.call_count += 1
         headers = {"Content-Type": "application/json", "Accept": "application/json", **self._auth_headers()}
