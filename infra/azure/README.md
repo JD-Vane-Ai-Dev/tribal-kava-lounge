@@ -1,7 +1,7 @@
 # Azure daily publisher
 
 The scheduled Daily Kava draft job runs in Azure Container Apps at 11:00 UTC.
-It clones this public repository, runs the deterministic fetch/draft/compliance
+It clones this public repository, runs the original-manuscript draft/compliance
 pipeline, and pushes only `daily-engine/state/` and `daily-engine/drafts/` back
 to `master`. Its existing schedule, image, and draft-only repository write scope
 stay unchanged.
@@ -27,8 +27,12 @@ Security boundaries:
   managed identity; the ACR admin account is disabled.
 - The container pins GitHub's current SSH public host keys and refuses unknown
   hosts.
-- The draft container does not receive an OpenAI key or the site's deployment
-  token. Deployment stays in the existing GitHub publishing workflow.
+- The optional Azure writer prefers the job's managed identity for model access;
+  an explicitly authorized resource key can instead use encrypted job-secret
+  storage with `AZURE_OPENAI_AUTH_MODE=api_key`.
+  The draft container does not receive the site's deployment token. Deployment
+  stays in the existing GitHub publishing workflow. Writer setup, activation
+  status, source requirements and usage limits are in `daily-engine/WRITER.md`.
 
 **Manual Kava Draft Fallback** remains available without a GitHub schedule. Its
 successful completion starts the publisher through `workflow_run`, because its
