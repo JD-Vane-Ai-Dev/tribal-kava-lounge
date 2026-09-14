@@ -3,8 +3,14 @@
     "2026-09-14": {
       "slug": "kratom-menu-group-chat-humor",
       "subject": "kratom",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 22595,
+        "completion_tokens": 5699,
+        "total_tokens": 28294
+      }
     }
   },
   "last_subject": "kratom"
