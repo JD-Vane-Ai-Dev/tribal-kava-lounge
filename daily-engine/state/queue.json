@@ -544,10 +544,12 @@
         "required_additions": [],
         "summary": "HOLD: writer-review-required, editorial-unrelated-topic"
       },
-      "checked_at": "2026-09-14T21:38:59.317845+00:00",
+      "checked_at": "2026-09-14T21:39:54.624507+00:00",
       "checked_sha256": "3e9b51e59d671187007535636e888c588c67608b8a1385b776566e71f3913f3b",
       "content_sha256": "3e9b51e59d671187007535636e888c588c67608b8a1385b776566e71f3913f3b",
-      "status": "held"
+      "status": "held",
+      "held_at": "2026-09-14T21:39:54.624507+00:00",
+      "hold_reason": "HOLD: writer-review-required, editorial-unrelated-topic: writer-review-required, editorial-unrelated-topic"
     }
   ]
 }
