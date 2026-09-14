@@ -7,6 +7,8 @@ on:
     paths:
       - 'daily-engine/drafts/**'
       - 'daily-engine/state/**'
+      # Reserving model usage must not race the author's final draft push.
+      - '!daily-engine/state/writer.json'
   # GITHUB_TOKEN commits from the manual fallback do not emit a new push run.
   workflow_run:
     workflows: ['Manual Kava Draft Fallback']

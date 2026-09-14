@@ -9,9 +9,15 @@ param jobName string = 'tribal-kava-daily-job'
 param imageName string = 'tribal-kava-daily'
 param imageTag string
 param schedule string = '0 11 * * *'
-param githubRepository string = 'fckaemail-cyber/tribal-kava-lounge'
+param githubRepository string = 'JD-Vane-Ai-Dev/tribal-kava-lounge'
 param githubBranch string = 'master'
 param githubSecretName string = 'github-deploy-key-b64'
+param writerEnabled bool = true
+param writerEndpoint string = 'https://micdrop-foundry-f19ae782.openai.azure.com'
+param writerDeployment string = 'gpt-5-mini'
+param writerReasoningEffort string = 'low'
+param writerAuthMode string = 'api_key'
+param writerApiKeySecretName string = 'azure-openai-api-key'
 
 resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: registryName
@@ -61,6 +67,11 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
           keyVaultUrl: '${vault.properties.vaultUri}secrets/${githubSecretName}'
           identity: identity.id
         }
+        {
+          name: 'azure-openai-api-key'
+          keyVaultUrl: '${vault.properties.vaultUri}secrets/${writerApiKeySecretName}'
+          identity: identity.id
+        }
       ]
     }
     template: {
@@ -80,6 +91,38 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
             {
               name: 'GITHUB_BRANCH'
               value: githubBranch
+            }
+            {
+              name: 'TRIBAL_WRITER_ENABLED'
+              value: writerEnabled ? '1' : '0'
+            }
+            {
+              name: 'TRIBAL_WRITER_RESERVE_REMOTE'
+              value: '1'
+            }
+            {
+              name: 'AZURE_OPENAI_ENDPOINT'
+              value: writerEndpoint
+            }
+            {
+              name: 'AZURE_OPENAI_DEPLOYMENT'
+              value: writerDeployment
+            }
+            {
+              name: 'AZURE_OPENAI_REASONING_EFFORT'
+              value: writerReasoningEffort
+            }
+            {
+              name: 'AZURE_OPENAI_AUTH_MODE'
+              value: writerAuthMode
+            }
+            {
+              name: 'AZURE_OPENAI_API_KEY'
+              secretRef: 'azure-openai-api-key'
+            }
+            {
+              name: 'AZURE_CLIENT_ID'
+              value: identity.properties.clientId
             }
           ]
           resources: {

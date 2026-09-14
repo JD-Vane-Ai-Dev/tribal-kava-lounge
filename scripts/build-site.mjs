@@ -44,7 +44,7 @@ const staticPaths = [
   '/faq', '/nearby', '/nearby/west-palm-beach', '/nearby/lake-worth', '/nearby/greenacres',
   '/events/two-dollar-tuesday', '/events/friday-loteria', '/events/karaoke',
   '/events/mario-kart', '/events/poker-night', '/events/art-club', '/events/sip-and-paint',
-  '/the-daily-kava', '/tribal-kava-west-palm-beach'
+  '/the-daily-kava', '/tribal-kava-west-palm-beach', '/kava-bars-west-palm-beach'
 ];
 const htmlTemplate = await readFile(path.join(root, 'index.html'), 'utf8');
 const appSource = await readFile(path.join(root, 'app.js'), 'utf8');
@@ -84,11 +84,15 @@ const dailyEntries = dailyPosts.map((post) => {
 });
 const dailyPaths = dailyEntries.map((entry) => entry.path);
 const dailyLastmod = new Map(dailyEntries.map((entry) => [entry.path, entry.lastmod]));
+const today = new Date().toISOString().slice(0, 10);
 const urls = [...staticPaths, ...dailyPaths]
   .map((route) => {
-    const changefreq = route.includes('events') || route.includes('two-dollar-kava') ? 'weekly' : 'monthly';
-    const priority = route === '/' ? '1.0' : route === '/the-daily-kava' ? '0.9' : route.startsWith('/the-daily-kava/') ? '0.8' : '0.7';
-    const lastmod = dailyLastmod.has(route) ? `<lastmod>${dailyLastmod.get(route)}</lastmod>` : '';
+    const dailyish = route === '/' || route === '/kava-bars-west-palm-beach' || route.includes('the-daily-kava') || route.includes('/events');
+    const changefreq = dailyish ? 'daily' : 'monthly';
+    const priority = route === '/' ? '1.0' : route === '/kava-bars-west-palm-beach' ? '0.9' : route === '/the-daily-kava' ? '0.9' : route.startsWith('/the-daily-kava/') ? '0.8' : '0.7';
+    const lastmod = dailyLastmod.has(route)
+      ? `<lastmod>${dailyLastmod.get(route)}</lastmod>`
+      : (dailyish ? `<lastmod>${today}</lastmod>` : '');
     return `  <url><loc>${origin}${route}</loc>${lastmod}<changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`;
   })
   .join('\n');
@@ -136,12 +140,10 @@ const detailPages = runInNewContext(`
   const pages = [];
   for (const [slug, event] of Object.entries(eventDatabase)) {
     renderEventDetail(slug);
-    const metadata = seoDatabase[event.seoKey];
-    // Do not freeze a future event occurrence into a long-lived static document.
-    if (metadata.schema['@type'] === 'Event') metadata.schema = {
-      '@context': 'https://schema.org', '@type': 'WebPage',
-      name: event.title, description: event.intro,
-      url: SITE_ORIGIN + '/events/' + slug
+    const metadata = {
+      title: event.title + ' | Tribal Kava Lounge',
+      description: event.intro,
+      schema: event.schema
     };
     pages.push({route: '/events/' + slug, view: 'event-detail',
       html: document.getElementById('event-detail-root').innerHTML, metadata});

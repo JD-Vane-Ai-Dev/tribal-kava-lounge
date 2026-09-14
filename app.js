@@ -7,11 +7,11 @@ const seoDatabase = {
     'home': {
         title: 'Tribal Kava Lounge | Kava Bar & Kratom Tea in West Palm Beach, FL',
         description: 'Visit Tribal Kava Lounge in West Palm Beach for traditional kava shells, brewed kratom tea, crafted drinks, games, events, and a welcoming alcohol-free night out. Kratom 21+ only.',
-        h1: 'A Kava Lounge for a Better Night Out in West Palm Beach',
+        h1: 'A kava bar in West Palm Beach',
         slug: '/',
         schema: {
             "@context": "https://schema.org",
-            "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
+            "@type": ["BarOrPub", "CafeOrCoffeeShop", "LocalBusiness"],
             "name": "Tribal Kava Lounge",
             "alternateName": "Tribal Kava Bar",
             "logo": `${SITE_ORIGIN}/images/tribal-logo-cutout.png`,
@@ -56,7 +56,8 @@ const seoDatabase = {
                 }
             ],
             "sameAs": [
-                "https://www.instagram.com/tribalkavalounge"
+                "https://www.instagram.com/tribalkavalounge",
+                "https://www.facebook.com/TRIBALKAVA/"
             ]
         }
     },
@@ -232,7 +233,7 @@ const seoDatabase = {
         slug: '/visit',
         schema: {
             "@context": "https://schema.org",
-            "@type": ["CafeOrCoffeeShop", "LocalBusiness"],
+            "@type": ["BarOrPub", "CafeOrCoffeeShop", "LocalBusiness"],
             "@id": `${SITE_ORIGIN}/#lounge`,
             "name": "Tribal Kava Lounge",
             "alternateName": "Tribal Kava Bar",
@@ -268,7 +269,7 @@ const seoDatabase = {
                     publisher: { '@id': `${SITE_ORIGIN}/#lounge` }
                 },
                 {
-                    '@type': ['CafeOrCoffeeShop', 'LocalBusiness'],
+                    '@type': ['BarOrPub', 'CafeOrCoffeeShop', 'LocalBusiness'],
                     '@id': `${SITE_ORIGIN}/#lounge`,
                     name: 'Tribal Kava Lounge',
                     alternateName: 'Tribal Kava Bar',
@@ -311,6 +312,74 @@ const seoDatabase = {
                             acceptedAnswer: {
                                 '@type': 'Answer',
                                 text: 'No. Lowkey Kava is a separate business at the former 404 S Military Trail location. Tribal Kava Lounge operates at 770 S Military Trail, Unit A1.'
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    'kava-bars-west-palm-beach': {
+        title: 'Kava Bars in West Palm Beach | Tribal Kava Lounge',
+        description: 'Tribal Kava Lounge is an open kava bar in West Palm Beach at 770 S Military Trail, Unit A1. Hours, $2 Tuesday, Friday Lotería, and directions — not the closed 404 S Military Trail listing.',
+        h1: 'Kava bars in West Palm Beach',
+        slug: '/kava-bars-west-palm-beach',
+        schema: {
+            '@context': 'https://schema.org',
+            '@graph': [
+                {
+                    '@type': 'WebPage',
+                    '@id': `${SITE_ORIGIN}/kava-bars-west-palm-beach#page`,
+                    url: `${SITE_ORIGIN}/kava-bars-west-palm-beach`,
+                    name: 'Kava Bars in West Palm Beach | Tribal Kava Lounge',
+                    description: 'Tribal Kava Lounge is an open kava bar in West Palm Beach at 770 S Military Trail, Unit A1.',
+                    about: { '@id': `${SITE_ORIGIN}/#lounge` },
+                    publisher: { '@id': `${SITE_ORIGIN}/#lounge` }
+                },
+                {
+                    '@type': ['BarOrPub', 'CafeOrCoffeeShop', 'LocalBusiness'],
+                    '@id': `${SITE_ORIGIN}/#lounge`,
+                    name: 'Tribal Kava Lounge',
+                    alternateName: 'Tribal Kava Bar',
+                    url: SITE_ORIGIN,
+                    telephone: '+1-561-355-0561',
+                    hasMenu: `${SITE_ORIGIN}/menu`,
+                    hasMap: 'https://www.google.com/maps/search/?api=1&query=Tribal+Kava+Lounge&query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y',
+                    address: {
+                        '@type': 'PostalAddress',
+                        streetAddress: '770 S Military Trail, Unit A1',
+                        addressLocality: 'West Palm Beach',
+                        addressRegion: 'FL',
+                        postalCode: '33415',
+                        addressCountry: 'US'
+                    }
+                },
+                {
+                    '@type': 'FAQPage',
+                    '@id': `${SITE_ORIGIN}/kava-bars-west-palm-beach#faq`,
+                    mainEntity: [
+                        {
+                            '@type': 'Question',
+                            name: 'Is there a kava bar in West Palm Beach?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'Yes. Tribal Kava Lounge is open at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415. It is a standalone kava bar with traditional kava shells, kratom tea (21+), games, and weekly events.'
+                            }
+                        },
+                        {
+                            '@type': 'Question',
+                            name: 'Is Tribal Kava closed?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'No. Older listings at 404 S Military Trail are stale. Tribal Kava Bar relocated and continues as Tribal Kava Lounge at 770 S Military Trail, Unit A1.'
+                            }
+                        },
+                        {
+                            '@type': 'Question',
+                            name: 'What are the hours at Tribal Kava Lounge?',
+                            acceptedAnswer: {
+                                '@type': 'Answer',
+                                text: 'Sunday through Thursday 11 AM–1 AM, Friday and Saturday 11 AM–2 AM. $2 Tuesday kava shells run 2–5 PM. Friday Lotería starts at 9 PM.'
                             }
                         }
                     ]
@@ -525,9 +594,33 @@ const eventDatabase = {
         calendarUrl: '/events.ics',
         schema: {
             '@context': 'https://schema.org',
-            '@type': 'WebPage',
+            '@type': 'Event',
             name: '$2 Tuesday Kava Shells at Tribal Kava Lounge',
-            description: 'Single kava shells are $2 every Tuesday from 2 PM to 5 PM.',
+            description: 'Single kava shells are $2 every Tuesday from 2 PM to 5 PM at Tribal Kava Lounge in West Palm Beach.',
+            startDate: nextTuesdaySpecial.iso,
+            eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+            eventStatus: 'https://schema.org/EventScheduled',
+            isAccessibleForFree: false,
+            offers: {
+                '@type': 'Offer',
+                price: '2.00',
+                priceCurrency: 'USD',
+                availability: 'https://schema.org/InStock',
+                url: `${SITE_ORIGIN}/events/two-dollar-tuesday`
+            },
+            location: {
+                '@type': 'Place',
+                name: 'Tribal Kava Lounge',
+                address: {
+                    '@type': 'PostalAddress',
+                    streetAddress: '770 S Military Trail, Unit A1',
+                    addressLocality: 'West Palm Beach',
+                    addressRegion: 'FL',
+                    postalCode: '33415',
+                    addressCountry: 'US'
+                }
+            },
+            organizer: { '@type': 'Organization', name: 'Tribal Kava Lounge', url: SITE_ORIGIN },
             url: `${SITE_ORIGIN}/events/two-dollar-tuesday`
         }
     },
@@ -849,7 +942,8 @@ const VALID_ROUTES = new Set([
     'event-detail', 'nearby', 'nearby-detail', 'the-daily-kava', 'the-daily-kava-article',
     'what-is-kava', 'what-is-kratom',
     'plan-your-visit', 'private-events', 'press', 'gift-cards',
-    'tribal-kava-west-palm-beach'
+    'tribal-kava-west-palm-beach',
+    'kava-bars-west-palm-beach'
 ]);
 
 function parsePathRoute() {
