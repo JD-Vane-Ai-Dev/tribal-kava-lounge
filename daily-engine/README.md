@@ -20,9 +20,10 @@ first visits and practical lounge topics. Flavor is one part of that coverage.
 6. The existing IndexNow step runs after verified deployment. Metadata, article
    HTML, visible FAQs, RSS and sitemap URLs are generated from the same catalog.
 
-No API key is used by the drafting job. It consumes authored manuscripts; it
-cannot research or write an unlimited supply of prose. The old headline fallback
-has been removed. The legacy `fetch` command remains a research/discovery tool
+When `TRIBAL_WRITER_ENABLED=1`, the job writes one original article per UTC day
+from `writer-ready` topic briefs (Foundry `gpt-5-mini`, Key Vault credential).
+Empty `manuscripts/` is expected in that mode. The old headline fallback has
+been removed. The legacy `fetch` command remains a research/discovery tool
 only and is no longer part of the automatic draft run. Its 14-day news-source
 filter does not apply to evergreen manuscripts.
 

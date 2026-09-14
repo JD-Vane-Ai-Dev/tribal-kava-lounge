@@ -137,6 +137,15 @@ for (const route of ['home', 'menu', 'visit', 'faq']) {
 }
 assert.ok(html.split('<footer>')[1].includes(`href="${relocationRoute}"`), 'global footer must link to relocation page');
 assert.equal((sitemap.match(/<loc>https:\/\/www\.thetribalkavalounge\.com\/tribal-kava-west-palm-beach<\/loc>/g) || []).length, 1);
+assert.equal((sitemap.match(/<loc>https:\/\/www\.thetribalkavalounge\.com\/kava-bars-west-palm-beach<\/loc>/g) || []).length, 1);
+const kavaBarRoute = '/kava-bars-west-palm-beach';
+const kavaBarDocument = await read(`dist${kavaBarRoute}/index.html`);
+assert.ok(kavaBarDocument.includes('<h1>Kava bars in West Palm Beach</h1>'), 'kava-bar landing H1 must ship before JavaScript');
+assert.ok(kavaBarDocument.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com${kavaBarRoute}"`));
+assert.match(kavaBarDocument, /770 S Military Trail, Unit A1/);
+assert.doesNotMatch(kavaBarDocument.split(`<div id="view-kava-bars-west-palm-beach"`)[1].split('<!-- ================= NEARBY AREAS')[0], /href="[^"]*(?:404|lowkey)/i);
+const homeDocument = await read('dist/index.html');
+assert.match(homeDocument, /<h1>A kava bar in West Palm Beach<\/h1>/, 'homepage H1 must name the kava bar query');
 const mainFaqDocument = await read('dist/faq/index.html');
 const mainFaqSchema = JSON.parse(mainFaqDocument.match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/)[1]);
 assert.equal(mainFaqSchema.mainEntity[0].name, 'Did Tribal Kava close or relocate?');
@@ -283,7 +292,7 @@ assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slu
 const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
   .map((match) => match[1]).sort();
 assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
-assert.equal((sitemap.match(/<url>/g) || []).length, 26 + catalogSlugs.length, 'sitemap must include the 26 site routes and every catalog story');
+assert.equal((sitemap.match(/<url>/g) || []).length, 27 + catalogSlugs.length, 'sitemap must include the 27 site routes and every catalog story');
 for (const post of dailyPosts) {
   const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
   assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);
