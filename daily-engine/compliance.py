@@ -11,6 +11,7 @@ from __future__ import annotations
 import re
 import json
 import html
+import hashlib
 from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import urlsplit
@@ -275,6 +276,13 @@ def parse_article(text: str) -> tuple[dict, str]:
     return metadata, match[2]
 
 
+def article_review_hash(meta: dict, body: str) -> str:
+    """Bind a model review to all manuscript data except the review itself."""
+    reviewed = {key: value for key, value in meta.items() if key != 'writerReview'}
+    value = json.dumps({'metadata': reviewed, 'body': body}, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(value.encode()).hexdigest()
+
+
 def check_publishable(text: str, source_urls: list[str], now: datetime | None = None) -> dict[str, Any]:
     """Require a complete original manuscript; headlines never become a post.
 
@@ -289,6 +297,12 @@ def check_publishable(text: str, source_urls: list[str], now: datetime | None = 
         meta, body = parse_article(text)
     except ValueError as error:
         return {"pass": False, "score": 0, "flags": [{"severity": "error", "rule": "original-article-required", "match": str(error)}], "required_additions": [], "summary": "HOLD: original article required"}
+    if 'writer' in meta or 'writerReview' in meta:
+        review = meta.get('writerReview')
+        if (not isinstance(meta.get('writer'), dict) or not isinstance(review, dict)
+                or review.get('status') != 'pass' or review.get('issues') != []
+                or review.get('contentSha256') != article_review_hash(meta, body)):
+            reject('writer-review-required', 'Exact current article must pass the grounded writer review')
     visible_meta = " ".join(str(meta.get(k, "")) for k in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword", "tags", "keywords", "faq"))
     flags.extend(check_text(body + "\n" + visible_meta, context="daily")["flags"])
     for key in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword"):
