@@ -544,11 +544,11 @@
         "required_additions": [],
         "summary": "HOLD: writer-review-required, editorial-unrelated-topic"
       },
-      "checked_at": "2026-09-15T11:01:14.532456+00:00",
+      "checked_at": "2026-09-15T11:01:56.917845+00:00",
       "checked_sha256": "3e9b51e59d671187007535636e888c588c67608b8a1385b776566e71f3913f3b",
       "content_sha256": "3e9b51e59d671187007535636e888c588c67608b8a1385b776566e71f3913f3b",
       "status": "held",
-      "held_at": "2026-09-14T21:39:54.624507+00:00",
+      "held_at": "2026-09-15T11:01:56.917845+00:00",
       "hold_reason": "HOLD: writer-review-required, editorial-unrelated-topic: writer-review-required, editorial-unrelated-topic"
     },
     {
@@ -571,10 +571,12 @@
         "required_additions": [],
         "summary": "HOLD: writer-review-required"
       },
-      "checked_at": "2026-09-15T11:01:14.418089+00:00",
+      "checked_at": "2026-09-15T11:01:56.917845+00:00",
       "checked_sha256": "97e9e2ac21a29ed234d8f3d53014068bccfcc2c247915b65cdf50fd847a921ed",
       "content_sha256": "97e9e2ac21a29ed234d8f3d53014068bccfcc2c247915b65cdf50fd847a921ed",
-      "status": "held"
+      "status": "held",
+      "held_at": "2026-09-15T11:01:56.917845+00:00",
+      "hold_reason": "HOLD: writer-review-required: writer-review-required"
     }
   ]
 }
