@@ -11,7 +11,13 @@
         "completion_tokens": 5699,
         "total_tokens": 28294
       }
+    },
+    "2026-09-15": {
+      "slug": "going-to-a-kava-bar-alone",
+      "subject": "kava",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kratom"
+  "last_subject": "kava"
 }
