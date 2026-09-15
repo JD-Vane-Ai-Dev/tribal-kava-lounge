@@ -15,8 +15,14 @@
     "2026-09-15": {
       "slug": "going-to-a-kava-bar-alone",
       "subject": "kava",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 19130,
+        "completion_tokens": 5645,
+        "total_tokens": 24775
+      }
     }
   },
   "last_subject": "kava"
