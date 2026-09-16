@@ -23,7 +23,13 @@
         "completion_tokens": 5645,
         "total_tokens": 24775
       }
+    },
+    "2026-09-16": {
+      "slug": "friday-loteria-at-tribal-kava",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kava"
+  "last_subject": "events"
 }
