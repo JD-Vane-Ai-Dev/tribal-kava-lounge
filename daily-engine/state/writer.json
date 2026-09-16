@@ -27,8 +27,14 @@
     "2026-09-16": {
       "slug": "friday-loteria-at-tribal-kava",
       "subject": "events",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 16939,
+        "completion_tokens": 5004,
+        "total_tokens": 21943
+      }
     }
   },
   "last_subject": "events"
