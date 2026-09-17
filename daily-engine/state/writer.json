@@ -35,6 +35,12 @@
         "completion_tokens": 5004,
         "total_tokens": 21943
       }
+    },
+    "2026-09-17": {
+      "slug": "two-dollar-tuesday-kava-shells",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
   "last_subject": "events"
