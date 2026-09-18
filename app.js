@@ -379,7 +379,7 @@ const seoDatabase = {
                             name: 'What are the hours at Tribal Kava Lounge?',
                             acceptedAnswer: {
                                 '@type': 'Answer',
-                                text: 'Sunday through Thursday 11 AM–1 AM, Friday and Saturday 11 AM–2 AM. $2 Tuesday kava shells run 2–5 PM. Friday Lotería starts at 9 PM.'
+                                text: 'Sunday through Thursday 8 AM–midnight, Friday and Saturday 8 AM–1 AM. $2 Tuesday kava shells run 2–5 PM. Friday Lotería starts at 9 PM.'
                             }
                         }
                     ]
@@ -2016,14 +2016,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Coming Soon overlay dismiss
-    const comingSoonOverlay = document.getElementById('coming-soon-overlay');
-    const previewBtn = document.getElementById('coming-soon-preview');
-    if (comingSoonOverlay && previewBtn) {
-        previewBtn.addEventListener('click', () => {
-            comingSoonOverlay.classList.add('hidden');
-        });
-    }
 });
 
 // Global helpers to handle starter questions in chat

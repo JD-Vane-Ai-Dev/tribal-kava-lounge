@@ -238,7 +238,7 @@ class AzureWriterTests(unittest.TestCase):
 
     def test_input_and_token_limits_precede_auth_or_network(self):
         client = AzureWriter(MI_ENV)
-        for system, user, limit in (("", "u", 10), ("s", "u", 0), ("s", "u", 6001), ("s", "u", True), ("s", "é" * 60001, 10), ("s", "\ud800", 10)):
+        for system, user, limit in (("", "u", 10), ("s", "u", 0), ("s", "u", 12001), ("s", "u", True), ("s", "é" * 60001, 10), ("s", "\ud800", 10)):
             with self.subTest(limit=limit), self.assertRaises(WriterConnectionError):
                 client.complete(system, user, limit)
         self.assertEqual(client.call_count, 0)

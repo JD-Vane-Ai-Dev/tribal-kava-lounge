@@ -73,8 +73,11 @@ def select_topic(root: Path, ledger: dict, catalog: dict) -> dict | None:
     used = set(catalog['slug']) | {p.stem for folder in ('drafts', 'manuscripts') for p in (root / folder).glob('*.md')}
     used_queries = {query.casefold() for query in catalog['primaryKeyword']}
     last_subject = ledger.get('last_subject')
+    attempted = {attempt.get('slug') for attempt in ledger.get('attempts', {}).values()
+                 if isinstance(attempt, dict) and attempt.get('slug')}
     ready = [topic for topic in plan['topics'] if topic.get('status') == 'writer-ready'
              and topic.get('sources') and topic.get('slug') not in used
+             and topic.get('slug') not in attempted
              and topic['primaryKeyword'].casefold() not in used_queries]
     ready.sort(key=lambda topic: topic.get('subject') == last_subject)
     return ready[0] if ready else None
@@ -189,11 +192,11 @@ only the narrower brief; do not paraphrase an existing article into a new URL.
             save(ledger_path, ledger)
             return client.complete(system, user, max_tokens=max_tokens)
 
-        draft = call(instructions, packet)
+        draft = call(instructions, packet, max_tokens=8000)
         if draft.get('holdReason'):
             raise ValueError('Writer held the brief because the evidence is insufficient')
         edited = call(instructions + '\nEdit the supplied draft for the requested voice. Keep facts, attribution and meaning intact. Remove filler and forced jokes; never add unsupported detail. Return the same complete JSON article shape.',
-                      packet + '\nDRAFT TO EDIT:\n' + json.dumps(draft, ensure_ascii=False))
+                      packet + '\nDRAFT TO EDIT:\n' + json.dumps(draft, ensure_ascii=False), max_tokens=8000)
         if edited.get('holdReason'):
             raise ValueError('Voice editor held the brief because the evidence is insufficient')
         meta, body, issues = compose(edited, topic, sources, today, os.environ['AZURE_OPENAI_DEPLOYMENT'])
@@ -217,7 +220,7 @@ Return JSON {"pass":true|false,"issues":["specific issue"],
 "checks":{"grounded":true|false,"original":true|false,"distinctIntent":true|false,
 "voice":true|false,"editorial":true|false,"attribution":true|false}}.
 Pass only when every check is true and issues is empty.
-''', packet + '\nARTICLE TO REVIEW:\n' + encode(meta, body), max_tokens=1800)
+''', packet + '\nARTICLE TO REVIEW:\n' + encode(meta, body), max_tokens=4000)
         checks = review.get('checks', {})
         required = ('grounded', 'original', 'distinctIntent', 'voice', 'editorial', 'attribution')
         passed = (review.get('pass') is True and review.get('issues') == []
