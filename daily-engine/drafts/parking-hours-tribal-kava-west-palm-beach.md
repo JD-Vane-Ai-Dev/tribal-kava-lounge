@@ -1,6 +1,6 @@
 ---
 {
-  "title": "Parking, hours, and walking in at Tribal",
+  "title": "Parking, hours, and walking in at Tribal Kava Lounge",
   "seoTitle": "Tribal Kava Lounge Parking West Palm Beach — Hours & What to Expect",
   "metaDescription": "Practical arrival guide for 770 S Military Trail, Unit A1: where to park, current hours (Sun–Thu 8 AM–midnight; Fri–Sat 8 AM–1 AM), and what happens when you walk in.",
   "dek": "Everything you need to know before arriving at Tribal Kava Lounge — free parking, current hours, and the simple steps at the door so your first visit goes smoothly.",
@@ -58,16 +58,14 @@
     }
   },
   "writerReview": {
-    "status": "hold",
-    "issues": [
-      "Source support note lacks an exact evidence excerpt",
-      "Final model review did not pass every editorial check"
-    ],
-    "contentSha256": "209a1a2b21daec0b03b67e51fe26925f8a783130619170fe73e6ff875e0aa644"
+    "status": "pass",
+    "issues": [],
+    "contentSha256": "1e711e68e60ed609cf163cfbe8e7c60c3aa83100091bc0b94c3afafdb8dd1ab5",
+    "model": "grok-4.6"
   }
 }
 ---
-# Parking, hours, and walking in at Tribal
+# Parking, hours, and walking in at Tribal Kava Lounge
 
 Start with the short answer: Tribal is at 770 S Military Trail, Unit A1, has unlimited free parking on-site, and is open Sun–Thu 8:00 AM–12:00 AM, Fri–Sat 8:00 AM–1:00 AM (see Visit) (https://www.thetribalkavalounge.com/visit). If this is your first time, walk up to the counter, tell the team what flavor style you like, and they’ll help you pick a drink (see New Here) (https://www.thetribalkavalounge.com/new-here).
 
@@ -101,7 +99,7 @@ You do not need to study the menu before you arrive. The practical flow is simpl
 
 - Don’t over-prepare: arriving without prior menu knowledge is normal. The counter staff will ask about flavor preferences and guide you toward creamy, fruity, or zero-botanical drinks (https://www.thetribalkavalounge.com/new-here).
 
-- Bring ID if you might try kratom products (21+). If you only want fruit drinks or kava items that don’t require age verification, you still won’t need a license, but it’s good to know the rule up front (https://www.thetribalkavalounge.com/new-here).
+- Bring ID if you might try kratom products (21+). Tribal serves kratom as 21+ with valid ID; ask at the counter about kava and fruit drinks (https://www.thetribalkavalounge.com/new-here).
 
 - Use the lot: parking is free and on-site, so plan to pull into the storefront lot rather than circling for street spots (https://www.thetribalkavalounge.com/visit).
 
@@ -111,7 +109,7 @@ You do not need to study the menu before you arrive. The practical flow is simpl
 
 - For more visit details and directions: https://www.thetribalkavalounge.com/visit
 - For first-visit ordering help and style guides: https://www.thetribalkavalounge.com/new-here
-- To browse the drink menu ahead of time: https://www.thetribalkavalounge.com/menu
+- To browse first-visit drink styles and ordering help: https://www.thetribalkavalounge.com/new-here
 
 Two-minute checklist before you walk in: keys, ID if you might try kratom extracts, and a quick idea of whether you like creamy or fruity flavors. Then start at the counter and let the team guide you — that’s exactly how Tribal designed the first-visit flow (https://www.thetribalkavalounge.com/new-here).
 

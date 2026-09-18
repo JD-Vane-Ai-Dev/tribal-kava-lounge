@@ -69,7 +69,7 @@ class AzureWriterTests(unittest.TestCase):
         self.assertIn("JSON", payload["messages"][0]["content"])
         self.assertEqual(request.get_header("Api-key"), API_ENV["AZURE_OPENAI_API_KEY"])
         self.assertIsNone(request.get_header("X-identity-header"))
-        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 90)
+        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 180)
         self.assertEqual(client.call_count, 1)
         self.assertEqual(client.usage, {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150})
 
@@ -105,7 +105,7 @@ class AzureWriterTests(unittest.TestCase):
         client.complete("System", "User")
         identity, model = [call.args[0] for call in self.opener.open.call_args_list]
         self.assertEqual(self.opener.open.call_args_list[0].kwargs["timeout"], 10)
-        self.assertEqual(self.opener.open.call_args_list[1].kwargs["timeout"], 90)
+        self.assertEqual(self.opener.open.call_args_list[1].kwargs["timeout"], 180)
         query = urllib.parse.parse_qs(urllib.parse.urlsplit(identity.full_url).query)
         self.assertEqual(query["resource"], ["https://cognitiveservices.azure.com/"])
         self.assertEqual(query["api-version"], ["2019-08-01"])
