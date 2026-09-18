@@ -42,6 +42,12 @@
       "status": "blocked",
       "model_calls": 0,
       "reason": "Source has fewer than 100 readable words; full evidence is required."
+    },
+    "2026-09-18": {
+      "slug": "two-dollar-tuesday-kava-shells",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
   "last_subject": "events"
