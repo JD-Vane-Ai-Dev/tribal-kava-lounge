@@ -632,9 +632,12 @@
       "checked_at": "2026-09-18T18:53:34.183483+00:00",
       "checked_sha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207",
       "content_sha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207",
-      "status": "staged",
+      "status": "published",
       "staged_at": "2026-09-18T18:53:34.183483+00:00",
-      "staged_sha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207"
+      "staged_sha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207",
+      "published_at": "2026-09-18T18:54:20.237270+00:00",
+      "published_sha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207",
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/parking-hours-tribal-kava-west-palm-beach"
     }
   ]
 }
