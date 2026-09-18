@@ -46,8 +46,13 @@
     "2026-09-18": {
       "slug": "parking-hours-tribal-kava-west-palm-beach",
       "subject": "kava",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "usage": {
+        "prompt_tokens": 19213,
+        "completion_tokens": 5956,
+        "total_tokens": 25169
+      }
     }
   },
   "last_subject": "kava"
