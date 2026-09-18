@@ -42,7 +42,13 @@
       "status": "blocked",
       "model_calls": 0,
       "reason": "Source has fewer than 100 readable words; full evidence is required."
+    },
+    "2026-09-18": {
+      "slug": "parking-hours-tribal-kava-west-palm-beach",
+      "subject": "kava",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "events"
+  "last_subject": "kava"
 }
