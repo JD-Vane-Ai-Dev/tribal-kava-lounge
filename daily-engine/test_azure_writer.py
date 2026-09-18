@@ -79,6 +79,15 @@ class AzureWriterTests(unittest.TestCase):
         payload = json.loads(self.opener.open.call_args.args[0].data)
         self.assertEqual(payload["reasoning_effort"], "low")
 
+    def test_review_deployment_override_skips_gpt_reasoning_effort(self):
+        self.opener.open.return_value = Response(completion())
+        AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "low"}).complete(
+            "System", "User", deployment="grok-4.6"
+        )
+        payload = json.loads(self.opener.open.call_args.args[0].data)
+        self.assertEqual(payload["model"], "grok-4.6")
+        self.assertNotIn("reasoning_effort", payload)
+
     def test_blank_reasoning_effort_is_omitted(self):
         self.opener.open.return_value = Response(completion())
         AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "  "}).complete("System", "User")

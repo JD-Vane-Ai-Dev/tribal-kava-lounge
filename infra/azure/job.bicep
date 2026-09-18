@@ -15,6 +15,7 @@ param githubSecretName string = 'github-deploy-key-b64'
 param writerEnabled bool = true
 param writerEndpoint string = 'https://micdrop-foundry-f19ae782.openai.azure.com'
 param writerDeployment string = 'gpt-5-mini'
+param writerReviewDeployment string = 'grok-4.6'
 param writerReasoningEffort string = 'low'
 param writerAuthMode string = 'api_key'
 param writerApiKeySecretName string = 'azure-openai-api-key'
@@ -107,6 +108,10 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
             {
               name: 'AZURE_OPENAI_DEPLOYMENT'
               value: writerDeployment
+            }
+            {
+              name: 'AZURE_OPENAI_REVIEW_DEPLOYMENT'
+              value: writerReviewDeployment
             }
             {
               name: 'AZURE_OPENAI_REASONING_EFFORT'

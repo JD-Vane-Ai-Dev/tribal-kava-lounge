@@ -21,7 +21,8 @@ Configure these settings on the existing `tribal-kava-daily-job` container:
 | --- | --- |
 | `TRIBAL_WRITER_ENABLED` | `1` to enable, omitted or `0` to leave disabled |
 | `AZURE_OPENAI_ENDPOINT` | Existing Azure resource HTTPS origin |
-| `AZURE_OPENAI_DEPLOYMENT` | Verified deployment name, not a guessed model ID |
+| `AZURE_OPENAI_DEPLOYMENT` | Verified writer deployment name, not a guessed model ID |
+| `AZURE_OPENAI_REVIEW_DEPLOYMENT` | Optional review model; `grok-4.6` on the scheduled job |
 | `AZURE_OPENAI_REASONING_EFFORT` | `low` for the selected GPT-5 mini deployment |
 | `AZURE_OPENAI_AUTH_MODE` | `auto` (default), `managed_identity`, or explicitly authorized `api_key` |
 | `AZURE_CLIENT_ID` | Existing job's user-assigned managed identity client ID |
@@ -70,10 +71,14 @@ manuscripts unless a writer connection is separately configured there.
   isolated test uses a local ledger, so separate test checkouts have separate
   limits. These are usage bounds, not
   a dollar estimate; confirm the selected model's Azure price before activation.
-- A generated draft whose final review fails stays held. Review failure or a
-  review outage after editing preserves that draft. The review hash covers the
-  metadata and body. Existing checks revalidate it on intake and publication;
-  changing the text cannot silently reuse its old review.
+- The same connected model reviews the finished article. A pass publishes on
+  the next GitHub production job; there is no human passing-review step. A
+  hold is only for invented facts, missing sources, off-brief topic, or
+  prohibited claims. Review failure or a review outage after editing preserves
+  that draft. The review hash covers the metadata and body. Existing checks
+  revalidate it on intake and publication; changing the text cannot silently
+  reuse its old review. Optional `AZURE_OPENAI_REVIEW_DEPLOYMENT` selects a
+  stronger review model (default `grok-4.6`) without changing the writer.
 - Connection/research failures before a complete article preserve a blocked
   attempt in state and produce no filler. Raw source text and model request
   payloads are not committed. The existing publisher continues to publish other

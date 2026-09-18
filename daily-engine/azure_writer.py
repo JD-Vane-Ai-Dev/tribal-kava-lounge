@@ -215,14 +215,17 @@ class AzureWriter:
             return {"Authorization": "Bearer " + token}
         return {"api-key": self._api_key}
 
-    def complete(self, system: str, user: str, max_tokens: int = 4000) -> dict:
+    def complete(self, system: str, user: str, max_tokens: int = 4000, deployment: str | None = None) -> dict:
         """Return one complete JSON object, or fail closed without automatic retries."""
         if self.call_count >= MAX_CALLS:
             raise WriterConnectionError("Writer reached its three-call run limit.")
         if type(max_tokens) is not int or not 1 <= max_tokens <= MAX_COMPLETION_TOKENS:
-            raise WriterConnectionError("Writer completion token limit must be between 1 and 6000.")
+            raise WriterConnectionError("Writer completion token limit must be between 1 and 12000.")
         if not isinstance(system, str) or not system.strip() or not isinstance(user, str) or not user.strip():
             raise WriterConnectionError("Writer requires nonempty system and user instructions.")
+        model = self.deployment if not deployment else deployment.strip()
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", model):
+            raise WriterConnectionError("AZURE_OPENAI_DEPLOYMENT must name an existing deployment.")
         try:
             input_bytes = len(system.encode("utf-8")) + len(user.encode("utf-8"))
         except UnicodeError:
@@ -230,7 +233,7 @@ class AzureWriter:
         if input_bytes > MAX_INPUT_BYTES:
             raise WriterConnectionError("Writer input exceeded its size limit.")
         payload_data = {
-            "model": self.deployment,
+            "model": model,
             "messages": [
                 {"role": "system", "content": system + "\nReturn one JSON object only."},
                 {"role": "user", "content": user},
@@ -238,7 +241,7 @@ class AzureWriter:
             "response_format": {"type": "json_object"},
             "max_completion_tokens": max_tokens,
         }
-        if self.reasoning_effort:
+        if self.reasoning_effort and not model.lower().startswith("grok"):
             payload_data["reasoning_effort"] = self.reasoning_effort
         payload = json.dumps(payload_data, ensure_ascii=False).encode("utf-8")
         # Failed attempts consume a slot too; callers cannot accidentally retry forever.

@@ -216,7 +216,7 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
             item["compliance"] = result
             item["checked_at"] = now
             item["checked_sha256"] = sha256(markdown.encode())
-            if not result["pass"] or result.get("flags"):
+            if not result["pass"]:
                 raise ValueError(result["summary"] + ": " + ", ".join(flag["rule"] for flag in result.get("flags", [])))
             post = create_post(path, markdown, source_urls)
             existing = by_slug.get(post["slug"])

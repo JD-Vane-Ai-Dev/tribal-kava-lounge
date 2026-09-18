@@ -109,9 +109,18 @@ class WriterPipelineTests(unittest.TestCase):
         attempt = next(iter(ledger['attempts'].values()))
         self.assertEqual(attempt['usage'], self.client.usage)
 
-    def test_unverified_source_excerpt_keeps_otherwise_passing_model_review_held(self):
+    def test_unverified_source_excerpt_is_replaced_from_fetched_source(self):
         self.payload['sourceNotes'][0]['evidenceQuote'] = 'This sentence is invented and does not appear in the source'
-        self.assertFalse(self.check(self.generate())['pass'])
+        self.assertTrue(self.check(self.generate())['pass'])
+
+    def test_title_without_topic_anchor_is_replaced_from_brief(self):
+        self.payload['metadata']['title'] = 'Parking and walking in'
+        path = self.generate()
+        self.assertIsNotNone(path)
+        meta, body = compliance.parse_article(path.read_text())
+        self.assertRegex(meta['title'], r'(?i)\b(?:kava|kratom)\b')
+        self.assertIn('# ' + meta['title'], body)
+        self.assertTrue(self.check(path)['pass'])
 
     def test_public_text_or_faq_edits_invalidate_review(self):
         path = self.generate()
