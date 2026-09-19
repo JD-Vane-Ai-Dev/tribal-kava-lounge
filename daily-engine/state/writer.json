@@ -57,8 +57,14 @@
     "2026-09-19": {
       "slug": "traditional-kava-shell-sizes-tribal",
       "subject": "kava",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer request could not connect within its request limits.",
+      "usage": {
+        "prompt_tokens": 13782,
+        "completion_tokens": 3606,
+        "total_tokens": 17388
+      }
     }
   },
   "last_subject": "kava"
