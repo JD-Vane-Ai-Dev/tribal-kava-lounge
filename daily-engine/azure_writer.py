@@ -183,10 +183,9 @@ class AzureWriter:
         self.call_count = 0
         self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
 
-    def _request_json(self, request, *, timeout, limit, label):
+    def _open(self, request, *, timeout, limit, label):
         try:
-            with self._opener.open(request, timeout=timeout) as response:
-                data = response.read(limit + 1)
+            return self._opener.open(request, timeout=timeout)
         except WriterConnectionError:
             raise
         except urllib.error.HTTPError as error:
@@ -195,9 +194,152 @@ class AzureWriter:
             raise WriterConnectionError(f"{label} failed (HTTP {code}).") from None
         except (OSError, ValueError, urllib.error.URLError, http.client.HTTPException):
             raise WriterConnectionError(f"{label} could not connect within its request limits.") from None
+
+    def _request_json(self, request, *, timeout, limit, label):
+        try:
+            with self._open(request, timeout=timeout, limit=limit, label=label) as response:
+                data = response.read(limit + 1)
+        except WriterConnectionError:
+            raise
+        except (OSError, ValueError, http.client.HTTPException):
+            raise WriterConnectionError(f"{label} could not connect within its request limits.") from None
         if len(data) > limit:
             raise WriterConnectionError(f"{label} exceeded its response size limit.")
         return _json_object(data, label)
+
+    def _echo(self, text):
+        if text:
+            print(text, end="", flush=True)
+
+    def _finish_echo(self):
+        print(flush=True)
+
+    def _read_bounded(self, response, *, remaining, label, size=4096):
+        if remaining <= 0:
+            raise WriterConnectionError(f"{label} exceeded its response size limit.")
+        try:
+            chunk = response.read(min(size, remaining))
+        except (OSError, ValueError, http.client.HTTPException):
+            raise WriterConnectionError(f"{label} could not connect within its request limits.") from None
+        if not chunk:
+            return b""
+        if len(chunk) >= remaining:
+            raise WriterConnectionError(f"{label} exceeded its response size limit.")
+        return chunk
+
+    def _sse_event(self, line, label):
+        line = line.strip()
+        if not line or line.startswith(b":") or not line.startswith(b"data:"):
+            return None
+        data = line[5:].strip()
+        if data == b"[DONE]":
+            return False
+        return _json_object(data, label)
+
+    def _apply_stream_event(self, event, parts, state):
+        usage = event.get("usage")
+        if isinstance(usage, dict):
+            state["usage"] = usage
+        choices = event.get("choices")
+        if not isinstance(choices, list) or not choices or not isinstance(choices[0], dict):
+            return
+        choice = choices[0]
+        if choice.get("finish_reason"):
+            state["finish_reason"] = choice.get("finish_reason")
+        delta = choice.get("delta")
+        if not isinstance(delta, dict):
+            return
+        piece = delta.get("content")
+        if isinstance(piece, str) and piece:
+            parts.append(piece)
+            self._echo(piece)
+        for key in ("refusal", "tool_calls", "function_call"):
+            if delta.get(key):
+                state[key] = delta.get(key)
+
+    def _completion_from_object(self, result, label, *, echo=False):
+        usage = result.get("usage")
+        if isinstance(usage, dict):
+            for key in self.usage:
+                count = usage.get(key, 0)
+                if type(count) is int and count >= 0:
+                    self.usage[key] += count
+        choices = result.get("choices")
+        if not isinstance(choices, list) or len(choices) != 1 or not isinstance(choices[0], dict):
+            raise WriterConnectionError("Azure writer returned no single completion.")
+        choice = choices[0]
+        message = choice.get("message")
+        if choice.get("finish_reason") != "stop":
+            raise WriterConnectionError("Azure writer did not finish a complete article response.")
+        if not isinstance(message, dict) or message.get("refusal") or message.get("tool_calls") or message.get("function_call"):
+            raise WriterConnectionError("Azure writer refused or returned an unsupported response.")
+        content = message.get("content")
+        if not isinstance(content, str) or not content.strip():
+            raise WriterConnectionError("Azure writer returned no article JSON.")
+        if echo:
+            self._echo(content)
+            self._finish_echo()
+        return _json_object(content, "Azure writer content")
+
+    def _parse_completion(self, response, *, limit, label):
+        buf = b""
+        remaining = limit + 1
+        mode = None
+        parts = []
+        state = {"finish_reason": None, "usage": None, "refusal": None, "tool_calls": None, "function_call": None}
+        echoed = False
+        while True:
+            chunk = self._read_bounded(response, remaining=remaining, label=label)
+            if chunk:
+                remaining -= len(chunk)
+                buf += chunk
+            if mode is None:
+                stripped = buf.lstrip()
+                if not stripped:
+                    if not chunk:
+                        raise WriterConnectionError(f"{label} was not valid JSON.")
+                    continue
+                mode = "json" if stripped.startswith(b"{") else "sse"
+                buf = stripped
+            if mode == "json":
+                if chunk:
+                    continue
+                result = _json_object(buf, label)
+                return self._completion_from_object(result, label, echo=True)
+            while True:
+                newline = buf.find(b"\n")
+                if newline < 0:
+                    if chunk:
+                        break
+                    line, buf = buf, b""
+                else:
+                    line, buf = buf[:newline], buf[newline + 1:]
+                event = self._sse_event(line, label)
+                if event is None:
+                    if not chunk and not buf:
+                        break
+                    continue
+                if event is False:
+                    buf = b""
+                    chunk = b""
+                    break
+                self._apply_stream_event(event, parts, state)
+                echoed = True
+            if not chunk:
+                break
+        if echoed:
+            self._finish_echo()
+        result = {
+            "choices": [{
+                "finish_reason": state["finish_reason"],
+                "message": {
+                    "content": "".join(parts),
+                    **{key: state[key] for key in ("refusal", "tool_calls", "function_call") if state[key]},
+                },
+            }],
+            "usage": state["usage"] or {},
+        }
+        return self._completion_from_object(result, label, echo=False)
 
     def _auth_headers(self):
         if self._identity_url:
@@ -240,35 +382,27 @@ class AzureWriter:
             ],
             "response_format": {"type": "json_object"},
             "max_completion_tokens": max_tokens,
+            "stream": True,
         }
         if self.reasoning_effort and not model.lower().startswith("grok"):
             payload_data["reasoning_effort"] = self.reasoning_effort
         payload = json.dumps(payload_data, ensure_ascii=False).encode("utf-8")
         # Failed attempts consume a slot too; callers cannot accidentally retry forever.
         self.call_count += 1
-        headers = {"Content-Type": "application/json", "Accept": "application/json", **self._auth_headers()}
+        headers = {
+            "Content-Type": "application/json",
+            "Accept": "text/event-stream, application/json",
+            **self._auth_headers(),
+        }
         request = urllib.request.Request(
             self.endpoint + "/openai/v1/chat/completions", data=payload, headers=headers, method="POST"
         )
-        result = self._request_json(
-            request, timeout=REQUEST_TIMEOUT_SECONDS, limit=MAX_RESPONSE_BYTES, label="Azure writer request"
-        )
-        usage = result.get("usage")
-        if isinstance(usage, dict):
-            for key in self.usage:
-                count = usage.get(key, 0)
-                if type(count) is int and count >= 0:
-                    self.usage[key] += count
-        choices = result.get("choices")
-        if not isinstance(choices, list) or len(choices) != 1 or not isinstance(choices[0], dict):
-            raise WriterConnectionError("Azure writer returned no single completion.")
-        choice = choices[0]
-        message = choice.get("message")
-        if choice.get("finish_reason") != "stop":
-            raise WriterConnectionError("Azure writer did not finish a complete article response.")
-        if not isinstance(message, dict) or message.get("refusal") or message.get("tool_calls") or message.get("function_call"):
-            raise WriterConnectionError("Azure writer refused or returned an unsupported response.")
-        content = message.get("content")
-        if not isinstance(content, str) or not content.strip():
-            raise WriterConnectionError("Azure writer returned no article JSON.")
-        return _json_object(content, "Azure writer content")
+        try:
+            with self._open(
+                request, timeout=REQUEST_TIMEOUT_SECONDS, limit=MAX_RESPONSE_BYTES, label="Azure writer request"
+            ) as response:
+                return self._parse_completion(response, limit=MAX_RESPONSE_BYTES, label="Azure writer request")
+        except WriterConnectionError:
+            raise
+        except (OSError, ValueError, http.client.HTTPException):
+            raise WriterConnectionError("Azure writer request could not connect within its request limits.") from None
