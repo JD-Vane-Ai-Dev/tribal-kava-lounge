@@ -46,9 +46,6 @@ class AzureWriterTests(unittest.TestCase):
         self.patch = patch.object(azure_writer.urllib.request, "build_opener", return_value=self.opener)
         self.patch.start()
         self.addCleanup(self.patch.stop)
-        self.stdout = patch("sys.stdout", io.StringIO())
-        self.stdout.start()
-        self.addCleanup(self.stdout.stop)
 
     def test_presence_check_is_not_a_connectivity_claim(self):
         self.assertFalse(azure_writer.configured({}))
@@ -67,7 +64,6 @@ class AzureWriterTests(unittest.TestCase):
         self.assertEqual(payload["model"], "editorial-deployment")
         self.assertEqual(payload["max_completion_tokens"], 2200)
         self.assertEqual(payload["response_format"], {"type": "json_object"})
-        self.assertTrue(payload["stream"])
         self.assertNotIn("temperature", payload)
         self.assertNotIn("reasoning_effort", payload)
         self.assertIn("JSON", payload["messages"][0]["content"])
@@ -286,26 +282,7 @@ class AzureWriterTests(unittest.TestCase):
         self.opener.open.return_value = response
         with self.assertRaisesRegex(WriterConnectionError, "response size limit"):
             AzureWriter(API_ENV).complete("System", "User")
-        self.assertTrue(response.read.called)
-
-    def test_sse_chunks_print_immediately_and_assemble_json(self):
-        events = [
-            {"choices": [{"delta": {"content": '{"article":'}}]},
-            {"choices": [{"delta": {"content": ' "Complete draft"}'}}]},
-            {
-                "choices": [{"delta": {}, "finish_reason": "stop"}],
-                "usage": {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150},
-            },
-        ]
-        body = "".join("data: " + json.dumps(event) + "\n\n" for event in events)
-        body = (body + "data: [DONE]\n\n").encode()
-        self.opener.open.return_value = Response(body)
-        printed = io.StringIO()
-        with patch("sys.stdout", printed):
-            client = AzureWriter(API_ENV)
-            self.assertEqual(client.complete("Write carefully.", "Topic", 2200), {"article": "Complete draft"})
-        self.assertEqual(printed.getvalue(), '{"article": "Complete draft"}\n')
-        self.assertEqual(client.usage, {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150})
+        response.read.assert_called_once_with(azure_writer.MAX_RESPONSE_BYTES + 1)
 
     def test_identity_malformed_token_fails_before_model_request(self):
         for identity in ({"access_token": None}, {"access_token": "test", "token_type": []}, {"access_token": "bad\r\nheader"}):
