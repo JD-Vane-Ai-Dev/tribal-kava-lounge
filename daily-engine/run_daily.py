@@ -359,22 +359,36 @@ def _resolve_draft(file: str) -> Path:
     return path
 
 
-def _record_check(item: dict, text: str, result: dict) -> None:
+def _record_check(item: dict, text: str, result: dict, now: str | None = None) -> bool:
+    """Record changed checks; timestamps describe changes, not routine polling."""
+    before = item.copy()
     digest = hashlib.sha256(text.encode()).hexdigest()
     old_digest = item.get("checked_sha256")
     previous = item.get("status")
     item["compliance"] = result
-    item["checked_at"] = datetime.now(timezone.utc).isoformat()
     item["checked_sha256"] = digest
     item["content_sha256"] = digest
-    if previous in {"published", "withdrawn"} or item.get("published_at"):
-        return
-    if previous in {"approved", "staged"} and old_digest == digest and result["pass"]:
-        return
-    item["status"] = "passed" if result["pass"] else "held"
-    if old_digest != digest:
-        item.pop("approved_at", None)
-        item.pop("approved_sha256", None)
+    terminal = previous in {"published", "withdrawn"} or item.get("published_at")
+    preserve_status = (
+        previous in {"approved", "staged"} and old_digest == digest and result["pass"]
+    ) or (
+        # The publisher can hold PASS content for duplicate intent or a slug
+        # collision. It will recheck those gates before releasing the hold.
+        previous == "held" and old_digest == digest and before.get("compliance") == result
+    )
+    if not terminal:
+        if not preserve_status:
+            item["status"] = "passed" if result["pass"] else "held"
+        if old_digest != digest:
+            item.pop("approved_at", None)
+            item.pop("approved_sha256", None)
+    changed = item != before or not item.get("checked_at")
+    if changed:
+        item["checked_at"] = now or datetime.now(timezone.utc).isoformat()
+        # A daily check may record changed bytes before the publisher sees them.
+        if item.get("status") == "held" and item.get("held_at"):
+            item["held_at"] = item["checked_at"]
+    return changed
 
 
 def cmd_check(file: str | None = None) -> int:
