@@ -65,7 +65,13 @@
         "completion_tokens": 3606,
         "total_tokens": 17388
       }
+    },
+    "2026-10-05": {
+      "slug": "hot-iced-kratom-tea-pickup-options",
+      "subject": "kratom",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kava"
+  "last_subject": "kratom"
 }
