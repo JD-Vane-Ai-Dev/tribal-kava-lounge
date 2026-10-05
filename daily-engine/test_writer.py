@@ -43,8 +43,6 @@ class WriterPipelineTests(unittest.TestCase):
                        ('grounded', 'original', 'distinctIntent', 'voice', 'editorial', 'attribution')}}
         self.env = patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': '1', 'AZURE_OPENAI_DEPLOYMENT': 'test-deployment'})
         self.env.start(); self.addCleanup(self.env.stop)
-        activation = patch.object(writer, 'PRODUCTION_WRITER_ENABLED', True)
-        activation.start(); self.addCleanup(activation.stop)
         self.ready = patch.object(writer, 'configured', return_value=True)
         self.ready.start(); self.addCleanup(self.ready.stop)
         self.fetch = patch.object(writer, 'fetch_sources', return_value=[self.source]).start()
@@ -152,9 +150,8 @@ class WriterPipelineTests(unittest.TestCase):
         self.client.complete.assert_not_called()
 
 
-class WriterPauseTests(unittest.TestCase):
-    def test_repository_pause_blocks_enabled_environment_and_cli_before_side_effects(self):
-        self.assertFalse(writer.PRODUCTION_WRITER_ENABLED)
+class WriterActivationTests(unittest.TestCase):
+    def test_disabled_environment_stops_before_connection_and_side_effects(self):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary) / 'daily-engine'
             state = root / 'state'
@@ -162,22 +159,38 @@ class WriterPauseTests(unittest.TestCase):
             ledger = state / 'writer.json'
             ledger.write_text('{"attempts": {"2026-09-19": {"status": "held"}}}\n')
             before = {path.relative_to(root): path.read_bytes() for path in root.rglob('*') if path.is_file()}
-            with patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': '1'}), \
+            with patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': '0'}), \
                     patch.object(writer, 'configured', return_value=True) as connection, \
                     patch.object(writer, 'persist_reservation') as reservation, \
                     patch.object(writer, 'fetch_sources') as research, \
                     patch.object(writer, 'AzureWriter') as client, \
                     patch('urllib.request.urlopen', side_effect=AssertionError('Test must stay offline')), \
                     redirect_stdout(io.StringIO()):
-                for forced in (False, True):
-                    with self.subTest(force_enabled=forced):
-                        self.assertIsNone(writer.generate(root, force_enabled=forced))
+                self.assertIsNone(writer.generate(root))
                 connection.assert_not_called()
                 reservation.assert_not_called()
                 research.assert_not_called()
                 client.assert_not_called()
             after = {path.relative_to(root): path.read_bytes() for path in root.rglob('*') if path.is_file()}
             self.assertEqual(after, before)
+
+    def test_enabled_environment_and_cli_reach_connection_without_code_activation(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'daily-engine'
+            for environment, forced in (('1', False), ('0', True)):
+                with self.subTest(environment=environment, force_enabled=forced), \
+                        patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': environment}), \
+                        patch.object(writer, 'configured', return_value=False) as connection, \
+                        patch.object(writer, 'persist_reservation') as reservation, \
+                        patch.object(writer, 'fetch_sources') as research, \
+                        patch.object(writer, 'AzureWriter') as client, \
+                        redirect_stdout(io.StringIO()):
+                    self.assertIsNone(writer.generate(root, force_enabled=forced))
+                    connection.assert_called_once_with()
+                    reservation.assert_not_called()
+                    research.assert_not_called()
+                    client.assert_not_called()
+                    self.assertFalse(root.exists())
 
 
 class RemoteReservationTests(unittest.TestCase):

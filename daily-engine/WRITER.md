@@ -7,19 +7,20 @@ the source packet and editorial rules. A separate paid humanizer is unnecessary.
 
 ## Connection and activation
 
-This reconciliation pauses inference in code with
-`writer.PRODUCTION_WRITER_ENABLED = False`. Neither the existing
-`TRIBAL_WRITER_ENABLED=1` environment setting nor `--llm` bypasses that pause.
-The check runs before connection checks, ledger writes, remote reservations,
-source fetches or model calls. Offline generation tests enable the flag only
-inside their isolated fixtures. Existing manuscript intake, compliance holds,
-and automatic publication of passing content keep their current behavior.
+The owner requires a new Daily Kava article each day. The scheduled writer is
+enabled by `TRIBAL_WRITER_ENABLED=1`; there is no separate hard-coded production
+pause. Set that environment value to `0` only when an intentional pause is
+requested. An explicitly requested `--llm` run can enable generation locally.
+An unconfigured connection still stops before reservations, research or spend.
+All ordinary calls retain the one-attempt-per-UTC-day and three-model-call limits.
+Existing manuscript intake, compliance holds, exact-content reviews and automatic
+publication of passing content retain their current behavior.
 
-The pause takes effect only when this code is used by the job; this draft PR
-does not change the running job. The Azure template and earlier connection
-notes below describe the existing setup, not a fresh verification of live
-Azure configuration. No roles, keys, secrets, or deployment settings are
-changed. Writer activation is separate from this reconciliation.
+The existing job is configured in source to run daily at 11:00 UTC and clones
+current `master` on each execution. Python and topic-plan changes therefore do
+not require a container rebuild. This source configuration is not a fresh
+verification of the live Azure job, its credentials or its execution logs.
+No Azure roles, keys, secrets, deployment settings or schedule are changed here.
 
 The selected existing deployment is `gpt-5-mini` on
 `micdrop-foundry-f19ae782.openai.azure.com`, with low reasoning effort.

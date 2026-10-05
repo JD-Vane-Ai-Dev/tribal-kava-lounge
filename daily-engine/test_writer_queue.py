@@ -77,8 +77,6 @@ class WriterQueueTests(unittest.TestCase):
         stack.enter_context(patch.dict(os.environ, {
             "TRIBAL_WRITER_ENABLED": "1", "AZURE_OPENAI_DEPLOYMENT": "test-deployment",
         }))
-        # Opt in only inside this isolated fixture; production remains disabled.
-        stack.enter_context(patch.object(writer, "PRODUCTION_WRITER_ENABLED", True))
         stack.enter_context(patch.object(writer, "configured", return_value=True))
         self.fetch = stack.enter_context(patch.object(writer, "fetch_sources", return_value=[self.source]))
         stack.enter_context(patch.object(writer, "persist_reservation"))
