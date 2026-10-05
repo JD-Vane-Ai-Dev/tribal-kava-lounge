@@ -69,8 +69,14 @@
     "2026-10-05": {
       "slug": "hot-iced-kratom-tea-pickup-options",
       "subject": "kratom",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer request could not connect within its request limits.",
+      "usage": {
+        "prompt_tokens": 14541,
+        "completion_tokens": 3658,
+        "total_tokens": 18199
+      }
     }
   },
   "last_subject": "kratom"

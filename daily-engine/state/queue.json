@@ -665,6 +665,31 @@
       "status": "held",
       "held_at": "2026-10-03T11:01:05.266481+00:00",
       "hold_reason": "HOLD: writer-review-required: writer-review-required"
+    },
+    {
+      "file": "drafts/hot-iced-kratom-tea-pickup-options.md",
+      "created_at": "2026-10-05T15:59:55.728089+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/new-here"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 75,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "writer-review-required",
+            "match": "Exact current article must pass the grounded writer review"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: writer-review-required"
+      },
+      "checked_sha256": "a7d4930821770c1a06de0a32d9757b9baa18e993da6962fc614907ccb57cbe98",
+      "content_sha256": "a7d4930821770c1a06de0a32d9757b9baa18e993da6962fc614907ccb57cbe98",
+      "status": "held",
+      "checked_at": "2026-10-05T15:59:55.741055+00:00"
     }
   ]
 }
