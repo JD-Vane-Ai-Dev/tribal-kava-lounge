@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-18",
+  "updated": "2026-10-05",
   "rule": "Kratom is a full editorial subject across categories, not flavor-only. Only writer-ready briefs with direct source URLs enter the connected writer. Fetch and read every complete source at run time; unresolved cultural and actual-visit research stays pending.",
   "topics": [
     {
@@ -192,6 +192,186 @@
         "/menu",
         "/what-is-kava"
       ]
+    },
+    {
+      "subject": "kava",
+      "title": "Ordering kava for DoorDash pickup: syrup and flavor choices",
+      "primaryKeyword": "kava pickup syrup flavor choices",
+      "brief": "Answer how to build a Single or Double Shell pickup order using the menu's required syrup choice (including None) and optional flavor. Explain the difference between required and optional choices. Clearly distinguish the dated online menu record from today's final checkout availability/prices. Do not recommend multiple shells, boosts or intensity choices. This is pickup-menu navigation, not a repeat of kava taste or crafted-kava articles. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "kava-pickup-syrup-flavor-choices",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Owned pickup menu records shell syrups, optional flavors, in-lounge versus online pricing and the need to verify final checkout."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "Ingredient questions and flavor preferences are the first-visit ordering context."
+        }
+      ],
+      "relatedPaths": [
+        "/what-is-kava",
+        "/the-daily-kava/what-does-kava-taste-like"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "kratom",
+      "title": "Hot or iced kratom tea: reading Tribal's pickup options",
+      "primaryKeyword": "hot iced kratom tea pickup options",
+      "brief": "Explain the separate hot and iced tea pickup entries, small/large choices and optional flavor choices. Focus on navigating the order form, not claims that leaf colors, temperature or serving sizes produce particular effects. Mention adult-use ID policy without legal coverage. Do not recommend boosts, extracts or doses; refer ingredient questions to the team. Distinct from the broad kratom tea menu-label article. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "hot-iced-kratom-tea-pickup-options",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Owned pickup menu distinguishes Hot Tea and Iced Tea entries, size and flavor choices; recorded prices must be verified at checkout."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "Asking about ingredients and the lounge's 21+ valid-ID policy for kratom."
+        }
+      ],
+      "relatedPaths": [
+        "/what-is-kratom",
+        "/the-daily-kava/kratom-tea-at-a-kava-bar"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "events",
+      "title": "Mario Kart at a kava lounge: join the race or watch",
+      "primaryKeyword": "kava lounge mario kart game night",
+      "brief": "Write an evergreen plan for joining or watching a Mario Kart night. Tribal's events page documents rotating game nights hosted by Connor when scheduled. Ask the team about how participation works; do not invent tournament rules, controllers, brackets, prizes or future dates. Offer clearly labeled practical suggestions. Distinct from the weekly-lineup catalogue article. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "mario-kart-kava-lounge-join-or-watch",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/events",
+          "supports": "Owned events listing documents Mario Kart and rotating game nights; dates require a current announcement."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Owned visitor page documents lounge amenities and current address; omit hours and offers if conflicting."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current menu provides a natural visit/order link without effects claims."
+        }
+      ],
+      "relatedPaths": [
+        "/events/mario-kart",
+        "/the-daily-kava/kava-bar-etiquette"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "kava",
+      "title": "Pool tables at a kava lounge: make the game part of the hang",
+      "primaryKeyword": "pool tables kava lounge west palm beach",
+      "brief": "Answer how pool can be one activity during a lounge visit. The visit page documents pool tables but does not establish fees, availability, reservations, league nights, equipment or table rules; ask the team for those. Give clearly labeled social/play-planning tips, not claimed customer stories. This is a focused pool-table visit guide, not another broad group-visit or late-night article. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "pool-tables-kava-lounge-hang",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Owned visitor page lists pool tables, multiple seating sections and parking; table-specific policies are not stated."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current drink choices and menu link for the visit."
+        }
+      ],
+      "relatedPaths": [
+        "/new-here",
+        "/the-daily-kava/kava-bar-etiquette"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "kratom",
+      "title": "Mint, citrus, or sweet heat: choosing a crafted kratom flavor",
+      "primaryKeyword": "crafted kratom mint citrus sweet heat",
+      "brief": "Compare only the flavor descriptors listed for Mango Chili Lime, Passionfruit Mint and Blackberry Dragonfruit Fizz. Help a reader state their flavor preference and ask ingredient questions. Do not invent a recipe, tasting experience, allergen status, health benefit or effects, and do not call kratom bad-tasting. Distinct from the generic kratom tea menu guide and at-home flavor article. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "crafted-kratom-mint-citrus-sweet-heat",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current crafted kratom names and listed fruit, mint, citrus, sweet-heat and sparkle flavor descriptions."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "Counter ordering by familiar flavor preferences and ingredient questions."
+        }
+      ],
+      "relatedPaths": [
+        "/what-is-kratom",
+        "/the-daily-kava/kratom-tea-at-a-kava-bar"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "events",
+      "title": "Karaoke at a kava lounge: a first-song plan",
+      "primaryKeyword": "kava lounge karaoke first song",
+      "brief": "Offer a practical plan for attending karaoke, choosing a song or simply listening. Tribal lists karaoke with date/start time announced on official Instagram; do not fabricate a weekday or time, signup system, karaoke catalogue, admission price, equipment or audience reaction. This is karaoke-specific advice, not a repeat of the weekly events article. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "kava-lounge-karaoke-first-song",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/events",
+          "supports": "Owned events listing identifies karaoke and says the next start time is announced on official Instagram."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Owned visit page gives current location and visitor context; omit conflicting hours or promotions."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current drink categories support the menu/visit next step."
+        }
+      ],
+      "relatedPaths": [
+        "/events/karaoke",
+        "/new-here"
+      ],
+      "researchChecked": "2026-10-05"
+    },
+    {
+      "subject": "events",
+      "title": "Creative nights at a kava lounge: plan your project first",
+      "primaryKeyword": "kava lounge art club project night",
+      "brief": "Explain the difference between choosing a personal project and asking about a guided art session. The events listing documents Art Club and Sip & Paint as rotating creative formats. A past flyer cannot establish the next date, price, supplies, food or bundled drinks; direct readers to the next official announcement and team for current details. Use clearly labeled preparation advice; never present a made-up participant's experience. Distinct from private-event sales and the weekly lineup. Use only the complete source pages fetched at run time. Distinguish advice from facts. No invented visits, customers, quotes, benefits, effects, dosing, medical claims, regulation, 7-OH or scary framing. Do not repeat the broad first-visit FAQ or a core plant explainer. Link the menu or visit page and one relevant learning/event page; do not invent prices, offers, amenities, hours or rotating event dates.",
+      "status": "writer-ready",
+      "slug": "kava-lounge-art-club-project-night",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/events",
+          "supports": "Owned events listing describes rotating Art Club/project and guided-paint formats; future details need confirmation."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Owned visitor information anchors the location; do not invent workspace or supply policies."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Owned menu provides a relevant kava/kratom lounge context and menu link."
+        }
+      ],
+      "relatedPaths": [
+        "/events/art-club",
+          "/new-here"
+      ],
+      "researchChecked": "2026-10-05"
     }
   ]
 }
