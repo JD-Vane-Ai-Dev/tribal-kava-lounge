@@ -43,6 +43,8 @@ class WriterPipelineTests(unittest.TestCase):
                        ('grounded', 'original', 'distinctIntent', 'voice', 'editorial', 'attribution')}}
         self.env = patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': '1', 'AZURE_OPENAI_DEPLOYMENT': 'test-deployment'})
         self.env.start(); self.addCleanup(self.env.stop)
+        activation = patch.object(writer, 'PRODUCTION_WRITER_ENABLED', True)
+        activation.start(); self.addCleanup(activation.stop)
         self.ready = patch.object(writer, 'configured', return_value=True)
         self.ready.start(); self.addCleanup(self.ready.stop)
         self.fetch = patch.object(writer, 'fetch_sources', return_value=[self.source]).start()
@@ -109,9 +111,18 @@ class WriterPipelineTests(unittest.TestCase):
         attempt = next(iter(ledger['attempts'].values()))
         self.assertEqual(attempt['usage'], self.client.usage)
 
-    def test_unverified_source_excerpt_keeps_otherwise_passing_model_review_held(self):
+    def test_unverified_source_excerpt_is_replaced_from_fetched_source(self):
         self.payload['sourceNotes'][0]['evidenceQuote'] = 'This sentence is invented and does not appear in the source'
-        self.assertFalse(self.check(self.generate())['pass'])
+        self.assertTrue(self.check(self.generate())['pass'])
+
+    def test_title_without_topic_anchor_is_replaced_from_brief(self):
+        self.payload['metadata']['title'] = 'Parking and walking in'
+        path = self.generate()
+        self.assertIsNotNone(path)
+        meta, body = compliance.parse_article(path.read_text())
+        self.assertRegex(meta['title'], r'(?i)\b(?:kava|kratom)\b')
+        self.assertIn('# ' + meta['title'], body)
+        self.assertTrue(self.check(path)['pass'])
 
     def test_public_text_or_faq_edits_invalidate_review(self):
         path = self.generate()
@@ -139,6 +150,34 @@ class WriterPipelineTests(unittest.TestCase):
             self.assertIsNone(self.generate())
         self.fetch.assert_not_called()
         self.client.complete.assert_not_called()
+
+
+class WriterPauseTests(unittest.TestCase):
+    def test_repository_pause_blocks_enabled_environment_and_cli_before_side_effects(self):
+        self.assertFalse(writer.PRODUCTION_WRITER_ENABLED)
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary) / 'daily-engine'
+            state = root / 'state'
+            state.mkdir(parents=True)
+            ledger = state / 'writer.json'
+            ledger.write_text('{"attempts": {"2026-09-19": {"status": "held"}}}\n')
+            before = {path.relative_to(root): path.read_bytes() for path in root.rglob('*') if path.is_file()}
+            with patch.dict(os.environ, {'TRIBAL_WRITER_ENABLED': '1'}), \
+                    patch.object(writer, 'configured', return_value=True) as connection, \
+                    patch.object(writer, 'persist_reservation') as reservation, \
+                    patch.object(writer, 'fetch_sources') as research, \
+                    patch.object(writer, 'AzureWriter') as client, \
+                    patch('urllib.request.urlopen', side_effect=AssertionError('Test must stay offline')), \
+                    redirect_stdout(io.StringIO()):
+                for forced in (False, True):
+                    with self.subTest(force_enabled=forced):
+                        self.assertIsNone(writer.generate(root, force_enabled=forced))
+                connection.assert_not_called()
+                reservation.assert_not_called()
+                research.assert_not_called()
+                client.assert_not_called()
+            after = {path.relative_to(root): path.read_bytes() for path in root.rglob('*') if path.is_file()}
+            self.assertEqual(after, before)
 
 
 class RemoteReservationTests(unittest.TestCase):

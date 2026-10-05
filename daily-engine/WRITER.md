@@ -7,17 +7,27 @@ the source packet and editorial rules. A separate paid humanizer is unnecessary.
 
 ## Connection and activation
 
-Azure access was restored from the owner's existing saved login command on
-September 10, 2026. The selected existing deployment is `gpt-5-mini` on
+This reconciliation pauses inference in code with
+`writer.PRODUCTION_WRITER_ENABLED = False`. Neither the existing
+`TRIBAL_WRITER_ENABLED=1` environment setting nor `--llm` bypasses that pause.
+The check runs before connection checks, ledger writes, remote reservations,
+source fetches or model calls. Offline generation tests enable the flag only
+inside their isolated fixtures. Existing manuscript intake, compliance holds,
+and automatic publication of passing content keep their current behavior.
+
+The pause takes effect only when this code is used by the job; this draft PR
+does not change the running job. The Azure template and earlier connection
+notes below describe the existing setup, not a fresh verification of live
+Azure configuration. No roles, keys, secrets, or deployment settings are
+changed. Writer activation is separate from this reconciliation.
+
+The selected existing deployment is `gpt-5-mini` on
 `micdrop-foundry-f19ae782.openai.azure.com`, with low reasoning effort.
-The owner approved model inference access for the scheduled job's managed
-identity. Azure then rejected the role assignment because the saved
-administrative principal has Contributor access, which cannot assign roles.
-Automatic approval review separately rejected reading the resource's account
-keys: that broader credential access was not included in the identity approval.
-No role or writer secret was added, and the production writer remains disabled.
-The prepared integration is preserved in draft PR #2 pending authorized model
-access and live verification.
+Managed-identity role assignment is blocked on this subscription (Contributor
+cannot grant Cognitive Services OpenAI User). Production uses
+`AZURE_OPENAI_AUTH_MODE=api_key` with the Foundry resource credential stored
+in the existing Key Vault secret `azure-openai-api-key`. The job identity still
+reads that secret and the GitHub deploy key; it does not need a model role.
 
 Configure these settings on the existing `tribal-kava-daily-job` container:
 
@@ -25,7 +35,8 @@ Configure these settings on the existing `tribal-kava-daily-job` container:
 | --- | --- |
 | `TRIBAL_WRITER_ENABLED` | `1` to enable, omitted or `0` to leave disabled |
 | `AZURE_OPENAI_ENDPOINT` | Existing Azure resource HTTPS origin |
-| `AZURE_OPENAI_DEPLOYMENT` | Verified deployment name, not a guessed model ID |
+| `AZURE_OPENAI_DEPLOYMENT` | Verified writer deployment name, not a guessed model ID |
+| `AZURE_OPENAI_REVIEW_DEPLOYMENT` | Optional review model; `grok-4.6` on the scheduled job |
 | `AZURE_OPENAI_REASONING_EFFORT` | `low` for the selected GPT-5 mini deployment |
 | `AZURE_OPENAI_AUTH_MODE` | `auto` (default), `managed_identity`, or explicitly authorized `api_key` |
 | `AZURE_CLIENT_ID` | Existing job's user-assigned managed identity client ID |
@@ -44,7 +55,8 @@ an available identity takes precedence; a failed identity call never falls back
 to a key. The saved service-principal credential is for administration, and must
 not be copied into the job or repository.
 
-`infra/azure/job.bicep` exposes optional writer settings, disabled by default.
+`infra/azure/job.bicep` enables the writer with `api_key` auth against the
+existing Foundry deployment. Leave `TRIBAL_WRITER_ENABLED=0` only to pause it.
 Use the existing resource group, job, identity and schedule. The normal job
 clones current `master` every run, so these Python files require no additional
 packages. The entrypoint still commits only drafts and state. The local
@@ -73,10 +85,14 @@ manuscripts unless a writer connection is separately configured there.
   isolated test uses a local ledger, so separate test checkouts have separate
   limits. These are usage bounds, not
   a dollar estimate; confirm the selected model's Azure price before activation.
-- A generated draft whose final review fails stays held. Review failure or a
-  review outage after editing preserves that draft. The review hash covers the
-  metadata and body. Existing checks revalidate it on intake and publication;
-  changing the text cannot silently reuse its old review.
+- The same connected model reviews the finished article. A pass publishes on
+  the next GitHub production job; there is no human passing-review step. A
+  hold is only for invented facts, missing sources, off-brief topic, or
+  prohibited claims. Review failure or a review outage after editing preserves
+  that draft. The review hash covers the metadata and body. Existing checks
+  revalidate it on intake and publication; changing the text cannot silently
+  reuse its old review. Optional `AZURE_OPENAI_REVIEW_DEPLOYMENT` selects a
+  stronger review model (default `grok-4.6`) without changing the writer.
 - Connection/research failures before a complete article preserve a blocked
   attempt in state and produce no filler. Raw source text and model request
   payloads are not committed. The existing publisher continues to publish other

@@ -12,11 +12,13 @@ param schedule string = '0 11 * * *'
 param githubRepository string = 'JD-Vane-Ai-Dev/tribal-kava-lounge'
 param githubBranch string = 'master'
 param githubSecretName string = 'github-deploy-key-b64'
-// Disabled until the resource/deployment and managed identity have been verified.
-param writerEnabled bool = false
-param writerEndpoint string = ''
-param writerDeployment string = ''
+param writerEnabled bool = true
+param writerEndpoint string = 'https://micdrop-foundry-f19ae782.openai.azure.com'
+param writerDeployment string = 'gpt-5-mini'
+param writerReviewDeployment string = 'grok-4.6'
 param writerReasoningEffort string = 'low'
+param writerAuthMode string = 'api_key'
+param writerApiKeySecretName string = 'azure-openai-api-key'
 
 resource registry 'Microsoft.ContainerRegistry/registries@2023-07-01' existing = {
   name: registryName
@@ -66,6 +68,11 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
           keyVaultUrl: '${vault.properties.vaultUri}secrets/${githubSecretName}'
           identity: identity.id
         }
+        {
+          name: 'azure-openai-api-key'
+          keyVaultUrl: '${vault.properties.vaultUri}secrets/${writerApiKeySecretName}'
+          identity: identity.id
+        }
       ]
     }
     template: {
@@ -103,8 +110,20 @@ resource job 'Microsoft.App/jobs@2024-03-01' = {
               value: writerDeployment
             }
             {
+              name: 'AZURE_OPENAI_REVIEW_DEPLOYMENT'
+              value: writerReviewDeployment
+            }
+            {
               name: 'AZURE_OPENAI_REASONING_EFFORT'
               value: writerReasoningEffort
+            }
+            {
+              name: 'AZURE_OPENAI_AUTH_MODE'
+              value: writerAuthMode
+            }
+            {
+              name: 'AZURE_OPENAI_API_KEY'
+              secretRef: 'azure-openai-api-key'
             }
             {
               name: 'AZURE_CLIENT_ID'

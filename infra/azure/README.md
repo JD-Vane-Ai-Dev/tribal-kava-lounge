@@ -27,9 +27,10 @@ Security boundaries:
   managed identity; the ACR admin account is disabled.
 - The container pins GitHub's current SSH public host keys and refuses unknown
   hosts.
-- The optional Azure writer prefers the job's managed identity for model access;
-  an explicitly authorized resource key can instead use encrypted job-secret
-  storage with `AZURE_OPENAI_AUTH_MODE=api_key`.
+- The Azure writer uses `AZURE_OPENAI_AUTH_MODE=api_key` against the existing
+  Foundry resource. The credential is the Key Vault secret `azure-openai-api-key`.
+  The job identity still reads Vault secrets and pushes drafts; it does not need
+  a model-inference role.
   The draft container does not receive the site's deployment token. Deployment
   stays in the existing GitHub publishing workflow. Writer setup, activation
   status, source requirements and usage limits are in `daily-engine/WRITER.md`.

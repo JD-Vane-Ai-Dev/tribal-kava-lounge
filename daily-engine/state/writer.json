@@ -1,0 +1,71 @@
+{
+  "attempts": {
+    "2026-09-14": {
+      "slug": "kratom-menu-group-chat-humor",
+      "subject": "kratom",
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 22595,
+        "completion_tokens": 5699,
+        "total_tokens": 28294
+      }
+    },
+    "2026-09-15": {
+      "slug": "going-to-a-kava-bar-alone",
+      "subject": "kava",
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 19130,
+        "completion_tokens": 5645,
+        "total_tokens": 24775
+      }
+    },
+    "2026-09-16": {
+      "slug": "friday-loteria-at-tribal-kava",
+      "subject": "events",
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer did not finish a complete article response.",
+      "usage": {
+        "prompt_tokens": 16939,
+        "completion_tokens": 5004,
+        "total_tokens": 21943
+      }
+    },
+    "2026-09-17": {
+      "slug": "two-dollar-tuesday-kava-shells",
+      "subject": "events",
+      "status": "blocked",
+      "model_calls": 0,
+      "reason": "Source has fewer than 100 readable words; full evidence is required."
+    },
+    "2026-09-18": {
+      "slug": "parking-hours-tribal-kava-west-palm-beach",
+      "subject": "kava",
+      "status": "held",
+      "model_calls": 3,
+      "usage": {
+        "prompt_tokens": 19213,
+        "completion_tokens": 5956,
+        "total_tokens": 25169
+      }
+    },
+    "2026-09-19": {
+      "slug": "traditional-kava-shell-sizes-tribal",
+      "subject": "kava",
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer request could not connect within its request limits.",
+      "usage": {
+        "prompt_tokens": 13782,
+        "completion_tokens": 3606,
+        "total_tokens": 17388
+      }
+    }
+  },
+  "last_subject": "kava"
+}

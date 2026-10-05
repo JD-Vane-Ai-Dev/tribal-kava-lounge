@@ -69,7 +69,7 @@ class AzureWriterTests(unittest.TestCase):
         self.assertIn("JSON", payload["messages"][0]["content"])
         self.assertEqual(request.get_header("Api-key"), API_ENV["AZURE_OPENAI_API_KEY"])
         self.assertIsNone(request.get_header("X-identity-header"))
-        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 90)
+        self.assertEqual(self.opener.open.call_args.kwargs["timeout"], 180)
         self.assertEqual(client.call_count, 1)
         self.assertEqual(client.usage, {"prompt_tokens": 50, "completion_tokens": 100, "total_tokens": 150})
 
@@ -78,6 +78,15 @@ class AzureWriterTests(unittest.TestCase):
         AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "low"}).complete("System", "User")
         payload = json.loads(self.opener.open.call_args.args[0].data)
         self.assertEqual(payload["reasoning_effort"], "low")
+
+    def test_review_deployment_override_skips_gpt_reasoning_effort(self):
+        self.opener.open.return_value = Response(completion())
+        AzureWriter({**API_ENV, "AZURE_OPENAI_REASONING_EFFORT": "low"}).complete(
+            "System", "User", deployment="grok-4.6"
+        )
+        payload = json.loads(self.opener.open.call_args.args[0].data)
+        self.assertEqual(payload["model"], "grok-4.6")
+        self.assertNotIn("reasoning_effort", payload)
 
     def test_blank_reasoning_effort_is_omitted(self):
         self.opener.open.return_value = Response(completion())
@@ -96,7 +105,7 @@ class AzureWriterTests(unittest.TestCase):
         client.complete("System", "User")
         identity, model = [call.args[0] for call in self.opener.open.call_args_list]
         self.assertEqual(self.opener.open.call_args_list[0].kwargs["timeout"], 10)
-        self.assertEqual(self.opener.open.call_args_list[1].kwargs["timeout"], 90)
+        self.assertEqual(self.opener.open.call_args_list[1].kwargs["timeout"], 180)
         query = urllib.parse.parse_qs(urllib.parse.urlsplit(identity.full_url).query)
         self.assertEqual(query["resource"], ["https://cognitiveservices.azure.com/"])
         self.assertEqual(query["api-version"], ["2019-08-01"])
@@ -238,7 +247,7 @@ class AzureWriterTests(unittest.TestCase):
 
     def test_input_and_token_limits_precede_auth_or_network(self):
         client = AzureWriter(MI_ENV)
-        for system, user, limit in (("", "u", 10), ("s", "u", 0), ("s", "u", 6001), ("s", "u", True), ("s", "é" * 60001, 10), ("s", "\ud800", 10)):
+        for system, user, limit in (("", "u", 10), ("s", "u", 0), ("s", "u", 12001), ("s", "u", True), ("s", "é" * 60001, 10), ("s", "\ud800", 10)):
             with self.subTest(limit=limit), self.assertRaises(WriterConnectionError):
                 client.complete(system, user, limit)
         self.assertEqual(client.call_count, 0)

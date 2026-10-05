@@ -15,6 +15,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 from compliance import check_publishable, check_catalog_post, parse_article
+from run_daily import _record_check
 
 ROOT = Path(__file__).resolve().parent.parent
 DAILY_KAVA_JS = ROOT / "daily-kava.js"
@@ -154,9 +155,11 @@ def create_post(path: Path, markdown: str, source_urls: list[str]) -> dict:
     }
 
 
-def hold(item: dict, reason: str, now: str) -> None:
+def hold(item: dict, reason: str, now: str, check_changed: bool = False) -> None:
+    if (check_changed or item.get("status") != "held"
+            or item.get("hold_reason") != reason or not item.get("held_at")):
+        item["held_at"] = now
     item["status"] = "held"
-    item["held_at"] = now
     item["hold_reason"] = reason
 
 
@@ -208,15 +211,14 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
         selected_found = selected_found or item.get("file") == selected_file
         if item.get("published_at") or item.get("status") in {"published", "withdrawn"}:
             continue
+        check_changed = False
         try:
             path = draft_path(item.get("file"))
             markdown = path.read_bytes().decode("utf-8")
             source_urls = item.get("source_urls") or []
             result = check_publishable(markdown, source_urls)
-            item["compliance"] = result
-            item["checked_at"] = now
-            item["checked_sha256"] = sha256(markdown.encode())
-            if not result["pass"] or result.get("flags"):
+            check_changed = _record_check(item, markdown, result, now)
+            if not result["pass"]:
                 raise ValueError(result["summary"] + ": " + ", ".join(flag["rule"] for flag in result.get("flags", [])))
             post = create_post(path, markdown, source_urls)
             existing = by_slug.get(post["slug"])
@@ -232,14 +234,17 @@ def stage(manifest_path: Path, selected_file: str | None = None) -> dict:
                 additions.append(post)
                 by_slug[post["slug"]] = post
                 used_urls.update(source_urls)
+            if (check_changed or item.get("status") != "staged"
+                    or item.get("staged_sha256") != post["contentSha256"]
+                    or not item.get("staged_at")):
+                item["staged_at"] = now
             item["status"] = "staged"
-            item["staged_at"] = now
             item["staged_sha256"] = post["contentSha256"]
             item.pop("hold_reason", None)
             item.pop("held_at", None)
             manifest["posts"].append({"file": item["file"], "slug": post["slug"], "content_sha256": post["contentSha256"]})
         except (ValueError, OSError, TypeError) as error:
-            hold(item, str(error), now)
+            hold(item, str(error), now, check_changed)
             manifest["held"].append({"file": item.get("file"), "reason": str(error)})
     if not selected_found:
         raise ValueError("Requested draft is not in the queue.")

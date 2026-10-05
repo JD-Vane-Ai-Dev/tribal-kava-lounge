@@ -46,5 +46,5 @@ if git diff --cached --quiet; then
   exit 0
 fi
 
-git commit -m "chore: daily draft $(date -u +%Y-%m-%d) - awaiting review"
+git commit -m "chore: daily kava draft $(date -u +%Y-%m-%d)"
 git push origin "HEAD:$branch"

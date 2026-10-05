@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-10",
+  "updated": "2026-09-18",
   "rule": "Kratom is a full editorial subject across categories, not flavor-only. Only writer-ready briefs with direct source URLs enter the connected writer. Fetch and read every complete source at run time; unresolved cultural and actual-visit research stays pending.",
   "topics": [
     {
@@ -101,6 +101,96 @@
       ],
       "relatedPaths": [
         "/the-daily-kava/kava-bar-etiquette"
+      ]
+    },
+    {
+      "subject": "events",
+      "title": "Friday Lotería at Tribal Kava Lounge",
+      "primaryKeyword": "loteria west palm beach kava bar",
+      "brief": "Original explainer of the recurring Friday Lotería night: 9 PM, $1 boards, hosted by Tony. Do not invent winners, guest names, or one-off dates. Point readers to /events/friday-loteria and 770 S Military Trail, Unit A1.",
+      "status": "writer-ready",
+      "slug": "friday-loteria-at-tribal-kava",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/events/friday-loteria",
+          "supports": "Official Friday Lotería event page: 9 PM, $1 boards, hosted by Tony."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/events",
+          "supports": "Lounge events listing for Tribal Kava Lounge in West Palm Beach."
+        }
+      ],
+      "relatedPaths": [
+        "/events/friday-loteria"
+      ]
+    },
+    {
+      "subject": "events",
+      "title": "$2 Tuesday kava shells at Tribal",
+      "primaryKeyword": "cheap kava west palm beach",
+      "brief": "Original explainer of $2 Tuesday: single kava shells are $2 from 2–5 PM every Tuesday. Do not invent extra discounts or customer stories. Point readers to /events/two-dollar-tuesday.",
+      "status": "writer-ready",
+      "slug": "two-dollar-tuesday-kava-shells",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/events/two-dollar-tuesday",
+          "supports": "Official $2 Tuesday event page: single kava shells $2 from 2–5 PM."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current drink categories. Do not invent prices beyond the $2 Tuesday window."
+        }
+      ],
+      "relatedPaths": [
+        "/events/two-dollar-tuesday"
+      ]
+    },
+    {
+      "subject": "kava",
+      "title": "Parking, hours, and walking in at Tribal Kava Lounge",
+      "primaryKeyword": "tribal kava lounge parking west palm beach",
+      "brief": "Practical arrival guide for 770 S Military Trail, Unit A1: parking, current hours, and what happens at the door. Hours are Sunday–Thursday 8 AM–midnight and Friday–Saturday 8 AM–1 AM. Do not invent parking fees, lot names, or a different address.",
+      "status": "writer-ready",
+      "slug": "parking-hours-tribal-kava-west-palm-beach",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/visit",
+          "supports": "Current address, parking, hours, and the move from 404 S Military Trail."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/new-here",
+          "supports": "First-visit door and ordering context; not a reported customer story."
+        }
+      ],
+      "relatedPaths": [
+        "/visit",
+        "/new-here"
+      ]
+    },
+    {
+      "subject": "kava",
+      "title": "Traditional kava shell sizes at Tribal",
+      "primaryKeyword": "kava shell sizes west palm beach",
+      "brief": "Explain single, double, triple, and K.O. shells from the live menu. No effects claims and no extra discounts. Distinct from the taste article and the $2 Tuesday promo article.",
+      "status": "writer-ready",
+      "slug": "traditional-kava-shell-sizes-tribal",
+      "storyType": "guide",
+      "sources": [
+        {
+          "url": "https://www.thetribalkavalounge.com/menu",
+          "supports": "Current shell sizes and listed prices."
+        },
+        {
+          "url": "https://www.thetribalkavalounge.com/what-is-kava",
+          "supports": "Owned kava introduction; do not duplicate the broad plant overview."
+        }
+      ],
+      "relatedPaths": [
+        "/menu",
+        "/what-is-kava"
       ]
     }
   ]

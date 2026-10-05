@@ -1,0 +1,25 @@
+name: Offline Writer and Publishing Regressions
+
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'daily-engine/**'
+      - '.github/workflows/writer-regressions.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  offline-regressions:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout proposed code
+        uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Check generation, holds and unchanged queues without inference
+        run: python3 -m unittest discover -s daily-engine -p 'test_*.py' -v
