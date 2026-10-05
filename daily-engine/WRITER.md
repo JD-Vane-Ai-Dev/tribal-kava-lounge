@@ -7,6 +7,20 @@ the source packet and editorial rules. A separate paid humanizer is unnecessary.
 
 ## Connection and activation
 
+This reconciliation pauses inference in code with
+`writer.PRODUCTION_WRITER_ENABLED = False`. Neither the existing
+`TRIBAL_WRITER_ENABLED=1` environment setting nor `--llm` bypasses that pause.
+The check runs before connection checks, ledger writes, remote reservations,
+source fetches or model calls. Offline generation tests enable the flag only
+inside their isolated fixtures. Existing manuscript intake, compliance holds,
+and automatic publication of passing content keep their current behavior.
+
+The pause takes effect only when this code is used by the job; this draft PR
+does not change the running job. The Azure template and earlier connection
+notes below describe the existing setup, not a fresh verification of live
+Azure configuration. No roles, keys, secrets, or deployment settings are
+changed. Writer activation is separate from this reconciliation.
+
 The selected existing deployment is `gpt-5-mini` on
 `micdrop-foundry-f19ae782.openai.azure.com`, with low reasoning effort.
 Managed-identity role assignment is blocked on this subscription (Contributor

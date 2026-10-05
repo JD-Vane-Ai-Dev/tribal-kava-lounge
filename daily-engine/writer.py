@@ -19,6 +19,9 @@ from writer_research import fetch_sources, SourceResearchError
 ORIGIN = 'https://www.thetribalkavalounge.com'
 CORE_PATHS = ('/menu', '/visit', '/new-here', '/what-is-kava', '/what-is-kratom', '/kava-vs-kratom', '/events')
 VERSION = 'tribal-writer-v1'
+# Keep inference paused in this reconciliation, even if an existing job still
+# supplies TRIBAL_WRITER_ENABLED=1. Activation requires a separate code change.
+PRODUCTION_WRITER_ENABLED = False
 
 
 def save(path: Path, value: dict) -> None:
@@ -156,6 +159,9 @@ def compose(payload: dict, topic: dict, sources: list[dict], today: str, deploym
 
 
 def generate(root: Path, *, force_enabled: bool = False) -> Path | None:
+    if not PRODUCTION_WRITER_ENABLED:
+        print('WRITER PAUSED: repository activation is disabled; no model request was made.')
+        return None
     if not force_enabled and os.getenv('TRIBAL_WRITER_ENABLED') != '1':
         return None
     if not configured():
