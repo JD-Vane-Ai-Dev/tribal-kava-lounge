@@ -692,6 +692,25 @@
       "checked_at": "2026-10-05T15:59:55.741055+00:00",
       "held_at": "2026-10-05T16:00:31.781866+00:00",
       "hold_reason": "HOLD: writer-review-required: writer-review-required"
+    },
+    {
+      "file": "drafts/kava-pickup-syrup-flavor-choices.md",
+      "created_at": "2026-10-06T11:03:15.461079+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/new-here"
+      ],
+      "compliance": {
+        "pass": true,
+        "score": 100,
+        "flags": [],
+        "required_additions": [],
+        "summary": "PASS"
+      },
+      "checked_sha256": "833607af44c705b9d079a974494bf5b002a11113296938e7f013a46f283dc1b9",
+      "content_sha256": "833607af44c705b9d079a974494bf5b002a11113296938e7f013a46f283dc1b9",
+      "status": "passed",
+      "checked_at": "2026-10-06T11:03:15.475105+00:00"
     }
   ]
 }
