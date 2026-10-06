@@ -77,7 +77,13 @@
         "completion_tokens": 3658,
         "total_tokens": 18199
       }
+    },
+    "2026-10-06": {
+      "slug": "kava-pickup-syrup-flavor-choices",
+      "subject": "kava",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kratom"
+  "last_subject": "kava"
 }
