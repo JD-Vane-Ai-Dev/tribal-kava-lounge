@@ -722,6 +722,49 @@ const dailyKavaPosts = [
     "https://www.thetribalkavalounge.com/new-here"
   ],
   "contentSha256": "e372e5477825e9af9095c244b62210e1b30488f6b2f036139961d7cb2f423207"
+},
+  {
+  "slug": "kava-pickup-syrup-flavor-choices",
+  "title": "Ordering kava for DoorDash pickup: syrup and flavor choices",
+  "seoTitle": "Kava pickup syrup & flavor choices \u2014 Single or Double Shell guide",
+  "metaDescription": "How to build a Single or Double Shell DoorDash pickup order: required syrup choice (including None), the optional flavor slot, and why checkout can differ from the online menu.",
+  "dek": "Step-by-step pickup guidance for a Single or Double Shell: pick one required syrup (or None), pick up to one optional flavor, and always confirm the final DoorDash checkout total.",
+  "date": "2026-10-06",
+  "modified": "2026-10-06",
+  "category": "kava",
+  "tags": [
+    "kava pickup",
+    "DoorDash pickup",
+    "menu navigation",
+    "kava shell",
+    "ordering guide"
+  ],
+  "keywords": [
+    "kava pickup syrup flavor choices",
+    "Single Shell DoorDash",
+    "Double Shell pickup",
+    "kava menu DoorDash"
+  ],
+  "faq": [
+    {
+      "question": "Do I have to choose a syrup for a Single or Double Shell?",
+      "answer": "Yes. On the DoorDash pickup menu a Single or Double Shell requires exactly one syrup choice: Brown Cinnamon Sugar, French Vanilla, Hazelnut, or None."
+    },
+    {
+      "question": "Can I add more than one flavor to a shell order?",
+      "answer": "No. The DoorDash shell build allows choosing up to one flavor from the live 18-flavor list; pick the single flavor you prefer or leave it off."
+    }
+  ],
+  "primaryKeyword": "kava pickup syrup flavor choices",
+  "contentFormat": "original-article",
+  "storyType": "guide",
+  "readMin": 4,
+  "body": "<p>Start here: if you\u2019re ordering a Single or Double Shell for DoorDash pickup, you must choose exactly one shell syrup (which can be \u201cNone\u201d) and you may also pick up to one optional flavor. That required-versus-optional difference is the core of building a correct online pickup order.</p>\n<h2>The required choice: shell syrup (you must pick one)</h2>\n<p>When the DoorDash pickup menu lists Single Shell or Double Shell, it includes a required selector labeled Shell syrup. The options are Brown Cinnamon Sugar, French Vanilla, Hazelnut, or None \u2014 and DoorDash expects you to choose exactly one before checkout. Because the menu enforces that field, treat syrup as a required step in your order flow rather than an extra add-on. (See the DoorDash pickup record for the exact listed syrup options.) <a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">Menu: pickup details</a>.</p>\n<p>Why \u201cNone\u201d is included: the None option lets you keep the shell unflavored if you prefer a traditional, un-sweetened pour. Picking None counts as your required syrup choice so the order can proceed.</p>\n<h2>The optional choice: one flavor slot</h2>\n<p>Separately, the pickup menu shows an optional Flavor choice for shells: you may pick up to one flavor from the live 18-flavor list (for example Horchata, Strawberry, Passion Mango, Tiger\u2019s Blood, etc.). That flavor is optional \u2014 you can use the syrup slot only and skip the flavor, or choose one flavor to add. The menu language and the online modifiers both make this a single optional flavor pick per shell order. <a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">DoorDash flavor list and build guidance in the menu record.</a></p>\n<p>Important ordering tip: the flavor list is shared across shells, teas, and slushies on the DoorDash menu. If you see a suggested combination in the online menu copy, treat it as an example, not a guarantee of availability at checkout.</p>\n<h2>Putting it together: an explicit Single or Double Shell build</h2>\n<p>- Step 1 \u2014 Choose Single Shell or Double Shell on DoorDash. The page shows distinct item prices for pickup. - Step 2 \u2014 For Shell syrup (required), select exactly one: Brown Cinnamon Sugar, French Vanilla, Hazelnut, or None. Choosing None is valid if you don\u2019t want a syrup. - Step 3 \u2014 (Optional) For Flavor, choose up to one flavor from the 18 live flavor options. Or leave it blank for no added flavor. - Step 4 \u2014 Review the DoorDash checkout total and availability before completing the purchase.</p>\n<p>Keep the build simple: for example, Single Shell + French Vanilla + Horchata would be a full build. If you want no extra tastes, choose Single Shell + None and leave Flavor blank.</p>\n<h2>Prices and availability: menu record vs. final checkout</h2>\n<p>There are two separate price records you should treat differently: the in-lounge prices printed on the main menu and the DoorDash pickup marketplace prices. The site\u2019s menu page lists in-lounge prices and notes a separate DoorDash section with merchant-set pickup prices (the DoorDash records are dated in the menu). DoorDash can change availability, fees, and final totals, so always confirm the price and item availability in the DoorDash checkout before finalizing your order. The menu itself links to the DoorDash pickup record and explicitly asks you to check today\u2019s availability and final total. <a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">See the site menu for both in-lounge and DoorDash pickup notes.</a></p>\n<p>Put simply: the menu page provides the item descriptions and the DoorDash block lists the pickup prices recorded at a point in time \u2014 verify the order in DoorDash right before you pay.</p>\n<h2>Quick first-order suggestions (advice, not facts)</h2>\n<p>- If you\u2019re new and uncertain, pick French Vanilla or None for syrup and skip the extra flavor; that keeps the order straightforward. (This is a user suggestion, not a menu rule.) - If DoorDash shows an \u201cexample build,\u201d don\u2019t assume those specific options will be available at checkout \u2014 confirm before you place the order.</p>\n<p>For more on how to choose a first kava order when you visit in person, the lounge\u2019s first-visit guide suggests telling the counter whether you prefer earthy, creamy, or fruity flavors and asking staff about ingredients. That in-person approach is useful if you later decide to come inside. <a href=\"https://www.thetribalkavalounge.com/new-here\" rel=\"noopener noreferrer\">New here guidance.</a></p>\n<h2>Two quick FAQs</h2>\n<p>Q: Can I skip syrup entirely? A: Yes \u2014 choose the None syrup option; it satisfies the required syrup field.</p>\n<p>Q: Can I add more than one flavor? A: No \u2014 the DoorDash shell build allows up to one flavor from the live 18-flavor list.</p>\n<p>Wrap-up: treat the shell syrup as the required pick (None is valid), treat flavor as a single optional add-on, and always verify DoorDash\u2019s checkout for the final availability and price before you pay. Double-check that final total on DoorDash before you tap Complete.</p>\n<h2>Sources and local details</h2>\n<p><a href=\"https://www.thetribalkavalounge.com/menu\" rel=\"noopener noreferrer\">Menu | Kava Shells, Kratom Tea &amp; Crafted Drinks in West Palm Beach</a></p>\n<p><a href=\"https://www.thetribalkavalounge.com/new-here\" rel=\"noopener noreferrer\">Your First Visit to Tribal Kava Lounge | West Palm Beach</a></p>\n<p><strong>Responsible use:</strong> Kratom products are for adults 21+ only. Valid ID required. Products are not intended to diagnose, treat, cure, or prevent any disease. Do not mix kava or kratom with alcohol or other substances. If you are pregnant, nursing, taking medications, or have health concerns, speak with a qualified professional.</p>",
+  "sourceUrls": [
+    "https://www.thetribalkavalounge.com/menu",
+    "https://www.thetribalkavalounge.com/new-here"
+  ],
+  "contentSha256": "833607af44c705b9d079a974494bf5b002a11113296938e7f013a46f283dc1b9"
 }
 ];
 
