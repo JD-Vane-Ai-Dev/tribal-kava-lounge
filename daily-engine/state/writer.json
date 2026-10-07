@@ -88,7 +88,13 @@
         "completion_tokens": 3464,
         "total_tokens": 32859
       }
+    },
+    "2026-10-07": {
+      "slug": "mario-kart-kava-lounge-join-or-watch",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kava"
+  "last_subject": "events"
 }
