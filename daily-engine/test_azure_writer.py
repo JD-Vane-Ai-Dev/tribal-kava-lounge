@@ -1,8 +1,11 @@
 """Offline checks for Azure request boundaries, auth isolation and fail-closed JSON."""
 
+import errno
 import http.client
 import io
 import json
+import socket
+import ssl
 import unittest
 import urllib.error
 import urllib.parse
@@ -235,6 +238,60 @@ class AzureWriterTests(unittest.TestCase):
         with self.assertRaisesRegex(WriterConnectionError, "three-call"):
             client.complete("System", "User")
         self.assertEqual(self.opener.open.call_count, 3)
+
+    def test_transport_categories_preserve_cause_without_remote_text(self):
+        cases = [
+            (TimeoutError("private-detail"), "timeout"),
+            (OSError(errno.ETIMEDOUT, "private-detail"), "timeout"),
+            (ssl.SSLCertVerificationError(1, "private-detail"), "tls"),
+            (ssl.SSLError(1, "private-detail"), "tls"),
+            (socket.gaierror(-2, "private-detail"), "dns"),
+            (ConnectionResetError("private-detail"), "connection"),
+            (http.client.RemoteDisconnected("private-detail"), "http_protocol"),
+            (http.client.BadStatusLine("private-detail"), "http_protocol"),
+            (ValueError("private-detail"), "request_value"),
+            (OSError("private-detail"), "network_other"),
+            (urllib.error.URLError("private-detail"), "network_other"),
+        ]
+        for error, category in cases:
+            for wrapped in (False, True):
+                with self.subTest(category=category, wrapped=wrapped):
+                    self.opener.open.reset_mock()
+                    self.opener.open.side_effect = urllib.error.URLError(error) if wrapped else error
+                    client = AzureWriter(API_ENV)
+                    with patch.object(azure_writer.time, "monotonic", side_effect=[10.0, 190.125]), \
+                            self.assertRaises(WriterConnectionError) as caught:
+                        client.complete("System", "User")
+                    message = str(caught.exception)
+                    self.assertIn(f"category={category}, phase=open, call=1", message)
+                    self.assertIn("elapsed_seconds=180.125, timeout_seconds=180", message)
+                    self.assertNotIn("private-detail", message)
+                    self.assertIsNone(caught.exception.__cause__)
+                    self.assertTrue(caught.exception.__suppress_context__)
+                    self.assertEqual(client.call_count, 1)
+                    self.opener.open.assert_called_once()
+
+    def test_body_timeout_identifies_read_phase_and_identity_keeps_own_limit(self):
+        response = Response(b"")
+        response.read = Mock(side_effect=TimeoutError("private-body"))
+        self.opener.open.return_value = response
+        with self.assertRaisesRegex(WriterConnectionError, "category=timeout, phase=read, call=1"):
+            AzureWriter(API_ENV).complete("System", "User")
+        self.opener.open.assert_called_once()
+        response.read.assert_called_once_with(azure_writer.MAX_RESPONSE_BYTES + 1)
+        self.assertTrue(response.closed)
+
+        self.opener.open.reset_mock()
+        self.opener.open.side_effect = urllib.error.URLError(TimeoutError("private-identity"))
+        client = AzureWriter(MI_ENV)
+        with self.assertRaises(WriterConnectionError) as caught:
+            client.complete("System", "User")
+        self.assertIn("Azure identity request", str(caught.exception))
+        self.assertIn("category=timeout", str(caught.exception))
+        self.assertIn("timeout_seconds=10", str(caught.exception))
+        self.assertNotIn("private", str(caught.exception))
+        self.opener.open.assert_called_once()
+        self.assertEqual(client.call_count, 1)
 
     def test_successes_also_consume_three_call_budget_and_accumulate_usage(self):
         self.opener.open.side_effect = [Response(completion()) for _ in range(3)]
