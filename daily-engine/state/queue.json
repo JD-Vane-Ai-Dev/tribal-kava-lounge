@@ -716,6 +716,32 @@
       "published_at": "2026-10-06T11:04:53.783691+00:00",
       "published_sha256": "833607af44c705b9d079a974494bf5b002a11113296938e7f013a46f283dc1b9",
       "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/kava-pickup-syrup-flavor-choices"
+    },
+    {
+      "file": "drafts/mario-kart-kava-lounge-join-or-watch.md",
+      "created_at": "2026-10-07T11:04:01.612711+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/events",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/menu"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 75,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "writer-review-required",
+            "match": "Exact current article must pass the grounded writer review"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: writer-review-required"
+      },
+      "checked_sha256": "bcb3ceca99f19cc7e0eaef0ba22c51156f222e73e90cb03e4f7485fa1f490a35",
+      "content_sha256": "bcb3ceca99f19cc7e0eaef0ba22c51156f222e73e90cb03e4f7485fa1f490a35",
+      "status": "held",
+      "checked_at": "2026-10-07T11:04:01.632378+00:00"
     }
   ]
 }

@@ -92,8 +92,14 @@
     "2026-10-07": {
       "slug": "mario-kart-kava-lounge-join-or-watch",
       "subject": "events",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer request could not connect within its request limits.",
+      "usage": {
+        "prompt_tokens": 15441,
+        "completion_tokens": 3759,
+        "total_tokens": 19200
+      }
     }
   },
   "last_subject": "events"
