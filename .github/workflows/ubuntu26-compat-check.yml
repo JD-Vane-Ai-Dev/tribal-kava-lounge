@@ -1,0 +1,54 @@
+name: Isolated Ubuntu 26 Compatibility Check
+
+# Validation branch only. Do not merge this one-off harness into master.
+on:
+  push:
+    branches: [codex/tribal-ubuntu26-compat-20261007]
+
+permissions:
+  contents: read
+
+jobs:
+  offline-compatibility:
+    if: github.ref == 'refs/heads/codex/tribal-ubuntu26-compat-20261007'
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: '3.11'
+      - name: Record and verify actual runner tools
+        run: |
+          cat /etc/os-release
+          . /etc/os-release
+          test "$VERSION_ID" = '26.04'
+          python3 -c 'import sys; print(sys.version); assert sys.version_info[:2] == (3, 11)'
+          node --version
+          npm --version
+          git --version
+          docker version
+      - name: Run existing tests and build with network physically unavailable
+        run: |
+          sudo unshare --net /usr/bin/env -i \
+            PATH="$PATH" HOME="$RUNNER_TEMP" LD_LIBRARY_PATH="${LD_LIBRARY_PATH:-}" \
+            /bin/bash --noprofile --norc -euo pipefail -c '
+              python3 -m unittest discover -s daily-engine -p "test_*.py" -v
+              npm test
+              git -c safe.directory="$PWD" diff --exit-code -- daily-engine daily-kava.js
+            '
+      - name: Read the deployment action source without running its entrypoint
+        uses: actions/checkout@v7
+        with:
+          repository: Azure/static-web-apps-deploy
+          ref: v1
+          path: .compat-azure
+          persist-credentials: false
+      - name: Build deployment container and check executable without upload or credentials
+        run: |
+          git -C .compat-azure rev-parse HEAD
+          docker build --tag tribal-azure-compat .compat-azure
+          docker run --rm --network none --entrypoint /bin/sh tribal-azure-compat \
+            -c 'test -x /bin/staticsites/StaticSitesClient && echo "Deployment container starts; client executable exists. Deployment entrypoint was not invoked."'
