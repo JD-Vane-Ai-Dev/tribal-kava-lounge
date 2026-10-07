@@ -260,6 +260,22 @@ assert.match(app, /'friday-loteria':[\s\S]*?startDate: nextFridayLoteria\.iso/, 
 assert.match(app, /function nextWeeklyOccurrence\(/, 'recurring event dates must refresh automatically');
 assert.match(eventCalendar, /RRULE:FREQ=WEEKLY;BYDAY=TU/, 'calendar must repeat the verified Tuesday special');
 assert.match(eventCalendar, /RRULE:FREQ=WEEKLY;BYDAY=FR/, 'calendar must repeat verified Friday Lotería');
+// Scope checks to Lotería so Tuesday's DTEND cannot mask a zero-duration event.
+const calendarEvents = eventCalendar.replace(/\r\n[ \t]/g, '').split('BEGIN:VEVENT\r\n').slice(1)
+  .map((event) => event.split('END:VEVENT')[0]);
+const loteriaEvents = calendarEvents.filter((event) => event.includes('UID:friday-loteria@thetribalkavalounge.com\r\n'));
+assert.equal(loteriaEvents.length, 1, 'the recurring Lotería UID must remain unique and stable');
+const loteriaLines = loteriaEvents[0].split('\r\n');
+assert.deepEqual(loteriaLines.filter((line) => /^(DTSTART|DTEND|DURATION)[;:]/.test(line)), [
+  'DTSTART;TZID=America/New_York:20260904T210000',
+  'DTEND;TZID=America/New_York:20260904T220000'
+], 'owner-confirmed Friday Lotería must run 9–10 PM Eastern with exactly one end definition');
+assert.deepEqual(loteriaLines.filter((line) => line.startsWith('RRULE:')), ['RRULE:FREQ=WEEKLY;BYDAY=FR'], 'Lotería must recur every Friday');
+assert.match(eventCalendar, /TZID:America\/New_York\r\n/, 'Eastern timezone definition must remain in the feed');
+assert.match(eventCalendar, /TZOFFSETTO:-0400[\s\S]*?RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU/, 'Eastern daylight-saving rule must remain');
+assert.match(eventCalendar, /TZOFFSETTO:-0500[\s\S]*?RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU/, 'Eastern standard-time rule must remain');
+assert.match(preRenderedLoteria, /href="\/events\.ics"[^>]*download="tribal-weekly-events\.ics"/, 'Lotería page must link to the validated calendar');
+assert.equal(eventCalendar, (await read('events.ics')).replace(/\r?\n/g, '\r\n'), 'published calendar must preserve source event details');
 assert.match(eventCalendar, /\r\n/, 'published iCalendar data must use RFC-compatible CRLF line endings');
 assert.equal(JSON.parse(config).mimeTypes['.ics'], 'text/calendar', 'Azure must serve the calendar with the correct MIME type');
 assert.match(html, /id="instagram-gallery"/, 'curated Instagram gallery mount must exist');
