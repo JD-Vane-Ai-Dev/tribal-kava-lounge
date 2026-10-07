@@ -741,7 +741,9 @@
       "checked_sha256": "bcb3ceca99f19cc7e0eaef0ba22c51156f222e73e90cb03e4f7485fa1f490a35",
       "content_sha256": "bcb3ceca99f19cc7e0eaef0ba22c51156f222e73e90cb03e4f7485fa1f490a35",
       "status": "held",
-      "checked_at": "2026-10-07T11:04:01.632378+00:00"
+      "checked_at": "2026-10-07T11:04:01.632378+00:00",
+      "held_at": "2026-10-07T11:04:52.624925+00:00",
+      "hold_reason": "HOLD: writer-review-required: writer-review-required"
     }
   ]
 }
