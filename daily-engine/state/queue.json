@@ -744,6 +744,31 @@
       "checked_at": "2026-10-07T11:04:01.632378+00:00",
       "held_at": "2026-10-07T11:04:52.624925+00:00",
       "hold_reason": "HOLD: writer-review-required: writer-review-required"
+    },
+    {
+      "file": "drafts/pool-tables-kava-lounge-hang.md",
+      "created_at": "2026-10-08T11:03:07.246227+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/menu"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 75,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "policy"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: editorial-legal-or-political-coverage"
+      },
+      "checked_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
+      "content_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
+      "status": "held",
+      "checked_at": "2026-10-08T11:03:07.260339+00:00"
     }
   ]
 }

@@ -104,8 +104,13 @@
     "2026-10-08": {
       "slug": "pool-tables-kava-lounge-hang",
       "subject": "kava",
-      "status": "researching",
-      "model_calls": 0
+      "status": "authored",
+      "model_calls": 3,
+      "usage": {
+        "prompt_tokens": 22927,
+        "completion_tokens": 4062,
+        "total_tokens": 31543
+      }
     }
   },
   "last_subject": "kava"
