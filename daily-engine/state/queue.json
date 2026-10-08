@@ -753,24 +753,18 @@
         "https://www.thetribalkavalounge.com/menu"
       ],
       "compliance": {
-        "pass": false,
-        "score": 75,
-        "flags": [
-          {
-            "severity": "error",
-            "rule": "editorial-legal-or-political-coverage",
-            "match": "policy"
-          }
-        ],
+        "pass": true,
+        "score": 100,
+        "flags": [],
         "required_additions": [],
-        "summary": "HOLD: editorial-legal-or-political-coverage"
+        "summary": "PASS"
       },
       "checked_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
       "content_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
-      "status": "held",
-      "checked_at": "2026-10-08T11:03:07.260339+00:00",
-      "held_at": "2026-10-08T11:03:44.974204+00:00",
-      "hold_reason": "HOLD: editorial-legal-or-political-coverage: editorial-legal-or-political-coverage"
+      "status": "staged",
+      "checked_at": "2026-10-08T15:57:08.536541+00:00",
+      "staged_at": "2026-10-08T15:57:08.536541+00:00",
+      "staged_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757"
     }
   ]
 }
