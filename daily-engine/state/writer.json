@@ -100,7 +100,13 @@
         "completion_tokens": 3759,
         "total_tokens": 19200
       }
+    },
+    "2026-10-08": {
+      "slug": "pool-tables-kava-lounge-hang",
+      "subject": "kava",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "events"
+  "last_subject": "kava"
 }
