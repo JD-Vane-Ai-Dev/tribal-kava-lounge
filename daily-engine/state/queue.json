@@ -761,10 +761,13 @@
       },
       "checked_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
       "content_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
-      "status": "staged",
+      "status": "published",
       "checked_at": "2026-10-08T15:57:08.536541+00:00",
       "staged_at": "2026-10-08T15:57:08.536541+00:00",
-      "staged_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757"
+      "staged_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
+      "published_at": "2026-10-08T15:57:39.628532+00:00",
+      "published_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
+      "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/pool-tables-kava-lounge-hang"
     }
   ]
 }
