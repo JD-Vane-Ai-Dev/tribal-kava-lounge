@@ -114,6 +114,34 @@ TOPIC_ANCHOR = re.compile(
 )
 
 
+def _house_rule_policy_spans(text: str) -> set[tuple[int, int]]:
+    """Exempt only the exact footwear-policy item in a local house-rules list.
+
+    Keep every surrounding word and every other policy token in the scan.
+    Neither a line break nor a metadata boundary may supply this context.
+    """
+    spans = set()
+    for rules in re.finditer(r"\bhouse[ \t]+rules[ \t]*\(([^()\r\n]*)\)", text, re.I):
+        if len(rules[0].splitlines()) != 1:
+            continue
+        for item in re.finditer(r"(?:^|,)[ \t]*footwear[ \t]+(policy)[ \t]*(?=,|$)", rules[1], re.I):
+            spans.add((rules.start(1) + item.start(1), rules.start(1) + item.end(1)))
+    return spans
+
+
+def _individual_text_fields(value: Any):
+    """Keep FAQ questions/answers and list entries as separate policy contexts."""
+    if isinstance(value, dict):
+        for key, item in value.items():
+            yield from _individual_text_fields(key)
+            yield from _individual_text_fields(item)
+    elif isinstance(value, list):
+        for item in value:
+            yield from _individual_text_fields(item)
+    else:
+        yield str(value)
+
+
 def alcohol_promotion_flags(text: str) -> list[dict[str, str]]:
     """Screen actual drink/event words, preserving explicit alcohol-free contexts.
 
@@ -139,17 +167,23 @@ def alcohol_promotion_flags(text: str) -> list[dict[str, str]]:
 
 def check_candidate(item: dict[str, Any], *, category: str = "", require_fresh: bool = False, now: datetime | None = None, require_relevant: bool = True, require_canonical: bool = False) -> dict[str, Any]:
     """Reject Daily candidates that conflict with Tribal's positive editorial scope."""
-    text = html.unescape(" ".join(str(item.get(k, "")) for k in ("title", "summary", "source")))
+    fields = [html.unescape(str(item.get(k, ""))) for k in ("title", "summary", "source")]
+    text = " ".join(fields)
     flags = alcohol_promotion_flags(text)
     # The headline is what we publish. A snippet or publisher name cannot make
     # an unrelated headline eligible at intake but fail later in the publisher.
     topic = html.unescape(re.sub(r"<[^>]+>", " ", str(item.get("title") or "")))
     if require_relevant and not TOPIC_ANCHOR.search(topic):
         flags.append({"severity": "error", "rule": "editorial-unrelated-topic", "match": str(item.get("title", ""))})
+    # Same offsets as the aggregate scan, but fields cannot supply list context
+    # for one another. Keep the original claim/alcohol scan text unchanged.
+    house_rule_policy_spans = _house_rule_policy_spans("\n".join(fields))
     for pattern, label in EDITORIAL_REJECT_PATTERNS:
-        match = re.search(pattern, text, flags=re.I)
-        if match:
+        for match in re.finditer(pattern, text, flags=re.I):
+            if match.group(0).lower() == "policy" and match.span() in house_rule_policy_spans:
+                continue
             flags.append({"severity": "error", "rule": "editorial-" + label.lower().replace(" ", "-"), "match": match.group(0)})
+            break
     if category.lower() in {"regulation", "legal", "politics"}:
         flags.append({"severity": "error", "rule": "editorial-disallowed-category", "match": category})
     if require_fresh:
@@ -303,8 +337,18 @@ def check_publishable(text: str, source_urls: list[str], now: datetime | None = 
                 or review.get('status') != 'pass' or review.get('issues') != []
                 or review.get('contentSha256') != article_review_hash(meta, body)):
             reject('writer-review-required', 'Exact current article must pass the grounded writer review')
-    visible_meta = " ".join(str(meta.get(k, "")) for k in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword", "tags", "keywords", "faq"))
+    visible_fields = [meta.get(k, "") for k in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword", "tags", "keywords", "faq")]
+    visible_meta = " ".join(str(field) for field in visible_fields)
     flags.extend(check_text(body + "\n" + visible_meta, context="daily")["flags"])
+    # Aggregate metadata keeps the existing claim and trusted-footer behavior.
+    # Recheck policy per field so that only local house-rules lists can qualify.
+    if not any(flag["rule"] == "editorial-legal-or-political-coverage" for flag in flags):
+        for field in _individual_text_fields([body, *visible_fields]):
+            field = html.unescape(field)
+            allowed = _house_rule_policy_spans(field)
+            if any(match.span() not in allowed for match in re.finditer(r"\bpolicy\b", field, re.I)):
+                reject("editorial-legal-or-political-coverage", "policy")
+                break
     for key in ("title", "seoTitle", "metaDescription", "dek", "category", "primaryKeyword"):
         if not isinstance(meta.get(key), str) or not meta[key].strip() or re.search(r"[<>]", meta[key]):
             reject("missing-or-unsafe-metadata", key)
