@@ -768,7 +768,9 @@
       "checked_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
       "content_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
       "status": "held",
-      "checked_at": "2026-10-08T11:03:07.260339+00:00"
+      "checked_at": "2026-10-08T11:03:07.260339+00:00",
+      "held_at": "2026-10-08T11:03:44.974204+00:00",
+      "hold_reason": "HOLD: editorial-legal-or-political-coverage: editorial-legal-or-political-coverage"
     }
   ]
 }
