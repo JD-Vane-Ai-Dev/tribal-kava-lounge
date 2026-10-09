@@ -768,6 +768,36 @@
       "published_at": "2026-10-08T15:57:39.628532+00:00",
       "published_sha256": "ff6ca9841a259e61dc944c9107dc99fa1061a9e5b4e7395b91dcb3755e237757",
       "published_url": "https://www.thetribalkavalounge.com/the-daily-kava/pool-tables-kava-lounge-hang"
+    },
+    {
+      "file": "drafts/crafted-kratom-mint-citrus-sweet-heat.md",
+      "created_at": "2026-10-09T11:02:31.304470+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/menu",
+        "https://www.thetribalkavalounge.com/new-here"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 50,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "writer-review-required",
+            "match": "Exact current article must pass the grounded writer review"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-alcohol-promotion",
+            "match": "cocktails"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: writer-review-required, editorial-alcohol-promotion"
+      },
+      "checked_sha256": "99145080f8a0871ba4b89905e7d95dff7d4b3c4f61e28f39926a4b1c29db89ed",
+      "content_sha256": "99145080f8a0871ba4b89905e7d95dff7d4b3c4f61e28f39926a4b1c29db89ed",
+      "status": "held",
+      "checked_at": "2026-10-09T11:02:31.318070+00:00"
     }
   ]
 }
