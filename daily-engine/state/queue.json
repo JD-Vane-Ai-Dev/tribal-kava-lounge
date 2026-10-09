@@ -797,7 +797,9 @@
       "checked_sha256": "99145080f8a0871ba4b89905e7d95dff7d4b3c4f61e28f39926a4b1c29db89ed",
       "content_sha256": "99145080f8a0871ba4b89905e7d95dff7d4b3c4f61e28f39926a4b1c29db89ed",
       "status": "held",
-      "checked_at": "2026-10-09T11:02:31.318070+00:00"
+      "checked_at": "2026-10-09T11:02:31.318070+00:00",
+      "held_at": "2026-10-09T11:03:11.752899+00:00",
+      "hold_reason": "HOLD: writer-review-required, editorial-alcohol-promotion: writer-review-required, editorial-alcohol-promotion"
     }
   ]
 }
