@@ -111,7 +111,13 @@
         "completion_tokens": 4062,
         "total_tokens": 31543
       }
+    },
+    "2026-10-09": {
+      "slug": "crafted-kratom-mint-citrus-sweet-heat",
+      "subject": "kratom",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kava"
+  "last_subject": "kratom"
 }
