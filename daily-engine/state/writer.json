@@ -122,7 +122,13 @@
         "completion_tokens": 4227,
         "total_tokens": 32991
       }
+    },
+    "2026-10-10": {
+      "slug": "kava-lounge-karaoke-first-song",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
-  "last_subject": "kratom"
+  "last_subject": "events"
 }
