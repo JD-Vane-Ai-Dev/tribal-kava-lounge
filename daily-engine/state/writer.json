@@ -126,8 +126,14 @@
     "2026-10-10": {
       "slug": "kava-lounge-karaoke-first-song",
       "subject": "events",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "reason": "Azure writer request failed (HTTP 429).",
+      "usage": {
+        "prompt_tokens": 15465,
+        "completion_tokens": 3478,
+        "total_tokens": 18943
+      }
     }
   },
   "last_subject": "events"

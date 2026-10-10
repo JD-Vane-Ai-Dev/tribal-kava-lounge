@@ -800,6 +800,37 @@
       "checked_at": "2026-10-09T11:02:31.318070+00:00",
       "held_at": "2026-10-09T11:03:11.752899+00:00",
       "hold_reason": "HOLD: writer-review-required, editorial-alcohol-promotion: writer-review-required, editorial-alcohol-promotion"
+    },
+    {
+      "file": "drafts/kava-lounge-karaoke-first-song.md",
+      "created_at": "2026-10-10T11:00:56.637652+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/events",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/menu"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 50,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "writer-review-required",
+            "match": "Exact current article must pass the grounded writer review"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-negative-or-scare-coverage",
+            "match": "harm"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: writer-review-required, editorial-negative-or-scare-coverage"
+      },
+      "checked_sha256": "4978f747e18ac6dce2d9fdd07fd00bdbb8e8fe825370c1ee611757d1f69f7066",
+      "content_sha256": "4978f747e18ac6dce2d9fdd07fd00bdbb8e8fe825370c1ee611757d1f69f7066",
+      "status": "held",
+      "checked_at": "2026-10-10T11:00:56.655427+00:00"
     }
   ]
 }
