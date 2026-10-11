@@ -63,3 +63,15 @@ Staff lookup uses exact normalized full buyer name or full order ID, max 20 retu
 `npm test` includes the existing site suite plus payment/redemption core tests. Tests cover server pricing, quantities/sizes, presale closure, both entry windows/break, BOGO boundaries and single redemption, kids restrictions, unpaid/refunded access, signed webhook/replay, buyer capability authentication, staff permissions and ETag concurrency.
 
 No live payment, live email, live Azure persistence or full browser interaction is implied by passing these tests. Complete deployed browser and integration checks before live activation. Keep evidence for the deployed commit, Stripe test PaymentIntent/event, durable order, inbox message, and working test ticket link. Unit tests and preview deployment alone do not establish a live store.
+
+
+## Deployment checkpoint — October 11, 2026
+
+- Authenticated Azure read verified the named Static Web App in subscription `0fd71da0-a2ba-470a-ac27-fc5b7ef186ca`; Azure access is working in this session.
+- Reused `stkimimcp0fd71da0` in `tribal-kava-automation-rg`. Created private `HauntedTribeOrders` and `HauntedTribeTestOrders`; a real test-table write/read succeeded. Runtime connections use separate table-scoped SAS credentials with query/add/update permissions, expiring February 1, 2027. Renew before expiry if order access is still required. No account-wide storage permission changes.
+- Created `tribal-haunt-email` and `tribal-haunt-mailer` in `tribal-kava-site-rg`; linked the Azure-managed domain. Domain, SPF, both DKIM records and DMARC report Verified. Sender is `donotreply@bd3bd7e6-af1f-4648-819b-cd777ecfd0ad.azurecomm.net`.
+- Configured storage, separate stable signing secrets, email connection/sender, payment mode and exact public origin separately for preview environment `9` and production. Existing settings preserved. Both keep `HAUNT_PAYMENTS_ENABLED=false`. No Stripe runtime keys or webhook secrets configured.
+- The authorized delivery-only email to `jd@vaneai.tech` was accepted by ACS (operation `7b211658-0ac0-4016-b9f4-7463fb6cc95d`). It explicitly says it is not a ticket and no payment occurred. Inbox delivery has not been verified.
+- Commit `05045ccc3807044870e63b1334e0600735196e4f`: local build, site checks, analytics and 31 API tests passed; GitHub run `38178680265` passed and deployed the review environment. Browser cart check: two adults, two kids and two independently sized bundles total $80. Real mobile payment interaction is unverified.
+- Deployed preview config remains disabled; checkout POST returns 503 and unauthenticated staff lookup returns 401. Production `/haunted-tribe` still serves the main-site HTML. No merge or production deployment performed.
+- Remaining gates: dedicated Stripe test/live application credentials; matching webhook endpoints/secrets; account eligibility for this event/bundle; deployed test payment and signed webhook; durable paid order; actual inbox ticket delivery and working ticket link; replay/failure/mobile checks. Staff onboarding does not block sales launch.
