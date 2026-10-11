@@ -9,7 +9,7 @@
     if (!id || !access) { $('status').textContent = 'Open the private ticket link from your order confirmation email.'; return; }
     loading = true; $('refresh').disabled = true;
     try {
-      const r = await fetch(`/api/haunt/orders/${encodeURIComponent(id)}`, { headers: { Authorization: `Bearer ${access}` } });
+      const r = await fetch(`/api/haunt/orders/${encodeURIComponent(id)}`, { headers: { 'X-Haunt-Ticket-Token': access } });
       const order = await r.json(); if (!r.ok) throw new Error(order.error);
       $('tickets').replaceChildren();
       if (order.status !== 'paid') {

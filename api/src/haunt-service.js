@@ -20,7 +20,8 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
   const ready = () => env.HAUNT_PAYMENTS_ENABLED === 'true' && paymentEnvironment(env) && ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY', 'STRIPE_WEBHOOK_SECRET', 'HAUNT_STORAGE_CONNECTION_STRING', 'HAUNT_TOKEN_SECRET', 'HAUNT_EMAIL_CONNECTION_STRING', 'HAUNT_EMAIL_FROM'].every(k => env[k]) && env.HAUNT_TOKEN_SECRET.length >= 32;
   const origin = () => { const config = paymentEnvironment(env); if (!config) throw new HauntError('Ticket environment is not configured.', 503); return config.origin; };
   const checkMode = object => { const config = paymentEnvironment(env); if (!config || object.livemode !== (config.mode === 'live')) throw new HauntError('Payment environment does not match.', 409); };
-  const bearer = req => (req.headers.get('authorization') || '').replace(/^Bearer /, '');
+  // Static Web Apps reserves Authorization for its own backend authentication.
+  const buyerAccess = req => req.headers.get('x-haunt-ticket-token') || '';
   const requireStaff = req => {
     const p = staffPrincipal(req.headers.get('x-ms-client-principal'));
     if (!p) throw new HauntError('Staff sign-in required.', 403);
@@ -93,7 +94,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
       return { orderId: id, accessToken: token(env.HAUNT_TOKEN_SECRET, id), clientSecret: pi.client_secret, amount: cart.amount };
     },
     async order(req, id) {
-      if (!/^[a-f0-9]{36}$/.test(id) || !equal(bearer(req), token(env.HAUNT_TOKEN_SECRET, id))) throw new HauntError('Ticket access link not recognized.', 403);
+      if (!/^[a-f0-9]{36}$/.test(id) || !equal(buyerAccess(req), token(env.HAUNT_TOKEN_SECRET, id))) throw new HauntError('Ticket access link not recognized.', 403);
       const order = await reconcile(id);
       return publicOrder(order);
     },

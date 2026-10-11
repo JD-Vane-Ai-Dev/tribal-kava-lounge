@@ -40,7 +40,7 @@ function harness() {
     async retrieve(id) { return intents.get(id); }
   } };
   const service = createService({ store, stripe, env, now: () => time, qr: async text => text, mail: { send: async m => sent.push(m) } });
-  const req = (access, staff) => ({ headers: new Headers({ ...(access ? { authorization: `Bearer ${access}` } : {}), ...(staff ? { 'x-ms-client-principal': Buffer.from(JSON.stringify({ userId: 'staff1', userRoles: ['haunted-staff'] })).toString('base64') } : {}) }) });
+  const req = (access, staff) => ({ headers: new Headers({ ...(access ? { 'x-haunt-ticket-token': access } : {}), ...(staff ? { 'x-ms-client-principal': Buffer.from(JSON.stringify({ userId: 'staff1', userRoles: ['haunted-staff'] })).toString('base64') } : {}) }) });
   const settle = () => { const pi = intents.get('pi_test'); pi.status = 'succeeded'; pi.amount_received = pi.amount; };
   const webhook = async (type, object) => { const raw = JSON.stringify({ id: 'evt_test', livemode: false, type, data: { object } }); const signature = sdk.webhooks.generateTestHeaderString({ payload: raw, secret: env.STRIPE_WEBHOOK_SECRET }); return service.webhook(raw, signature); };
   return { rows, intents, sent, env, service, req, settle, webhook, setTime: t => time = t, creates: () => creates };
@@ -86,4 +86,17 @@ test('correctly signed wrong-mode webhook is rejected', async () => {
   const h = harness(); const raw = JSON.stringify({ livemode: true, type: 'charge.refunded', data: { object: {} } });
   const signature = new Stripe('sk_test_fake').webhooks.generateTestHeaderString({ payload: raw, secret: h.env.STRIPE_WEBHOOK_SECRET });
   await assert.rejects(h.service.webhook(raw, signature), /environment/);
+});
+
+
+test('buyer capability survives platform Authorization replacement and remains mandatory', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle();
+  const req = h.req(a.accessToken);
+  req.headers.set('authorization', 'Bearer platform-internal-token');
+  assert.equal((await h.service.order(req, a.orderId)).tickets.length, 6);
+  req.headers.delete('x-haunt-ticket-token');
+  req.headers.set('authorization', `Bearer ${a.accessToken}`);
+  await assert.rejects(h.service.order(req, a.orderId), /access/);
+  req.headers.set('x-haunt-ticket-token', 'forged');
+  await assert.rejects(h.service.order(req, a.orderId), /access/);
 });
