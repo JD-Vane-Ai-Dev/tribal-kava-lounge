@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import Stripe from 'stripe';
 import { EVENT, START, BREAK, RESUME, END, BOGO_START, BOGO_END, validateCart, makeOrder, redeem, verifyPaid, token } from '../src/haunt-core.js';
-import { createService } from '../src/haunt-service.js';
+import { createService, paymentEnvironment } from '../src/haunt-service.js';
 
 const input = { adult: 2, child: 2, shirts: ['S', 'XL'], name: 'JD Harris', email: 'jd@example.com', accepted: true, requestId: 'abcdef12-1234-1234-1234-123456789012' };
 const cart = () => validateCart(input, START - 1000);
@@ -25,7 +25,7 @@ test('payment verification requires matching amount, intent, event, currency and
 function harness() {
   const rows = new Map(); const intents = new Map(); const sent = [];
   const env = Object.fromEntries(['STRIPE_SECRET_KEY','STRIPE_PUBLISHABLE_KEY','STRIPE_WEBHOOK_SECRET','HAUNT_STORAGE_CONNECTION_STRING','HAUNT_EMAIL_CONNECTION_STRING','HAUNT_EMAIL_FROM'].map(k => [k, 'configured']));
-  env.HAUNT_PAYMENTS_ENABLED = 'true'; env.HAUNT_TOKEN_SECRET = 'secret'.repeat(8); env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
+  env.HAUNT_PAYMENT_MODE = 'test'; env.HAUNT_PUBLIC_ORIGIN = 'https://haunt-test.azurestaticapps.net'; env.STRIPE_SECRET_KEY = 'rk_test_fake'; env.STRIPE_PUBLISHABLE_KEY = 'pk_test_fake'; env.HAUNT_PAYMENTS_ENABLED = 'true'; env.HAUNT_TOKEN_SECRET = 'secret'.repeat(8); env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
   let time = START - 1; let creates = 0;
   const conflict = () => Object.assign(new Error('conflict'), { statusCode: 412 });
   const store = {
@@ -36,13 +36,13 @@ function harness() {
   };
   const sdk = new Stripe('sk_test_fake');
   const stripe = { webhooks: sdk.webhooks, paymentIntents: {
-    async create(p, options) { creates++; const pi = { ...p, id: 'pi_test', status: 'requires_payment_method', amount_received: 0, client_secret: 'pi_secret' }; intents.set(pi.id, pi); assert.match(options.idempotencyKey, /^haunted-tribe-2026:/); return pi; },
+    async create(p, options) { creates++; const pi = { ...p, livemode: false, id: 'pi_test', status: 'requires_payment_method', amount_received: 0, client_secret: 'pi_secret' }; intents.set(pi.id, pi); assert.match(options.idempotencyKey, /^haunted-tribe-2026:/); return pi; },
     async retrieve(id) { return intents.get(id); }
   } };
-  const service = createService({ store, stripe, env, now: () => time, qr: async () => 'data:image/png;base64,test', mail: { send: async m => sent.push(m) } });
+  const service = createService({ store, stripe, env, now: () => time, qr: async text => text, mail: { send: async m => sent.push(m) } });
   const req = (access, staff) => ({ headers: new Headers({ ...(access ? { authorization: `Bearer ${access}` } : {}), ...(staff ? { 'x-ms-client-principal': Buffer.from(JSON.stringify({ userId: 'staff1', userRoles: ['haunted-staff'] })).toString('base64') } : {}) }) });
   const settle = () => { const pi = intents.get('pi_test'); pi.status = 'succeeded'; pi.amount_received = pi.amount; };
-  const webhook = async (type, object) => { const raw = JSON.stringify({ id: 'evt_test', type, data: { object } }); const signature = sdk.webhooks.generateTestHeaderString({ payload: raw, secret: env.STRIPE_WEBHOOK_SECRET }); return service.webhook(raw, signature); };
+  const webhook = async (type, object) => { const raw = JSON.stringify({ id: 'evt_test', livemode: false, type, data: { object } }); const signature = sdk.webhooks.generateTestHeaderString({ payload: raw, secret: env.STRIPE_WEBHOOK_SECRET }); return service.webhook(raw, signature); };
   return { rows, intents, sent, env, service, req, settle, webhook, setTime: t => time = t, creates: () => creates };
 }
 test('checkout fails closed until all activation settings exist', async () => { const h = harness(); delete h.env.HAUNT_EMAIL_FROM; assert.equal((await h.service.config()).enabled, false); await assert.rejects(h.service.checkout(input), /not open/); });
@@ -55,3 +55,35 @@ test('forged ticket signature is rejected', async () => { const h = harness(); a
 test('concurrent admission requests succeed exactly once', async () => { const h = harness(); const a = await h.service.checkout(input); h.settle(); h.setTime(START); const o = await h.service.order(h.req(a.accessToken), a.orderId); const results = await Promise.allSettled([1, 2].map(() => h.service.staffRedeem(h.req(null, true), { code: o.tickets[0].code, perk: 'admission' }))); assert.equal(results.filter(r => r.status === 'fulfilled').length, 1); });
 test('refund review is sticky after delayed payment success', async () => { const h = harness(); const a = await h.service.checkout(input); h.settle(); await h.webhook('charge.refunded', { payment_intent: 'pi_test' }); await h.webhook('payment_intent.succeeded', h.intents.get('pi_test')); const o = await h.service.order(h.req(a.accessToken), a.orderId); assert.equal(o.status, 'review'); assert.equal(o.tickets.length, 0); });
 test('per-ticket signatures are distinct from buyer access', () => { const secret = 's'.repeat(32); assert.notEqual(token(secret, 'a', 'ticket:0'), token(secret, 'a')); assert.notEqual(token(secret, 'a', 'ticket:0'), token(secret, 'a', 'ticket:1')); });
+
+test('test receipts and QR links stay on the preview and test orders use a separate table', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle();
+  await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  assert.match(h.sent[0].subject, /TEST/);
+  assert.ok(h.sent[0].text.includes(`${h.env.HAUNT_PUBLIC_ORIGIN}/haunted-tribe/tickets/#${a.orderId}.${a.accessToken}`));
+  const result = await h.service.order(h.req(a.accessToken), a.orderId);
+  assert.ok(result.tickets[0].qr.startsWith(`${h.env.HAUNT_PUBLIC_ORIGIN}/haunted-tribe/staff/#`));
+  assert.equal(paymentEnvironment(h.env).table, 'HauntedTribeTestOrders');
+});
+test('mixed keys, wrong origins and missing mode fail closed', async () => {
+  for (const change of [{ STRIPE_SECRET_KEY: 'sk_live_fake' }, { STRIPE_PUBLISHABLE_KEY: 'pk_live_fake' }, { HAUNT_PAYMENT_MODE: '' }, { HAUNT_PUBLIC_ORIGIN: 'https://www.thetribalkavalounge.com' }, { HAUNT_PUBLIC_ORIGIN: 'https://evil.example' }, { HAUNT_PUBLIC_ORIGIN: 'https://haunt-test.azurestaticapps.net/path' }]) {
+    const h = harness(); Object.assign(h.env, change);
+    assert.equal((await h.service.config()).enabled, false);
+    await assert.rejects(h.service.checkout(input), /not open/);
+  }
+  const h = harness(); Object.assign(h.env, { HAUNT_PAYMENT_MODE: 'live', STRIPE_SECRET_KEY: 'rk_live_fake', STRIPE_PUBLISHABLE_KEY: 'pk_live_fake', HAUNT_PUBLIC_ORIGIN: 'https://www.thetribalkavalounge.com' });
+  assert.equal(paymentEnvironment(h.env).table, 'HauntedTribeOrders');
+  h.env.HAUNT_PUBLIC_ORIGIN = 'https://haunt-test.azurestaticapps.net';
+  assert.equal(paymentEnvironment(h.env), null);
+});
+test('wrong-mode payment cannot issue tickets or send email', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle(); h.intents.get('pi_test').livemode = true;
+  await assert.rejects(h.service.order(h.req(a.accessToken), a.orderId), /environment/);
+  await assert.rejects(h.webhook('payment_intent.succeeded', h.intents.get('pi_test')), /environment/);
+  assert.equal(h.sent.length, 0); assert.equal(h.rows.get(a.orderId).order.status, 'pending');
+});
+test('correctly signed wrong-mode webhook is rejected', async () => {
+  const h = harness(); const raw = JSON.stringify({ livemode: true, type: 'charge.refunded', data: { object: {} } });
+  const signature = new Stripe('sk_test_fake').webhooks.generateTestHeaderString({ payload: raw, secret: h.env.STRIPE_WEBHOOK_SECRET });
+  await assert.rejects(h.service.webhook(raw, signature), /environment/);
+});

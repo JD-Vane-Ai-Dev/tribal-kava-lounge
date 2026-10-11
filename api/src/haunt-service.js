@@ -1,11 +1,25 @@
 import { EVENT, HauntError, token, equal, validateCart, makeOrder, verifyPaid, redeem, staffPrincipal } from './haunt-core.js';
 import { createHash } from 'node:crypto';
 
-const ORIGIN = 'https://www.thetribalkavalounge.com';
+const PRODUCTION_ORIGIN = 'https://www.thetribalkavalounge.com';
+export function paymentEnvironment(env) {
+  const mode = env.HAUNT_PAYMENT_MODE;
+  if (!['test', 'live'].includes(mode)) return null;
+  const origin = env.HAUNT_PUBLIC_ORIGIN;
+  try {
+    const url = new URL(origin);
+    if (url.origin !== origin || url.protocol !== 'https:') return null;
+    if (mode === 'live' ? origin !== PRODUCTION_ORIGIN : !url.hostname.endsWith('.azurestaticapps.net')) return null;
+  } catch { return null; }
+  if (!new RegExp(`^(sk|rk)_${mode}_`).test(env.STRIPE_SECRET_KEY || '') || !String(env.STRIPE_PUBLISHABLE_KEY || '').startsWith(`pk_${mode}_`)) return null;
+  return { mode, origin, table: mode === 'live' ? 'HauntedTribeOrders' : 'HauntedTribeTestOrders' };
+}
 const hash = s => createHash('sha256').update(s).digest('hex');
 export const nameKey = name => hash(name.trim().toLowerCase().replace(/\s+/g, ' '));
 export function createService({ store, stripe, mail, qr, env, now = () => Date.now() }) {
-  const ready = () => env.HAUNT_PAYMENTS_ENABLED === 'true' && ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY', 'STRIPE_WEBHOOK_SECRET', 'HAUNT_STORAGE_CONNECTION_STRING', 'HAUNT_TOKEN_SECRET', 'HAUNT_EMAIL_CONNECTION_STRING', 'HAUNT_EMAIL_FROM'].every(k => env[k]) && env.HAUNT_TOKEN_SECRET.length >= 32;
+  const ready = () => env.HAUNT_PAYMENTS_ENABLED === 'true' && paymentEnvironment(env) && ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY', 'STRIPE_WEBHOOK_SECRET', 'HAUNT_STORAGE_CONNECTION_STRING', 'HAUNT_TOKEN_SECRET', 'HAUNT_EMAIL_CONNECTION_STRING', 'HAUNT_EMAIL_FROM'].every(k => env[k]) && env.HAUNT_TOKEN_SECRET.length >= 32;
+  const origin = () => { const config = paymentEnvironment(env); if (!config) throw new HauntError('Ticket environment is not configured.', 503); return config.origin; };
+  const checkMode = object => { const config = paymentEnvironment(env); if (!config || object.livemode !== (config.mode === 'live')) throw new HauntError('Payment environment does not match.', 409); };
   const bearer = req => (req.headers.get('authorization') || '').replace(/^Bearer /, '');
   const requireStaff = req => {
     const p = staffPrincipal(req.headers.get('x-ms-client-principal'));
@@ -25,6 +39,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
     let { order } = await store.get(id);
     if (!order.paymentIntent) return order;
     const pi = await stripe.paymentIntents.retrieve(order.paymentIntent);
+    checkMode(pi);
     if (pi.status === 'succeeded') {
       verifyPaid(order, pi);
       // Refund/dispute invalidation is sticky; delayed success events cannot restore entry.
@@ -36,8 +51,8 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
     if (order.status !== 'paid' || order.emailSent) return;
     // Deterministic ACS operation ID makes retries safe across concurrent webhook deliveries.
     const h = hash(order.id); const operationId = `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;
-    const url = `${ORIGIN}/haunted-tribe/tickets/#${order.id}.${token(env.HAUNT_TOKEN_SECRET, order.id)}`;
-    await mail.send({ operationId, email: order.email, subject: 'Your Haunted Tribe tickets', text: `Your payment is confirmed.\n\nOpen your tickets: ${url}\n\nOrder: ${order.id}\nAdmissions: ${order.tickets.length}\nFriday, October 30: 7–10 PM or 10:30 PM–1:30 AM. One walkthrough per ticket.\n770 S Military Trail, West Palm Beach, FL 33415. Free parking.\nBring your ticket QR code. Shirt bundles: one kava/tea BOGO redemption, 9 PM–midnight. You do not need to wear the shirt that night. Wear it on future visits for 15% off drink tabs through December 31.\nFlashing lights and strobes. Kids ages 5–12: admission only.\nSales are final except organizer-caused cancellation or failure to provide purchased admission/item.` });
+    const url = `${origin()}/haunted-tribe/tickets/#${order.id}.${token(env.HAUNT_TOKEN_SECRET, order.id)}`;
+    await mail.send({ operationId, email: order.email, subject: `${env.HAUNT_PAYMENT_MODE === 'test' ? '[TEST — NOT VALID FOR ADMISSION] ' : ''}Your Haunted Tribe tickets`, text: `Your payment is confirmed.\n\nOpen your tickets: ${url}\n\nOrder: ${order.id}\nAdmissions: ${order.tickets.length}\nFriday, October 30: 7–10 PM or 10:30 PM–1:30 AM. One walkthrough per ticket.\n770 S Military Trail, West Palm Beach, FL 33415. Free parking.\nBring your ticket QR code. Shirt bundles: one kava/tea BOGO redemption, 9 PM–midnight. You do not need to wear the shirt that night. Wear it on future visits for 15% off drink tabs through December 31.\nFlashing lights and strobes. Kids ages 5–12: admission only.\nSales are final except organizer-caused cancellation or failure to provide purchased admission/item.` });
     await mutate(order.id, o => { o.emailSent = true; });
   }
   async function publicOrder(order) {
@@ -45,7 +60,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
       tickets: order.status === 'paid' ? await Promise.all(order.tickets.map(async t => ({ ...t,
         admission: Boolean(t.admission), shell: Boolean(t.shell), bogo: Boolean(t.bogo),
         code: `${order.id}.${t.index}.${token(env.HAUNT_TOKEN_SECRET, order.id, `ticket:${t.index}`)}`,
-        qr: await qr(`${ORIGIN}/haunted-tribe/staff/#${order.id}.${t.index}.${token(env.HAUNT_TOKEN_SECRET, order.id, `ticket:${t.index}`)}`)
+        qr: await qr(`${origin()}/haunted-tribe/staff/#${order.id}.${t.index}.${token(env.HAUNT_TOKEN_SECRET, order.id, `ticket:${t.index}`)}`)
       }))) : [] };
   }
   function parseTicket(code) {
@@ -59,7 +74,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
       if (!ready()) throw new HauntError('Online presale is not open yet. Please check back soon.', 503);
       const cart = validateCart(input, now());
       if (!/^[a-f0-9-]{36}$/.test(input.requestId || '')) throw new HauntError('Refresh the checkout and try again.');
-      const id = hash(`${EVENT}:${input.requestId}`).slice(0, 36);
+      const id = hash(`${EVENT}:${env.HAUNT_PAYMENT_MODE}:${input.requestId}`).slice(0, 36);
       let order = makeOrder(cart, id);
       const fingerprint = hash(JSON.stringify(cart)); order.fingerprint = fingerprint;
       try { await store.create(order); }
@@ -73,6 +88,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
         description: 'Haunted House Entry — The Haunted Tribe',
         metadata: { event: EVENT, haunt_order: id }
       }, { idempotencyKey: `${EVENT}:${id}` });
+      checkMode(pi);
       await mutate(id, o => { o.paymentIntent = pi.id; });
       return { orderId: id, accessToken: token(env.HAUNT_TOKEN_SECRET, id), clientSecret: pi.client_secret, amount: cart.amount };
     },
@@ -85,6 +101,7 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
       let event;
       try { event = stripe.webhooks.constructEvent(raw, signature, env.STRIPE_WEBHOOK_SECRET); }
       catch { throw new HauntError('Invalid webhook signature.', 400); }
+      checkMode(event);
       const object = event.data.object;
       if (event.type === 'payment_intent.succeeded' && object.metadata?.event === EVENT) {
         const order = await reconcile(object.metadata.haunt_order);

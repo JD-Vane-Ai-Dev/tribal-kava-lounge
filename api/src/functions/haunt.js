@@ -3,14 +3,15 @@ import Stripe from 'stripe';
 import { TableClient } from '@azure/data-tables';
 import { EmailClient } from '@azure/communication-email';
 import QRCode from 'qrcode';
-import { createService, nameKey } from '../haunt-service.js';
+import { createService, nameKey, paymentEnvironment } from '../haunt-service.js';
 import { EVENT, HauntError } from '../haunt-core.js';
 
 let cached;
 function service() {
   if (cached) return cached;
   const env = process.env;
-  const table = env.HAUNT_STORAGE_CONNECTION_STRING ? TableClient.fromConnectionString(env.HAUNT_STORAGE_CONNECTION_STRING, 'HauntedTribeOrders') : null;
+  const environment = paymentEnvironment(env);
+  const table = env.HAUNT_STORAGE_CONNECTION_STRING && environment ? TableClient.fromConnectionString(env.HAUNT_STORAGE_CONNECTION_STRING, environment.table) : null;
   const entity = order => ({ partitionKey: EVENT, rowKey: order.id, buyerNameKey: nameKey(order.name), document: JSON.stringify(order) });
   const store = {
     async get(id) { const e = await table.getEntity(EVENT, id); return { order: JSON.parse(e.document), etag: e.etag }; },
