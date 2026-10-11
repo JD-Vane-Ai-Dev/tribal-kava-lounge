@@ -200,6 +200,7 @@ assert.ok(communityPhoto.length > 50000, 'owned community photo must be a real o
 assert.ok(barPhoto.length > 50000, 'owned lounge photo must be a real optimized image asset');
 assert.ok(racersPhoto.length > 50000, 'owned event photo must be a real optimized image asset');
 assert.deepEqual(publishedImages, [
+  'haunted-tribe-shirt.webp',
   'tribal-bar-game-night.webp',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
@@ -292,7 +293,7 @@ assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slu
 const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
   .map((match) => match[1]).sort();
 assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
-assert.equal((sitemap.match(/<url>/g) || []).length, 27 + catalogSlugs.length, 'sitemap must include the 27 site routes and every catalog story');
+assert.equal((sitemap.match(/<url>/g) || []).length, 28 + catalogSlugs.length, 'sitemap must include the 28 site routes and every catalog story');
 for (const post of dailyPosts) {
   const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
   assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);
@@ -328,3 +329,19 @@ assert.equal((feed.match(/<item>/g) || []).length, runInNewContext(dailyKava + '
 assert.ok(!feed.includes('undefined') && !feed.includes('Invalid Date'));
 
 console.log('Site checks passed.');
+
+// Owner-approved Haunted Tribe route and private staff boundary.
+const hauntPage = await read('dist/haunted-tribe/index.html');
+assert.match(hauntPage, /Haunted House Entry/);
+assert.match(hauntPage, /7–10 PM/);
+assert.match(hauntPage, /10:30 PM–1:30 AM/);
+assert.match(hauntPage, /9 PM–midnight only/);
+assert.match(hauntPage, /FIRST PLACE[\s\S]*?\$50[\s\S]*?CASH/);
+assert.match(hauntPage, /SECOND PLACE[\s\S]*?\$25[\s\S]*?BAR TAB/);
+assert.match(hauntPage, /Shirts will not be sold at the door/);
+assert.match(hauntPage, /name="name"[^>]*required/);
+assert.doesNotMatch(hauntPage, /Wear the Tribe|FRI 10.30 \+ SAT 10.31/);
+assert.deepEqual(JSON.parse(config).routes.find(r => r.route === '/api/haunt/staff/*').allowedRoles, ['haunted-staff']);
+assert.match(sitemap, /<loc>https:\/\/www\.thetribalkavalounge\.com\/haunted-tribe<\/loc>/);
+assert.doesNotMatch(sitemap, /haunted-tribe\/(tickets|staff)/);
+for (const script of ['checkout', 'tickets', 'staff']) execFileSync(process.execPath, ['--check', path.join(root, `haunted-tribe/${script}.js`)]);

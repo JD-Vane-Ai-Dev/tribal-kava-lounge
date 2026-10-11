@@ -1,6 +1,32 @@
 {
   "routes": [
     {
+      "route": "/api/haunt/staff/*",
+      "allowedRoles": [
+        "haunted-staff"
+      ]
+    },
+    {
+      "route": "/haunted-tribe",
+      "rewrite": "/haunted-tribe/index.html"
+    },
+    {
+      "route": "/haunted-tribe/tickets/",
+      "rewrite": "/haunted-tribe/tickets/index.html",
+      "headers": {
+        "Referrer-Policy": "no-referrer",
+        "Cache-Control": "no-store"
+      }
+    },
+    {
+      "route": "/haunted-tribe/staff/",
+      "rewrite": "/haunted-tribe/staff/index.html",
+      "headers": {
+        "Referrer-Policy": "no-referrer",
+        "Cache-Control": "no-store"
+      }
+    },
+    {
       "route": "/the-daily-kava/daily-digest-2026-09-09",
       "redirect": "/the-daily-kava",
       "statusCode": 301
@@ -85,7 +111,9 @@
     "exclude": [
       "/images/*.{png,jpg,jpeg,gif,webp,svg,avif}",
       "/*.{css,js,json,xml,txt,ico,svg}",
-      "/go/*"
+      "/go/*",
+      "/haunted-tribe/*",
+      "/api/*"
     ]
   },
   "globalHeaders": {
