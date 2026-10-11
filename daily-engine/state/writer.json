@@ -138,8 +138,13 @@
     "2026-10-11": {
       "slug": "kava-lounge-art-club-project-night",
       "subject": "events",
-      "status": "researching",
-      "model_calls": 0
+      "status": "held",
+      "model_calls": 3,
+      "usage": {
+        "prompt_tokens": 25684,
+        "completion_tokens": 4141,
+        "total_tokens": 34201
+      }
     }
   },
   "last_subject": "events"

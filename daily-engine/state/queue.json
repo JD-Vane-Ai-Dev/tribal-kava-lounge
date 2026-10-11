@@ -833,6 +833,37 @@
       "checked_at": "2026-10-10T11:00:56.655427+00:00",
       "held_at": "2026-10-10T11:01:33.891428+00:00",
       "hold_reason": "HOLD: writer-review-required, editorial-negative-or-scare-coverage: writer-review-required, editorial-negative-or-scare-coverage"
+    },
+    {
+      "file": "drafts/kava-lounge-art-club-project-night.md",
+      "created_at": "2026-10-11T11:03:19.884078+00:00",
+      "source_urls": [
+        "https://www.thetribalkavalounge.com/events",
+        "https://www.thetribalkavalounge.com/visit",
+        "https://www.thetribalkavalounge.com/menu"
+      ],
+      "compliance": {
+        "pass": false,
+        "score": 50,
+        "flags": [
+          {
+            "severity": "error",
+            "rule": "writer-review-required",
+            "match": "Exact current article must pass the grounded writer review"
+          },
+          {
+            "severity": "error",
+            "rule": "editorial-legal-or-political-coverage",
+            "match": "policy"
+          }
+        ],
+        "required_additions": [],
+        "summary": "HOLD: writer-review-required, editorial-legal-or-political-coverage"
+      },
+      "checked_sha256": "02883998243281879ae812b2b8757c2f6ae06c5b0ceedf96a1ef9f8c75730d84",
+      "content_sha256": "02883998243281879ae812b2b8757c2f6ae06c5b0ceedf96a1ef9f8c75730d84",
+      "status": "held",
+      "checked_at": "2026-10-11T11:03:19.897697+00:00"
     }
   ]
 }
