@@ -863,7 +863,9 @@
       "checked_sha256": "02883998243281879ae812b2b8757c2f6ae06c5b0ceedf96a1ef9f8c75730d84",
       "content_sha256": "02883998243281879ae812b2b8757c2f6ae06c5b0ceedf96a1ef9f8c75730d84",
       "status": "held",
-      "checked_at": "2026-10-11T11:03:19.897697+00:00"
+      "checked_at": "2026-10-11T11:03:19.897697+00:00",
+      "held_at": "2026-10-11T11:03:51.346121+00:00",
+      "hold_reason": "HOLD: writer-review-required, editorial-legal-or-political-coverage: writer-review-required, editorial-legal-or-political-coverage"
     }
   ]
 }
