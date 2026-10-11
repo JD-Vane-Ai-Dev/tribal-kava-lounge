@@ -134,6 +134,12 @@
         "completion_tokens": 3478,
         "total_tokens": 18943
       }
+    },
+    "2026-10-11": {
+      "slug": "kava-lounge-art-club-project-night",
+      "subject": "events",
+      "status": "researching",
+      "model_calls": 0
     }
   },
   "last_subject": "events"
