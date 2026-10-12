@@ -22,7 +22,7 @@ function service() {
   const email = env.HAUNT_EMAIL_CONNECTION_STRING ? new EmailClient(env.HAUNT_EMAIL_CONNECTION_STRING) : null;
   cached = createService({ env, store, stripe: env.STRIPE_SECRET_KEY ? new Stripe(env.STRIPE_SECRET_KEY) : null,
     qr: text => QRCode.toDataURL(text, { width: 300, margin: 2, errorCorrectionLevel: 'M' }),
-    mail: { async send({ operationId, email: address, subject, text }) { const poller = await email.beginSend({ senderAddress: env.HAUNT_EMAIL_FROM, recipients: { to: [{ address }] }, content: { subject, plainText: text } }, { operationId }); const result = await poller.pollUntilDone(); if (result.status !== 'Succeeded') throw new Error('Email delivery failed'); } }
+    mail: { async send({ operationId, email: address, subject, text }) { const poller = await email.beginSend({ senderAddress: env.HAUNT_EMAIL_FROM, recipients: { to: [{ address }] }, content: { subject, plainText: text } }, { operationId }); const result = await poller.pollUntilDone(); if (result.status !== 'Succeeded') throw new Error('Email submission failed'); } }
   });
   return cached;
 }

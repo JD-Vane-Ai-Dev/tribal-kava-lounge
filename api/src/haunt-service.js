@@ -49,12 +49,30 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
     return order;
   }
   async function sendReceipt(order) {
-    if (order.status !== 'paid' || order.emailSent) return;
+    if (order.status !== 'paid' || order.emailAcceptedAt || order.emailSent) return;
     // Deterministic ACS operation ID makes retries safe across concurrent webhook deliveries.
     const h = hash(order.id); const operationId = `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;
     const url = `${origin()}/haunted-tribe/tickets/#${order.id}.${token(env.HAUNT_TOKEN_SECRET, order.id)}`;
-    await mail.send({ operationId, email: order.email, subject: `${env.HAUNT_PAYMENT_MODE === 'test' ? '[TEST — NOT VALID FOR ADMISSION] ' : ''}Your Haunted Tribe tickets`, text: `Your payment is confirmed.\n\nOpen your tickets: ${url}\n\nOrder: ${order.id}\nAdmissions: ${order.tickets.length}\nFriday, October 30: 7–10 PM or 10:30 PM–1:30 AM. One walkthrough per ticket.\n770 S Military Trail, West Palm Beach, FL 33415. Free parking.\nBring your ticket QR code. Shirt bundles: one kava/tea BOGO redemption, 9 PM–midnight. You do not need to wear the shirt that night. Wear it on future visits for 15% off drink tabs through December 31.\nFlashing lights and strobes. Kids ages 5–12: admission only.\nSales are final except organizer-caused cancellation or failure to provide purchased admission/item.` });
-    await mutate(order.id, o => { o.emailSent = true; });
+    const test = env.HAUNT_PAYMENT_MODE === 'test';
+    const subject = `${test ? '[TEST — NOT VALID FOR ADMISSION] ' : ''}Your Haunted Tribe tickets`;
+    // A transactional receipt: event details and private access, without promotional copy.
+    const text = `${test ? 'This is a test purchase. These tickets are not valid for admission.' : 'Your payment is confirmed.'}\n\nOpen your tickets: ${url}\n\nOrder: ${order.id}\nAdmissions: ${order.tickets.length}\nFriday, October 30, 2026: 7–10 PM or 10:30 PM–1:30 AM Eastern.\nOne walkthrough per ticket.\n770 S Military Trail, West Palm Beach, FL 33415.\n\nKeep this private link safe. Show your ticket QR code at check-in. Your ticket page contains your purchased items and event details.`;
+    try {
+      await mail.send({ operationId, email: order.email, subject, text });
+    } catch (error) {
+      await mutate(order.id, o => {
+        o.emailStatus = 'submission_failed';
+        o.emailOperationId = operationId;
+      });
+      throw error; // Let Stripe retry; an email error never changes paid entitlements.
+    }
+    await mutate(order.id, o => {
+      o.emailStatus = 'accepted';
+      o.emailOperationId = operationId;
+      o.emailAcceptedAt = new Date(now()).toISOString();
+      // ACS Succeeded means accepted for processing, NOT recipient delivery.
+      // Delivery must be checked through ACS status logs and the receiving mailbox.
+    });
   }
   async function publicOrder(order) {
     return { id: order.id, name: order.name, status: order.status, amount: order.amount, shirts: order.shirts,

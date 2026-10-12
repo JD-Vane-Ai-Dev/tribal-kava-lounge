@@ -22,7 +22,7 @@ test('BOGO requires bundle and 9 PM–midnight, only once', () => { for (const t
 test('unpaid or refunded tickets cannot be admitted', () => { for (const status of ['pending', 'review']) assert.throws(() => redeem({ ...order(), status }, 0, 'admission', 'staff', START)); });
 test('payment verification requires matching amount, intent, event, currency and paid state', () => { const o = order(); assert.doesNotThrow(() => verifyPaid(o, paid(o))); for (const change of [{ amount: 1 }, { amount_received: 1 }, { status: 'processing' }, { id: 'pi_other' }, { currency: 'eur' }, { metadata: { event: 'other', haunt_order: o.id } }]) assert.throws(() => verifyPaid(o, { ...paid(o), ...change })); });
 
-function harness() {
+function harness(send) {
   const rows = new Map(); const intents = new Map(); const sent = [];
   const env = Object.fromEntries(['STRIPE_SECRET_KEY','STRIPE_PUBLISHABLE_KEY','STRIPE_WEBHOOK_SECRET','HAUNT_STORAGE_CONNECTION_STRING','HAUNT_EMAIL_CONNECTION_STRING','HAUNT_EMAIL_FROM'].map(k => [k, 'configured']));
   env.HAUNT_PAYMENT_MODE = 'test'; env.HAUNT_PUBLIC_ORIGIN = 'https://haunt-test.azurestaticapps.net'; env.STRIPE_SECRET_KEY = 'rk_test_fake'; env.STRIPE_PUBLISHABLE_KEY = 'pk_test_fake'; env.HAUNT_PAYMENTS_ENABLED = 'true'; env.HAUNT_TOKEN_SECRET = 'secret'.repeat(8); env.STRIPE_WEBHOOK_SECRET = 'whsec_test';
@@ -39,7 +39,7 @@ function harness() {
     async create(p, options) { creates++; const pi = { ...p, livemode: false, id: 'pi_test', status: 'requires_payment_method', amount_received: 0, client_secret: 'pi_secret' }; intents.set(pi.id, pi); assert.match(options.idempotencyKey, /^haunted-tribe-2026:/); return pi; },
     async retrieve(id) { return intents.get(id); }
   } };
-  const service = createService({ store, stripe, env, now: () => time, qr: async text => text, mail: { send: async m => sent.push(m) } });
+  const service = createService({ store, stripe, env, now: () => time, qr: async text => text, mail: { send: send || (async m => sent.push(m)) } });
   const req = (access, staff) => ({ headers: new Headers({ ...(access ? { 'x-haunt-ticket-token': access } : {}), ...(staff ? { 'x-ms-client-principal': Buffer.from(JSON.stringify({ userId: 'staff1', userRoles: ['haunted-staff'] })).toString('base64') } : {}) }) });
   const settle = () => { const pi = intents.get('pi_test'); pi.status = 'succeeded'; pi.amount_received = pi.amount; };
   const webhook = async (type, object) => { const raw = JSON.stringify({ id: 'evt_test', livemode: false, type, data: { object } }); const signature = sdk.webhooks.generateTestHeaderString({ payload: raw, secret: env.STRIPE_WEBHOOK_SECRET }); return service.webhook(raw, signature); };
@@ -99,4 +99,41 @@ test('buyer capability survives platform Authorization replacement and remains m
   await assert.rejects(h.service.order(req, a.orderId), /access/);
   req.headers.set('x-haunt-ticket-token', 'forged');
   await assert.rejects(h.service.order(req, a.orderId), /access/);
+});
+
+
+test('provider acceptance is recorded separately from delivery, without ticket tokens in email metadata', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle();
+  await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  const o = h.rows.get(a.orderId).order;
+  assert.equal(o.emailStatus, 'accepted'); assert.ok(o.emailAcceptedAt);
+  assert.match(o.emailOperationId, /^[a-f0-9-]{36}$/);
+  assert.equal(o.emailSent, undefined); assert.equal(o.emailDeliveredAt, undefined);
+  assert.match(h.sent[0].text, /not valid for admission/);
+});
+test('submission failure preserves paid tickets and retry uses the same operation id', async () => {
+  const attempts = []; let fail = true;
+  const h = harness(async m => { attempts.push(m); if (fail) throw new Error('provider unavailable'); });
+  const a = await h.service.checkout(input); h.settle();
+  await assert.rejects(h.webhook('payment_intent.succeeded', h.intents.get('pi_test')), /provider unavailable/);
+  assert.equal(h.rows.get(a.orderId).order.emailStatus, 'submission_failed');
+  assert.equal((await h.service.order(h.req(a.accessToken), a.orderId)).tickets.length, 6);
+  fail = false; await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  assert.equal(attempts.length, 2); assert.equal(attempts[0].operationId, attempts[1].operationId);
+  assert.equal(h.rows.get(a.orderId).order.emailStatus, 'accepted');
+});
+test('declined, canceled and processing intents cannot issue email or tickets even on a signed success event', async () => {
+  for (const status of ['requires_payment_method', 'canceled', 'processing']) {
+    const h = harness(); const a = await h.service.checkout(input); h.intents.get('pi_test').status = status;
+    await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+    assert.equal(h.sent.length, 0);
+    assert.equal((await h.service.order(h.req(a.accessToken), a.orderId)).tickets.length, 0);
+  }
+});
+test('legacy provider-accepted orders are not blindly resent or reclassified as delivered', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle();
+  h.rows.get(a.orderId).order.emailSent = true;
+  await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  assert.equal(h.sent.length, 0); assert.equal(h.rows.get(a.orderId).order.emailDeliveredAt, undefined);
 });
