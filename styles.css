@@ -3039,3 +3039,8 @@ footer {
     scroll-behavior: auto !important;
   }
 }
+
+/* Seasonal event entry; full checkout lives outside the SPA. */
+.haunt-nav{color:#3dff7a!important;border:1px solid #3dff7a66;padding:10px 13px!important;box-shadow:0 0 18px #3dff7a1c;font-weight:800;font-size:12px!important;letter-spacing:.06em}
+.haunt-teaser{position:relative;background:linear-gradient(90deg,#150709ef,#0b0d0bdc),url('/images/tribal-bar-game-night.webp') center/cover;padding:55px 0;border-block:1px solid #c8102e66;overflow:hidden}
+.haunt-teaser-inner{display:flex;justify-content:space-between;align-items:center;gap:28px}.haunt-teaser h2{font-family:Impact,'Arial Narrow',sans-serif;font-size:clamp(32px,5vw,64px);letter-spacing:.02em;color:#ede6d3;text-shadow:2px 2px #c8102e;margin:10px 0}.haunt-eyebrow{font-size:11px;letter-spacing:.14em;color:#3dff7a;font-weight:700}.haunt-hours{font-size:13px;color:#c1c6be;margin-top:12px}.haunt-cta{background:#3dff7a!important;color:#0b0d0b!important;box-shadow:0 0 24px #3dff7a22}.haunt-teaser p{margin-bottom:8px}@media(max-width:700px){.haunt-teaser-inner{align-items:flex-start;flex-direction:column}.haunt-teaser{padding:38px 0}.haunt-teaser .haunt-cta{width:100%}}

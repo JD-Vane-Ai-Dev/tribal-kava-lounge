@@ -23,6 +23,7 @@ const files = [
   '34a68ae0477ea10ed9d8a543952e0cdb.txt'
 ];
 const imageFiles = [
+  'haunted-tribe-shirt.webp',
   'tribal-bar-game-night.webp',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
@@ -37,6 +38,7 @@ await Promise.all(imageFiles.map((file) => cp(path.join(root, 'images', file), p
 const calendarSource = await readFile(path.join(root, 'events.ics'), 'utf8');
 await writeFile(path.join(output, 'events.ics'), calendarSource.replace(/\r?\n/g, '\r\n'));
 
+await cp(path.join(root, 'haunted-tribe'), path.join(output, 'haunted-tribe'), { recursive: true });
 const origin = 'https://www.thetribalkavalounge.com';
 const staticPaths = [
   '/', '/menu', '/new-here', '/kava-vs-kratom', '/what-is-kava', '/what-is-kratom',
@@ -85,7 +87,7 @@ const dailyEntries = dailyPosts.map((post) => {
 const dailyPaths = dailyEntries.map((entry) => entry.path);
 const dailyLastmod = new Map(dailyEntries.map((entry) => [entry.path, entry.lastmod]));
 const today = new Date().toISOString().slice(0, 10);
-const urls = [...staticPaths, ...dailyPaths]
+const urls = [...staticPaths, '/haunted-tribe', ...dailyPaths]
   .map((route) => {
     const dailyish = route === '/' || route === '/kava-bars-west-palm-beach' || route.includes('the-daily-kava') || route.includes('/events');
     const changefreq = dailyish ? 'daily' : 'monthly';
