@@ -1,7 +1,7 @@
 import { app } from '@azure/functions';
 import Stripe from 'stripe';
 import { TableClient } from '@azure/data-tables';
-import { EmailClient } from '@azure/communication-email';
+import { createMailer } from '../haunt-mail.js';
 import QRCode from 'qrcode';
 import { createService, nameKey, paymentEnvironment } from '../haunt-service.js';
 import { EVENT, HauntError } from '../haunt-core.js';
@@ -19,10 +19,9 @@ function service() {
     async replace(order, etag) { await table.updateEntity(entity(order), 'Replace', { etag }); },
     async byName(key) { const rows = []; for await (const e of table.listEntities({ queryOptions: { filter: `PartitionKey eq '${EVENT}' and buyerNameKey eq '${key}'` } })) { rows.push(JSON.parse(e.document)); if (rows.length >= 20) break; } return rows; }
   };
-  const email = env.HAUNT_EMAIL_CONNECTION_STRING ? new EmailClient(env.HAUNT_EMAIL_CONNECTION_STRING) : null;
   cached = createService({ env, store, stripe: env.STRIPE_SECRET_KEY ? new Stripe(env.STRIPE_SECRET_KEY) : null,
     qr: text => QRCode.toDataURL(text, { width: 300, margin: 2, errorCorrectionLevel: 'M' }),
-    mail: { async send({ operationId, email: address, subject, text }) { const poller = await email.beginSend({ senderAddress: env.HAUNT_EMAIL_FROM, recipients: { to: [{ address }] }, content: { subject, plainText: text } }, { operationId }); const result = await poller.pollUntilDone(); if (result.status !== 'Succeeded') throw new Error('Email submission failed'); } }
+    mail: createMailer(env)
   });
   return cached;
 }

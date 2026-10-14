@@ -1,5 +1,6 @@
 import { EVENT, HauntError, token, equal, validateCart, makeOrder, verifyPaid, redeem, staffPrincipal } from './haunt-core.js';
 import { createHash } from 'node:crypto';
+import { emailReady } from './haunt-mail.js';
 
 const PRODUCTION_ORIGIN = 'https://www.thetribalkavalounge.com';
 export function paymentEnvironment(env) {
@@ -17,7 +18,7 @@ export function paymentEnvironment(env) {
 const hash = s => createHash('sha256').update(s).digest('hex');
 export const nameKey = name => hash(name.trim().toLowerCase().replace(/\s+/g, ' '));
 export function createService({ store, stripe, mail, qr, env, now = () => Date.now() }) {
-  const ready = () => env.HAUNT_PAYMENTS_ENABLED === 'true' && paymentEnvironment(env) && ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY', 'STRIPE_WEBHOOK_SECRET', 'HAUNT_STORAGE_CONNECTION_STRING', 'HAUNT_TOKEN_SECRET', 'HAUNT_EMAIL_CONNECTION_STRING', 'HAUNT_EMAIL_FROM'].every(k => env[k]) && env.HAUNT_TOKEN_SECRET.length >= 32;
+  const ready = () => env.HAUNT_PAYMENTS_ENABLED === 'true' && paymentEnvironment(env) && emailReady(env) && ['STRIPE_SECRET_KEY', 'STRIPE_PUBLISHABLE_KEY', 'STRIPE_WEBHOOK_SECRET', 'HAUNT_STORAGE_CONNECTION_STRING', 'HAUNT_TOKEN_SECRET'].every(k => env[k]) && env.HAUNT_TOKEN_SECRET.length >= 32;
   const origin = () => { const config = paymentEnvironment(env); if (!config) throw new HauntError('Ticket environment is not configured.', 503); return config.origin; };
   const checkMode = object => { const config = paymentEnvironment(env); if (!config || object.livemode !== (config.mode === 'live')) throw new HauntError('Payment environment does not match.', 409); };
   // Static Web Apps reserves Authorization for its own backend authentication.
@@ -50,15 +51,25 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
   }
   async function sendReceipt(order) {
     if (order.status !== 'paid' || order.emailAcceptedAt || order.emailSent) return;
-    // Deterministic ACS operation ID makes retries safe across concurrent webhook deliveries.
+    // Persist the first attempt before sending. AgentMail retains idempotency keys for
+    // 24 hours; uncertain deliveries beyond that window need reconciliation, not resend.
+    if (env.HAUNT_EMAIL_PROVIDER === 'agentmail') {
+      order = await mutate(order.id, o => {
+        if (!o.emailAttemptedAt) o.emailAttemptedAt = new Date(now()).toISOString();
+      });
+      if (order.emailAcceptedAt || order.emailSent) return;
+      if (now() - Date.parse(order.emailAttemptedAt) >= 23 * 60 * 60 * 1000) throw new Error('Email delivery requires reconciliation');
+    }
+    // Deterministic provider operation ID protects concurrent webhook deliveries.
     const h = hash(order.id); const operationId = `${h.slice(0,8)}-${h.slice(8,12)}-4${h.slice(13,16)}-8${h.slice(17,20)}-${h.slice(20,32)}`;
     const url = `${origin()}/haunted-tribe/tickets/#${order.id}.${token(env.HAUNT_TOKEN_SECRET, order.id)}`;
     const test = env.HAUNT_PAYMENT_MODE === 'test';
     const subject = `${test ? '[TEST — NOT VALID FOR ADMISSION] ' : ''}Your Haunted Tribe tickets`;
     // A transactional receipt: event details and private access, without promotional copy.
     const text = `${test ? 'This is a test purchase. These tickets are not valid for admission.' : 'Your payment is confirmed.'}\n\nOpen your tickets: ${url}\n\nOrder: ${order.id}\nAdmissions: ${order.tickets.length}\nFriday, October 30, 2026: 7–10 PM or 10:30 PM–1:30 AM Eastern.\nOne walkthrough per ticket.\n770 S Military Trail, West Palm Beach, FL 33415.\n\nKeep this private link safe. Show your ticket QR code at check-in. Your ticket page contains your purchased items and event details.`;
+    let acceptance;
     try {
-      await mail.send({ operationId, email: order.email, subject, text });
+      acceptance = await mail.send({ operationId, email: order.email, subject, text });
     } catch (error) {
       await mutate(order.id, o => {
         o.emailStatus = 'submission_failed';
@@ -69,9 +80,10 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
     await mutate(order.id, o => {
       o.emailStatus = 'accepted';
       o.emailOperationId = operationId;
+      o.emailProvider = env.HAUNT_EMAIL_PROVIDER || 'acs';
+      if (acceptance?.messageId) o.emailMessageId = acceptance.messageId;
       o.emailAcceptedAt = new Date(now()).toISOString();
-      // ACS Succeeded means accepted for processing, NOT recipient delivery.
-      // Delivery must be checked through ACS status logs and the receiving mailbox.
+      // Provider acceptance is NOT recipient delivery; verify in the receiving mailbox.
     });
   }
   async function publicOrder(order) {

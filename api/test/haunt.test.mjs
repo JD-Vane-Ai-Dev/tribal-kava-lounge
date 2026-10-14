@@ -152,3 +152,16 @@ test('legacy test-order drink fields are neither exposed nor redeemable', async 
     for (const perk of ['shell', 'bogo']) await assert.rejects(h.service.staffRedeem(h.req(null, true), { code: t.code, perk }), /Invalid/);
   }
 });
+
+test('AgentMail records provider acceptance and prevents retry beyond provider deduplication window', async () => {
+  const h = harness(); Object.assign(h.env, { HAUNT_EMAIL_PROVIDER: 'agentmail', HAUNT_AGENTMAIL_API_KEY: 'test-key', HAUNT_EMAIL_FROM: 'tribalkavalounge@agentmail.to' });
+  delete h.env.HAUNT_EMAIL_CONNECTION_STRING;
+  assert.equal((await h.service.config()).enabled, true);
+  const a = await h.service.checkout(input); h.settle();
+  await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
+  const o = h.rows.get(a.orderId).order;
+  assert.ok(o.emailAttemptedAt); assert.equal(o.emailProvider, 'agentmail');
+  delete o.emailAcceptedAt; h.setTime(START + 24 * 60 * 60 * 1000);
+  await assert.rejects(h.webhook('payment_intent.succeeded', h.intents.get('pi_test')), /reconciliation/);
+  assert.equal(h.sent.length, 1);
+});
