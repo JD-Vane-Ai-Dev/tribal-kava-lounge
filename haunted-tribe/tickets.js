@@ -24,8 +24,8 @@
         const heading = document.createElement('h3'); heading.textContent = t.kind === 'bundle' ? `Shirt bundle · ${t.size}` : t.kind === 'child' ? 'Kids’ entry · ages 5–12' : 'Haunted House Entry';
         const img = document.createElement('img'); img.src = t.qr; img.alt = `Admission QR for ticket ${t.index + 1}`; img.width = 300; img.height = 300;
         const label = document.createElement('p'); label.textContent = `Ticket ${t.index + 1} · ${t.admission ? 'Entry redeemed' : 'One walkthrough'}`;
-        const perks = document.createElement('p'); perks.className = 'micro'; perks.textContent = t.kind === 'child' ? 'Admission only. No drink perks.' : `Free shell: ${t.shell ? 'redeemed' : 'included'}.${t.kind === 'bundle' ? ` One BOGO, 9 PM–midnight: ${t.bogo ? 'redeemed' : 'included'}.` : ''}`;
-        const code = document.createElement('code'); code.textContent = t.code; card.append(heading, img, label, perks, code); $('tickets').append(card);
+        const items = document.createElement('p'); items.className = 'micro'; items.textContent = t.kind === 'bundle' ? 'Includes one shirt and one admission.' : 'Admission only.';
+        const code = document.createElement('code'); code.textContent = t.code; card.append(heading, img, label, items, code); $('tickets').append(card);
       }
     } catch (e) { $('status').textContent = e.message || 'Unable to load tickets. Please refresh.'; }
     finally { loading = false; $('refresh').disabled = false; }

@@ -76,8 +76,8 @@ export function createService({ store, stripe, mail, qr, env, now = () => Date.n
   }
   async function publicOrder(order) {
     return { id: order.id, name: order.name, status: order.status, amount: order.amount, shirts: order.shirts,
-      tickets: order.status === 'paid' ? await Promise.all(order.tickets.map(async t => ({ ...t,
-        admission: Boolean(t.admission), shell: Boolean(t.shell), bogo: Boolean(t.bogo),
+      tickets: order.status === 'paid' ? await Promise.all(order.tickets.map(async t => ({ kind: t.kind, index: t.index, ...(t.size ? { size: t.size } : {}),
+        admission: Boolean(t.admission),
         code: `${order.id}.${t.index}.${token(env.HAUNT_TOKEN_SECRET, order.id, `ticket:${t.index}`)}`,
         qr: await qr(`${origin()}/haunted-tribe/staff/#${order.id}.${t.index}.${token(env.HAUNT_TOKEN_SECRET, order.id, `ticket:${t.index}`)}`)
       }))) : [] };

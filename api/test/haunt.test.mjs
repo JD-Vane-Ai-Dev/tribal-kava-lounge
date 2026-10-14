@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import Stripe from 'stripe';
-import { EVENT, START, BREAK, RESUME, END, BOGO_START, BOGO_END, validateCart, makeOrder, redeem, verifyPaid, token } from '../src/haunt-core.js';
+import { EVENT, START, BREAK, RESUME, END, validateCart, makeOrder, redeem, verifyPaid, token } from '../src/haunt-core.js';
 import { createService, paymentEnvironment } from '../src/haunt-service.js';
 
 const input = { adult: 2, child: 2, shirts: ['S', 'XL'], name: 'JD Harris', email: 'jd@example.com', accepted: true, requestId: 'abcdef12-1234-1234-1234-123456789012' };
@@ -16,9 +16,6 @@ test('requires name, email and explicit terms acceptance', () => { for (const ch
 test('presale closes exactly at 7 PM Eastern', () => { assert.doesNotThrow(() => validateCart(input, START - 1)); assert.throws(() => validateCart(input, START)); });
 test('both entry windows work, break and out of hours do not', () => { for (const time of [START, BREAK - 1, RESUME, END - 1]) assert.doesNotThrow(() => redeem(order(), 0, 'admission', 'staff', time)); for (const time of [START - 1, BREAK, RESUME - 1, END]) assert.throws(() => redeem(order(), 0, 'admission', 'staff', time)); });
 test('one walkthrough total across both windows', () => { const o = order(); redeem(o, 0, 'admission', 'staff', START); assert.throws(() => redeem(o, 0, 'admission', 'staff', RESUME), /Already/); });
-test('shell and BOGO remain independent from admission', () => { const o = order(); redeem(o, 4, 'admission', 'staff', START); redeem(o, 4, 'shell', 'staff', START); redeem(o, 4, 'bogo', 'staff', BOGO_START); assert.ok(o.tickets[4].bogo); });
-test('kids cannot redeem adult drink perks', () => { for (const perk of ['shell', 'bogo']) assert.throws(() => redeem(order(), 2, perk, 'staff', BOGO_START)); });
-test('BOGO requires bundle and 9 PM–midnight, only once', () => { for (const time of [BOGO_START - 1, BOGO_END]) assert.throws(() => redeem(order(), 4, 'bogo', 'staff', time)); assert.throws(() => redeem(order(), 0, 'bogo', 'staff', BOGO_START)); const o = order(); redeem(o, 4, 'bogo', 'staff', BOGO_START); assert.throws(() => redeem(o, 4, 'bogo', 'staff', BOGO_START), /Already/); });
 test('unpaid or refunded tickets cannot be admitted', () => { for (const status of ['pending', 'review']) assert.throws(() => redeem({ ...order(), status }, 0, 'admission', 'staff', START)); });
 test('payment verification requires matching amount, intent, event, currency and paid state', () => { const o = order(); assert.doesNotThrow(() => verifyPaid(o, paid(o))); for (const change of [{ amount: 1 }, { amount_received: 1 }, { status: 'processing' }, { id: 'pi_other' }, { currency: 'eur' }, { metadata: { event: 'other', haunt_order: o.id } }]) assert.throws(() => verifyPaid(o, { ...paid(o), ...change })); });
 
@@ -136,4 +133,22 @@ test('legacy provider-accepted orders are not blindly resent or reclassified as 
   h.rows.get(a.orderId).order.emailSent = true;
   await h.webhook('payment_intent.succeeded', h.intents.get('pi_test'));
   assert.equal(h.sent.length, 0); assert.equal(h.rows.get(a.orderId).order.emailDeliveredAt, undefined);
+});
+
+
+test('new tickets have admission only and all ticket types reject removed drink redemptions', () => {
+  const o = order();
+  for (const t of o.tickets) {
+    assert.equal(Object.hasOwn(t, 'shell'), false); assert.equal(Object.hasOwn(t, 'bogo'), false);
+    for (const perk of ['shell', 'bogo']) assert.throws(() => redeem(o, t.index, perk, 'staff', START), /Invalid/);
+  }
+});
+test('legacy test-order drink fields are neither exposed nor redeemable', async () => {
+  const h = harness(); const a = await h.service.checkout(input); h.settle(); h.setTime(START);
+  for (const t of h.rows.get(a.orderId).order.tickets) Object.assign(t, { shell: null, bogo: null });
+  const result = await h.service.order(h.req(a.accessToken), a.orderId);
+  for (const t of result.tickets) {
+    assert.equal(Object.hasOwn(t, 'shell'), false); assert.equal(Object.hasOwn(t, 'bogo'), false);
+    for (const perk of ['shell', 'bogo']) await assert.rejects(h.service.staffRedeem(h.req(null, true), { code: t.code, perk }), /Invalid/);
+  }
 });

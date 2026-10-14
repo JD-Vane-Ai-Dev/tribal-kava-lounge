@@ -19,8 +19,7 @@
         const card = document.createElement('article'); card.className = 'ticket';
         const heading = document.createElement('h3'); heading.textContent = `Ticket ${t.index + 1} · ${t.kind === 'bundle' ? `Shirt bundle (${t.size})` : t.kind === 'child' ? 'Child ages 5–12' : 'Adult'}`;
         card.append(heading); const actions = document.createElement('div'); actions.className = 'staff-actions';
-        for (const [perk, label] of [['admission', 'Admit'], ['shell', 'Redeem free shell'], ['bogo', 'Redeem BOGO']]) {
-          if ((perk === 'shell' && t.kind === 'child') || (perk === 'bogo' && t.kind !== 'bundle')) continue;
+        for (const [perk, label] of [['admission', 'Admit']]) {
           const button = document.createElement('button'); button.type = 'button'; button.textContent = t[perk] ? `${label} · USED` : label; button.disabled = Boolean(t[perk]);
           button.addEventListener('click', async () => {
             button.disabled = true;

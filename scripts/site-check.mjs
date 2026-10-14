@@ -335,7 +335,7 @@ const hauntPage = await read('dist/haunted-tribe/index.html');
 assert.match(hauntPage, /Haunted House Entry/);
 assert.match(hauntPage, /7–10 PM/);
 assert.match(hauntPage, /10:30 PM–1:30 AM/);
-assert.match(hauntPage, /9 PM–midnight only/);
+assert.doesNotMatch(hauntPage, /free shell|BOGO|drink perk|15%/i);
 assert.match(hauntPage, /FIRST PLACE[\s\S]*?\$50[\s\S]*?CASH/);
 assert.match(hauntPage, /SECOND PLACE[\s\S]*?\$25[\s\S]*?BAR TAB/);
 assert.match(hauntPage, /Shirts will not be sold at the door/);

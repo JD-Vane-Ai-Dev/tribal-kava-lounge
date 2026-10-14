@@ -4,10 +4,10 @@
 
 - Friday October 30 only, continuing into Saturday morning. Eastern time.
 - Walkthrough windows: 7–10 PM and 10:30 PM–1:30 AM. One walkthrough per ticket; flexible across either window.
-- Adult presale $10, door $15. Adult entry includes one free shell.
+- Adult presale $10, door $15. Admission only.
 - Kids ages 5–12: presale $5, door $10; admission only, no drink entitlements.
-- $25 shirt bundle, presale only, includes one admission, one shell, one BOGO redemption for kava/tea 9 PM–midnight. Sizes S/M/L/XL, chosen independently for every bundle. No extra adult ticket required for a bundle holder.
-- Shirt is not required to be worn at the event. Wearing it on future visits gives 15% off drink tabs through December 31 (before January 1).
+- $25 shirt bundle, presale only, includes one admission and one shirt. Sizes S/M/L/XL, chosen independently for every bundle. No extra adult ticket required for a bundle holder.
+- Shirt is not required to be worn at the event. No drink, BOGO or future drink-discount benefits are included.
 - Best costume: first $50 cash, second $25 bar tab. Judging time was not supplied, so none is invented.
 - Buyer full name/email required. Multiple quantities; maximum 20 total admissions per order to bound checkout and payload size.
 - Address: 770 S Military Trail, West Palm Beach, FL 33415; free parking.
@@ -37,14 +37,14 @@ These are not provisioned by this code change. Keep `HAUNT_PAYMENTS_ENABLED` uns
    - `HAUNT_PUBLIC_ORIGIN`: exact HTTPS origin with no trailing slash. For production use `https://www.thetribalkavalounge.com`; for tests use the deployed preview's `https://…azurestaticapps.net` origin. Receipt links and ticket QR destinations use this configured origin, never request headers. Test receipts are clearly labeled TEST.
    - Use separate preview/live application settings, Stripe webhook endpoints/secrets, and signing secrets. Keep the production `HAUNT_TOKEN_SECRET` stable after issuance. Prefer restricted Stripe keys with only the required PaymentIntent read/write and charge read permissions; configure webhook endpoints using separate administrative access.
 2. Register Stripe webhook `https://www.thetribalkavalounge.com/api/haunt/webhook` for `payment_intent.succeeded`, `charge.refunded`, and `charge.dispute.created`.
-3. Verify the ACS email domain and sender, then verify actual delivery of the test ticket to `jd@vaneai.tech` in Zoho. Provider acceptance alone is not inbox-delivery proof.
+3. Verify the ACS email domain and sender, then verify actual delivery of the test ticket to `f.ckaemail@gmail.com` in Gmail. Provider acceptance alone is not inbox-delivery proof.
 4. Confirm the ordinary Stripe payment arrangement and applicable tax treatment. The connected account defaults to Managed Payments; its in-person event restriction caused earlier Payment Link creation to fail. A per-link switch was rejected by automatic review. No account defaults were changed. This implementation uses Payment Element/PaymentIntents for ordinary payments, but live enablement remains gated until that setup is approved and verified. Listed advertised prices are charged as supplied; this implementation does not calculate/remit taxes or add a surcharge.
 5. Verify Stripe enabled payment methods and bank payout settings, then use the isolated preview with test credentials to complete success, decline, redirect/3DS, a real signed webhook, durable order retrieval, inbox delivery, the emailed ticket link, and duplicate webhook delivery without duplicate fulfillment. Check mobile checkout and ensure failed/unpaid payments grant no admission and customer pages contain no actionable redemption controls. Do not charge a real card for testing.
 6. Set `HAUNT_PAYMENTS_ENABLED=true` only when the above services are configured and checked. This is an event checkout switch, not a Stripe account-wide settings change.
 
 ## Staff setup — may follow sales launch
 
-Staff onboarding is not a prerequisite for selling tickets. Keep staff endpoints protected while it is deferred. Before event operations, invite authorized staff through Azure Static Web Apps role management with custom role `haunted-staff`; staff signs in with Microsoft. Verify name lookup, simultaneous duplicate entry, free shell and BOGO timing. The platform and application both enforce the staff role. Do not expose this API directly outside SWA or trust client-provided identity headers on a separately hosted Function App. Never weaken authentication to unblock sales.
+Staff onboarding is not a prerequisite for selling tickets. Keep staff endpoints protected while it is deferred. Before event operations, invite authorized staff through Azure Static Web Apps role management with custom role `haunted-staff`; staff signs in with Microsoft. Verify name lookup, simultaneous duplicate entry and both entry windows. The platform and application both enforce the staff role. Do not expose this API directly outside SWA or trust client-provided identity headers on a separately hosted Function App. Never weaken authentication to unblock sales.
 
 ## Payment and ticket behavior
 
@@ -52,7 +52,7 @@ Server calculates totals from quantities/sizes. Submitted prices are ignored. Bu
 
 Azure Table entity stores the order, immutable cart, PaymentIntent ID and individual ticket redemptions. Never an in-memory ticket store. Paid entitlement requires Stripe retrieval confirming succeeded, correct currency, full expected amount, event metadata and order ID. Signed webhooks send customer confirmation with a private ticket link. The ticket page also reconciles successful payments if the webhook has not arrived. ACS uses a deterministic operation ID for retryable receipt delivery; failed email returns a failed webhook response so Stripe can retry.
 
-Customer order access uses an HMAC capability in the URL fragment; request authorization uses the dedicated `X-Haunt-Ticket-Token` header because Azure Static Web Apps replaces the standard Authorization header. Customer ticket QR codes contain per-ticket signatures and point to the staff page. QR generation is local, not an external QR service. A signed ticket only identifies a ticket; it cannot authorize redemption. Redemption requires staff role and an atomic Table ETag update. Duplicate scans fail rather than consume twice. Entry is blocked during the 10–10:30 PM break, BOGO is blocked outside 9 PM–midnight, and kids have no drink buttons. Staff must still verify age. Kratom tea is 21+.
+Customer order access uses an HMAC capability in the URL fragment; request authorization uses the dedicated `X-Haunt-Ticket-Token` header because Azure Static Web Apps replaces the standard Authorization header. Customer ticket QR codes contain per-ticket signatures and point to the staff page. QR generation is local, not an external QR service. A signed ticket only identifies a ticket; it cannot authorize redemption. Redemption requires staff role and an atomic Table ETag update. Duplicate scans fail rather than consume twice. Entry is blocked during the 10–10:30 PM break. Admission is the only supported redemption; removed shell and BOGO requests are rejected for every ticket type.
 
 Any refund or dispute marks the entire order for review, conservatively blocking automated redemption; partial refunds need human handling. Delayed successful-payment events cannot restore a reviewed order. No automatic refund action is implemented.
 
@@ -60,10 +60,12 @@ Staff lookup uses exact normalized full buyer name or full order ID, max 20 retu
 
 ## Verification boundaries
 
-`npm test` includes the existing site suite plus payment/redemption core tests. Tests cover server pricing, quantities/sizes, presale closure, both entry windows/break, BOGO boundaries and single redemption, kids restrictions, unpaid/refunded access, signed webhook/replay, buyer capability authentication, staff permissions and ETag concurrency.
+`npm test` includes the existing site suite plus payment/redemption core tests. Tests cover server pricing, quantities/sizes, presale closure, both entry windows/break, single admission and rejection of removed drink redemptions, unpaid/refunded access, signed webhook/replay, buyer capability authentication, staff permissions and ETag concurrency.
 
 No live payment, live email, live Azure persistence or full browser interaction is implied by passing these tests. Complete deployed browser and integration checks before live activation. Keep evidence for the deployed commit, Stripe test PaymentIntent/event, durable order, inbox message, and working test ticket link. Unit tests and preview deployment alone do not establish a live store.
 
+
+## Historical checkpoints (superseded where noted below)
 
 ## Deployment checkpoint — October 11, 2026
 
@@ -98,7 +100,7 @@ No live payment, live email, live Azure persistence or full browser interaction 
 ### Delivery repair — October 12, 2026
 
 - New receipts record `emailStatus=accepted`, `emailAcceptedAt`, and a deterministic `emailOperationId`; ACS acceptance is never called delivered. Submission errors record `submission_failed` and return a failed webhook response for retry, without revoking paid ticket access. Legacy `emailSent` records remain acceptance-only and are not blindly resent.
-- Receipt content is limited to the purchase, event schedule/address, and the existing private fragment link. Test mode explicitly says tickets are not valid for admission. Purchased perks remain on the authenticated ticket page.
+- Receipt content is limited to the purchase, event schedule/address, and the existing private fragment link. Test mode explicitly says tickets are not valid for admission. Purchased items remain on the authenticated ticket page.
 - Gmail message `1a12f0695c55007f`, received October 12 07:32 UTC, independently confirms the earlier delivery test arrived in **Spam**, with SPF/DKIM/DMARC passing. It used the Azure-managed sender; it is not proof of inbox placement or a fresh purchase through this patch.
 - Live Azure inspection October 12 confirms production `HAUNT_PAYMENTS_ENABLED=false`, mode `live`. The custom `thetribalkavalounge.com` ACS domain exists but Domain/SPF/DKIM/DKIM2 verification is NotStarted. DNS returned no SPF TXT or Azure DKIM CNAME; DMARC is quarantine. The verified authentication mentioned in the October 11 checkpoint applies to the Azure-managed domain only.
 - Do not switch to `tickets@thetribalkavalounge.com` until its existing Azure verification records are published and verified, the sender is configured, and the custom domain is linked to the mailer. DNS is hosted at GoDaddy (ns31/ns32.domaincontrol.com); the observed Mac browser is at sign-in.
@@ -116,3 +118,10 @@ No live payment, live email, live Azure persistence or full browser interaction 
 - Alternative delivery diagnostic (no private link, order data or customer data) sent through the pre-existing `tribalkavalounge@agentmail.to` sender reached `jd@vaneai.tech` at 13:48 UTC. Zoho message `1791812890647153400` is in the Newsletter folder (folder type Inbox), not Spam, and its receiving headers pass SPF/DKIM/DMARC. This proves delivery of a diagnostic only, not a paid ticket.
 - Automatic approval review blocked sending a private test-ticket link through AgentMail, requiring explicit approval for that third-party disclosure. No ticket was sent through AgentMail, and the application provider was not switched. Supported next experiment: send one private paid test-ticket link from the existing Tribal AgentMail inbox to the owner's Zoho address, then open the received link. No real payment or public launch is involved.
 - Remaining launch requirements: reliable actual ticket delivery (Zoho and Gmail inbox placement unresolved), completed 3DS/redirect flow, live restricted-key permissions and event/bundle eligibility, production webhook configuration, and production deployment. Keep payments disabled until these pass. Exact Zoho policy cause is not established by SMTP 554 or the provider's MessageIntegrityFailure label; no recipient security policies were weakened.
+
+
+### Offer correction — October 14, 2026
+
+The owner removed the drinks themselves from the offer. Adult and child tickets are admission only; the $25 bundle includes one shirt and one admission. No free shell, BOGO, or future drink discount is included. Prices, entry windows, venue branding, costume prizes and supplied shirt artwork are unchanged. New tickets contain only admission redemption, the public API omits legacy sandbox drink fields, and the server rejects removed drink redemption requests. Staff authentication remains required; onboarding can follow sales launch.
+
+Historical account and delivery notes above are dated evidence, not current blockers by themselves. The October 13 live account read reported charges/payouts enabled and no current/past-due requirements. Gmail is the authorized test recipient. Current launch status must be verified against the deployed commit and runtime configuration; this offer correction alone is not a live activation.

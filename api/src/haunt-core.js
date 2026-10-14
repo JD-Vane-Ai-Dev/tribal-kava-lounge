@@ -5,8 +5,6 @@ export const START = Date.parse('2026-10-30T19:00:00-04:00');
 export const BREAK = Date.parse('2026-10-30T22:00:00-04:00');
 export const RESUME = Date.parse('2026-10-30T22:30:00-04:00');
 export const END = Date.parse('2026-10-31T01:30:00-04:00');
-export const BOGO_START = Date.parse('2026-10-30T21:00:00-04:00');
-export const BOGO_END = Date.parse('2026-10-31T00:00:00-04:00');
 export const SIZES = ['S', 'M', 'L', 'XL'];
 export class HauntError extends Error { constructor(message, status = 400) { super(message); this.status = status; } }
 export function equal(a, b) {
@@ -37,7 +35,7 @@ export function makeOrder(cart, id) {
   for (let i = 0; i < cart.adult; i++) tickets.push({ kind: 'adult' });
   for (let i = 0; i < cart.child; i++) tickets.push({ kind: 'child' });
   for (const size of cart.shirts) tickets.push({ kind: 'bundle', size });
-  return { id, ...cart, created: new Date().toISOString(), status: 'pending', tickets: tickets.map((t, i) => ({ ...t, index: i, admission: null, shell: null, bogo: null })) };
+  return { id, ...cart, created: new Date().toISOString(), status: 'pending', tickets: tickets.map((t, i) => ({ ...t, index: i, admission: null })) };
 }
 export function verifyPaid(order, intent) {
   if (intent.status !== 'succeeded' || intent.currency !== 'usd' || intent.amount !== order.amount || intent.amount_received !== order.amount || intent.metadata?.haunt_order !== order.id || intent.metadata?.event !== EVENT || intent.id !== order.paymentIntent) throw new HauntError('Payment could not be verified.', 409);
@@ -45,11 +43,9 @@ export function verifyPaid(order, intent) {
 export function redeem(order, index, perk, staffId, now = Date.now()) {
   if (order.status !== 'paid') throw new HauntError('This order is not valid for admission.', 409);
   const ticket = order.tickets[index];
-  if (!ticket || !['admission', 'shell', 'bogo'].includes(perk)) throw new HauntError('Invalid ticket or redemption.');
+  if (!ticket || perk !== 'admission') throw new HauntError('Invalid ticket or redemption.');
   if (now < START || now >= END) throw new HauntError('Redemption is available during the event only.', 409);
   if (perk === 'admission' && now >= BREAK && now < RESUME) throw new HauntError('The haunt is on break until 10:30 PM.', 409);
-  if (perk === 'shell' && ticket.kind === 'child') throw new HauntError('Kids tickets are admission only.', 409);
-  if (perk === 'bogo' && (ticket.kind !== 'bundle' || now < BOGO_START || now >= BOGO_END)) throw new HauntError('Bundle BOGO is available 9 PM–midnight only.', 409);
   if (ticket[perk]) throw new HauntError('Already redeemed.', 409);
   ticket[perk] = { at: new Date(now).toISOString(), by: staffId };
   return order;
