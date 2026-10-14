@@ -1,5 +1,11 @@
 # Haunted Tribe — October 30, 2026
 
+## Live launch — October 14, 2026
+
+Production customer URL: https://www.thetribalkavalounge.com/haunted-tribe
+
+PR #9 merged as `99324b0aa524d5c546e7a05522a781acf610efbd`. The existing `scripts/deploy-azure.sh` process deployed that version successfully. Public page and ticket script matched the merged build; live checkout is enabled. The offer is admission and shirts only, with all drink benefits removed. Staff onboarding remains deferred behind existing authentication.
+
 ## Confirmed offer
 
 - Friday October 30 only, continuing into Saturday morning. Eastern time.
@@ -40,7 +46,7 @@ These are not provisioned by this code change. Keep `HAUNT_PAYMENTS_ENABLED` uns
    - Use separate preview/live application settings, Stripe webhook endpoints/secrets, and signing secrets. Keep the production `HAUNT_TOKEN_SECRET` stable after issuance. Prefer restricted Stripe keys with only the required PaymentIntent read/write and charge read permissions; configure webhook endpoints using separate administrative access.
 2. Register Stripe webhook `https://www.thetribalkavalounge.com/api/haunt/webhook` for `payment_intent.succeeded`, `charge.refunded`, and `charge.dispute.created`.
 3. Verify the selected email sender, then verify actual delivery of the test ticket to `f.ckaemail@gmail.com` in Gmail. Provider acceptance alone is not inbox-delivery proof.
-4. Confirm the ordinary Stripe payment arrangement and applicable tax treatment. The connected account defaults to Managed Payments; its in-person event restriction caused earlier Payment Link creation to fail. A per-link switch was rejected by automatic review. No account defaults were changed. This implementation uses Payment Element/PaymentIntents for ordinary payments, but live enablement remains gated until that setup is approved and verified. Listed advertised prices are charged as supplied; this implementation does not calculate/remit taxes or add a surcharge.
+4. This checkout uses ordinary Stripe Payment Element/PaymentIntents for admission and shirts. Managed Payments is not used; its earlier Payment Link restriction is historical. No Stripe account defaults or branding were changed. The October 14 live read verified account `acct_1ULElUAT0Dch1Twa`, active card payments, enabled charges/payouts and no listed requirements. Do not reintroduce removed drinks or disguise purchased items. Listed advertised prices are charged as supplied; this implementation does not calculate/remit taxes or add a surcharge.
 5. Verify Stripe enabled payment methods and bank payout settings, then use the isolated preview with test credentials to complete success, decline, redirect/3DS, a real signed webhook, durable order retrieval, inbox delivery, the emailed ticket link, and duplicate webhook delivery without duplicate fulfillment. Check mobile checkout and ensure failed/unpaid payments grant no admission and customer pages contain no actionable redemption controls. Do not charge a real card for testing.
 6. Set `HAUNT_PAYMENTS_ENABLED=true` only when the above services are configured and checked. This is an event checkout switch, not a Stripe account-wide settings change.
 
@@ -136,3 +142,14 @@ A real paid sandbox ticket was sent from the existing `tribalkavalounge@agentmai
 The server supports AgentMail with a fixed approved sender and server-only inbox key; ACS remains available. Provider message IDs and acceptance are recorded separately from delivery. AgentMail retries use its Idempotency-Key header; because keys expire after 24 hours, ambiguous unaccepted sends stop automatic retry after 23 hours and require provider reconciliation. Already accepted orders are never resent. Do not reset attempt timestamps or blindly retry expired ambiguous sends.
 
 Custom ACS domain DNS remains unverified. macOS denied Safari automation with `osascript is not allowed assistive access (-1719)`; no DNS records were changed. This does not prevent using the verified alternate sender. Inbox placement is observed evidence, not a guarantee for every recipient.
+
+
+### Completed launch verification — October 14, 2026, 22:52 UTC
+
+- Application commit `9d90f7110d0be082c0ee18137d3474fc3dd1cb45` passed Actions run `38649729009`. All 38 API tests, build, site and analytics checks passed again in the production deployment process.
+- Mobile 390 × 844 checkout submitted full name, authorized Gmail, two adult tickets, two child tickets and S/XL shirt bundles. Server amount $80. Stripe test 3DS completed successfully: `pi_3UQawbPI7lrt9FUX2cxCOCmh`, durable six-ticket order `e4b7a9349cd162b049c6337684a16a22012e`.
+- Actual signed success event `evt_3UQawbPI7lrt9FUX2PAJHSBz` completed with zero pending webhooks. A Stripe replay preserved email acceptance/operation ID and six tickets. Gmail contained one checkout-generated receipt, message `1a13c98e51887aed`, received 22:46 UTC in INBOX/Updates with SPF/DKIM/DMARC passing. No mailbox labels changed. Exact emailed private link opened six paid tickets; no horizontal overflow or customer redemption controls.
+- Fresh decline order `cb1715805d8f1ddfbfe04d19b4ad95840f99` stayed pending with zero tickets and no email acceptance. Server ignored a submitted one-cent price and charged no card. Checkout retry reused the intent. Forged customer token returned 403, unauthenticated staff 401, invalid webhook signature 400.
+- Production webhook `we_1UQayXAT0Dch1TwaBA815iD2` targets the public `/api/haunt/webhook` and listens for payment success, refunds and disputes. Existing unrelated webhooks were preserved. Server settings use live keys, the live orders table, stable original signing secret, and the verified alternate email sender. Preview remains isolated with test credentials/table/origin.
+- Production enabled after successful deployment of merge `99324b0`. Public mobile checkout opened the live Stripe form and calculated $10. Unpaid intent `pi_3UQb2HAT0Dch1Twa217aXv9E` and live order `f61875d7fa58eedc452acafacbb1b5e3a46e` were saved; the intent was then canceled without any payment method or charge. Order exposed zero tickets and sent no email. Live card submission was deliberately not tested.
+- Customer email sender is `tribalkavalounge@agentmail.to`. The inbox-scoped key supports sending but rejected a display-name update; no permissions were broadened. Branded ACS sender remains a later improvement requiring DNS access. Tested Gmail inbox delivery does not guarantee placement for every future recipient.
