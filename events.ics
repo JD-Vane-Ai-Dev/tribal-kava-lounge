@@ -39,6 +39,7 @@ BEGIN:VEVENT
 UID:friday-loteria@thetribalkavalounge.com
 DTSTAMP:20260901T021500Z
 DTSTART;TZID=America/New_York:20260904T210000
+DTEND;TZID=America/New_York:20260904T220000
 RRULE:FREQ=WEEKLY;BYDAY=FR
 SUMMARY:Friday Loteria with Tony
 DESCRIPTION:Weekly Loteria with Tony. Boards are $1 each.
