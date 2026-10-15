@@ -8,11 +8,15 @@ key. Credentials and remote error bodies never enter error messages.
 """
 from __future__ import annotations
 
+import errno
 import http.client
 import ipaddress
 import json
 import os
 import re
+import socket
+import ssl
+import time
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -32,6 +36,27 @@ AUTH_MODES = frozenset(("auto", "api_key", "managed_identity"))
 
 class WriterConnectionError(RuntimeError):
     """Safe-to-display connection or model-output failure."""
+
+
+def _transport_category(error):
+    """Classify by type only; exception text/reasons can contain secrets."""
+    if isinstance(error, urllib.error.URLError) and isinstance(error.reason, BaseException):
+        error = error.reason
+    if isinstance(error, TimeoutError) or (
+        isinstance(error, OSError) and error.errno == errno.ETIMEDOUT
+    ):
+        return "timeout"
+    if isinstance(error, ssl.SSLError):
+        return "tls"
+    if isinstance(error, socket.gaierror):
+        return "dns"
+    if isinstance(error, http.client.HTTPException):
+        return "http_protocol"
+    if isinstance(error, ConnectionError):
+        return "connection"
+    if isinstance(error, ValueError):
+        return "request_value"
+    return "network_other"
 
 
 def configured(environ: Mapping[str, str] | None = None) -> bool:
@@ -184,8 +209,11 @@ class AzureWriter:
         self.usage = {"prompt_tokens": 0, "completion_tokens": 0, "total_tokens": 0}
 
     def _request_json(self, request, *, timeout, limit, label):
+        started = time.monotonic()
+        phase = "open"
         try:
             with self._opener.open(request, timeout=timeout) as response:
+                phase = "read"
                 data = response.read(limit + 1)
         except WriterConnectionError:
             raise
@@ -193,8 +221,13 @@ class AzureWriter:
             code = error.code
             error.close()
             raise WriterConnectionError(f"{label} failed (HTTP {code}).") from None
-        except (OSError, ValueError, urllib.error.URLError, http.client.HTTPException):
-            raise WriterConnectionError(f"{label} could not connect within its request limits.") from None
+        except (OSError, ValueError, urllib.error.URLError, http.client.HTTPException) as error:
+            elapsed = time.monotonic() - started
+            raise WriterConnectionError(
+                f"{label} could not connect within its request limits. "
+                f"(category={_transport_category(error)}, phase={phase}, call={self.call_count}, "
+                f"elapsed_seconds={elapsed:.3f}, timeout_seconds={timeout})"
+            ) from None
         if len(data) > limit:
             raise WriterConnectionError(f"{label} exceeded its response size limit.")
         return _json_object(data, label)
