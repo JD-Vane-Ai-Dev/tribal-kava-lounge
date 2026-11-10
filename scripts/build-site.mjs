@@ -264,6 +264,33 @@ for (const route of [...staticPaths, ...dailyPaths]) {
   await writeFile(routeFile, renderRouteHtml(route, routeMetadata.get(route)));
 }
 
+// Publish the owner-approved botanical homepage separately. All existing
+// pre-rendered inner routes keep the verified, indexed SPA shell.
+const botanicalSource = await readFile(path.join(root, 'designs/tribal-botanical.html'), 'utf8');
+let botanical = botanicalSource;
+const homeSchemaMatch = renderRouteHtml('/', routeMetadata.get('/'))
+  .match(/<script id="seo-json-ld" type="application\/ld\+json">([\s\S]*?)<\/script>/);
+if (!homeSchemaMatch) throw new Error('Missing canonical LocalBusiness schema for botanical homepage');
+const requiredMarkup = [
+  '<meta name="robots" content="noindex,nofollow">',
+  '<div class="preview-ribbon">',
+  '</head>', '</body></html>'
+];
+for (const markup of requiredMarkup) {
+  if (!botanical.includes(markup)) throw new Error(`Botanical source missing expected marker: ${markup}`);
+}
+botanical = botanical
+  .replace('<meta name="robots" content="noindex,nofollow">', '<meta name="robots" content="index,follow">')
+  .replace('<meta name="description" content="Design exploration for Tribal Kava Lounge, West Palm Beach. Not the current public homepage.">', '<meta name="description" content="Discover Tribal Kava Lounge in West Palm Beach: kava shells, botanical drinks, pool, games, good people and an easygoing alcohol-free hangout at 770 S Military Trail.">')
+  .replace('<title>Tribal Kava Lounge — Botanical Kava Bar Design</title>', '<title>Tribal Kava Lounge | Kava Bar &amp; Social Lounge in West Palm Beach</title>')
+  .replace(/<div class="preview-ribbon">[\s\S]*?<\/div>\s*(?=<\/body>)/, '')
+  .replace('</head>', () => `\n<meta name="theme-color" content="#13251e">\n<meta name="google-site-verification" content="zXsp7qWCsUyKjaGf-yWfi92M_A_csa1mz6SO2WbTjP0">\n<meta name="msvalidate.01" content="988E2FE2A28E101485C326DA89BB091C">\n<link rel="canonical" href="https://www.thetribalkavalounge.com/">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="Tribal Kava Lounge">\n<meta property="og:title" content="Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach">\n<meta property="og:description" content="Come for the kava. Stay for the people. Experience West Palm Beach's alcohol-free neighborhood lounge.">\n<meta property="og:url" content="https://www.thetribalkavalounge.com/">\n<meta property="og:image" content="https://www.thetribalkavalounge.com/images/tribal-community-game-night.webp">\n<meta name="twitter:card" content="summary_large_image">\n<script id="seo-json-ld" type="application/ld+json">${homeSchemaMatch[1]}</script>\n</head>`)
+  .replace('</body></html>', '<script src="/site-config.js" defer></script>\n<script src="/analytics.js" defer></script>\n</body></html>');
+if (/preview only|design exploration|noindex|\/events\/venue|\$250/i.test(botanical)) {
+  throw new Error('Botanical production homepage contains preview or venue-rental promotion');
+}
+await writeFile(path.join(output, 'botanical-home.html'), botanical);
+
 console.log(`Built ${files.length} files, ${imageFiles.length} verified images, ${dailyPaths.length} Daily Kava URLs, and ${routeMetadata.size} pre-rendered routes into ${output}`);
 
 const feedItems = [...dailyPosts].sort((a, b) => b.date.localeCompare(a.date)).map(post => {

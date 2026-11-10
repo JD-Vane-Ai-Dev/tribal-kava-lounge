@@ -3,6 +3,14 @@
 
 # Let real files (robots.txt, sitemap.xml, images, css, js) serve first;
 # SPA path routes fall through to index.html for clean SEO URLs.
+# Owner-approved Botanical Kava homepage. Force this exact root path over
+# the legacy index.html only; all inner routes keep their existing SPA pages.
+[[redirects]]
+  from = "/"
+  to = "/botanical-home.html"
+  status = 200
+  force = true
+
 # Hidden owner dashboard; server-side authentication protects its data.
 [[redirects]]
   from = "/insights"

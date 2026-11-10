@@ -144,6 +144,29 @@ assert.ok(kavaBarDocument.includes('<h1>Kava bars in West Palm Beach</h1>'), 'ka
 assert.ok(kavaBarDocument.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com${kavaBarRoute}"`));
 assert.match(kavaBarDocument, /770 S Military Trail, Unit A1/);
 assert.doesNotMatch(kavaBarDocument.split(`<div id="view-kava-bars-west-palm-beach"`)[1].split('<!-- ================= NEARBY AREAS')[0], /href="[^"]*(?:404|lowkey)/i);
+// The public root is a standalone owner-approved botanical design, not the
+// pre-rendered SPA home. Other routes still serve their original SPA shell.
+const botanicalHome = await read('dist/botanical-home.html');
+const botanicalSiteSchema = readRouteSchema(botanicalHome, '/');
+assert.ok(botanicalSiteSchema['@type'].includes('LocalBusiness'), 'botanical root preserves LocalBusiness JSON-LD');
+assert.equal(botanicalSiteSchema.address.streetAddress, '770 S Military Trail, Unit A1');
+assert.match(botanicalHome, /<meta name="robots" content="index,follow">/);
+assert.match(botanicalHome, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/">/);
+assert.match(botanicalHome, /<meta name="google-site-verification"/);
+assert.match(botanicalHome, /<meta name="msvalidate\.01"/);
+assert.match(botanicalHome, /<script src="\/analytics\.js" defer><\/script>/);
+assert.match(botanicalHome, /<h1[^>]*>COME FOR/);
+assert.match(botanicalHome, /href="\/menu"/);
+assert.match(botanicalHome, /href="\/new-here"/);
+assert.match(botanicalHome, /href="\/events"/);
+assert.match(botanicalHome, /href="\/visit"/);
+assert.doesNotMatch(botanicalHome, /preview only|design exploration|noindex|\/events\/venue|\$250|haunted tribe/i);
+const netlifyRouting = await read('netlify.toml');
+assert.match(netlifyRouting, /from = "\/"\s+to = "\/botanical-home\.html"\s+status = 200\s+force = true/,
+  'root path must serve botanical home with a forced rewrite');
+assert.match(app, /if \(pathname === '\/'\) return;/,
+  'legacy SPA navigation must not intercept root home links');
+
 const homeDocument = await read('dist/index.html');
 assert.match(homeDocument, /<h1>A kava bar in West Palm Beach<\/h1>/, 'homepage H1 must name the kava bar query');
 const mainFaqDocument = await read('dist/faq/index.html');
