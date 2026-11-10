@@ -3,6 +3,19 @@
 
 # Let real files (robots.txt, sitemap.xml, images, css, js) serve first;
 # SPA path routes fall through to index.html for clean SEO URLs.
+# High-converting, same-domain venue landing page.
+[[redirects]]
+  from = "/events/venue"
+  to = "/venue-rental.html"
+  status = 200
+  force = false
+
+[[redirects]]
+  from = "/events/venue/"
+  to = "/venue-rental.html"
+  status = 200
+  force = false
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

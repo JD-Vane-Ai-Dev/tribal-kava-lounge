@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "route": "/events/venue",
+      "rewrite": "/venue-rental.html"
+    },
+    {
       "route": "/api/haunt/staff/*",
       "allowedRoles": [
         "haunted-staff"
