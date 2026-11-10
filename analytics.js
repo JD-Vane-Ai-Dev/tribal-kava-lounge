@@ -129,6 +129,23 @@
       }
     }
 
+    // Site-owned, cookieless analytics. Do not send full URL/referrer or any personal data.
+    if (isProductionHost && config.firstPartyTracking === true
+        && typeof window.fetch === 'function'
+        && !(navigator.doNotTrack === '1' || navigator.globalPrivacyControl === true)) {
+      window.fetch('/.netlify/functions/tribal-track', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'omit',
+        keepalive: true,
+        body: JSON.stringify({
+          event: eventName,
+          path: window.location.pathname.replace(/[^a-zA-Z0-9/_-]/g, '').slice(0, 180) || '/',
+          channel: attribution.traffic_channel
+        })
+      }).catch(() => { /* Tracking is never necessary for the site to work. */ });
+    }
+
     window.dispatchEvent(new CustomEvent('tribal:conversion', {
       detail: {
         eventName,
@@ -184,7 +201,16 @@
     }
   });
 
+  document.addEventListener('submit', (event) => {
+    if (event.target?.getAttribute?.('name') === 'tribal-private-rental') {
+      send('event_quote_form_started', { interaction_type: 'form_submit_attempt' });
+    }
+  });
+
   function pageView() {
+    if (window.location.pathname.replace(/\/$/, '') === '/rental-inquiry-received') {
+      send('event_quote_thankyou_view', { interaction_type: 'thank_you_page_view' });
+    }
     send('page_view', {
       page_title: document.title,
       page_location: window.location.href,

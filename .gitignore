@@ -11,3 +11,7 @@ api/local.settings.json
 # TRACKED: the daily-kava workflow commits them for manual review + dedup)
 daily-engine/logs/
 __pycache__/
+
+.preview-dist/
+local_tracking_password.txt
+node_modules/

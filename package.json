@@ -9,5 +9,8 @@
     "deploy:azure": "zsh scripts/deploy-azure.sh",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
     "serve": "npx --yes @azure/static-web-apps-cli start dist --api-location api"
+  },
+  "dependencies": {
+    "@netlify/blobs": "^11.1.9"
   }
 }

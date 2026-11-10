@@ -210,8 +210,10 @@ assert.match(html, /verified[\s\S]*@TribalKavaLounge post published August 18, 2
 assert.doesNotMatch(`${html}\n${app}\n${dailyKava}`, /Kava Clouds?|Kratom Refreshers?|Agua Frescas?|Viral Signatures?/, 'retired drink branding must not return');
 assert.equal(logo[25], 6, 'Tribal logo PNG must contain an RGBA alpha channel');
 assert.equal(indexNowKey.trim(), '34a68ae0477ea10ed9d8a543952e0cdb', 'IndexNow ownership key must ship at the site root');
-assert.match(html, /js\.monitor\.azure\.com\/scripts\/b\/ai\.3\.gbl\.min\.js/, 'Application Insights browser SDK must be loaded');
-assert.match(siteConfig, /applicationInsightsConnectionString:\s*'InstrumentationKey=/, 'Tribal Application Insights must be configured');
+assert.doesNotMatch(html, /js\.monitor\.azure\.com/, 'retired Azure analytics SDK must not load');
+assert.match(siteConfig, /firstPartyTracking:\s*true/, 'first-party tracking must be configured');
+assert.match(siteConfig, /applicationInsightsConnectionString:\s*''/, 'retired Azure telemetry must stay disconnected');
+assert.match(analytics, /netlify\/functions\/tribal-track/, 'client must call the site-owned tracking endpoint');
 assert.match(analytics, /azureInsights\.trackEvent/, 'conversion events must be sent to Application Insights');
 assert.match(analytics, /azureInsights\.trackPageView/, 'page views must be sent to Application Insights');
 assert.match(analytics, /isProductionHost/, 'local previews must be excluded from production telemetry');
@@ -293,7 +295,7 @@ assert.equal(new Set(catalogSlugs).size, catalogSlugs.length, 'Daily catalog slu
 const indexedDailySlugs = [...sitemap.matchAll(/<loc>https:\/\/www\.thetribalkavalounge\.com\/the-daily-kava\/([^<]+)<\/loc>/g)]
   .map((match) => match[1]).sort();
 assert.deepEqual(indexedDailySlugs, catalogSlugs, 'every catalog story must have exactly one canonical sitemap URL');
-assert.equal((sitemap.match(/<url>/g) || []).length, 28 + catalogSlugs.length, 'sitemap must include the 28 site routes and every catalog story');
+assert.equal((sitemap.match(/<url>/g) || []).length, 27 + catalogSlugs.length, 'sitemap must include the 27 site routes and every catalog story');
 for (const post of dailyPosts) {
   const rendered = await read(`dist/the-daily-kava/${post.slug}/index.html`);
   assert.ok(rendered.includes(`<link rel="canonical" href="https://www.thetribalkavalounge.com/the-daily-kava/${post.slug}"`), `${post.slug} must ship its canonical before JavaScript runs`);
@@ -342,6 +344,9 @@ assert.match(hauntPage, /Shirts will not be sold at the door/);
 assert.match(hauntPage, /name="name"[^>]*required/);
 assert.doesNotMatch(hauntPage, /Wear the Tribe|FRI 10.30 \+ SAT 10.31/);
 assert.deepEqual(JSON.parse(config).routes.find(r => r.route === '/api/haunt/staff/*').allowedRoles, ['haunted-staff']);
-assert.match(sitemap, /<loc>https:\/\/www\.thetribalkavalounge\.com\/haunted-tribe<\/loc>/);
+assert.doesNotMatch(sitemap, /<loc>https:\/\/www\.thetribalkavalounge\.com\/haunted-tribe<\/loc>/);
 assert.doesNotMatch(sitemap, /haunted-tribe\/(tickets|staff)/);
 for (const script of ['checkout', 'tickets', 'staff']) execFileSync(process.execPath, ['--check', path.join(root, `haunted-tribe/${script}.js`)]);
+
+// Expired seasonal promotions must be absent from the active site shell.
+assert.doesNotMatch(html, /haunt-teaser|haunt-nav|ENTER THE HAUNT|THE HAUNTED TRIBE/);

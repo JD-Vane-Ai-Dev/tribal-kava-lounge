@@ -1,0 +1,58 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer"><title>Tribal Insights · Private Website Statistics</title>
+<style>
+:root{color-scheme:dark;--bg:#0b1010;--surface:#19201d;--gold:#dfbf81;--fg:#fff8eb;--muted:#bcc6bf;--line:#435148}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.6 system-ui,-apple-system,sans-serif}main{max-width:1120px;padding:35px 20px 75px;margin:auto}
+header{padding:22px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+header strong{letter-spacing:.06em;font-size:15px}a{color:var(--gold)}h1{font-size:clamp(34px,6vw,58px);line-height:1.1;letter-spacing:-.045em;margin:12px 0}
+h2{font-size:22px}p{color:var(--muted)}.overline{color:var(--gold);font-size:12px;text-transform:uppercase;letter-spacing:.14em;font-weight:800}
+.panel,.metric{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:24px}
+form{max-width:450px;margin:30px 0;display:grid;gap:12px}label{font-weight:700}input{width:100%;padding:14px;background:#090d0b;border:1px solid #778779;border-radius:8px;color:white;font:inherit}
+button{min-height:48px;padding:12px 18px;border:0;border-radius:8px;background:var(--gold);color:#0a0f0c;font:800 14px system-ui;cursor:pointer}
+:focus-visible{outline:3px solid var(--gold);outline-offset:4px}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:25px 0}.metric span{color:var(--muted);font-size:13px;display:block}.metric strong{font-size:clamp(30px,4vw,50px);line-height:1.1;display:block;margin-top:10px;color:var(--gold)}
+.chart{min-height:170px;display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:8px;align-items:end;margin-top:30px}.bar{background:#9ebca0;border-radius:4px 4px 0 0;min-height:2px;position:relative}.bar span{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--muted);white-space:nowrap}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:25px 0}dl{margin:0}dl div{display:flex;gap:10px;justify-content:space-between;border-bottom:1px solid var(--line);padding:10px 0}dt{color:var(--muted)}dd{margin:0;font-weight:800}#status{min-height:24px;color:var(--gold)}.subtle{font-size:13px}.privacy{max-width:760px;font-size:13px;color:var(--muted);margin-top:30px}
+@media(max-width:750px){.metrics{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}@media(max-width:350px){.metrics{grid-template-columns:1fr}.bar span{font-size:8px}}
+</style></head><body><header><strong>TRIBAL KAVA LOUNGE · INSIGHTS</strong><a href="/">Back to website</a></header>
+<main><div class="overline">Private, first-party reporting</div><h1>What visitors do<br>on your website.</h1>
+<p>Visits and useful actions, directly from Tribal. No Google Analytics account or tracking dashboard setup required.</p>
+<form id="login"><label for="key">Owner access code</label><input id="key" type="password" required autocomplete="off" placeholder="Enter your private tracking code"><button type="submit">View the last 14 days</button><div id="status" role="status" aria-live="polite"></div></form>
+<div id="report" hidden>
+<div class="metrics">
+<div class="metric"><span>Page views</span><strong id="views">—</strong></div>
+<div class="metric"><span>Menu clicks</span><strong id="menu">—</strong></div>
+<div class="metric"><span>Directions clicks</span><strong id="directions">—</strong></div>
+<div class="metric"><span>Call clicks</span><strong id="calls">—</strong></div>
+<div class="metric"><span>Online-order clicks</span><strong id="orders">—</strong></div>
+<div class="metric"><span>Venue quote link clicks</span><strong id="venue">—</strong></div>
+<div class="metric"><span>Quote-form submit attempts</span><strong id="quotes">—</strong></div>
+<div class="metric"><span>Inquiry thank-you views</span><strong id="thanks">—</strong></div>
+</div>
+<section class="panel"><h2>Daily page views</h2><p class="subtle">Last 14 days · number of page view events, not unique people</p><div class="chart" id="chart" role="img" aria-label="Daily page view chart"></div></section>
+<div class="two"><section class="panel"><h2>How people arrived</h2><dl id="sources"></dl></section><section class="panel"><h2>Other tracked actions</h2><dl id="events"></dl></section></div>
+<p class="privacy" id="summaryNote">Traffic counts are directional. To confirm actual rental inquiries, check submissions in Netlify Forms. Click counts do not establish sales or completed calls.</p>
+<p class="subtle">Last updated: <time id="updated"></time></p></div>
+<p class="privacy">Privacy: no cookies, IP addresses, email addresses, phone numbers, typed form contents, or visitor identifiers are stored in these reports. Do Not Track and Global Privacy Control requests are respected by the browser tracker.</p>
+</main>
+<script>
+(() => {
+const $=id=>document.getElementById(id);
+const pretty=s=>String(s).replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+const list=(target,obj)=>{target.replaceChildren();for(const [label,value] of Object.entries(obj||{}).sort((a,b)=>b[1]-a[1]).slice(0,12)){const row=document.createElement('div');const dt=document.createElement('dt');dt.textContent=pretty(label);const dd=document.createElement('dd');dd.textContent=String(value);row.append(dt,dd);target.append(row);}if(!target.children.length){const p=document.createElement('p');p.textContent='No activity recorded yet.';target.append(p);}};
+$('login').addEventListener('submit',async e=>{
+ e.preventDefault();$('status').textContent='Loading counts…';$('report').hidden=true;
+ try{
+ const response=await fetch('/.netlify/functions/tribal-track',{headers:{Authorization:'Bearer '+$('key').value.trim()},cache:'no-store',credentials:'omit'});
+ if(!response.ok){$('status').textContent=response.status===401?'Access code not accepted.':'Reports temporarily unavailable ('+response.status+').';return;}
+ const d=await response.json();
+ for(const [id,key] of Object.entries({views:'page_views',menu:'menu_clicks',directions:'directions_clicks',calls:'phone_clicks',orders:'order_clicks',venue:'venue_quote_clicks',quotes:'quote_form_starts',thanks:'quote_thankyou_views'}))$(id).textContent=Number(d[key]||0).toLocaleString();
+ const chart=$('chart');chart.replaceChildren();const max=Math.max(1,...d.daily_views.map(x=>x.views));
+ for(const v of d.daily_views){const bar=document.createElement('div');bar.className='bar';bar.style.height=(Math.max(1,v.views/max*140))+'px';bar.title=v.day+': '+v.views+' views';const label=document.createElement('span');label.textContent=v.day.slice(8);bar.append(label);chart.append(bar);}
+ chart.setAttribute('aria-label',d.daily_views.map(v=>v.day+': '+v.views).join('; '));
+ list($('sources'),d.sources);list($('events'),d.events);$('updated').textContent=new Date(d.checked_at).toLocaleString();
+ if(d.incomplete)$('summaryNote').textContent='This report is incomplete because the event volume exceeded the lightweight reporting limit. Export detailed event history from Netlify for a longer period.';
+ $('status').textContent='';$('report').hidden=false;$('key').value='';
+ }catch{$('status').textContent='Could not load statistics. Please try again.';}
+});
+})();
+</script></body></html>

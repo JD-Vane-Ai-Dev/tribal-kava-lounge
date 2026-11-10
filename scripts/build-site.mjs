@@ -11,6 +11,7 @@ execFileSync('python3', [path.join(root, 'daily-engine/auto_publish.py'), 'check
 const files = [
   'index.html',
   'review-card.html',
+  'insights.html',
   'vendor-market.html',
   'venue-rental.html',
   'vendor-interest-received.html',
@@ -91,7 +92,7 @@ const dailyEntries = dailyPosts.map((post) => {
 const dailyPaths = dailyEntries.map((entry) => entry.path);
 const dailyLastmod = new Map(dailyEntries.map((entry) => [entry.path, entry.lastmod]));
 const today = new Date().toISOString().slice(0, 10);
-const urls = [...staticPaths, '/haunted-tribe', ...dailyPaths]
+const urls = [...staticPaths, ...dailyPaths]
   .map((route) => {
     const dailyish = route === '/' || route === '/kava-bars-west-palm-beach' || route.includes('the-daily-kava') || route.includes('/events');
     const changefreq = dailyish ? 'daily' : 'monthly';

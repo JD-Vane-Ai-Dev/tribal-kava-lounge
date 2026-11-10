@@ -3,6 +3,13 @@
 
 # Let real files (robots.txt, sitemap.xml, images, css, js) serve first;
 # SPA path routes fall through to index.html for clean SEO URLs.
+# Hidden owner dashboard; server-side authentication protects its data.
+[[redirects]]
+  from = "/insights"
+  to = "/insights.html"
+  status = 200
+  force = false
+
 # High-converting, same-domain venue landing page.
 [[redirects]]
   from = "/events/venue"
