@@ -11,6 +11,10 @@ execFileSync('python3', [path.join(root, 'daily-engine/auto_publish.py'), 'check
 const files = [
   'index.html',
   'review-card.html',
+  'vendor-market.html',
+  'venue-rental.html',
+  'vendor-interest-received.html',
+  'rental-inquiry-received.html',
   'styles.css',
   'app.js',
   'daily-kava.js',
