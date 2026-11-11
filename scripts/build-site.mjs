@@ -29,6 +29,7 @@ const files = [
 ];
 const imageFiles = [
   'haunted-tribe-shirt.webp',
+  'street-profit-block-tour-26.jpg',
   'tribal-bar-game-night.webp',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
