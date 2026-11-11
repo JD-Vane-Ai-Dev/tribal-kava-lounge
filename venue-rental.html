@@ -47,6 +47,58 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
 .venue-gallery figcaption{padding:14px 18px;color:#f8efe0;font-weight:750;letter-spacing:.015em}
 @media(max-width:900px){.special-section .feature-grid{grid-template-columns:repeat(2,1fr)}.hero-venue-photo{min-height:0}}
 @media(max-width:760px){.hero{grid-template-columns:1fr}.hero-venue-photo{min-height:0}.special-layout{grid-template-columns:1fr}.venue-gallery{grid-template-columns:1fr}.venue-gallery img{height:285px}.special-section{margin-top:6px}.hero h1{font-size:clamp(46px,11vw,66px)}}
+
+/* Keep the user's embedded $250 flyer text unobscured, even on phones. */
+.hero-venue-photo{aspect-ratio:auto;display:flex;flex-direction:column;overflow:hidden}
+.hero-venue-photo>img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:contain}
+.hero-venue-photo figcaption.concept-disclosure{position:static;display:block;background:#10251a;padding:10px 14px;text-align:left;line-height:1.4}
+/* REA design, build & psychological-friction revision — 2026-11 */
+.occasion-picker{padding:12px 0 36px}
+.occasion-picker-head{display:flex;justify-content:space-between;align-items:end;gap:24px;margin:8px 0 22px}
+.occasion-picker h2{font-size:clamp(26px,3.3vw,42px);line-height:1.07;letter-spacing:-.035em;margin:0}
+.occasion-picker-head p{color:var(--muted);font-size:14px;max-width:340px;margin:0}
+.occasion-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.occasion-tile{position:relative;display:flex;flex-direction:column;align-items:flex-start;min-height:160px;gap:9px;padding:20px;border:1px solid #557358;background:#14291d;color:var(--white);border-radius:13px;text-decoration:none;transition:background .15s,border-color .15s,transform .15s}
+.occasion-tile:hover{background:#1d3c29;border-color:var(--gold);transform:translateY(-2px)}
+.occasion-tile:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.occasion-tile span{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);font-weight:750}
+.occasion-tile strong{font-size:19px;line-height:1.13}
+.occasion-tile small{font-size:12px;color:var(--muted);padding-right:10px}
+.occasion-tile b{position:absolute;bottom:12px;right:16px;font-size:20px;color:var(--gold)}
+.addon-cards{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.addon-cards .card{min-height:160px;padding:20px}
+.addon-disclaimer{font-size:13px;color:var(--muted)}
+.add-ons-fieldset{padding:0;margin:22px 0;border:0;min-width:0}
+.add-ons-fieldset>legend{font-size:19px;color:var(--white);font-weight:800;padding:0 0 5px}
+.addon-intro{font-size:14px;color:var(--muted);margin:0 0 17px}
+.add-on-groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.add-on-group{margin:0;border:1px solid #496b50;background:#112319;border-radius:12px;padding:12px 16px 15px;min-width:0}
+.add-on-group legend{font-size:14px;font-weight:800;color:var(--gold);padding:0 5px}
+.add-on-group .checks{display:flex;flex-direction:column;gap:8px;margin:0}
+.add-on-group .checks label{min-height:28px;line-height:1.35;cursor:pointer}
+.add-on-group .checks input{margin:3px 0 0;flex-shrink:0}
+.faq details{background:#11251a;border:1px solid #416249;border-radius:10px;margin:10px 0;padding:0 18px}
+.faq summary{position:relative;cursor:pointer;padding:17px 28px 17px 0;font-weight:760;list-style:none}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:after{content:'+';position:absolute;right:0;top:12px;color:var(--gold);font-size:24px}
+.faq details[open] summary:after{content:'−'}
+.faq details p{margin:0 0 18px;color:var(--muted);font-size:14px;max-width:850px}
+.faq details a{color:var(--gold)}
+.faq summary:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+@media(max-width:1050px){.occasion-grid,.addon-cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:760px){
+ .hero{padding:22px 0 30px;gap:18px}
+ .hero .hero-venue-photo{order:-1}
+ .hero .hero-text{order:0}
+ .hero h1{margin:10px 0 13px}
+ .hero p{font-size:15px;margin:8px 0 10px}
+ .hero .lead-intro{font-size:17px}
+ .hero .actions{margin:16px 0}
+}
+@media(max-width:760px){.occasion-picker-head{display:block}.occasion-picker-head p{margin-top:12px}.occasion-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.occasion-tile{padding:15px;min-height:154px}.occasion-tile strong{font-size:16px}.add-on-groups{grid-template-columns:1fr}.addon-cards{grid-template-columns:repeat(2,minmax(0,1fr))}.addon-cards .card{padding:16px}.addon-cards h3{font-size:17px}}
+@media(max-width:380px){.occasion-grid,.addon-cards{grid-template-columns:1fr}.occasion-tile{min-height:115px}}
+@media(prefers-reduced-motion:reduce){.occasion-tile{transition:none}.occasion-tile:hover{transform:none}}
+
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Tribal Private Events — Private Event Venue and Custom Event Space","provider":{"@type":"LocalBusiness","name":"Tribal Kava Lounge","telephone":"+1-561-355-0561","address":{"@type":"PostalAddress","streetAddress":"770 S Military Trail, Unit A1","addressLocality":"West Palm Beach","addressRegion":"FL","postalCode":"33415","addressCountry":"US"}},"areaServed":{"@type":"Place","name":"West Palm Beach, Florida"},"offers":{"@type":"Offer","price":"250","priceCurrency":"USD","description":"Introductory 3-hour private event venue reservation available on select approved off-peak dates; all optional event enhancements quoted separately and subject to confirmation."}}</script>
 </head>
@@ -56,71 +108,95 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
 <section class="hero" aria-labelledby="hero-heading">
 <div class="hero-text">
  <div class="eyebrow">Tribal Private Events · West Palm Beach</div>
- <h1 id="hero-heading">A space for<br><em>your occasion.</em></h1>
- <p class="lead-intro">From celebrations and milestone parties to showers, networking events and pop-ups, Tribal Private Events gives you an inviting indoor venue to make the gathering your own.</p>
- <p>Choose a simple venue reservation or request a custom layout with seating, décor, entertainment and hospitality options. We shape the quote around the occasion—not the other way around.</p>
- <div class="actions"><a href="#quote" class="cta">Plan your event · Request a quote</a><a href="#setups" class="cta-secondary">Explore the venue</a></div>
- <p class="fine">770 S Military Trail, Unit A1 · West Palm Beach, FL 33415 · Free on-site parking</p>
+ <h1 id="hero-heading">Your event.<br><em>Your space.</em></h1>
+ <p class="lead-intro">An event venue in West Palm Beach for birthdays, showers, celebrations, meetings, vendor pop-ups and everything worth gathering for.</p>
+ <p>Book the space or personalize the setup with requested tables, chairs, lounge seating, décor, DJ, catering and more. Every addition is quoted before you commit.</p>
+ <div class="actions"><a href="#quote" class="cta">Check your date · Get a quote</a><a href="#setups" class="cta-secondary">Explore the venue</a></div>
+ <p class="fine">770 S Military Trail, Unit A1 · West Palm Beach, FL 33415 · Parking on site · No payment to request a quote</p>
 </div>
 <figure class="hero-venue-photo"><img src="/images/tribal-private-events-room-edited.jpeg" alt="Edited Tribal Private Events venue presentation showing banquet tables, chairs, two pool tables and purple accent lighting" width="1448" height="1086" fetchpriority="high"><figcaption class="concept-disclosure">Event setup concept shown. Layout, guest count, furnishings and date are subject to confirmation.</figcaption></figure>
 </section>
+<section class="occasion-picker" aria-labelledby="occasion-picker-heading">
+  <div class="eyebrow">What are you planning?</div>
+  <div class="occasion-picker-head"><h2 id="occasion-picker-heading">One venue. Different kinds of moments.</h2><p>Select a type to start an event quote. All requests are subject to availability and approved layout.</p></div>
+  <div class="occasion-grid">
+    <a href="#quote" class="occasion-tile" data-event-type="Birthday / private party"><span>01 · Celebrate</span><strong>Birthdays &amp; parties</strong><small>Milestones, family &amp; friends</small><b aria-hidden="true">↗</b></a>
+    <a href="#quote" class="occasion-tile" data-event-type="Baby shower / bridal shower"><span>02 · Gather</span><strong>Showers &amp; receptions</strong><small>Seating, cake &amp; gift setup</small><b aria-hidden="true">↗</b></a>
+    <a href="#quote" class="occasion-tile" data-event-type="Corporate / team event"><span>03 · Connect</span><strong>Business events</strong><small>Mixers, meetings &amp; workshops</small><b aria-hidden="true">↗</b></a>
+    <a href="#quote" class="occasion-tile" data-event-type="Brand pop-up / vendor event"><span>04 · Create</span><strong>Markets &amp; pop-ups</strong><small>Vendors, launches &amp; community</small><b aria-hidden="true">↗</b></a>
+  </div>
+</section>
 <section class="section special-section" id="intro-offer" aria-labelledby="offer-heading">
 <div class="special-layout">
-<div><div class="eyebrow">For select off-peak dates</div><h2 id="offer-heading">An easy way to start planning.</h2><p class="lead">Introductory venue offer, with the ability to request the extras that fit your celebration. All dates and arrangements are reviewed before booking.</p></div>
+<div><div class="eyebrow">For select off-peak dates</div><h2 id="offer-heading">A flexible starting point.</h2><p class="lead">Start with the venue itself. Request event seating, setup, food, entertainment or other enhancements only if you need them.</p></div>
 <div class="special-price"><div class="eyebrow">Introductory venue offer</div><strong>$250</strong><span>3 event hours · select off-peak dates only</span><p>Additional time: $50 per 30 minutes if approved. Peak times, special setups and services are custom quoted.</p><a href="#quote" class="cta-secondary">Get a personalized quote</a></div>
 </div>
 <div class="feature-grid"><span><strong>~2,400</strong> sq ft of existing space</span><span><strong>2</strong> pool tables on site</span><span><strong>2</strong> restrooms</span><span><strong>Custom</strong> setup by arrangement</span></div>
-<p class="fine">The actual space currently includes lounge furniture and a bar counter. Additional tables, chairs, décor, cake/gift areas and other services are separately quoted. Final occupancy and layout require approval; 60 guests is a planning ceiling, not confirmed legal capacity.</p>
+<p class="fine"><strong>Included:</strong> existing room and lounge furniture, subject to agreed use. <strong>Quoted separately:</strong> banquet tables, rented chairs, room styling, food, DJ and other enhancements. The graphic shows a styled setup concept; 60 is an estimated planning ceiling, not confirmed legal occupancy.</p>
 </section>
-<section class="section" aria-labelledby="occasions"><div class="eyebrow">A venue for more than one kind of event</div><h2 id="occasions">Whatever you’re celebrating, start here.</h2><div class="chips"><span>Birthdays &amp; milestone parties</span><span>Baby &amp; bridal showers</span><span>Business meetings</span><span>Corporate mixers &amp; team nights</span><span>Networking events</span><span>Graduations &amp; retirement parties</span><span>Game nights &amp; tournaments</span><span>Private receptions</span><span>Workshops &amp; content shoots</span><span>Vendor pop-ups &amp; brand activations</span></div><p class="lead">Unique format? Ask us. We evaluate each request for staffing, layout, operating hours and permitted use. Overnight or sleep-in events are not offered unless separately approved.</p></section>
+<section class="section event-uses" aria-labelledby="occasions"><div class="eyebrow">More ways to use the space</div><h2 id="occasions">Bring your event idea.</h2><div class="chips"><span>Birthdays &amp; milestone parties</span><span>Baby &amp; bridal showers</span><span>Business meetings</span><span>Corporate mixers &amp; team nights</span><span>Networking events</span><span>Graduations &amp; retirement parties</span><span>Game nights &amp; tournaments</span><span>Private receptions</span><span>Workshops &amp; content shoots</span><span>Vendor pop-ups &amp; brand activations</span></div><p class="lead">Unique format? Ask us. We evaluate each request for staffing, layout, operating hours and permitted use. Overnight or sleep-in events are not offered unless separately approved.</p></section>
 <section class="section" id="setups" aria-labelledby="included"><div class="eyebrow">The venue, your way</div><h2 id="included">Your event takes center stage.</h2><p class="lead">An actual indoor venue with existing amenities—not a fixed kava-bar party package. Choose how you want guests to gather, and we’ll review the layout and any rentals or services needed to make it work.</p><div class="grid"><div class="card"><div class="tag">Included</div><h3>Start with the space</h3><p>Use the room and existing furniture as the starting point. Additional banquet tables and chairs are not part of the base offer.</p></div><div class="card"><div class="tag">Included</div><h3>Existing venue amenities</h3><p>Two pool tables, Wi-Fi, two restrooms and the existing counter are on site. Whether and how they are used depends on your approved event layout.</p></div><div class="card"><div class="tag">Plan your setup</div><h3>A setup that fits your event</h3><p>Request reception-style seating, a meeting configuration, cake and gift station, vendor arrangement or another layout. All plans depend on safe configuration and any required rentals.</p></div></div></section>
 <section class="section" aria-labelledby="photo-heading"><div class="eyebrow">See the actual place</div><h2 id="photo-heading">A real space. Room for your ideas.</h2><p class="lead">These are authentic photos of Tribal’s current interior and gatherings, not staged mockups or guaranteed event layouts.</p><div class="venue-gallery"><figure><img src="/images/tribal-community-game-night.webp" alt="Actual guests at a community gathering inside the venue" loading="lazy" width="1000" height="1250"><figcaption>Gather and celebrate</figcaption></figure><figure><img src="/images/tribal-mario-kart-racers.webp" alt="Real guests enjoying an event at Tribal" loading="lazy" width="900" height="600"><figcaption>Host your own kind of event</figcaption></figure></div></section>
 <section class="section" aria-labelledby="upgrades"><div class="eyebrow">Personalize the venue</div><h2 id="upgrades">Build the event around your vision.</h2><p class="lead">Tell us what you have in mind, from a simple venue-only celebration to a more involved event setup. We will quote each requested addition before you book; none are automatically included in the introductory offer.</p>
-<div class="grid">
-<div class="card"><div class="tag">Setup</div><h3>Tables, chairs &amp; linens</h3><p>Additional seated layouts, banquet-style tables, chair rentals, linens, delivery, setup and breakdown.</p></div>
-<div class="card"><div class="tag">Styling</div><h3>Decorations &amp; party favors</h3><p>Balloons, backdrops, themed decor, centerpieces, welcome signs, party favors and branded gifts.</p></div>
-<div class="card"><div class="tag">Hospitality</div><h3>Catering &amp; food service</h3><p>Approved outside caterers, buffet setup, food vendors and cleanup, subject to applicable permissions and requirements.</p></div>
-<div class="card"><div class="tag">Beverages</div><h3>Staffed bar &amp; drink packages</h3><p>Tribal's non-alcoholic beverage service, hosted drink tabs and event-specific staff. Alcohol is not included.</p></div>
-<div class="card"><div class="tag">Entertainment</div><h3>DJ, audio &amp; activities</h3><p>DJ, MC, speakers, microphones, games, hosts and entertainment, depending on approved noise and event rules.</p></div>
-<div class="card"><div class="tag">Production</div><h3>Photos, video &amp; AV</h3><p>Photography, video, backdrop, photo booth, projector or screen and business presentation assistance.</p></div>
-<div class="card"><div class="tag">Event operations</div><h3>Coordination, cleanup &amp; security</h3><p>Day-of coordinator, staff, cleaning and security where required by the event's size, format, risk or permit conditions.</p></div>
-<div class="card"><div class="tag">For businesses</div><h3>Meetings &amp; brand activations</h3><p>Custom signage, branded favors, networking check-in, microphone or projection, vendor space and refreshments.</p></div>
-<div class="card"><div class="tag">Custom requests</div><h3>Tell us your vision</h3><p>Have a specific theme or supplier? We'll review your request and quote only what we can deliver safely and reliably.</p></div>
-</div></section>
+<div class="grid addon-cards">
+ <div class="card"><div class="tag">Layout</div><h3>Tables &amp; chairs</h3><p>Request banquet-style tables, chairs, linens, delivery and setup.</p></div>
+ <div class="card"><div class="tag">Layout</div><h3>Lounge arrangements</h3><p>Use the existing space or request a different seating configuration.</p></div>
+ <div class="card"><div class="tag">Celebrations</div><h3>Cake &amp; gift station</h3><p>Ask about a dedicated display area, table rentals and presentation setup.</p></div>
+ <div class="card"><div class="tag">Styling</div><h3>Décor &amp; backdrops</h3><p>Balloons, themed décor, florals, signage and photo backdrops by quote.</p></div>
+ <div class="card"><div class="tag">Hospitality</div><h3>Catering &amp; drinks</h3><p>Request food or approved catering, plus Tribal’s nonalcoholic bar service.</p></div>
+ <div class="card"><div class="tag">Entertainment</div><h3>DJ, MC &amp; sound</h3><p>Ask for DJ entertainment, host support, microphones or audio.</p></div>
+ <div class="card"><div class="tag">Media</div><h3>Photos &amp; video</h3><p>Photo booth, photography, video and presentation gear on request.</p></div>
+ <div class="card"><div class="tag">Support</div><h3>Coordination &amp; staff</h3><p>Event planning, security, extra help and cleanup where needed.</p></div>
+</div><p class="addon-disclaimer">All add-ons depend on supplier confirmation and written quotes. The base offer does not include these extras.</p></section>
 <section class="section" aria-labelledby="terms"><div class="eyebrow">Clear terms · no surprises</div><h2 id="terms">How booking works</h2><div class="strip"><div><strong>1. Request a quote</strong><p>Send your ideal date, group size and add-ons. We'll review availability, layout and event needs.</p></div><div><strong>2. Reserve your date</strong><p>For approved bookings, 50% of the agreed rental total is paid upfront, nonrefundable and credited toward your rental.</p></div><div><strong>3. Host your event</strong><p>Remaining 50% due on arrival before setup; separate $100 refundable damage deposit subject to written terms and inspection.</p></div></div><div class="note">The three-hour package covers the approved event window; load-in, setup, cleanup, outside vendors, additional staffing and security requirements are specified in the final quote and agreement. An inquiry does not hold a date or guarantee a particular layout.</div></section>
-<section class="section" id="quote" aria-labelledby="form-heading"><div class="quote"><div class="eyebrow">Personalized event quote</div><h2 id="form-heading">Tell us what you're planning.</h2><p class="lead">Share the basics and select your extras. No payment is due just to request availability.</p>
+<section class="section faq" aria-labelledby="faq-heading"><div class="eyebrow">Planning details</div><h2 id="faq-heading">Common questions, clear answers.</h2>
+<details><summary>Is the $250 price for the whole event?</summary><p>It is the introductory venue offer for 3 event hours on select approved off-peak dates. Extra time is $50 for each approved additional 30 minutes. Rented furniture, catering, DJ and other add-ons are quoted separately. Your final quote confirms the total.</p></details>
+<details><summary>Do tables, chairs and decorations come with the venue?</summary><p>The venue has existing lounge furniture. Additional banquet tables, chairs, linens, cake/gift setup and décor are optional requests, not included in the introductory offer.</p></details>
+<details><summary>Can I bring my own caterer or decorations?</summary><p>Tell us what you’re planning in the quote form. Outside food, vendors and décor are reviewed for suitability, any required permissions and the approved room layout before confirmation.</p></details>
+<details><summary>Can I confirm a date or guest capacity online?</summary><p>Not yet. An inquiry does not hold a date. The venue reviews the requested time, event type, guest count and safe layout before confirming any booking. The 60-guest figure is not a verified legal occupancy.</p></details>
+<details><summary>Can I see the space before booking?</summary><p>Yes, you can request a venue walkthrough by calling <a href="tel:+15613550561">(561) 355-0561</a>. Times are arranged directly with the venue.</p></details>
+</section>
+<section class="section" id="quote" aria-labelledby="form-heading"><div class="quote"><div class="eyebrow">Personalized event quote</div><h2 id="form-heading">Tell us what you're planning.</h2><p class="lead">Tell us the date, guest estimate and type of celebration. Add as much or as little detail as you know; this is a request, not a booking.</p>
 <form name="tribal-private-rental" method="POST" action="/rental-inquiry-received" data-netlify="true" netlify-honeypot="bot-field">
 <input type="hidden" name="form-name" value="tribal-private-rental"><input type="hidden" name="source" value="events-venue"><div class="invisible" aria-hidden="true"><label>Leave this blank <input name="bot-field" tabindex="-1" autocomplete="off"></label></div>
 <div class="formgrid">
 <div class="field"><label for="qname">Your name *</label><input name="contact_name" id="qname" autocomplete="name" required maxlength="120"></div>
 <div class="field"><label for="qemail">Email *</label><input name="email" id="qemail" type="email" autocomplete="email" required></div>
-<div class="field"><label for="qphone">Phone *</label><input name="phone" id="qphone" type="tel" autocomplete="tel" required></div>
+<div class="field"><label for="qphone">Phone (optional)</label><input name="phone" id="qphone" type="tel" autocomplete="tel"></div>
 <div class="field"><label for="qdate">Preferred event date *</label><input name="preferred_date" id="qdate" type="date" required></div>
 <div class="field"><label for="qtime">Preferred start time *</label><input name="start_time" id="qtime" type="time" required></div>
-<div class="field"><label for="qguests">Estimated guests *</label><input name="guests" id="qguests" type="number" min="1" max="60" required><span class="help">Final limit depends on approved occupancy and configuration.</span></div>
+<div class="field"><label for="qguests">Estimated guests *</label><input name="guests" id="qguests" type="number" min="1" max="60" required><span class="help">Up to 60 is a planning estimate only; final legal occupancy and layout require confirmation.</span></div>
 <div class="field"><label for="qtype">Event type *</label><select name="event_type" id="qtype" required><option value="">Choose an event type</option><option>Birthday / private party</option><option>Baby shower / bridal shower</option><option>Business meeting</option><option>Corporate / team event</option><option>Networking / business mixer</option><option>Brand pop-up / vendor event</option><option>Graduation / retirement</option><option>Game night / tournament</option><option>Workshop / content production</option><option>Reception / celebration</option><option>Other / custom request</option></select></div>
 <div class="field"><label for="qduration">How long do you need? *</label><select name="duration" id="qduration" required><option value="3 hours">3 hours · introductory offer if eligible</option><option>3.5 hours</option><option>4 hours</option><option>5+ hours · custom quote</option><option>Not sure yet</option></select></div>
 <div class="field"><label for="qsetup">Preferred layout</label><select name="setup_style" id="qsetup"><option>Lounge / existing setup</option><option>Seated celebration with rented furniture</option><option>Business meeting / presentation</option><option>Standing mixer / networking</option><option>Custom layout</option></select></div>
 <div class="field"><label for="qflex">Date flexibility</label><select name="date_flexibility" id="qflex"><option>Exact date preferred</option><option>Flexible within the same week</option><option>Flexible / best available price</option></select></div>
 </div>
-<div class="group"><div class="group-label">What would you like us to quote? (Optional)</div><div class="checks">
+<fieldset class="add-ons-fieldset"><legend>Build your event (optional)</legend>
+<p class="addon-intro">Pick only what you need. Nothing is added to the $250 introductory venue rate automatically; we’ll quote and confirm each option.</p><div class="add-on-groups">
+<fieldset class="add-on-group"><legend>Space & seating</legend><div class="checks">
 <label><input type="checkbox" name="addon_furniture" value="yes">Extra tables / chairs / linens</label>
 <label><input type="checkbox" name="addon_tables" value="yes">Additional rented tables</label>
 <label><input type="checkbox" name="addon_chairs" value="yes">Additional rented chairs</label>
 <label><input type="checkbox" name="addon_lounge_seating" value="yes">Custom lounge seating arrangement</label>
 <label><input type="checkbox" name="addon_cake_gift_station" value="yes">Cake / gift station setup</label>
+</div></fieldset>
+<fieldset class="add-on-group"><legend>Décor & hospitality</legend><div class="checks">
 <label><input type="checkbox" name="addon_decor" value="yes">Decorations / balloons / backdrops</label>
 <label><input type="checkbox" name="addon_favors" value="yes">Party favors / branded gifts</label>
 <label><input type="checkbox" name="addon_catering" value="yes">Catering / food service</label>
 <label><input type="checkbox" name="addon_bar" value="yes">Non-alcoholic bar / hosted drinks</label>
+</div></fieldset>
+<fieldset class="add-on-group"><legend>Entertainment & media</legend><div class="checks">
 <label><input type="checkbox" name="addon_dj" value="yes">DJ / MC / sound equipment</label>
 <label><input type="checkbox" name="addon_media" value="yes">Photography / video / photo booth</label>
 <label><input type="checkbox" name="addon_av" value="yes">Projection / microphone / AV</label>
+</div></fieldset>
+<fieldset class="add-on-group"><legend>Event support</legend><div class="checks">
 <label><input type="checkbox" name="addon_staff" value="yes">Event coordinator / extra staff</label>
 <label><input type="checkbox" name="addon_security" value="yes">Security / special event assistance</label>
 <label><input type="checkbox" name="addon_cleanup" value="yes">Cleaning / setup / breakdown</label>
 <label><input type="checkbox" name="addon_custom" value="yes">Custom request</label>
-</div></div>
+</div></fieldset></div></fieldset>
 <div class="field"><label for="qnotes">Tell us about the event (optional)</label><textarea id="qnotes" name="notes" maxlength="2000" placeholder="Theme, business name, setup needs, catering preferences, approximate budget or other questions"></textarea></div>
 <div class="group"><label style="font-size:13px"><input type="checkbox" name="contact_consent" value="yes" required> I agree to be contacted about this event inquiry. *</label></div>
 <div class="form-bottom"><button class="cta" type="submit">Request my event quote</button><p class="fine">No payment collected. A team member must confirm your booking and any required approvals.</p></div>
@@ -129,5 +205,21 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
 <section class="section"><div class="eyebrow">Come see it in person</div><h2>770 S Military Trail, Unit A1</h2><p class="lead">West Palm Beach, FL 33415 · Parking available on site. Call <a href="tel:+15613550561">(561) 355-0561</a> to discuss a venue walkthrough. For recurring vendor opportunities, <a class="textlink" href="/vendor-market.html">join our vendor interest list</a>.</p></section>
 </main>
 <footer class="foot"><div class="foot-inner">Tribal Kava Lounge · <a href="/">Back to the lounge</a> · <a href="/events">Regular events</a> · <a href="tel:+15613550561">(561) 355-0561</a><p>Alcohol-free venue. 21+ age restrictions apply to kratom products. Services, staffing, capacity and event types are subject to written confirmation and applicable regulations.</p></div></footer>
-<script>document.querySelector('input[name="preferred_date"]').min=new Date().toLocaleDateString('en-CA');</script>
+<script>
+(function(){
+ const dateField=document.querySelector('input[name="preferred_date"]');
+ if(dateField){const now=new Date(); const localDate=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,10); dateField.min=localDate;}
+ const eventType=document.querySelector('select[name="event_type"]');
+ document.querySelectorAll('[data-event-type]').forEach(function(link){
+  link.addEventListener('click',function(){
+   if(!eventType)return;
+   const value=link.getAttribute('data-event-type');
+   if(Array.from(eventType.options).some(function(o){return o.value===value;})){
+    eventType.value=value;
+    eventType.dispatchEvent(new Event('change',{bubbles:true}));
+   }
+  });
+ });
+})();
+</script>
 <script src="/site-config.js" defer></script><script src="/analytics.js" defer></script></body></html>

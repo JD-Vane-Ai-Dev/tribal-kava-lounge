@@ -24,7 +24,7 @@ for (const item of ['addon_tables','addon_chairs','addon_lounge_seating','addon_
  assert.ok(publicQuoteForm.includes('name="'+item+'"'), 'Missing explicit quote option: '+item);
 }
 assert.match(config,/from = "\/private-events"[\s\S]*?to = "\/venue-rental\.html"[\s\S]*?force = true/);
-assert.match(publicQuoteForm,/<h1 id="hero-heading">A space for/);
+assert.match(publicQuoteForm,/<h1 id="hero-heading">Your event\.<br><em>Your space\.<\/em>/);
 assert.match(publicQuoteForm,/<img src="\/images\/tribal-private-events-room-edited\.jpeg"/);
 assert.match(publicQuoteForm,/customizable|custom layout|custom venue/i);
 assert.doesNotMatch(publicQuoteForm,/Not another empty banquet room|The lounge is already the vibe/);
@@ -39,3 +39,18 @@ assert.match(publicQuoteForm,/hero-venue-photo"><img src="\/images\/tribal-priva
 assert.doesNotMatch(publicQuoteForm,/<span>THE REAL VENUE<\/span>/);
 assert.match(publicQuoteForm,/object-fit:contain/);
 assert.ok(build.includes("'tribal-private-events-room-edited.jpeg'"));
+
+// REA quote UX: all existing submission field names, same Netlify endpoint and clear add-on groups.
+assert.match(publicQuoteForm,/name="tribal-private-rental" method="POST" action="\/rental-inquiry-received" data-netlify="true"/);
+for(const name of ['addon_furniture','addon_tables','addon_chairs','addon_lounge_seating','addon_cake_gift_station',
+ 'addon_decor','addon_favors','addon_catering','addon_bar','addon_dj','addon_media','addon_av',
+ 'addon_staff','addon_security','addon_cleanup','addon_custom']){
+ assert.equal((publicQuoteForm.match(new RegExp('name="'+name+'"','g'))||[]).length,1,'Expected exactly one checkbox: '+name);
+}
+for(const category of ['Space & seating','Décor & hospitality','Entertainment & media','Event support']){
+ assert.ok(publicQuoteForm.includes('<legend>'+category+'</legend>'),'Missing add-on grouping '+category);
+}
+assert.match(publicQuoteForm,/class="occasion-tile" data-event-type="Birthday \/ private party"/);
+assert.match(publicQuoteForm,/id="form-heading"/);
+assert.match(publicQuoteForm,/Common questions, clear answers/);
+assert.match(publicQuoteForm,/No payment collected/);
