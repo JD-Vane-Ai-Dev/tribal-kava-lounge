@@ -74,3 +74,24 @@ bypasses the new original-article checks.
 - `compliance.py`: article contract and editorial gates.
 - `auto_publish.py`: stage, verify production, finalize.
 - `test_*.py`: editorial and publication-boundary regression tests.
+
+## Mac-based approved-post publisher (GitHub Actions fallback)
+
+The project includes `scripts/daily-kava-local-publisher.sh`, which stages and checks
+existing Daily Kava manuscripts in an isolated temporary Git worktree. If a passing,
+unpublished draft exists, it runs the full site test suite, pushes a safe fast-forward
+catalog update to the existing GitHub repository, publishes directly to the existing
+Netlify site, verifies the exact live catalog hash, and only then acknowledges the
+post as published. Held or withdrawn drafts cannot be forced through this path.
+
+It uses the signed-in Mac user's existing Git and Netlify sessions. The local
+LaunchAgent runs from an Application Support copy of the repository because macOS
+privacy controls can deny background access to Documents. Its default schedule is
+12:15 PM in the Mac's local timezone, plus a check when its login session starts.
+The Mac must be powered on, connected, and signed into both services. The job
+performs no deployment when there are no passing drafts.
+
+**Important:** This replaces the publishing *executor*, not the old Azure model
+writer or authoring schedule. No newly researched manuscripts are invented or
+published when the editorial inventory is empty. The user must supply a validated
+writer/provider before automatic *new article generation* is restored.
