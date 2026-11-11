@@ -84,24 +84,7 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 @media(max-width:360px){.nav{gap:8px}.brand{gap:7px}.brand img{width:35px;height:35px}.brand span{font-size:18px}.brand small{font-size:8px;letter-spacing:.06em}.nav-cta{font-size:10px!important;padding:8px!important}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.action{transition:none}.action:hover{transform:none}}
 
-/* STREET PROFIT artwork feature: standalone, without changing the lounge hero. */
-.sp-spotlight{background:linear-gradient(145deg,#111319 0%,#1b1423 54%,#13221b 100%);padding:clamp(64px,7.5vw,112px) 0;border-bottom:1px solid #4f4651}
-.sp-spotlight-grid{display:grid;grid-template-columns:minmax(0,1.16fr) minmax(300px,.84fr);gap:clamp(30px,5vw,80px);align-items:center}
-.sp-spotlight-art{display:block;border:1px solid #75518a;background:#09090c;box-shadow:0 22px 55px #0009;overflow:hidden;border-radius:3px}
-.sp-spotlight-art:focus-visible,.sp-spotlight-link:focus-visible{outline:3px solid #d1a9f6;outline-offset:4px}
-.sp-spotlight-art img{display:block;width:100%;height:auto}
-.sp-spotlight-copy{max-width:500px}
-.sp-spotlight-copy .eyebrow{color:#cf9fe9}
-.sp-spotlight-copy .display2{font-size:clamp(42px,4.7vw,76px);margin:16px 0 24px}
-.sp-spotlight-copy .display2 span{color:#cc92f3}
-.sp-spotlight-copy .body-lg{color:#e5dfe8}
-.sp-spotlight-note{color:#bbb2c1;font-size:13px;line-height:1.6;margin-top:18px}
-.sp-spotlight-link{display:inline-block;margin-top:23px;padding:14px 20px;border:1px solid #b777e6;background:#32203e;color:#fff;text-decoration:none;font-size:13px;font-weight:800;letter-spacing:.03em}
-.sp-spotlight-link:hover{background:#56326b}
-@media(max-width:900px){.sp-spotlight-grid{grid-template-columns:1fr}.sp-spotlight-copy{max-width:670px}}
-@media(max-width:700px){.sp-spotlight{padding:54px 0 68px}.sp-spotlight-copy .display2{font-size:clamp(40px,10vw,56px)}.sp-spotlight-note{font-size:12px}}
-
-/* Keep the archive one tap away on phone without crowding the kava-bar header. */
+/* Keep the Daily Kava accessible from the mobile header. */
 @media(max-width:990px){
  .navlinks a[href="/the-daily-kava"]:not(.nav-cta){display:inline-flex;align-items:center;justify-content:center;max-width:85px;font-size:12px;text-align:center;white-space:normal;line-height:1.25}
 }
@@ -112,7 +95,7 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 </style>
 </head><body>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
-<header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/the-daily-kava">The Daily Kava</a><a href="#street-profit">Streetwear</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
+<header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/the-daily-kava">The Daily Kava</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
 <main>
 <section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>STAY FOR<br>THE PEOPLE.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
 <img class="hero-slide is-active" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="Guests relaxing together around the bar at Tribal Kava Lounge" width="1200" height="750" fetchpriority="high" decoding="async">
@@ -145,23 +128,10 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 </div><a href="/the-daily-kava" class="action outline">Explore the blog <span aria-hidden="true">↗</span></a></div>
 <div class="daily-featured-grid" data-daily-home-cards><!-- DAILY_HOME_CARDS --></div>
 </div></section>
-<section class="sp-spotlight" id="street-profit" aria-labelledby="street-profit-title">
-  <div class="wrap sp-spotlight-grid">
-    <a class="sp-spotlight-art" href="/images/street-profit-block-tour-26.jpg" target="_blank" rel="noopener" aria-label="View full-size STREET PROFIT World Block Tour graphic tee image">
-      <img src="/images/street-profit-block-tour-26.jpg" alt="Front and back of a washed-black STREET PROFIT World Block Tour '26 t-shirt with metallic silver lettering and purple lightning" width="1536" height="1024" loading="lazy" decoding="async">
-    </a>
-    <div class="sp-spotlight-copy">
-      <p class="eyebrow">Featured creative spotlight</p>
-      <h2 class="display2" id="street-profit-title">STREET PROFIT<br><span>BLOCK TOUR.</span></h2>
-      <p class="body-lg">A first look at the World Block Tour ’26 graphic tee concept: washed-black fabric, chrome-style lettering and electric-purple details.</p>
-      <p class="sp-spotlight-note">Concept apparel artwork. Tour dates printed in the graphic are decorative, not Tribal Kava Lounge events.</p>
-      <a class="sp-spotlight-link" href="/images/street-profit-block-tour-26.jpg" target="_blank" rel="noopener">View full design ↗</a>
-    </div>
-  </div>
-</section>
+
 <section class="block" id="visit"><div class="wrap visit"><div><p class="eyebrow">Find your way here</p><h2 class="display2">JUST AROUND<br>THE CORNER.<br>FEELS LIKE<br>YOUR PLACE.</h2><p class="address"><strong>770 S Military Trail, Unit A1</strong><br>West Palm Beach, FL 33415</p><div class="visit-actions"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action primary" target="_blank" rel="noopener">Get directions ↗</a><a href="tel:+15613550561" class="action outline">Call the lounge ↗</a></div></div><div class="visit-photo"><img src="/images/tribal-community-game-night.webp" loading="lazy" width="1000" height="1250" alt="Actual guests during an event at Tribal Kava Lounge"><span>See you at Tribal · West Palm Beach</span></div></div></section>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><div><div class="footer-brand">TRIBAL KAVA<br>LOUNGE.</div><p>770 S Military Trail, Unit A1 · West Palm Beach, FL</p><small>Alcohol-free lounge. Age restrictions apply to some products.</small></div><div class="footer-links"><a href="/menu">Menu</a><a href="/the-daily-kava">The Daily Kava</a><a href="#street-profit">Streetwear</a><a href="/visit">Visit</a><a href="https://www.instagram.com/tribalkavalounge/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-grid"><div><div class="footer-brand">TRIBAL KAVA<br>LOUNGE.</div><p>770 S Military Trail, Unit A1 · West Palm Beach, FL</p><small>Alcohol-free lounge. Age restrictions apply to some products.</small></div><div class="footer-links"><a href="/menu">Menu</a><a href="/the-daily-kava">The Daily Kava</a><a href="/visit">Visit</a><a href="https://www.instagram.com/tribalkavalounge/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
 <div class="preview-ribbon">Kava bar · Botanical concept <span>· Preview only</span></div>
 <script>
 (() => {

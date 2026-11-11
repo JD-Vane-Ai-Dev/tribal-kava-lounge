@@ -170,6 +170,7 @@ assert.match(botanicalHome, /visibilitychange/);
 assert.match(botanicalHome, /<h2 id="daily-heading"[^>]*>THE DAILY KAVA/);
 assert.match(botanicalHome, /<a href="\/the-daily-kava">The Daily Kava<\/a>/);
 assert.match(botanicalHome, /data-daily-home-cards/);
+assert.doesNotMatch(botanicalHome, /street-profit|streetwear|block tour/i, 'Unrelated clothing brand must not be promoted on Tribal homepage');
 assert.match(botanicalHome, /a\[href="\/the-daily-kava"\]:not\(\.nav-cta\)\{display:inline-flex/, 'Daily archive must remain visible from mobile header');
 assert.equal((botanicalHome.match(/class="daily-featured-card"/g) || []).length, 3, 'homepage must feature three approved Daily Kava posts');
 assert.doesNotMatch(botanicalHome, /DAILY_HOME_CARDS/, 'daily preview must be populated during build');
@@ -245,7 +246,6 @@ assert.ok(barPhoto.length > 50000, 'owned lounge photo must be a real optimized 
 assert.ok(racersPhoto.length > 50000, 'owned event photo must be a real optimized image asset');
 assert.deepEqual(publishedImages, [
   'haunted-tribe-shirt.webp',
-  'street-profit-block-tour-26.jpg',
   'tribal-bar-game-night.webp',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
