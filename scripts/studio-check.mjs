@@ -20,3 +20,5 @@ assert.match(api,/owner-workspace-v1/);
 assert.match(api,/timingSafeEqual/);
 assert.doesNotMatch(home,/\/events\/venue|\$250|private event rentals/i);
 console.log('Tribal Studio build and homepage-separation checks passed');
+assert.ok(!home.includes('href="/events"'));
+assert.ok(!home.includes('id="whats-on"'));

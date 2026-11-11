@@ -170,7 +170,7 @@ assert.match(botanicalHome, /data-conversion="directions"/);
 
 assert.match(botanicalHome, /href="\/menu"/);
 assert.match(botanicalHome, /href="\/new-here"/);
-assert.match(botanicalHome, /href="\/events"/);
+assert.doesNotMatch(botanicalHome, /href="\/events"/);
 assert.match(botanicalHome, /href="\/visit"/);
 assert.doesNotMatch(botanicalHome, /preview only|design exploration|noindex|\/events\/venue|\$250|haunted tribe/i);
 const netlifyRouting = await read('netlify.toml');
