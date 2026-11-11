@@ -1743,6 +1743,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // The approved Botanical homepage is a standalone document.
             // Let the browser request it; do not show the retired SPA home view.
             if (pathname === '/') return;
+            // Private Events is a standalone venue experience, not the old SPA lounge section.
+            if (pathname === '/private-events') return;
             const route = pathname === '/' ? 'home' : pathname.slice(1);
             if (!VALID_ROUTES.has(route) && !/^\/(events|nearby|the-daily-kava)\/[^/.]+$/.test(pathname)) return;
             e.preventDefault();

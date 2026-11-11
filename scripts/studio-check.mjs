@@ -23,6 +23,13 @@ const publicQuoteForm = await readFile('venue-rental.html','utf8');
 for (const item of ['addon_tables','addon_chairs','addon_lounge_seating','addon_cake_gift_station']) {
  assert.ok(publicQuoteForm.includes('name="'+item+'"'), 'Missing explicit quote option: '+item);
 }
+assert.match(config,/from = "\/private-events"[\s\S]*?to = "\/venue-rental\.html"[\s\S]*?force = true/);
+assert.match(publicQuoteForm,/<h1 id="hero-heading">A space for/);
+assert.match(publicQuoteForm,/<img src="\/images\/tribal-bar-game-night\.webp"/);
+assert.match(publicQuoteForm,/customizable|custom layout|custom venue/i);
+assert.doesNotMatch(publicQuoteForm,/Not another empty banquet room|The lounge is already the vibe/);
+assert.match(publicQuoteForm,/<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/private-events"/);
+assert.match(site,/YOUR VENUE/);
 console.log('Tribal Studio build and homepage-separation checks passed');
 assert.ok(!home.includes('href="/events"'));
 assert.ok(!home.includes('id="whats-on"'));

@@ -25,6 +25,20 @@
   status = 200
   force = false
 
+# Make Private Events the actual standalone venue page, never the old SPA
+# lounge-rental section. Keep /events/venue as a compatible legacy entry.
+[[redirects]]
+  from = "/private-events"
+  to = "/venue-rental.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/private-events/"
+  to = "/venue-rental.html"
+  status = 200
+  force = true
+
 # High-converting, same-domain venue landing page.
 [[redirects]]
   from = "/events/venue"
