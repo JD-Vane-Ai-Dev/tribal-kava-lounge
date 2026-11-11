@@ -100,6 +100,15 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 .sp-spotlight-link:hover{background:#56326b}
 @media(max-width:900px){.sp-spotlight-grid{grid-template-columns:1fr}.sp-spotlight-copy{max-width:670px}}
 @media(max-width:700px){.sp-spotlight{padding:54px 0 68px}.sp-spotlight-copy .display2{font-size:clamp(40px,10vw,56px)}.sp-spotlight-note{font-size:12px}}
+
+/* Keep the archive one tap away on phone without crowding the kava-bar header. */
+@media(max-width:990px){
+ .navlinks a[href="/the-daily-kava"]:not(.nav-cta){display:inline-flex;align-items:center;justify-content:center;max-width:85px;font-size:12px;text-align:center;white-space:normal;line-height:1.25}
+}
+@media(max-width:360px){
+ .navlinks a[href="/the-daily-kava"]:not(.nav-cta){font-size:10px;max-width:52px}
+ .navlinks{gap:7px}
+}
 </style>
 </head><body>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>

@@ -170,6 +170,7 @@ assert.match(botanicalHome, /visibilitychange/);
 assert.match(botanicalHome, /<h2 id="daily-heading"[^>]*>THE DAILY KAVA/);
 assert.match(botanicalHome, /<a href="\/the-daily-kava">The Daily Kava<\/a>/);
 assert.match(botanicalHome, /data-daily-home-cards/);
+assert.match(botanicalHome, /a\[href="\/the-daily-kava"\]:not\(\.nav-cta\)\{display:inline-flex/, 'Daily archive must remain visible from mobile header');
 assert.equal((botanicalHome.match(/class="daily-featured-card"/g) || []).length, 3, 'homepage must feature three approved Daily Kava posts');
 assert.doesNotMatch(botanicalHome, /DAILY_HOME_CARDS/, 'daily preview must be populated during build');
 assert.match(botanicalHome, /href="\/the-daily-kava\/pool-tables-kava-lounge-hang"/, 'approved latest article should be discoverable');
