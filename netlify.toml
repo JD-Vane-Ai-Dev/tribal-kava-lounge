@@ -18,6 +18,13 @@
   status = 200
   force = false
 
+# Separate owner-only bookings and promotions workspace.
+[[redirects]]
+  from = "/studio"
+  to = "/tribal-studio.html"
+  status = 200
+  force = false
+
 # High-converting, same-domain venue landing page.
 [[redirects]]
   from = "/events/venue"

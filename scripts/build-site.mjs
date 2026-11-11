@@ -12,6 +12,7 @@ const files = [
   'index.html',
   'review-card.html',
   'insights.html',
+  'tribal-studio.html',
   'vendor-market.html',
   'venue-rental.html',
   'vendor-interest-received.html',

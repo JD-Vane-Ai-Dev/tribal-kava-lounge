@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0c1711">
+<title>Tribal Studio | Private Bookings & Promotion Workspace</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--bg:#0b1510;--panel:#14221a;--panel2:#1b3022;--line:#35513c;--fg:#f8f1e3;--muted:#b1c3b2;--gold:#d8b985;--green:#a6d8a7;--red:#f1a7a7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--green)}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:wait}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;padding:17px max(22px,5vw);border-bottom:1px solid var(--line);background:#0b1510}
+.logo{display:flex;gap:12px;align-items:center;text-decoration:none;color:var(--fg);font-weight:850;letter-spacing:.08em}
+.logo img{width:46px;height:46px;object-fit:contain}.toplinks{display:flex;gap:15px;flex-wrap:wrap;align-items:center}
+.wrap{width:min(1240px,calc(100% - 36px));margin:0 auto}
+.hero{position:relative;min-height:300px;display:flex;align-items:end;overflow:hidden;background:#22392a}
+.hero img{position:absolute;width:100%;height:100%;object-fit:cover;object-position:center 43%;opacity:.54}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#07110be8,#07110b60 70%),linear-gradient(0deg,#07110bdd,transparent 75%)}
+.hero .wrap{position:relative;z-index:1;padding-top:45px;padding-bottom:42px}
+.overline{text-transform:uppercase;letter-spacing:.22em;color:var(--gold);font-size:12px;font-weight:800}
+h1{font-family:Georgia,serif;font-size:clamp(38px,6vw,69px);line-height:1.08;margin:10px 0}
+h2{font-family:Georgia,serif;font-size:clamp(24px,3vw,34px);margin:0 0 12px}
+h3{font-size:17px;margin:0 0 10px}p{color:var(--muted);margin:8px 0 16px}
+.hero p{max-width:600px;font-size:17px;color:#ecefe8}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.chip{padding:6px 12px;border:1px solid #b7c6a577;border-radius:999px;color:#e9e7d5;background:#14221a99;font-size:13px}
+nav.tabs{display:flex;gap:6px;overflow:auto;border-bottom:1px solid var(--line);padding:16px 0;scrollbar-width:thin}
+.tabs button{color:var(--muted);border:1px solid transparent;background:transparent;border-radius:8px;padding:11px 16px;white-space:nowrap;font-weight:700}
+.tabs button[aria-selected=true]{background:var(--panel2);border-color:var(--line);color:var(--fg)}
+section.panel{border:1px solid var(--line);background:var(--panel);border-radius:16px;padding:clamp(18px,3vw,30px);margin:22px 0}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.two{grid-template-columns:repeat(2,minmax(0,1fr))}.card{padding:22px;border:1px solid var(--line);border-radius:13px;background:#102016}
+.card p:last-child{margin-bottom:0}.kpi{color:var(--gold);font-size:30px;font-weight:850;line-height:1.2}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:9px;background:var(--gold);color:#172015;border:1px solid var(--gold);font-weight:780;text-decoration:none}
+.btn.secondary{background:transparent;color:var(--fg);border-color:#728d73}.btn.small{padding:8px 12px;font-size:13px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+label{display:block;font-weight:700;font-size:13px;margin:12px 0 5px}
+input,select,textarea{width:100%;padding:11px 12px;color:var(--fg);background:#08150e;border:1px solid #58735d;border-radius:8px;min-width:0}
+textarea{min-height:90px;resize:vertical}.fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 14px}.full{grid-column:1/-1}
+.note{font-size:13px;color:var(--muted)}.warning{border-left:3px solid var(--gold);padding:10px 15px;background:#2a291c;margin:15px 0}
+.empty{padding:20px;color:var(--muted);border:1px dashed var(--line);border-radius:10px}.records{display:grid;gap:12px;margin:18px 0}
+.record{border:1px solid var(--line);padding:17px;border-radius:12px;background:#0b1810}
+.record-head{display:flex;justify-content:space-between;align-items:start;gap:10px;flex-wrap:wrap}
+.record-grid{display:grid;grid-template-columns:1fr 180px 180px;gap:10px}
+.record-grid label{margin:9px 0 3px}.record .meta{font-size:13px;color:var(--muted);overflow-wrap:anywhere}
+.badge{font-size:11px;padding:5px 10px;border:1px solid var(--line);border-radius:99px;color:var(--gold);text-transform:uppercase;letter-spacing:.05em}
+.photo{width:100%;aspect-ratio:5/3;object-fit:cover;border-radius:10px;border:1px solid var(--line)}
+#login{max-width:620px;margin:34px auto}#app[hidden],#login[hidden],[hidden]{display:none!important}
+.status{min-height:20px;font-size:13px;color:var(--gold)}.success{color:var(--green)}.danger{color:var(--red)}
+.view{display:none}.view.active{display:block}.preview-note{padding:12px 15px;background:#203429;border-left:3px solid var(--green);font-size:13px}
+footer{padding:50px 20px;text-align:center;color:var(--muted);border-top:1px solid var(--line);margin-top:60px}
+@media(max-width:850px){.grid,.two{grid-template-columns:1fr}.record-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:570px){.record-grid,.fields{grid-template-columns:1fr}.hero{min-height:330px}.toplinks{font-size:13px}.wrap{width:min(100% - 24px,1240px)}}
+</style>
+</head>
+<body>
+<header class="top">
+<a class="logo" href="/"><img src="/images/tribal-logo-cutout.png" alt=""> TRIBAL / PRIVATE STUDIO</a>
+<div class="toplinks"><a href="/" rel="noopener">Lounge homepage</a><a href="/events/venue">Public quote page</a><a href="/vendor-market.html">Vendor interest page</a></div>
+</header>
+<section class="hero">
+<img src="/images/tribal-bar-game-night.webp" alt="Actual Tribal Kava Lounge bar and social area">
+<div class="wrap"><div class="overline">Tribal Kava Lounge · West Palm Beach</div><h1>Private bookings,<br>handled beautifully.</h1><p>An owner-only workspace for event inquiries, vendor planning, promo drafts, follow-ups and posting approval. The public lounge homepage stays kava-first.</p><div class="chips"><span class="chip">770 S Military Trail, Unit A1</span><span class="chip">Real venue photos</span><span class="chip">No automatic publishing</span></div></div>
+</section>
+<div class="wrap">
+<section id="login" class="panel" aria-labelledby="login-title">
+<div class="overline">Protected owner records</div><h2 id="login-title">Unlock your planning hub</h2>
+<p>Use the same owner access code as Tribal Insights. Customer and vendor records are stored server-side; this browser does not save your code.</p>
+<form id="login-form"><label for="owner-code">Owner access code</label><input id="owner-code" type="password" autocomplete="off" required><div class="actions"><button class="btn" type="submit">Open studio</button><a class="btn secondary" href="/insights">Website insights</a></div></form>
+<p id="login-status" class="status" role="status"></p>
+</section>
+<div id="app" hidden>
+<nav class="tabs" role="tablist" aria-label="Tribal Studio areas">
+<button data-tab="overview" aria-selected="true" role="tab">Overview</button><button data-tab="inquiries" aria-selected="false" role="tab">Inquiries & quotes</button><button data-tab="vendors" aria-selected="false" role="tab">Vendor planning</button><button data-tab="creative" aria-selected="false" role="tab">Promo studio</button><button data-tab="posts" aria-selected="false" role="tab">Posting tracker</button><button data-tab="followups" aria-selected="false" role="tab">Follow-ups</button>
+</nav>
+<p id="global-status" class="status" role="status"></p>
+<div id="overview" class="view active" role="tabpanel">
+<section class="panel"><div class="overline">Operations snapshot</div><h2>Build inquiries into bookings</h2>
+<div class="grid"><div class="card"><div id="inquiry-count" class="kpi">0</div><h3>Tracked inquiries</h3><p>Manual owner-tracker records, not form submission counts.</p></div><div class="card"><div id="follow-count" class="kpi">0</div><h3>Open follow-ups</h3><p>Records with a follow-up date.</p></div><div class="card"><div id="approved-count" class="kpi">0</div><h3>Approved posts</h3><p>Approved for posting; not published unless marked so.</p></div></div>
+<div class="warning"><strong>Booking and availability:</strong> the $250 introductory price covers 3 event hours on select off-peak dates only. Extra time is $50 per 30 minutes. Dates, occupancy, furniture rentals and other add-ons require individual confirmation. No date is automatically reserved.</div>
+<div class="actions"><a class="btn" href="/events/venue">Open live quote request</a><a class="btn secondary" href="/vendor-market.html">Open vendor interest form</a><button class="btn secondary" data-tab-jump="inquiries">Track a lead</button></div>
+</section>
+<section class="panel"><h2>Current lounge & event setup</h2><div class="grid two"><div><img class="photo" src="/images/tribal-bar-game-night.webp" alt="Actual lounge bar and seating"><p class="note">Actual lounge photograph. Existing lounge furniture is part of the basic setup; rented banquet furniture is separate.</p></div><div><img class="photo" src="/images/tribal-community-game-night.webp" alt="Real Tribal community game night"><p class="note">Authentic community photo. Do not advertise staged furniture or amenities as included.</p></div></div>
+<div class="grid"><div class="card"><h3>Introductory lounge rental</h3><div class="kpi">$250</div><p>3 hours · select off-peak dates only · subject to quote and confirmation.</p></div><div class="card"><h3>Extra event time</h3><div class="kpi">$50</div><p>Per additional 30 minutes, when approved.</p></div><div class="card"><h3>Custom setup</h3><div class="kpi">Quote</div><p>Tables, chairs, linens, décor, lounge arrangement, cake/gift station, DJ and other services priced individually.</p></div></div>
+</section></div>
+
+<div id="inquiries" class="view" role="tabpanel">
+<section class="panel"><div class="overline">Public booking flow</div><h2>Quotes without guessing availability</h2><p>The existing public quote form collects dates, group size, event type, setup needs and add-ons through Netlify Forms. Track each submission here after reviewing it in Netlify. New submissions are <strong>not</strong> imported automatically.</p><div class="actions"><a href="/events/venue" class="btn">View quote form</a><a href="https://app.netlify.com/projects/tribal-kava-lounge-wpb" target="_blank" rel="noopener" class="btn secondary">Review Netlify project</a></div></section>
+<section class="panel"><h2>Add an inquiry to the tracker</h2>
+<form id="inquiry-form"><div class="fields">
+<div><label for="inq-name">Customer / event name</label><input id="inq-name" name="name" maxlength="160" required></div>
+<div><label for="inq-contact">Contact</label><input id="inq-contact" name="contact" maxlength="220" placeholder="Email, phone or profile link"></div>
+<div><label for="inq-type">Event type</label><input id="inq-type" name="eventType" maxlength="100"></div>
+<div><label for="inq-date">Requested event date</label><input id="inq-date" name="date" type="date"></div>
+<div><label for="inq-guests">Estimated guests (not approved occupancy)</label><input id="inq-guests" name="guests" type="number" min="1" max="1000"></div>
+<div><label for="inq-follow">Next follow-up</label><input id="inq-follow" name="followUp" type="date"></div>
+<div class="full"><label for="inq-extra">Requested add-ons</label><input id="inq-extra" name="extras" maxlength="350" placeholder="Tables, chairs, lounge seating, cake/gift setup, DJ…"></div>
+<div><label for="inq-source">Lead source</label><select id="inq-source" name="source"><option>Netlify quote form</option><option>Facebook Marketplace</option><option>Facebook group</option><option>Peerspace</option><option>Eventective</option><option>Instagram</option><option>Phone / walk-in</option><option>Other</option></select></div>
+<div><label for="inq-quote">Proposed total (optional; not confirmed)</label><input id="inq-quote" name="quoteAmount" maxlength="30" placeholder="Leave blank until quoted"></div>
+<div class="full"><label for="inq-notes">Notes</label><textarea id="inq-notes" name="notes" maxlength="1500" placeholder="Anything still awaiting verification"></textarea></div>
+</div><button class="btn" type="submit">Save inquiry</button></form>
+<div id="inquiry-list" class="records" aria-live="polite"></div>
+</section></div>
+<div id="vendors" class="view" role="tabpanel">
+<section class="panel"><div class="overline">Proposed community pop-up</div><h2>Vendor market planning</h2><p>Collect interest from local makers, food vendors and independent businesses. Proposed first event: free booth consideration, with no confirmed date, vendor slots or approvals yet. Applicants are not guaranteed a spot.</p>
+<div class="grid"><div class="card"><h3>Vendor interest</h3><p>Existing application form is ready to collect interested vendors.</p><a class="btn small" href="/vendor-market.html">Open vendor form</a></div><div class="card"><h3>Operating checklist</h3><p>Confirm date, approved layout/occupancy, vendor selection, any food permits and insurance needs before announcements.</p></div><div class="card"><h3>Public status</h3><p><strong>Date: To be announced.</strong> No vendors are marked approved until you explicitly update their status.</p></div></div></section>
+<section class="panel"><h2>Vendor outreach board</h2>
+<form id="vendor-form"><div class="fields"><div><label for="v-name">Vendor / brand</label><input id="v-name" name="name" required maxlength="160"></div><div><label for="v-category">Category</label><input id="v-category" name="category" maxlength="120" placeholder="Food, clothing, art, novelty"></div><div><label for="v-contact">Contact</label><input id="v-contact" name="contact" maxlength="220"></div><div><label for="v-follow">Follow-up</label><input id="v-follow" name="followUp" type="date"></div><div class="full"><label for="v-notes">Notes</label><textarea id="v-notes" name="notes" maxlength="1500"></textarea></div></div><button class="btn" type="submit">Add vendor</button></form><div id="vendor-list" class="records"></div></section></div>
+<div id="creative" class="view" role="tabpanel">
+<section class="panel"><div class="overline">Reusable promotional assets</div><h2>Produce a post from real Tribal photos</h2><p>Download a 1080 × 1350 PNG graphic with the actual lounge photo, or copy the matching caption. These are drafts; nothing is published automatically.</p>
+<div class="fields"><div><label for="campaign">Creative template</label><select id="campaign"><option value="rental">Private event · $250 introductory offer</option><option value="custom">Custom event setup · request quote</option><option value="vendor">Vendor interest · date to be announced</option></select></div><div><label for="draft-platform">Draft destination</label><select id="draft-platform"><option>Facebook Marketplace</option><option>Local Facebook groups</option><option>Peerspace</option><option>Eventective</option><option>Nextdoor</option><option>Instagram</option><option>Other local posting site</option></select></div></div>
+<label for="caption">Editable caption</label><textarea id="caption" rows="7" maxlength="1500"></textarea>
+<div class="actions"><button id="generate" class="btn" type="button">Download graphic (PNG)</button><button id="copy-caption" class="btn secondary" type="button">Copy caption</button><button id="save-draft" class="btn secondary" type="button">Save as draft for approval</button></div>
+<p class="preview-note">Use the appropriate posting category and follow each site's rules. Off-peak availability and pricing are not guarantees. Vendor market dates are unconfirmed.</p>
+</section></div>
+<div id="posts" class="view" role="tabpanel">
+<section class="panel"><div class="overline">Controlled publishing</div><h2>Approval & posting tracker</h2><p>Track planned and approved listings separately from posts that have actually gone live. Mark “Published” only after confirming the public link. This workspace does not post to social platforms automatically.</p>
+<form id="post-form"><div class="fields"><div><label for="p-platform">Platform</label><select id="p-platform" name="platform"><option>Facebook Marketplace</option><option>Local Facebook groups</option><option>Peerspace</option><option>Eventective</option><option>Nextdoor</option><option>Instagram</option><option>Other</option></select></div><div><label for="p-campaign">Promotion</label><input id="p-campaign" name="campaign" maxlength="120" value="Private event rental"></div><div class="full"><label for="p-caption">Draft copy</label><textarea id="p-caption" name="caption" maxlength="1500"></textarea></div><div><label for="p-follow">Target posting / review date</label><input id="p-follow" type="date" name="scheduledFor"></div><div><label for="p-url">Verified published URL (if already posted)</label><input id="p-url" type="url" name="publishedUrl" maxlength="400"></div><div class="full"><label for="p-notes">Notes</label><input id="p-notes" name="notes" maxlength="1000"></div></div><button type="submit" class="btn">Save posting draft</button></form>
+<div id="post-list" class="records"></div>
+</section></div>
+<div id="followups" class="view" role="tabpanel">
+<section class="panel"><div class="overline">Today's working queue</div><h2>Follow-up calendar</h2><p>Open inquiries and vendor conversations with a follow-up date appear here. Dates are owner-entered; no automatic messages or reminders will be sent.</p><div id="followup-list" class="records"></div></section>
+</div>
+<div class="actions"><button type="button" id="reload" class="btn secondary small">Refresh owner records</button><button type="button" id="lock" class="btn secondary small">Lock studio</button></div>
+</div></div>
+<footer>Tribal Kava Lounge · Private owner workspace. Public kava-bar homepage and private-event promotion remain separate.</footer>
+<script>
+(function(){
+"use strict";
+var token="", records=[], apiPath="/.netlify/functions/tribal-ops";
+var $=function(id){return document.getElementById(id);};
+var status=function(msg,bad){$("global-status").textContent=msg;$("global-status").className="status "+(bad?"danger":"success");};
+var esc=function(s){return String(s||"").replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];});};
+var templates={
+ rental:{title:"Private event · $250",heading:["YOUR EVENT.","YOUR TRIBE."],sub:"3 HOURS FROM $250",small:"Select off-peak dates only · availability & extras by quote",caption:"Your people. Your occasion. Host your next celebration at Tribal Kava Lounge in West Palm Beach. Introductory private lounge rental: $250 for 3 event hours on select off-peak dates. Pool tables and existing lounge furniture are part of the setup. Extra tables, chairs, cake/gift station and other enhancements are quoted separately. Message us with your preferred date, event type and guest count to request a personalized quote. Subject to availability and final confirmation."},
+ custom:{title:"Custom venue · quote",heading:["MAKE IT","YOUR NIGHT."],sub:"CUSTOM EVENT SETUPS",small:"Tables · chairs · lounge · cake/gift · quoted separately",caption:"Planning a birthday, meeting, team gathering or celebration? Tribal Kava Lounge in West Palm Beach offers a unique social setting with pool tables and an established lounge atmosphere. Ask about optional rented tables, chairs, décor, cake/gift setup, DJ or custom arrangements. Send your date and approximate guest count for an individualized quote. Layout and availability are subject to approval."},
+ vendor:{title:"Vendor interest · TBD",heading:["CALLING LOCAL","VENDORS."],sub:"COMMUNITY POP-UP INTEREST",small:"No confirmed event date · no guaranteed vendor spaces",caption:"West Palm Beach vendors: Tribal Kava Lounge is exploring a community pop-up market and gathering interest from local brands, food businesses, artists and makers. Free booth consideration is proposed for selected vendors. The event date, space and approvals have not been finalized. Submit your interest through our vendor application page to receive updates. No placement is guaranteed."}
+};
+async function api(action,payload){
+ var opt={headers:{"authorization":"Bearer "+token},"cache":"no-store"};
+ if(action){opt.method="POST";opt.headers["content-type"]="application/json";opt.body=JSON.stringify(payload);}
+ var res=await fetch(apiPath,opt);var data={};
+ try{data=await res.json();}catch(_){}
+ if(!res.ok)throw new Error(data.error||"Request failed");
+ return data;
+}
+function counts(){
+ var inquiries=records.filter(function(r){return r.type==="inquiry";});
+ $("inquiry-count").textContent=inquiries.length;
+ $("approved-count").textContent=records.filter(function(r){return r.type==="post"&&r.status==="approved";}).length;
+ $("follow-count").textContent=records.filter(function(r){return r.followUp&&r.status!=="closed"&&r.status!=="declined"&&r.status!=="published";}).length;
+}
+function options(type,val){
+ var all={inquiry:["new","contacted","quoted","pending","booked","closed"],vendor:["idea","invited","applied","approved","declined"],post:["draft","needs_review","approved","published","archived"]}[type]||[];
+ return all.map(function(s){return '<option value="'+s+'"'+(s===val?" selected":"")+'>'+esc(s.replace(/_/g," "))+'</option>';}).join("");
+}
+function renderType(type,container,arr){
+ var items=(arr||records).filter(function(r){return r.type===type;}).slice().sort(function(a,b){return String(b.updatedAt).localeCompare(String(a.updatedAt));});
+ if(!items.length){$(container).innerHTML='<p class="empty">Nothing tracked here yet. Add your first record above.</p>';return;}
+ $(container).innerHTML=items.map(function(r){
+ var name=type==="inquiry"?(r.name||"Untitled inquiry"):type==="vendor"?(r.name||"Untitled vendor"):(r.campaign||"Promo draft");
+ var info=type==="inquiry"?[r.eventType,r.date,r.guests?("Guests requested: "+r.guests):"",r.source,r.extras,r.quoteAmount?("Proposed quote: "+r.quoteAmount):""].filter(Boolean).join(" · "):
+ type==="vendor"?[r.category,r.contact].filter(Boolean).join(" · "):[r.platform,r.scheduledFor,r.publishedUrl].filter(Boolean).join(" · ");
+ var datefield=type==="post"?"scheduledFor":"followUp";
+ var datevalue=(r[datefield]||"").slice(0,10);
+ return '<article class="record" data-type="'+type+'" data-id="'+esc(r.id)+'"><div class="record-head"><div><h3>'+esc(name)+'</h3><div class="meta">'+esc(info)+'</div>'+(type==="inquiry"?'<div class="meta">'+esc(r.contact)+'</div>':"")+'</div><span class="badge">'+esc(r.status)+'</span></div>'+
+ '<div class="record-grid"><div><label>Status</label><select class="edit-status">'+options(type,r.status)+'</select></div><div><label>'+(type==="post"?"Review / posting date":"Next follow-up")+'</label><input type="date" class="edit-date" value="'+esc(datevalue)+'"></div><div><label>Updated</label><p class="meta">'+esc((r.updatedAt||"").slice(0,10))+'</p></div></div>'+
+ (type==="post"?'<label>Published URL (verified only)</label><input type="url" class="edit-url" value="'+esc(r.publishedUrl||"")+'" placeholder="https://...">':"")+
+ '<label>Notes'+(type==="post"?" / caption":"")+'</label><textarea class="edit-notes" maxlength="1500">'+esc(type==="post"?r.caption||"":r.notes||"")+'</textarea>'+
+ '<div class="actions"><button class="btn small" data-save="1">Save changes</button><button class="btn secondary small" data-remove="1">Delete record</button></div></article>';
+ }).join("");
+}
+function renderFollowups(){
+ var items=records.filter(function(r){return (r.type==="inquiry"||r.type==="vendor")&&r.followUp&&r.status!=="closed"&&r.status!=="declined";}).sort(function(a,b){return a.followUp.localeCompare(b.followUp);});
+ var box=$("followup-list");
+ if(!items.length){box.innerHTML='<p class="empty">No follow-ups scheduled. Add a date to an inquiry or vendor record.</p>';return;}
+ var today=new Date().toLocaleDateString("en-CA");
+ box.innerHTML=items.map(function(r){return '<div class="record"><span class="badge">'+esc(r.type)+'</span> <strong>'+esc(r.name)+'</strong><p class="meta">'+esc(r.followUp)+(r.followUp<today?" · Overdue":r.followUp===today?" · Today":"")+' · '+esc(r.status)+'</p><button class="btn small secondary" data-tab-jump="'+(r.type==="inquiry"?"inquiries":"vendors")+'">Open record</button></div>';}).join("");
+}
+function render(){counts();renderType("inquiry","inquiry-list");renderType("vendor","vendor-list");renderType("post","post-list");renderFollowups();}
+async function load(){var d=await api();records=d.records||[];render();status(d.partial?"Only the first 500 records are shown.":"Owner records refreshed.");}
+function openTab(name){
+ document.querySelectorAll(".tabs button").forEach(function(b){b.setAttribute("aria-selected",String(b.dataset.tab===name));});
+ document.querySelectorAll(".view").forEach(function(v){v.classList.toggle("active",v.id===name);});
+}
+document.querySelectorAll("[data-tab]").forEach(function(b){b.addEventListener("click",function(){openTab(b.dataset.tab);});});
+$("login-form").addEventListener("submit",async function(e){
+ e.preventDefault();token=$("owner-code").value.trim();$("login-status").textContent="Checking owner access…";
+ try{await load();$("login").hidden=true;$("app").hidden=false;$("owner-code").value="";}catch(err){token="";$("login-status").textContent=err.message;}
+});
+$("lock").addEventListener("click",function(){token="";records=[];$("app").hidden=true;$("login").hidden=false;$("login-status").textContent="Studio locked.";});
+$("reload").addEventListener("click",function(){load().catch(function(err){status(err.message,true);});});
+async function save(o){var r=await api("save",Object.assign({action:"save"},o));var index=records.findIndex(function(x){return x.id===r.record.id;});if(index<0)records.push(r.record);else records[index]=r.record;render();status("Saved securely.");}
+function values(form){var o={};new FormData(form).forEach(function(v,k){o[k]=String(v);});return o;}
+["inquiry","vendor","post"].forEach(function(type){
+ $(type+"-form").addEventListener("submit",async function(e){
+  e.preventDefault();var o=values(e.target);o.type=type;
+  if(type==="inquiry"||type==="post")o.status=type==="post"?"draft":"new";
+  else o.status="idea";
+  try{await save(o);e.target.reset();}catch(err){status(err.message,true);}
+ });
+});
+$("app").addEventListener("click",async function(e){
+ var jump=e.target.closest("[data-tab-jump]");
+ if(jump){openTab(jump.dataset.tabJump);return;}
+ var b=e.target.closest("[data-save],[data-remove]");
+ if(!b)return;
+ var card=b.closest("[data-id]");if(!card)return;
+ var old=records.find(function(r){return r.id===card.dataset.id&&r.type===card.dataset.type;});if(!old)return;
+ if(b.hasAttribute("data-remove")){
+  if(!confirm("Delete this "+old.type+" record? This cannot be undone."))return;
+  try{await api("delete",{action:"delete",type:old.type,id:old.id});records=records.filter(function(r){return r.id!==old.id;});render();status("Record deleted.");}catch(err){status(err.message,true);}return;
+ }
+ var next=Object.assign({},old,{status:card.querySelector(".edit-status").value});
+ next[old.type==="post"?"scheduledFor":"followUp"]=card.querySelector(".edit-date").value;
+ if(old.type==="post"){next.publishedUrl=card.querySelector(".edit-url").value;next.caption=card.querySelector(".edit-notes").value;
+ if(next.status==="published"&&!/^https:\/\//.test(next.publishedUrl)){status("Enter the verified public post URL before marking Published.",true);return;}}
+ else next.notes=card.querySelector(".edit-notes").value;
+ try{await save(next);}catch(err){status(err.message,true);}
+});
+function syncCaption(){$("caption").value=templates[$("campaign").value].caption;}
+$("campaign").addEventListener("change",syncCaption);syncCaption();
+$("copy-caption").addEventListener("click",async function(){
+ try{await navigator.clipboard.writeText($("caption").value);status("Caption copied.");}
+ catch(_){$("caption").focus();$("caption").select();status("Select and copy the highlighted caption.");}
+});
+$("save-draft").addEventListener("click",async function(){
+ try{await save({type:"post",platform:$("draft-platform").value,campaign:templates[$("campaign").value].title,caption:$("caption").value,status:"draft"});openTab("posts");}
+ catch(err){status(err.message,true);}
+});
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fill();}
+$("generate").addEventListener("click",async function(){
+ var key=$("campaign").value, t=templates[key], canvas=document.createElement("canvas");canvas.width=1080;canvas.height=1350;
+ var ctx=canvas.getContext("2d"),img=new Image();img.src="/images/tribal-bar-game-night.webp";
+ try{await img.decode();var scale=Math.max(canvas.width/img.width,canvas.height/img.height);var w=img.width*scale,h=img.height*scale;ctx.drawImage(img,(1080-w)/2,(1350-h)/2,w,h);}catch(_){ctx.fillStyle="#1b3826";ctx.fillRect(0,0,1080,1350);}
+ var grad=ctx.createLinearGradient(0,0,0,1350);grad.addColorStop(0,"#06140baa");grad.addColorStop(.35,"#07170b55");grad.addColorStop(1,"#07140bee");ctx.fillStyle=grad;ctx.fillRect(0,0,1080,1350);
+ ctx.fillStyle="#e9d0a0";ctx.font="700 42px Arial";ctx.fillText("TRIBAL  KAVA  LOUNGE",64,98);
+ ctx.fillStyle="#fff8e9";ctx.font="bold 100px Georgia";ctx.fillText(t.heading[0],65,830);ctx.fillText(t.heading[1],65,951);
+ ctx.fillStyle="#dbbd83";ctx.font="bold 55px Arial";ctx.fillText(t.sub,67,1050);
+ ctx.fillStyle="#ecf1e8";ctx.font="30px Arial";var words=t.small.split(" "),line="",y=1122;words.forEach(function(word){if(ctx.measureText(line+word).width>940){ctx.fillText(line,68,y);y+=46;line="";}line+=word+" ";});ctx.fillText(line,68,y);
+ ctx.fillStyle="#d3b782";roundRect(ctx,65,1206,425,80,14);ctx.fillStyle="#122317";ctx.font="bold 31px Arial";ctx.fillText("REQUEST DETAILS",88,1257);
+ var a=document.createElement("a");a.download="tribal-"+key+"-1080x1350.png";a.href=canvas.toDataURL("image/png");document.body.appendChild(a);a.click();a.remove();status("PNG graphic generated from the actual Tribal venue photo.");
+});
+})();
+</script>
+</body></html>
