@@ -10,8 +10,8 @@
 <meta property="og:title" content="Tribal Private Events | Your Occasion, Your Space">
 <meta property="og:description" content="A versatile West Palm Beach venue for private celebrations, showers, corporate gatherings and pop-ups. Choose your layout and request a tailored event quote.">
 <meta property="og:url" content="https://www.thetribalkavalounge.com/private-events">
-<meta property="og:image" content="https://www.thetribalkavalounge.com/images/tribal-bar-game-night.webp">
-<meta property="og:image:alt" content="Actual indoor space at Tribal Private Events in West Palm Beach">
+<meta property="og:image" content="https://www.thetribalkavalounge.com/images/tribal-private-events-room-edited.jpeg">
+<meta property="og:image:alt" content="Edited Tribal Private Events venue graphic in West Palm Beach">
 <meta name="twitter:card" content="summary_large_image">
 <style>
 :root{color-scheme:dark;--bg:#09170f;--surface:#15291c;--panel:#1a3324;--gold:#e6c990;--white:#fff8eb;--muted:#bacbbc;--line:#47654d;--teal:#b5d8a8}
@@ -25,12 +25,12 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
 .hero h1{font-size:clamp(46px,6.8vw,87px);letter-spacing:-.055em}
 .hero .lead-intro{font-size:clamp(18px,1.8vw,22px);font-weight:650;color:#fff5e3}
 .hero p{max-width:600px}
-.hero-venue-photo{position:relative;margin:0;min-height:490px;border:1px solid #64866a;border-radius:18px;overflow:hidden;background:#142b1c;box-shadow:0 20px 60px #0005}
-.hero-venue-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
-.hero-venue-photo:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,#06150fe9)}
-.hero-venue-photo figcaption{position:absolute;bottom:25px;left:25px;right:25px;z-index:1;display:flex;flex-direction:column;gap:6px}
-.hero-venue-photo figcaption span{font-weight:850;letter-spacing:.22em;font-size:13px;color:var(--gold)}
-.hero-venue-photo figcaption small{font-size:12px;color:#f5f1e9}
+.hero-venue-photo{position:relative;margin:0;min-height:0;aspect-ratio:4/3;border:1px solid #64866a;border-radius:18px;background:#142b1c;box-shadow:0 20px 60px #0005;overflow:hidden}
+.hero-venue-photo>img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:center}
+
+.hero-venue-photo figcaption.concept-disclosure{position:absolute;left:0;right:0;bottom:0;padding:8px 12px;background:#07140cd9;color:#f4f1e9;font:500 11px/1.35 system-ui,sans-serif;text-align:center}
+
+
 .special-section{background:linear-gradient(140deg,#223a29,#10251a);border:1px solid #456a4c;border-radius:18px;padding:clamp(22px,4vw,43px);margin:12px 0 45px}
 .special-layout{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(18px,4vw,48px);align-items:center}
 .special-price{background:#0b1d13;border:1px solid #72855d;border-radius:15px;padding:24px}
@@ -45,8 +45,8 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
 .venue-gallery figure{margin:0;border:1px solid #4d6852;border-radius:15px;overflow:hidden;background:#162c1e}
 .venue-gallery img{width:100%;height:310px;object-fit:cover;display:block}
 .venue-gallery figcaption{padding:14px 18px;color:#f8efe0;font-weight:750;letter-spacing:.015em}
-@media(max-width:900px){.special-section .feature-grid{grid-template-columns:repeat(2,1fr)}.hero-venue-photo{min-height:390px}}
-@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-venue-photo{min-height:330px}.special-layout{grid-template-columns:1fr}.venue-gallery{grid-template-columns:1fr}.venue-gallery img{height:285px}.special-section{margin-top:6px}.hero h1{font-size:clamp(46px,11vw,66px)}}
+@media(max-width:900px){.special-section .feature-grid{grid-template-columns:repeat(2,1fr)}.hero-venue-photo{min-height:0}}
+@media(max-width:760px){.hero{grid-template-columns:1fr}.hero-venue-photo{min-height:0}.special-layout{grid-template-columns:1fr}.venue-gallery{grid-template-columns:1fr}.venue-gallery img{height:285px}.special-section{margin-top:6px}.hero h1{font-size:clamp(46px,11vw,66px)}}
 </style>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Tribal Private Events — Private Event Venue and Custom Event Space","provider":{"@type":"LocalBusiness","name":"Tribal Kava Lounge","telephone":"+1-561-355-0561","address":{"@type":"PostalAddress","streetAddress":"770 S Military Trail, Unit A1","addressLocality":"West Palm Beach","addressRegion":"FL","postalCode":"33415","addressCountry":"US"}},"areaServed":{"@type":"Place","name":"West Palm Beach, Florida"},"offers":{"@type":"Offer","price":"250","priceCurrency":"USD","description":"Introductory 3-hour private event venue reservation available on select approved off-peak dates; all optional event enhancements quoted separately and subject to confirmation."}}</script>
 </head>
@@ -62,7 +62,7 @@ main{max-width:1190px;margin:auto;padding:0 22px}.eyebrow{font-size:12px;letter-
  <div class="actions"><a href="#quote" class="cta">Plan your event · Request a quote</a><a href="#setups" class="cta-secondary">Explore the venue</a></div>
  <p class="fine">770 S Military Trail, Unit A1 · West Palm Beach, FL 33415 · Free on-site parking</p>
 </div>
-<figure class="hero-venue-photo"><img src="/images/tribal-bar-game-night.webp" alt="Actual interior of Tribal Private Events at Tribal Kava Lounge" width="1000" height="750" fetchpriority="high"><figcaption><span>THE REAL VENUE</span><small>Actual on-site photo · event furnishings tailored by quote</small></figcaption></figure>
+<figure class="hero-venue-photo"><img src="/images/tribal-private-events-room-edited.jpeg" alt="Edited Tribal Private Events venue presentation showing banquet tables, chairs, two pool tables and purple accent lighting" width="1448" height="1086" fetchpriority="high"><figcaption class="concept-disclosure">Event setup concept shown. Layout, guest count, furnishings and date are subject to confirmation.</figcaption></figure>
 </section>
 <section class="section special-section" id="intro-offer" aria-labelledby="offer-heading">
 <div class="special-layout">
