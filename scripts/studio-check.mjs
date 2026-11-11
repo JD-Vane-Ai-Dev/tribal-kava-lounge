@@ -19,6 +19,10 @@ assert.match(site,/tribal-bar-game-night.webp/);
 assert.match(api,/owner-workspace-v1/);
 assert.match(api,/timingSafeEqual/);
 assert.doesNotMatch(home,/\/events\/venue|\$250|private event rentals/i);
+const publicQuoteForm = await readFile('venue-rental.html','utf8');
+for (const item of ['addon_tables','addon_chairs','addon_lounge_seating','addon_cake_gift_station']) {
+ assert.ok(publicQuoteForm.includes('name="'+item+'"'), 'Missing explicit quote option: '+item);
+}
 console.log('Tribal Studio build and homepage-separation checks passed');
 assert.ok(!home.includes('href="/events"'));
 assert.ok(!home.includes('id="whats-on"'));
