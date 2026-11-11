@@ -156,6 +156,18 @@ assert.match(botanicalHome, /<meta name="google-site-verification"/);
 assert.match(botanicalHome, /<meta name="msvalidate\.01"/);
 assert.match(botanicalHome, /<script src="\/analytics\.js" defer><\/script>/);
 assert.match(botanicalHome, /<h1[^>]*>COME FOR/);
+assert.equal((botanicalHome.match(/class="hero-slide[^"]*" data-hero-slide/g) || []).length, 3, 'homepage must rotate three real Tribal photos');
+for (const image of ['tribal-bar-game-night.webp', 'tribal-community-game-night.webp', 'tribal-mario-kart-racers.webp']) {
+ assert.match(botanicalHome, new RegExp(image), 'home carousel must include '+image);
+}
+assert.match(botanicalHome, /data-hero-prev/);
+assert.match(botanicalHome, /data-hero-next/);
+assert.match(botanicalHome, /data-hero-pause/);
+assert.match(botanicalHome, /prefers-reduced-motion: reduce/);
+assert.match(botanicalHome, /visibilitychange/);
+assert.match(botanicalHome, /data-conversion="menu_view"/);
+assert.match(botanicalHome, /data-conversion="directions"/);
+
 assert.match(botanicalHome, /href="\/menu"/);
 assert.match(botanicalHome, /href="\/new-here"/);
 assert.match(botanicalHome, /href="\/events"/);

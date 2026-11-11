@@ -40,6 +40,25 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 .shell-caption{position:absolute;bottom:29px;left:35px;color:#eaf0d3;font:800 34px/.89 var(--display);transform:rotate(-5deg)}
 @media(max-width:700px){.discover-layout{grid-template-columns:1fr}.drink-illustration{min-height:305px}.shell-caption{font-size:27px}.discover{padding:60px 0}}
 
+/* Rotating real lounge photos. */
+.hero-media .hero-slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 44%;opacity:0;visibility:hidden;transition:opacity .75s ease,visibility .75s;pointer-events:none}
+.hero-media .hero-slide.is-active{opacity:1;visibility:visible}
+.hero-media .hero-slide:nth-of-type(2){object-position:center 44%}
+.hero-media .hero-slide:nth-of-type(3){object-position:center 40%}
+.hero-media{touch-action:pan-y}
+.hero-controls{position:absolute;z-index:5;top:22px;left:22px;display:flex;align-items:center;gap:4px;max-width:calc(100% - 38px);border:1px solid #b4cfbd85;border-radius:99px;padding:4px 7px;background:#142b22dc;box-shadow:0 8px 30px #0005;backdrop-filter:blur(9px)}
+.hero-controls button{color:#f6efe1;background:none;border:0;cursor:pointer;font:700 15px var(--body)}
+.hero-nav-button{width:36px;height:38px;display:flex;align-items:center;justify-content:center;font-size:28px!important;line-height:1}
+.hero-dots{display:flex;align-items:center;gap:0}
+.hero-dots button{width:28px;height:38px;display:flex;align-items:center;justify-content:center}
+.hero-dots button::before{content:"";display:block;width:9px;height:9px;border:1px solid #f6efe1;border-radius:50%;background:transparent;transition:background .2s,transform .2s}
+.hero-dots button[aria-current="true"]::before{background:var(--brass);border-color:var(--brass);transform:scale(1.2)}
+.hero-pause-button{min-height:38px;min-width:57px;font-size:11px!important;letter-spacing:.04em;border-left:1px solid #8da78b!important;padding:0 5px 0 10px!important}
+.hero-controls button:hover,.hero-controls button:focus-visible{color:var(--brass)}
+.hero-visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+@media(max-width:700px){.hero-controls{left:12px;top:12px}.hero-corner{display:none}}
+@media(prefers-reduced-motion:reduce){.hero-media .hero-slide{transition:none}.hero-dots button::before{transition:none}}
+
 @media(max-width:990px){.navlinks a:not(.nav-cta){display:none}.hero{grid-template-columns:1fr 1fr;min-height:590px}.hero-left{padding-left:32px;padding-right:25px}.hero-foot{margin-top:35px}.intro{grid-template-columns:1fr}.intro-photo{max-width:580px}.visit{grid-template-columns:1fr}.venue-layout{grid-template-columns:1fr}.venue-price{border-left:0;border-top:1px solid #756447;padding:25px 0 0}.program-content{padding:40px}}
 @media(max-width:700px){.topline{font-size:9px}.nav{padding:12px 17px;gap:8px}.brand img{height:42px;width:42px}.brand{gap:8px}.brand span{font-size:20px}.brand small{font-size:9px;letter-spacing:.1em}.nav-cta{font-size:11px!important;padding:10px!important}.hero{display:flex;flex-direction:column;max-height:none}.hero-left{padding:45px 19px 34px;order:2}.hero-left:before{top:24px;left:19px}.large{font-size:clamp(48px,12.4vw,68px);margin-bottom:18px}.body-lg{font-size:15px}.hero-media{order:1;min-height:245px;max-height:300px;aspect-ratio:1.5}.hero-foot{font-size:10px;margin-top:30px;gap:20px}.action{min-height:49px;font-size:12px;padding:12px 17px}.hero-actions{gap:10px}.hero-caption strong{font-size:31px}.hero-corner{font-size:9px;top:14px;right:14px}.marquee{justify-content:center;gap:10px;font-size:16px;padding:15px 12px}.wrap{padding:0 20px}.intro-notes{grid-template-columns:1fr 1fr}.intro-photo{transform:none;margin:10px 0 20px}.intro-photo figcaption{font-size:13px}.program{grid-template-columns:1fr}.program-photo{min-height:300px;max-height:340px}.program-content{padding:38px 21px 60px}.program-list{margin:18px 0 24px}.venue{padding:65px 0}.venue-layout{padding:0 20px}.venue-price strong{font-size:118px}.visit-photo img{height:290px}.footer-grid{flex-direction:column}.preview-ribbon{bottom:8px;right:8px;left:8px;text-align:center}}
 @media(max-width:360px){.nav{gap:8px}.brand{gap:7px}.brand img{width:35px;height:35px}.brand span{font-size:18px}.brand small{font-size:8px;letter-spacing:.06em}.nav-cta{font-size:10px!important;padding:8px!important}}
@@ -66,7 +85,24 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
 <header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/events">What's On</a><a href="#street-profit">Streetwear</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
 <main>
-<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>STAY FOR<br>THE PEOPLE.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span></div></div><div class="hero-media"><img src="/images/tribal-community-game-night.webp" alt="Actual Tribal Kava Lounge guests at a community game night" width="1000" height="1250"><div class="hero-corner">Sip slowly. Stay longer.</div><div class="hero-caption"><strong>Kava nights.<br>Real connections.</strong><small>Real community moments at Tribal</small></div></div></section>
+<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>STAY FOR<br>THE PEOPLE.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
+<img class="hero-slide is-active" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="Guests relaxing together around the bar at Tribal Kava Lounge" width="1200" height="750" fetchpriority="high" decoding="async">
+<img class="hero-slide" data-hero-slide src="/images/tribal-community-game-night.webp" alt="Guests enjoying a community gathering at Tribal Kava Lounge" width="1000" height="1250" aria-hidden="true" decoding="async">
+<img class="hero-slide" data-hero-slide src="/images/tribal-mario-kart-racers.webp" alt="Friends playing Mario Kart at a Tribal Kava Lounge game night" width="900" height="600" aria-hidden="true" decoding="async">
+<div class="hero-corner">Sip slowly. Stay longer.</div>
+<div class="hero-caption"><strong>Kava nights.<br>Real connections.</strong><small>Three real moments at Tribal</small></div>
+<div class="hero-controls" aria-label="Slideshow controls">
+<button type="button" class="hero-nav-button" data-hero-prev aria-label="Previous lounge photo">‹</button>
+<div class="hero-dots" role="group" aria-label="Choose a lounge photo">
+<button type="button" data-hero-dot="0" aria-label="Show photo 1 of 3: At the bar" aria-current="true"></button>
+<button type="button" data-hero-dot="1" aria-label="Show photo 2 of 3: Community gathering" aria-current="false"></button>
+<button type="button" data-hero-dot="2" aria-label="Show photo 3 of 3: Game night" aria-current="false"></button>
+</div>
+<button type="button" class="hero-nav-button" data-hero-next aria-label="Next lounge photo">›</button>
+<button type="button" class="hero-pause-button" data-hero-pause aria-label="Pause automatic photo rotation" aria-pressed="false">Pause</button>
+</div>
+<span class="hero-visually-hidden" aria-live="polite" data-hero-status></span>
+</div></section>
 <div class="marquee" aria-label="The Tribal experience"><span>COME AS YOU ARE</span><i>✦</i><span>STAY FOR THE VIBE</span><i>✦</i><span>REAL KAVA · REAL CONNECTION</span></div>
 <section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b>Start with our easy beginner guide.</div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Staying awhile?</b>Check the events calendar and hang out.</div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
 <section class="discover" id="drinks"><div class="wrap discover-layout"><div class="drink-illustration" aria-hidden="true"><div class="shell-shadow"></div><div class="shell-rim"><div class="shell-drink"></div></div><div class="shell-caption">THE FIRST<br>SHELL IS<br>THE START.</div></div><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
@@ -90,4 +126,70 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 </main>
 <footer class="footer"><div class="wrap footer-grid"><div><div class="footer-brand">TRIBAL KAVA<br>LOUNGE.</div><p>770 S Military Trail, Unit A1 · West Palm Beach, FL</p><small>Alcohol-free lounge. Age restrictions apply to some products.</small></div><div class="footer-links"><a href="/menu">Menu</a><a href="/events">Events</a><a href="#street-profit">Streetwear</a><a href="/visit">Visit</a><a href="https://www.instagram.com/tribalkavalounge/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
 <div class="preview-ribbon">Kava bar · Botanical concept <span>· Preview only</span></div>
+<script>
+(() => {
+ "use strict";
+ const gallery = document.querySelector("[data-hero-carousel]");
+ if (!gallery) return;
+ const slides = [...gallery.querySelectorAll("[data-hero-slide]")];
+ const dots = [...gallery.querySelectorAll("[data-hero-dot]")];
+ const prev = gallery.querySelector("[data-hero-prev]");
+ const next = gallery.querySelector("[data-hero-next]");
+ const pause = gallery.querySelector("[data-hero-pause]");
+ const status = gallery.querySelector("[data-hero-status]");
+ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+ if (slides.length < 2 || slides.length !== dots.length) return;
+ let current = 0, paused = false, hovering = false, timer = null, startTouch = null;
+ const intervalMs = 6500;
+ function stop() {if(timer !== null){clearInterval(timer);timer=null;}}
+ function show(nextIndex, announce=false) {
+   current = (nextIndex + slides.length) % slides.length;
+   slides.forEach((img,i)=>{
+     const active = i === current;
+     img.classList.toggle("is-active",active);
+     if(active) img.removeAttribute("aria-hidden");
+     else img.setAttribute("aria-hidden","true");
+   });
+   dots.forEach((button,i)=>button.setAttribute("aria-current",String(i===current)));
+   if(announce)status.textContent="Showing lounge photo "+(current+1)+" of "+slides.length;
+ }
+ function play() {
+   stop();
+   if(paused || reducedMotion.matches || document.hidden || hovering || gallery.contains(document.activeElement))return;
+   timer=setInterval(()=>show(current+1),intervalMs);
+ }
+ function select(i){show(i,true);play();}
+ prev.addEventListener("click",()=>select(current-1));
+ next.addEventListener("click",()=>select(current+1));
+ dots.forEach((dot,i)=>dot.addEventListener("click",()=>select(i)));
+ pause.addEventListener("click",()=>{
+   paused=!paused;
+   pause.setAttribute("aria-pressed",String(paused));
+   pause.setAttribute("aria-label",paused?"Resume automatic photo rotation":"Pause automatic photo rotation");
+   pause.textContent=paused?"Play":"Pause";
+   if(paused)stop();else play();
+ });
+ gallery.addEventListener("mouseenter",()=>{hovering=true;stop();});
+ gallery.addEventListener("mouseleave",()=>{hovering=false;play();});
+ gallery.addEventListener("focusin",stop);
+ gallery.addEventListener("focusout",e=>{if(!gallery.contains(e.relatedTarget))play();});
+ gallery.addEventListener("touchstart",e=>{
+   if(e.target.closest("button")||!e.touches.length)return;
+   startTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};
+ },{passive:true});
+ gallery.addEventListener("touchend",e=>{
+   if(!startTouch||!e.changedTouches.length)return;
+   const dx=e.changedTouches[0].clientX-startTouch.x;
+   const dy=e.changedTouches[0].clientY-startTouch.y;
+   startTouch=null;
+   if(Math.abs(dx)>55 && Math.abs(dx)>Math.abs(dy)*1.3)select(current+(dx<0?1:-1));
+ },{passive:true});
+ gallery.addEventListener("touchcancel",()=>{startTouch=null;});
+ document.addEventListener("visibilitychange",play);
+ if(reducedMotion.addEventListener)reducedMotion.addEventListener("change",play);
+ else if(reducedMotion.addListener)reducedMotion.addListener(play);
+ show(0);
+ play();
+})();
+</script>
 </body></html>
