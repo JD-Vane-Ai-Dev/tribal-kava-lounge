@@ -281,12 +281,32 @@ const requiredMarkup = [
 for (const markup of requiredMarkup) {
   if (!botanical.includes(markup)) throw new Error(`Botanical source missing expected marker: ${markup}`);
 }
+// Render the three newest approved stories from the SAME public catalog
+// used for archive, sitemap and RSS. Held drafts never appear here.
+const featuredDailyPosts = [...dailyPosts]
+  .sort((a,b) => b.modified.localeCompare(a.modified) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug))
+  .slice(0,3);
+const featuredDailyMarkup = featuredDailyPosts.map(post => {
+  const url = '/the-daily-kava/' + post.slug;
+  const title = escapeHtml(post.title);
+  const category = escapeHtml(post.category || 'Kava culture');
+  const dek = escapeHtml(post.dek || post.metaDescription);
+  return '<article class="daily-featured-card"><a href="' + url + '">' +
+    '<span class="daily-featured-category">' + category + '</span>' +
+    '<h3>' + title + '</h3><p>' + dek + '</p>' +
+    '<span class="daily-featured-read">Read the story →</span></a></article>';
+}).join('\n');
+if (!botanical.includes('<!-- DAILY_HOME_CARDS -->') || featuredDailyPosts.length !== 3)
+  throw new Error('Daily Kava homepage: approved catalog or preview marker missing');
+botanical = botanical.replace('<!-- DAILY_HOME_CARDS -->', featuredDailyMarkup);
+
 botanical = botanical
   .replace('<meta name="robots" content="noindex,nofollow">', '<meta name="robots" content="index,follow">')
   .replace('<meta name="description" content="Design exploration for Tribal Kava Lounge, West Palm Beach. Not the current public homepage.">', '<meta name="description" content="Discover Tribal Kava Lounge in West Palm Beach: kava shells, botanical drinks, pool, games, good people and an easygoing alcohol-free hangout at 770 S Military Trail.">')
   .replace('<title>Tribal Kava Lounge — Botanical Kava Bar Design</title>', '<title>Tribal Kava Lounge | Kava Bar &amp; Social Lounge in West Palm Beach</title>')
   .replace(/<div class="preview-ribbon">[\s\S]*?<\/div>\s*/, '')
-  .replace('</head>', () => `\n<meta name="theme-color" content="#13251e">\n<meta name="google-site-verification" content="zXsp7qWCsUyKjaGf-yWfi92M_A_csa1mz6SO2WbTjP0">\n<meta name="msvalidate.01" content="988E2FE2A28E101485C326DA89BB091C">\n<link rel="canonical" href="https://www.thetribalkavalounge.com/">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="Tribal Kava Lounge">\n<meta property="og:title" content="Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach">\n<meta property="og:description" content="Come for the kava. Stay for the people. Experience West Palm Beach's alcohol-free neighborhood lounge.">\n<meta property="og:url" content="https://www.thetribalkavalounge.com/">\n<meta property="og:image" content="https://www.thetribalkavalounge.com/images/tribal-community-game-night.webp">\n<meta name="twitter:card" content="summary_large_image">\n<script id="seo-json-ld" type="application/ld+json">${homeSchemaMatch[1]}</script>\n</head>`)
+  .replace('</head>', () => `\n<meta name="theme-color" content="#13251e">\n<meta name="google-site-verification" content="zXsp7qWCsUyKjaGf-yWfi92M_A_csa1mz6SO2WbTjP0">\n<meta name="msvalidate.01" content="988E2FE2A28E101485C326DA89BB091C">\n<link rel="canonical" href="https://www.thetribalkavalounge.com/">
+<link rel="alternate" type="application/rss+xml" title="The Daily Kava" href="/feed.xml">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="Tribal Kava Lounge">\n<meta property="og:title" content="Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach">\n<meta property="og:description" content="Come for the kava. Stay for the people. Experience West Palm Beach's alcohol-free neighborhood lounge.">\n<meta property="og:url" content="https://www.thetribalkavalounge.com/">\n<meta property="og:image" content="https://www.thetribalkavalounge.com/images/tribal-community-game-night.webp">\n<meta name="twitter:card" content="summary_large_image">\n<script id="seo-json-ld" type="application/ld+json">${homeSchemaMatch[1]}</script>\n</head>`)
   .replace('</body></html>', '<script src="/site-config.js" defer></script>\n<script src="/analytics.js" defer></script>\n</body></html>');
 if (/preview only|design exploration|noindex|\/events\/venue|\$250/i.test(botanical)) {
   throw new Error('Botanical production homepage contains preview or venue-rental promotion');

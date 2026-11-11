@@ -152,6 +152,7 @@ assert.ok(botanicalSiteSchema['@type'].includes('LocalBusiness'), 'botanical roo
 assert.equal(botanicalSiteSchema.address.streetAddress, '770 S Military Trail, Unit A1');
 assert.match(botanicalHome, /<meta name="robots" content="index,follow">/);
 assert.match(botanicalHome, /<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/">/);
+assert.match(botanicalHome, /type="application\/rss\+xml" title="The Daily Kava" href="\/feed\.xml"/, 'RSS feed must remain discoverable');
 assert.match(botanicalHome, /<meta name="google-site-verification"/);
 assert.match(botanicalHome, /<meta name="msvalidate\.01"/);
 assert.match(botanicalHome, /<script src="\/analytics\.js" defer><\/script>/);
@@ -165,6 +166,13 @@ assert.match(botanicalHome, /data-hero-next/);
 assert.match(botanicalHome, /data-hero-pause/);
 assert.match(botanicalHome, /prefers-reduced-motion: reduce/);
 assert.match(botanicalHome, /visibilitychange/);
+
+assert.match(botanicalHome, /<h2 id="daily-heading"[^>]*>THE DAILY KAVA/);
+assert.match(botanicalHome, /<a href="\/the-daily-kava">The Daily Kava<\/a>/);
+assert.match(botanicalHome, /data-daily-home-cards/);
+assert.equal((botanicalHome.match(/class="daily-featured-card"/g) || []).length, 3, 'homepage must feature three approved Daily Kava posts');
+assert.doesNotMatch(botanicalHome, /DAILY_HOME_CARDS/, 'daily preview must be populated during build');
+assert.match(botanicalHome, /href="\/the-daily-kava\/pool-tables-kava-lounge-hang"/, 'approved latest article should be discoverable');
 assert.match(botanicalHome, /data-conversion="menu_view"/);
 assert.match(botanicalHome, /data-conversion="directions"/);
 

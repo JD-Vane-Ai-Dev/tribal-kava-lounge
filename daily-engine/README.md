@@ -6,7 +6,10 @@ first visits and practical lounge topics. Flavor is one part of that coverage.
 
 ## Existing publishing behavior, new content format
 
-1. The existing Azure job runs `python3 run_daily.py run` at its existing schedule.
+1. The former Azure scheduled writer is no longer assumed active after the
+   Netlify hosting migration. The authoring schedule/provider must be
+   reconnected before treating the blog as updated daily; manual drafting
+   and held-draft review remain available.
 2. It selects one unused complete manuscript from `manuscripts/`, copies its
    exact bytes into `drafts/`, checks the article and records it in the queue.
    A missing manuscript inventory produces an explicit message and no post.
@@ -15,8 +18,10 @@ first visits and practical lounge topics. Flavor is one part of that coverage.
    staged content is rebuilt and rechecked, including on selected-file retries.
 4. The site build checks the whole catalog. Original articles must match their
    checked manuscript, including SEO fields and FAQs. Tests must pass.
-5. The workflow deploys to the existing Azure Static Web App, verifies its exact
-   catalog hash, and only then records the article as published.
+5. The workflow deploys the validated catalog and existing serverless
+   functions to the existing Netlify production site. It verifies the exact
+   live catalog hash before recording any article as published. Azure Static
+   Web Apps is not used as a publisher.
 6. The existing IndexNow step runs after verified deployment. Metadata, article
    HTML, visible FAQs, RSS and sitemap URLs are generated from the same catalog.
 

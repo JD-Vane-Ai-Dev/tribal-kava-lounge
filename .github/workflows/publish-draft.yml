@@ -83,6 +83,16 @@ jobs:
               output.write(f"requires_deploy={str(deploy).lower()}\n")
           PY
 
+      - name: Set up Node.js for the Netlify site
+        if: steps.stage.outputs.requires_deploy == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install site dependencies
+        if: steps.stage.outputs.requires_deploy == 'true'
+        run: npm ci --no-audit --no-fund
+
       - name: Validate and build the exact staged site
         if: steps.stage.outputs.requires_deploy == 'true'
         run: npm test
@@ -98,26 +108,37 @@ jobs:
             git push origin HEAD:master
           fi
 
-      - name: Require the existing Azure site's deployment secret
+      - name: Require the existing Netlify deployment credentials
         if: steps.stage.outputs.requires_deploy == 'true'
         env:
-          TRIBAL_AZURE_DEPLOY_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: |
-          if [[ -z "$TRIBAL_AZURE_DEPLOY_TOKEN" ]]; then
-            echo "::error::AZURE_STATIC_WEB_APPS_API_TOKEN is missing. Posts remain staged; no post has been marked published."
+          if [[ -z "$NETLIFY_AUTH_TOKEN" || -z "$NETLIFY_SITE_ID" ]]; then
+            echo "::error::Netlify credentials missing. Keep drafts staged, not published."
+            exit 1
+          fi
+          if [[ "$NETLIFY_SITE_ID" != "1296a8dc-a399-4fa4-9be8-13963f335311" ]]; then
+            echo "::error::Netlify site does not match Tribal production. Refusing deploy."
             exit 1
           fi
 
-      - name: Deploy tested site to Azure production
+      - name: Deploy validated site to existing Netlify production
         if: steps.stage.outputs.requires_deploy == 'true'
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          action: upload
-          app_location: dist
-          skip_app_build: true
-          output_location: ''
-          api_location: api
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+        run: |
+          npm install --global netlify-cli@26.1.0 --no-audit --no-fund
+          netlify deploy --prod --dir dist --functions netlify/functions --no-build --site "$NETLIFY_SITE_ID" --message "Daily Kava approved posts" --json > /tmp/daily-kava-netlify-deploy.json
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+          result=json.loads(Path('/tmp/daily-kava-netlify-deploy.json').read_text())
+          if not result.get('deploy_id') or not result.get('url','').startswith('https://'):
+              raise SystemExit('Netlify did not confirm the deployment')
+          print('Netlify production deploy:',result['deploy_id'])
+          PY
 
       - name: Verify the exact catalog is live
         if: steps.stage.outputs.requires_deploy == 'true'
@@ -129,7 +150,7 @@ jobs:
               exit 0
             fi
             if [[ "$attempt" != 4 ]]; then
-              echo "Waiting briefly for Azure production propagation (attempt $attempt/4)."
+              echo "Waiting briefly for Netlify production propagation (attempt $attempt/4)."
               sleep 5
             fi
           done
