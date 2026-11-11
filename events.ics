@@ -32,7 +32,7 @@ RRULE:FREQ=WEEKLY;BYDAY=TU
 SUMMARY:$2 Tuesday Kava Shells
 DESCRIPTION:Single kava shells are $2 every Tuesday from 2 PM to 5 PM.
 LOCATION:770 S Military Trail\, Unit A1\, West Palm Beach\, FL 33415
-URL:https://www.thetribalkavalounge.com/events/two-dollar-tuesday
+URL:https://thetribalkavalounge.com/events/two-dollar-tuesday
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -43,7 +43,7 @@ RRULE:FREQ=WEEKLY;BYDAY=FR
 SUMMARY:Friday Loteria with Tony
 DESCRIPTION:Weekly Loteria with Tony. Boards are $1 each.
 LOCATION:770 S Military Trail\, Unit A1\, West Palm Beach\, FL 33415
-URL:https://www.thetribalkavalounge.com/events/friday-loteria
+URL:https://thetribalkavalounge.com/events/friday-loteria
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR

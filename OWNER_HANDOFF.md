@@ -12,7 +12,7 @@ The site is deployed. Complete these account-owner steps without sharing passwor
 
 1. Open [Google Analytics setup](https://analytics.google.com/analytics/web/provision/).
 2. Create or select the Tribal Kava Lounge property.
-3. Create a **Web** data stream for `https://www.thetribalkavalounge.com`.
+3. Create a **Web** data stream for `https://thetribalkavalounge.com`.
 4. Copy the Measurement ID that starts with `G-` and send only that ID back. It is not a secret.
 5. In **Admin → Events**, mark these as key events after they first arrive:
    - `phone_call`
@@ -31,7 +31,7 @@ The site already captures campaign source/medium/name and emits the conversion e
 2. Choose **Domain** and enter `thetribalkavalounge.com`.
 3. Copy Google’s TXT verification record into GoDaddy DNS.
 4. After verification, open **Sitemaps** and submit:
-   `https://www.thetribalkavalounge.com/sitemap.xml`
+   `https://thetribalkavalounge.com/sitemap.xml`
 
 Use a Domain property, not only a URL-prefix property, so both root and `www` are covered.
 
@@ -44,9 +44,9 @@ Use a Domain property, not only a URL-prefix property, so both root and `www` ar
    - **Phone:** (561) 355-0561
    - **Hours:** Sun–Thu 8 AM–12 AM; Fri–Sat 8 AM–1 AM
 3. Use this tracked website URL:
-   `https://www.thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile`
+   `https://thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile`
 4. Add the menu URL:
-   `https://www.thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile`
+   `https://thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile`
 5. Upload current exterior, entrance, interior, signature-drink, team, and parking photos.
 
 Do not select amenities or accessibility attributes until someone at the lounge confirms them in person.

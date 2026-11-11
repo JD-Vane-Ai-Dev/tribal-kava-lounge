@@ -1,6 +1,6 @@
 /* Client-Side Logic, SPA Routing, Interactive AI Guide & SEO Metadata Injector */
 
-const SITE_ORIGIN = (window.TRIBAL_SITE_CONFIG && window.TRIBAL_SITE_CONFIG.canonicalOrigin) || 'https://www.thetribalkavalounge.com';
+const SITE_ORIGIN = (window.TRIBAL_SITE_CONFIG && window.TRIBAL_SITE_CONFIG.canonicalOrigin) || 'https://thetribalkavalounge.com';
 
 // SEO Metadata Database
 const seoDatabase = {

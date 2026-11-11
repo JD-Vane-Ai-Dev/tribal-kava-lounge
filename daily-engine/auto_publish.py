@@ -22,7 +22,7 @@ DAILY_KAVA_JS = ROOT / "daily-kava.js"
 QUEUE_PATH = ROOT / "daily-engine/state/queue.json"
 DRAFTS_DIR = ROOT / "daily-engine/drafts"
 CATALOG_END = "\n];\n\nfunction getDailyKavaPost"
-PRODUCTION_ORIGIN = "https://www.thetribalkavalounge.com"
+PRODUCTION_ORIGIN = "https://thetribalkavalounge.com"
 
 
 def sha256(content: bytes) -> str:

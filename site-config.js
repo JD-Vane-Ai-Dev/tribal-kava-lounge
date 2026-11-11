@@ -1,6 +1,6 @@
 /* Public launch configuration. This file must never contain private keys. */
 window.TRIBAL_SITE_CONFIG = Object.freeze({
-  canonicalOrigin: 'https://www.thetribalkavalounge.com',
+  canonicalOrigin: 'https://thetribalkavalounge.com',
   googleAnalyticsId: '',
   // Tracking runs on this Netlify site. No Azure or Google account required.
   applicationInsightsConnectionString: '',

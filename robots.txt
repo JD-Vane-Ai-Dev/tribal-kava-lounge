@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.thetribalkavalounge.com/sitemap.xml
+Sitemap: https://thetribalkavalounge.com/sitemap.xml

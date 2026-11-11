@@ -7,8 +7,8 @@ Prepared September 7, 2026. The current signed-in account does not manage Tribal
 | Business name | Tribal Kava Lounge |
 | Address | 770 S Military Trail, Unit A1, West Palm Beach, FL 33415 |
 | Phone | (561) 355-0561 |
-| Website | https://www.thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
-| Menu | https://www.thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
+| Website | https://thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
+| Menu | https://thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
 | Hours in current official site | Sun–Thu 8 AM–midnight; Fri–Sat 8 AM–1 AM |
 | Google Place ID | ChIJFe_zmzQp2YgRh1ooSVUot9Y |
 
@@ -26,7 +26,7 @@ Ask every guest in the same neutral way after their visit, without screening for
 
 Direct review link: https://search.google.com/local/writereview?placeid=ChIJFe_zmzQp2YgRh1ooSVUot9Y
 
-Counter card: https://www.thetribalkavalounge.com/review-card.html
+Counter card: https://thetribalkavalounge.com/review-card.html
 
 Place the printed card by checkout. Include the same link on receipts when the receipt system is accessible. No automatic receipt or outbound review message has been configured by this change.
 

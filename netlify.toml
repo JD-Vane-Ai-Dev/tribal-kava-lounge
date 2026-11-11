@@ -1,8 +1,7 @@
 [build]
   publish = "."
 
-# Let real files (robots.txt, sitemap.xml, images, css, js) serve first;
-# SPA path routes fall through to index.html for clean SEO URLs.
+# Every public SEO URL is pre-rendered as a real file. Unknown routes\n# must return a true 404 instead of a soft-404 SPA homepage.
 # Owner-approved Botanical Kava homepage. Force this exact root path over
 # the legacy index.html only; all inner routes keep their existing SPA pages.
 [[redirects]]
@@ -49,12 +48,6 @@
 [[redirects]]
   from = "/events/venue/"
   to = "/venue-rental.html"
-  status = 200
-  force = false
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
   status = 200
   force = false
 
