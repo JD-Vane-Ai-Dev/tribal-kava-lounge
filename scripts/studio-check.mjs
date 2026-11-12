@@ -10,7 +10,7 @@ const [site,build,config,home,api]=await Promise.all([
 assert.match(config,/from = "\/studio"[\s\S]*?to = "\/tribal-studio\.html"/);
 assert.ok(build.includes("'tribal-studio.html'"));
 assert.match(site,/name="robots" content="noindex,nofollow"/);
-assert.match(site,/not<\/strong> imported automatically/i);
+assert.match(site,/verified submissions from the existing public Netlify rental form enter this secure tracker/i);
 assert.match(site,/No automatic publishing|nothing is published automatically/i);
 assert.match(site,/1080 × 1350/);
 assert.match(site,/\$250/);

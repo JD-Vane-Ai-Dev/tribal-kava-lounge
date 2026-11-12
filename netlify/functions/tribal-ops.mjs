@@ -23,14 +23,34 @@ function authorized(req){
 function sanitize(o,type){
  const out={};
  const fields=type==="inquiry"
-  ?{name:160,contact:220,eventType:100,date:24,guests:8,extras:350,status:30,followUp:24,notes:1500,source:120,quoteAmount:30}
+  ?{name:160,contact:220,email:220,phone:40,eventType:100,date:24,startTime:8,duration:60,setupStyle:100,flexibility:100,guests:8,extras:350,status:30,followUp:24,notes:1500,source:120,quoteAmount:30,depositAmount:30,depositUrl:550,depositStatus:30,depositReference:160,bookingConfirmed:4}
   :type==="vendor"
   ?{name:160,category:120,contact:220,status:30,followUp:24,notes:1500}
   :{platform:80,campaign:120,caption:1500,status:30,scheduledFor:32,approvedAt:32,publishedUrl:400,notes:1000};
  for(const [name,max] of Object.entries(fields))out[name]=safe(o[name],max);
  if(!STATUSES[type].includes(out.status))out.status=STATUSES[type][0];
  if(type==="post"&&out.publishedUrl&&!/^https:\/\/[a-z0-9.-]+\//i.test(out.publishedUrl))out.publishedUrl="";
+ if(type==="inquiry"){
+  // Do not silently strip untrusted links: the owner must see a validation error.
+  if(!["not_requested","awaiting_payment","paid_verified","waived"].includes(out.depositStatus))out.depositStatus="not_requested";
+  if(out.bookingConfirmed!=="yes")out.bookingConfirmed="";
+ }
  return out;
+}
+export function validateInquiryBooking(fields) {
+ if(fields.depositUrl&&!/^https:\/\/(buy|checkout|invoice)\.stripe\.com\/[a-z0-9/_?=&%-]+$/i.test(fields.depositUrl))
+  return "Payment link must be an official Stripe-hosted URL.";
+ if(fields.depositStatus==="paid_verified"&&!fields.depositReference)
+  return "Enter a real payment receipt reference before marking a deposit verified.";
+ if(fields.status!=="booked")return "";
+ const amount=(fields.quoteAmount||"").replace(/^\$/,"").trim();
+ if(!/^\d+(?:\.\d{1,2})?$/.test(amount)||Number(amount)<=0
+  ||!/^\d{4}-\d{2}-\d{2}$/.test(fields.date||"")
+  ||!/^([01]\d|2[0-3]):[0-5]\d$/.test(fields.startTime||"")
+  ||fields.bookingConfirmed!=="yes"
+  ||!["paid_verified","waived"].includes(fields.depositStatus))
+  return "Booking requires a dated, priced quote, owner confirmation and a verified deposit or explicit waiver.";
+ return "";
 }
 export default async function handler(req) {
  let u;
@@ -52,7 +72,7 @@ export default async function handler(req) {
     }
     cursor=batch.cursor;pageCount++;
    }while(cursor&&pageCount<15&&records.length<500);
-   return json({records,partial:Boolean(cursor),source:"Owner-maintained tracker; Netlify Forms are not automatically imported"});
+   return json({records,partial:Boolean(cursor),source:"Owner-managed Studio plus verified Netlify private-event forms"});
   }
   if(req.method!=="POST")return json({error:"Method not allowed"},405);
   if(!(req.headers.get("content-type")||"").startsWith("application/json"))return json({error:"JSON required"},415);
@@ -71,7 +91,14 @@ export default async function handler(req) {
   const key="v1/"+o.type+"/"+id;
   const previous=validID(o.id)?await store.get(key,{type:"json"}):null;
   if(validID(o.id)&&!previous)return json({error:"Record no longer exists"},404);
-  const record={id,type:o.type,...sanitize(o,o.type),
+  const fields=sanitize(o,o.type);
+  if(o.type==="inquiry"){
+   const bookingError=validateInquiryBooking(fields);
+   if(bookingError)return json({error:bookingError},422);
+  }
+  const record={id,type:o.type,...fields,
+   ...(previous?.externalSubmissionId?{externalSubmissionId:previous.externalSubmissionId}:{}),
+   ...(previous?.importedAt?{importedAt:previous.importedAt}:{}),
    createdAt:previous?.createdAt||new Date().toISOString(),updatedAt:new Date().toISOString()};
   await store.setJSON(key,record);
   return json({ok:true,record});

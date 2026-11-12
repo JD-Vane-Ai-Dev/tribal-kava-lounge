@@ -77,7 +77,7 @@ footer{padding:50px 20px;text-align:center;color:var(--muted);border-top:1px sol
 <p id="global-status" class="status" role="status"></p>
 <div id="overview" class="view active" role="tabpanel">
 <section class="panel"><div class="overline">Operations snapshot</div><h2>Build inquiries into bookings</h2>
-<div class="grid"><div class="card"><div id="inquiry-count" class="kpi">0</div><h3>Tracked inquiries</h3><p>Manual owner-tracker records, not form submission counts.</p></div><div class="card"><div id="follow-count" class="kpi">0</div><h3>Open follow-ups</h3><p>Records with a follow-up date.</p></div><div class="card"><div id="approved-count" class="kpi">0</div><h3>Approved posts</h3><p>Approved for posting; not published unless marked so.</p></div></div>
+<div class="grid"><div class="card"><div id="inquiry-count" class="kpi">0</div><h3>Tracked inquiries</h3><p>Owner leads including automatically imported verified Netlify rental inquiries.</p></div><div class="card"><div id="follow-count" class="kpi">0</div><h3>Open follow-ups</h3><p>Records with a follow-up date.</p></div><div class="card"><div id="approved-count" class="kpi">0</div><h3>Approved posts</h3><p>Approved for posting; not published unless marked so.</p></div></div>
 <div class="warning"><strong>Booking and availability:</strong> the $250 introductory price covers 3 event hours on select off-peak dates only. Extra time is $50 per 30 minutes. Maximum venue occupancy is 75 guests; date, event setup, rental furniture and other add-ons require individual confirmation. No date is automatically reserved.</div>
 <div class="actions"><a class="btn" href="/private-events">Open live quote request</a><a class="btn secondary" href="/vendor-market.html">Open vendor interest form</a><button class="btn secondary" data-tab-jump="inquiries">Track a lead</button></div>
 </section>
@@ -86,13 +86,17 @@ footer{padding:50px 20px;text-align:center;color:var(--muted);border-top:1px sol
 </section></div>
 
 <div id="inquiries" class="view" role="tabpanel">
-<section class="panel"><div class="overline">Public booking flow</div><h2>Quotes without guessing availability</h2><p>The existing public quote form collects dates, group size, event type, setup needs and add-ons through Netlify Forms. Track each submission here after reviewing it in Netlify. New submissions are <strong>not</strong> imported automatically.</p><div class="actions"><a href="/private-events" class="btn">View quote form</a><a href="https://app.netlify.com/projects/tribal-kava-lounge-wpb" target="_blank" rel="noopener" class="btn secondary">Review Netlify project</a></div></section>
+<section class="panel"><div class="overline">Verified rental inquiries → owner approval</div><h2>From request to confirmed booking</h2><p>Verified submissions from the existing public Netlify rental form enter this secure tracker as <strong>new</strong> leads. The existing Netlify email notification alerts the owner. Quotes, deposits, event availability and booking confirmation require your review; nothing is charged, reserved or emailed to a customer automatically.</p><div class="actions"><a href="/private-events" class="btn">View quote form</a><a href="https://app.netlify.com/projects/tribal-kava-lounge-wpb" target="_blank" rel="noopener" class="btn secondary">Review Netlify project</a></div></section>
 <section class="panel"><h2>Add an inquiry to the tracker</h2>
 <form id="inquiry-form"><div class="fields">
 <div><label for="inq-name">Customer / event name</label><input id="inq-name" name="name" maxlength="160" required></div>
-<div><label for="inq-contact">Contact</label><input id="inq-contact" name="contact" maxlength="220" placeholder="Email, phone or profile link"></div>
+<div><label for="inq-email">Email</label><input id="inq-email" name="email" type="email" maxlength="220"></div>
+<div><label for="inq-phone">Phone</label><input id="inq-phone" name="phone" type="tel" maxlength="40"></div>
+<div><label for="inq-contact">Other contact / social link</label><input id="inq-contact" name="contact" maxlength="220" placeholder="Optional"></div>
 <div><label for="inq-type">Event type</label><input id="inq-type" name="eventType" maxlength="100"></div>
 <div><label for="inq-date">Requested event date</label><input id="inq-date" name="date" type="date"></div>
+<div><label for="inq-time">Requested start time</label><input id="inq-time" name="startTime" type="time"></div>
+<div><label for="inq-duration">Duration</label><select id="inq-duration" name="duration"><option>3 hours</option><option>3.5 hours</option><option>4 hours</option><option>5+ hours · custom quote</option></select></div>
 <div><label for="inq-guests">Estimated guests (not approved occupancy)</label><input id="inq-guests" name="guests" type="number" min="1" max="1000"></div>
 <div><label for="inq-follow">Next follow-up</label><input id="inq-follow" name="followUp" type="date"></div>
 <div class="full"><label for="inq-extra">Requested add-ons</label><input id="inq-extra" name="extras" maxlength="350" placeholder="Tables, chairs, lounge seating, cake/gift setup, DJ…"></div>
@@ -160,15 +164,25 @@ function renderType(type,container,arr){
  if(!items.length){$(container).innerHTML='<p class="empty">Nothing tracked here yet. Add your first record above.</p>';return;}
  $(container).innerHTML=items.map(function(r){
  var name=type==="inquiry"?(r.name||"Untitled inquiry"):type==="vendor"?(r.name||"Untitled vendor"):(r.campaign||"Promo draft");
- var info=type==="inquiry"?[r.eventType,r.date,r.guests?("Guests requested: "+r.guests):"",r.source,r.extras,r.quoteAmount?("Proposed quote: "+r.quoteAmount):""].filter(Boolean).join(" · "):
+ var info=type==="inquiry"?[r.eventType,r.date,r.startTime,r.duration,r.guests?("Guests requested: "+r.guests):"",r.source,r.extras,r.quoteAmount?("Proposed quote: $"+r.quoteAmount):""].filter(Boolean).join(" · "):
  type==="vendor"?[r.category,r.contact].filter(Boolean).join(" · "):[r.platform,r.scheduledFor,r.publishedUrl].filter(Boolean).join(" · ");
  var datefield=type==="post"?"scheduledFor":"followUp";
  var datevalue=(r[datefield]||"").slice(0,10);
  return '<article class="record" data-type="'+type+'" data-id="'+esc(r.id)+'"><div class="record-head"><div><h3>'+esc(name)+'</h3><div class="meta">'+esc(info)+'</div>'+(type==="inquiry"?'<div class="meta">'+esc(r.contact)+'</div>':"")+'</div><span class="badge">'+esc(r.status)+'</span></div>'+
  '<div class="record-grid"><div><label>Status</label><select class="edit-status">'+options(type,r.status)+'</select></div><div><label>'+(type==="post"?"Review / posting date":"Next follow-up")+'</label><input type="date" class="edit-date" value="'+esc(datevalue)+'"></div><div><label>Updated</label><p class="meta">'+esc((r.updatedAt||"").slice(0,10))+'</p></div></div>'+
  (type==="post"?'<label>Published URL (verified only)</label><input type="url" class="edit-url" value="'+esc(r.publishedUrl||"")+'" placeholder="https://...">':"")+
+ (type==="inquiry"?
+ '<div class="fields"><div><label>Quote total (USD, staff-approved)</label><input type="text" class="edit-quote" inputmode="decimal" maxlength="30" value="'+esc(r.quoteAmount||"")+'" placeholder="e.g. 250.00"></div>'+
+ '<div><label>Deposit amount (USD)</label><input type="text" class="edit-deposit-amount" inputmode="decimal" maxlength="30" value="'+esc(r.depositAmount||"")+'" placeholder="Only after quote approved"></div>'+
+ '<div class="full"><label>Stripe-hosted payment link (owner-created; optional)</label><input type="url" class="edit-deposit-url" maxlength="550" value="'+esc(r.depositUrl||"")+'" placeholder="https://buy.stripe.com/..."></div>'+
+ '<div><label>Deposit status</label><select class="edit-deposit-status">'+['not_requested','awaiting_payment','paid_verified','waived'].map(function(v){return '<option value="'+v+'"'+(v===(r.depositStatus||'not_requested')?' selected':'')+'>'+esc(v.replace(/_/g,' '))+'</option>';}).join('')+'</select></div>'+
+ '<div><label>Payment receipt / verification reference</label><input class="edit-deposit-reference" maxlength="160" value="'+esc(r.depositReference||"")+'" placeholder="Stripe receipt or verified transaction ID"></div>'+
+ '<div class="full"><label><input type="checkbox" class="edit-confirmed" style="width:auto"'+(r.bookingConfirmed==='yes'?' checked':'')+'> Owner personally checked venue availability and approved this booking</label></div></div>'+
+ '<p class="note">To mark booked: enter a positive quote, event date/time, confirm availability, and mark deposit verified with a reference or explicitly waived. Paid status is owner-entered, not a Stripe webhook.</p>':'')+
  '<label>Notes'+(type==="post"?" / caption":"")+'</label><textarea class="edit-notes" maxlength="1500">'+esc(type==="post"?r.caption||"":r.notes||"")+'</textarea>'+
- '<div class="actions"><button class="btn small" data-save="1">Save changes</button><button class="btn secondary small" data-remove="1">Delete record</button></div></article>';
+ '<div class="actions"><button class="btn small" data-save="1">Save changes</button>'+
+ (type==="inquiry"?'<button class="btn secondary small" data-quote-email="1">Prepare quote email</button>'+(r.status==='booked'?'<button class="btn secondary small" data-booking-email="1">Prepare confirmation email</button><button class="btn secondary small" data-calendar="1">Add to Google Calendar</button>':''):'')+
+ '<button class="btn secondary small" data-remove="1">Delete record</button></div></article>';
  }).join("");
 }
 function renderFollowups(){
@@ -192,6 +206,32 @@ $("login-form").addEventListener("submit",async function(e){
 $("lock").addEventListener("click",function(){token="";records=[];$("app").hidden=true;$("login").hidden=false;$("login-status").textContent="Studio locked.";});
 $("reload").addEventListener("click",function(){load().catch(function(err){status(err.message,true);});});
 async function save(o){var r=await api("save",Object.assign({action:"save"},o));var index=records.findIndex(function(x){return x.id===r.record.id;});if(index<0)records.push(r.record);else records[index]=r.record;render();status("Saved securely.");}
+function draftEmail(lead,confirmed){
+ var email=lead.email||((lead.contact||"").match(/[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}/)||[])[0];
+ if(!email){status("Add the customer's email to this inquiry first.",true);return;}
+ var subject=confirmed?"Tribal Private Events — booking confirmation":"Tribal Private Events — your quote";
+ var message=confirmed?
+ ("Hello "+lead.name+",\n\nYour event has been confirmed by Tribal Private Events.\nDate: "+lead.date+"\nStart: "+lead.startTime+" (Eastern)\nDuration: "+(lead.duration||"Please confirm")+"\nGuests: "+(lead.guests||"As agreed")+"\nQuoted total: $"+lead.quoteAmount+"\n\nThank you,\nTribal Kava Lounge"):
+ ("Hello "+lead.name+",\n\nThank you for your Tribal Private Events inquiry.\nRequested date: "+(lead.date||"To be confirmed")+"\nRequested time: "+(lead.startTime||"To be confirmed")+"\nGuests: "+(lead.guests||"To be confirmed")+"\nProposed quote: "+(lead.quoteAmount?"$"+lead.quoteAmount:"Pending staff review")+"\nProposed deposit: "+(lead.depositAmount?"$"+lead.depositAmount:"To be confirmed")+
+ (lead.depositUrl?"\nSecure payment link: "+lead.depositUrl:"")+"\n\nThis is an estimate; your date is not reserved until the event details, availability, and payment terms have been approved.\n\nTribal Kava Lounge");
+ window.location.href="mailto:"+encodeURIComponent(email)+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(message);
+ status("Your email app will open a draft. Review and send it yourself.");
+}
+function calendarUrl(lead){
+ if(lead.status!=="booked"||!/^\d{4}-\d{2}-\d{2}$/.test(lead.date)||!/^\d{2}:\d{2}$/.test(lead.startTime))return "";
+ var hours={"3 hours":3,"3.5 hours":3.5,"4 hours":4}[lead.duration];
+ if(!hours)return "";
+ var d=new Date(lead.date+"T"+lead.startTime+":00Z");
+ if(Number.isNaN(d.getTime()))return "";
+ var end=new Date(d.getTime()+hours*3600000);
+ var stamp=function(x){return x.toISOString().replace(/[-:]/g,"").slice(0,15);};
+ var dates=stamp(d)+"/"+stamp(end);
+ var params=new URLSearchParams({action:"TEMPLATE",text:"Tribal Private Events — "+(lead.eventType||"confirmed event"),
+  dates:dates,ctz:"America/New_York",details:"Confirmed event. "+(lead.guests||"")+" guests. Studio reference "+lead.id,
+  location:"770 S Military Trail Unit A1, West Palm Beach, FL 33415"});
+ return "https://calendar.google.com/calendar/render?"+params.toString();
+}
+
 function values(form){var o={};new FormData(form).forEach(function(v,k){o[k]=String(v);});return o;}
 ["inquiry","vendor","post"].forEach(function(type){
  $(type+"-form").addEventListener("submit",async function(e){
@@ -204,10 +244,13 @@ function values(form){var o={};new FormData(form).forEach(function(v,k){o[k]=Str
 $("app").addEventListener("click",async function(e){
  var jump=e.target.closest("[data-tab-jump]");
  if(jump){openTab(jump.dataset.tabJump);return;}
- var b=e.target.closest("[data-save],[data-remove]");
+ var b=e.target.closest("[data-save],[data-remove],[data-quote-email],[data-booking-email],[data-calendar]");
  if(!b)return;
  var card=b.closest("[data-id]");if(!card)return;
  var old=records.find(function(r){return r.id===card.dataset.id&&r.type===card.dataset.type;});if(!old)return;
+ if(b.hasAttribute("data-quote-email")){draftEmail(old,false);return;}
+ if(b.hasAttribute("data-booking-email")){if(old.status!=="booked"){status("This booking has not been confirmed.",true);return;}draftEmail(old,true);return;}
+ if(b.hasAttribute("data-calendar")){var url=calendarUrl(old);if(!url){status("A booked event with an exact date, time and duration is required.",true);return;}window.open(url,"_blank","noopener,noreferrer");status("Review the Google Calendar event before saving.");return;}
  if(b.hasAttribute("data-remove")){
   if(!confirm("Delete this "+old.type+" record? This cannot be undone."))return;
   try{await api("delete",{action:"delete",type:old.type,id:old.id});records=records.filter(function(r){return r.id!==old.id;});render();status("Record deleted.");}catch(err){status(err.message,true);}return;
@@ -217,6 +260,14 @@ $("app").addEventListener("click",async function(e){
  if(old.type==="post"){next.publishedUrl=card.querySelector(".edit-url").value;next.caption=card.querySelector(".edit-notes").value;
  if(next.status==="published"&&!/^https:\/\//.test(next.publishedUrl)){status("Enter the verified public post URL before marking Published.",true);return;}}
  else next.notes=card.querySelector(".edit-notes").value;
+ if(old.type==="inquiry"){
+  next.quoteAmount=card.querySelector(".edit-quote").value.trim();
+  next.depositAmount=card.querySelector(".edit-deposit-amount").value.trim();
+  next.depositUrl=card.querySelector(".edit-deposit-url").value.trim();
+  next.depositStatus=card.querySelector(".edit-deposit-status").value;
+  next.depositReference=card.querySelector(".edit-deposit-reference").value.trim();
+  next.bookingConfirmed=card.querySelector(".edit-confirmed").checked?"yes":"";
+ }
  try{await save(next);}catch(err){status(err.message,true);}
 });
 function syncCaption(){$("caption").value=templates[$("campaign").value].caption;}
