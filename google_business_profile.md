@@ -9,7 +9,7 @@ Prepared September 7, 2026. The current signed-in account does not manage Tribal
 | Phone | (561) 355-0561 |
 | Website | https://thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
 | Menu | https://thetribalkavalounge.com/menu?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile |
-| Hours in current official site | Sun–Thu 8 AM–midnight; Fri–Sat 8 AM–1 AM |
+| Hours in current official site | Daily 8 AM–2 AM (next morning), matched to GBP on November 12, 2026 |
 | Google Place ID | ChIJFe_zmzQp2YgRh1ooSVUot9Y |
 
 Compare hours with the current business owner's schedule before changing a conflicting public listing. Preserve Google's existing appropriate categories; do not invent categories or add unrelated ones.

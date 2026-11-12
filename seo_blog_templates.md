@@ -115,6 +115,6 @@ These templates are optimized to rank for search terms like "kava bar near me", 
 *   **H2: What to Order on Your First Visit**
     *   Link to the [Menu](file:///Users/jd/tribal-kava-lounge/index.html#/menu) and [New Here?](file:///Users/jd/tribal-kava-lounge/index.html#/new-here) pages; mention Kava Clouds, Kratom Refreshers (21+), and Agua Frescas.
 *   **H2: Hours & Directions**
-    *   Sun–Thu 8:00 AM–12:00 AM, Fri–Sat 8:00 AM–1:00 AM. Link to the [Visit Us](file:///Users/jd/tribal-kava-lounge/index.html#/visit) page.
+    *   Every day 8:00 AM–2:00 AM (next morning). Link to the [Visit Us](file:///Users/jd/tribal-kava-lounge/index.html#/visit) page.
 *   **H2: Responsible Use**
     *   Standard disclaimer: all kratom products 21+ with valid ID; do not mix kava or kratom with alcohol or other substances.

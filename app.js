@@ -41,20 +41,12 @@ const seoDatabase = {
                 "addressCountry": "US"
             },
             "areaServed": ["West Palm Beach", "Lake Worth", "Greenacres", "Palm Springs", "Haverhill"],
-            "openingHoursSpecification": [
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
-                    "opens": "08:00",
-                    "closes": "00:00"
-                },
-                {
-                    "@type": "OpeningHoursSpecification",
-                    "dayOfWeek": ["Friday", "Saturday"],
-                    "opens": "08:00",
-                    "closes": "01:00"
-                }
-            ],
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "08:00",
+                "closes": "02:00"
+            },
             "sameAs": [
                 "https://www.instagram.com/tribalkavalounge",
                 "https://www.facebook.com/TRIBALKAVA/"
@@ -248,6 +240,12 @@ const seoDatabase = {
                 "addressRegion": "FL",
                 "postalCode": "33415",
                 "addressCountry": "US"
+            },
+            "openingHoursSpecification": {
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                "opens": "08:00",
+                "closes": "02:00"
             }
         }
     },
@@ -379,7 +377,7 @@ const seoDatabase = {
                             name: 'What are the hours at Tribal Kava Lounge?',
                             acceptedAnswer: {
                                 '@type': 'Answer',
-                                text: 'Sunday through Thursday 8 AM–midnight, Friday and Saturday 8 AM–1 AM. $2 Tuesday kava shells run 2–5 PM. Friday Lotería starts at 9 PM.'
+                                text: 'Open daily from 8 AM to 2 AM the following morning. $2 Tuesday kava shells run 2–5 PM. Friday Lotería starts at 9 PM.'
                             }
                         }
                     ]
@@ -783,7 +781,7 @@ const nearbyAreaDatabase = {
         planTitle: 'Finding Unit A1',
         planCopy: 'Use live directions rather than relying on an old address. Look for Unit A1 at 770 South Military Trail and use the open-lot parking on site.',
         localTitle: 'West Palm Beach hours',
-        localCopy: 'Open Sunday through Thursday from 8 AM to midnight and Friday through Saturday from 8 AM to 1 AM. Check the live open-status banner before leaving.',
+        localCopy: 'Open every day from 8 AM to 2 AM the following morning. Check the live open-status banner before leaving.',
         faq: [
             ['Is Tribal Kava Lounge actually in West Palm Beach?', 'Yes. The lounge is at 770 S Military Trail, Unit A1, West Palm Beach, FL 33415.'],
             ['Does the West Palm Beach location have parking?', 'Yes. Guests can use the open-lot parking at the lounge.']
@@ -802,7 +800,7 @@ const nearbyAreaDatabase = {
         planTitle: 'Before leaving Lake Worth',
         planCopy: 'Open the live route so traffic and your exact starting point are accounted for. The destination should read 770 S Military Trail, Unit A1, West Palm Beach—not the retired South Military Trail address.',
         localTitle: 'Late-night option without alcohol',
-        localCopy: 'The lounge stays open until midnight Sunday through Thursday and 1 AM Friday and Saturday. Kava, brewed tea, crafted drinks, and fruit drinks are non-alcoholic; kratom is 21+ with valid ID.',
+        localCopy: 'The lounge is open daily until 2 AM. Kava, brewed tea, crafted drinks, and fruit drinks are non-alcoholic; kratom is 21+ with valid ID.',
         faq: [
             ['Is there a Tribal Kava Lounge location in Lake Worth?', 'No. Tribal has one location at 770 S Military Trail, Unit A1 in West Palm Beach and serves guests coming from Lake Worth Beach.'],
             ['Can I order before driving from Lake Worth?', 'Yes. The Order Online buttons open the active Tribal DoorDash storefront.']
@@ -916,7 +914,7 @@ const aiKnowledgeBase = {
     'difference between kava and kratom': "Kava and Kratom come from different botanical sources. **Kava** is made from the root of a shrub and has a long history of traditional social use in the Pacific Islands. **Kratom** is brewed from the leaves of a tropical tree native to Southeast Asia and is served as a botanical tea. Kava is available to adults, while Kratom is strictly 21+ only.",
     'do you have drinks without kava or kratom': "Yes! Our fruit drinks include *Guava Lime*, *Watermelon Cucumber Lime*, and *Jamaica Passionfruit*. They contain no kava or kratom.",
     'where are you located': "We are located at **770 S Military Trail, Unit A1, West Palm Beach, FL 33415** — an easy drive from Lake Worth, Greenacres, Palm Springs, and Haverhill. Free open-lot parking with unlimited spaces. Stop by and vibe!",
-    'what are your hours': "We are open **Sunday–Thursday 8:00 AM–12:00 AM** and **Friday–Saturday 8:00 AM–1:00 AM**.",
+    'what are your hours': "We are open **every day, 8:00 AM–2:00 AM the following morning**.",
     'parking': "Yes — **unlimited free parking** in the open lot right at the lounge. Pull in, park, and come find Unit A1.",
     'amenities': "We've got **free Wi‑Fi**, **first drink free** (ask our team when you arrive), **unlimited free parking**, **pool tables**, and **multiple seating sections**. A **smoke shop is coming soon**.",
     'wifi': "Yes — **free Wi‑Fi** is available. Perfect for study sessions, remote work, or hanging out. We also have multiple seating sections and pool tables.",
@@ -1157,8 +1155,7 @@ function renderNearbyArea(slug) {
                 <p class="menu-eyebrow">Plan the visit</p>
                 <h2>Open late. Park free.</h2>
                 <dl>
-                    <div><dt>Sun–Thu</dt><dd>8 AM–12 AM</dd></div>
-                    <div><dt>Fri–Sat</dt><dd>8 AM–1 AM</dd></div>
+                    <div><dt>Every day</dt><dd>8 AM–2 AM</dd></div>
                     <div><dt>Parking</dt><dd>Open lot · free</dd></div>
                     <div><dt>Kratom</dt><dd>21+ · valid ID</dd></div>
                 </dl>
@@ -1581,13 +1578,14 @@ function updateBusinessStatus() {
     }).formatToParts(new Date());
     const values = Object.fromEntries(parts.map(part => [part.type, part.value]));
     const minutes = (Number(values.hour) * 60) + Number(values.minute);
-    const lateSpill = minutes < 60 && (values.weekday === 'Saturday' || values.weekday === 'Sunday');
+    // The previous day's 8 AM–2 AM opening spans midnight every day.
+    // At 2:00 AM exactly, the lounge closes until the 8 AM opening.
+    const lateSpill = minutes < 120;
     const daytimeOpen = minutes >= 480;
     const isOpen = daytimeOpen || lateSpill;
-    const closesAtOne = lateSpill || (daytimeOpen && (values.weekday === 'Friday' || values.weekday === 'Saturday'));
 
     status.textContent = isOpen
-        ? `Open now · Closes ${closesAtOne ? '1 AM' : 'at midnight'}`
+        ? 'Open now · Closes at 2 AM'
         : 'Closed · Opens at 8 AM';
     status.classList.toggle('is-open', isOpen);
     status.classList.toggle('is-closed', !isOpen);

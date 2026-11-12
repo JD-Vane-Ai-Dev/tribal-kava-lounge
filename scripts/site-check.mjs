@@ -48,6 +48,14 @@ for (const [route, document] of [['/', preRenderedHome], ['/visit', preRenderedV
   assert.equal(business.address.addressLocality, 'West Palm Beach');
   assert.equal(business.address.postalCode, '33415');
   assert.equal(business.hasMenu, 'https://thetribalkavalounge.com/menu');
+  assert.deepEqual(
+    Array.from(business.openingHoursSpecification.dayOfWeek),
+    ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    route + ' must report the same seven-day schedule as the verified Google Business Profile'
+  );
+  assert.equal(business.openingHoursSpecification.opens, '08:00');
+  assert.equal(business.openingHoursSpecification.closes, '02:00');
+
   assert.ok(!('aggregateRating' in business), 'a dated review snapshot must not become a static rating claim');
 }
 const menuSchema = readRouteSchema(preRenderedMenu, '/menu');
@@ -55,6 +63,31 @@ assert.equal(menuSchema['@type'], 'Menu');
 assert.equal(menuSchema.mainEntityOfPage, 'https://thetribalkavalounge.com/menu');
 assert.ok(menuSchema.hasMenuSection.some(section => section.name === 'Kava Shells'));
 assert.ok(menuSchema.hasMenuSection.some(section => section.name === 'DoorDash Pickup Menu'), 'menu schema must preserve separate marketplace pricing');
+
+// Freeze the clock at critical Eastern times to check real client-facing open status.
+const businessStatusSource = app.slice(
+  app.indexOf('function updateBusinessStatus()'),
+  app.indexOf('let activeSocialProof', app.indexOf('function updateBusinessStatus()'))
+);
+assert.match(businessStatusSource, /const lateSpill = minutes < 120/);
+for (const [utc, expected] of [
+  ['2026-11-13T06:59:00Z', 'Open now · Closes at 2 AM'],
+  ['2026-11-13T07:00:00Z', 'Closed · Opens at 8 AM'],
+  ['2026-11-13T12:59:00Z', 'Closed · Opens at 8 AM'],
+  ['2026-11-13T13:00:00Z', 'Open now · Closes at 2 AM'],
+  ['2026-07-11T05:30:00Z', 'Open now · Closes at 2 AM'],
+  ['2026-07-11T06:05:00Z', 'Closed · Opens at 8 AM'],
+]) {
+  const status = { textContent: '', classList: { toggle() {} } };
+  const frozen = new Date(utc);
+  const context = {
+    Date: class extends Date { constructor(...args) { super(...(args.length ? args : [frozen.getTime()])); } },
+    document: { getElementById: () => status },
+    Intl,
+  };
+  runInNewContext(businessStatusSource + '\nupdateBusinessStatus();', context);
+  assert.equal(status.textContent, expected, 'Eastern opening status wrong at ' + utc);
+}
 
 // Start with the delivered home schema and exercise the real client injector.
 // Navigation must replace that node, keeping stale business or menu data out.
@@ -180,6 +213,12 @@ for (const [sourceName, featuredName, price] of [
   assert.ok(botanicalHome.includes('<strong>' + price + '</strong>'), 'featured menu must include ' + price);
 }
 assert.match(botanicalHome, /id="menu-highlights-title"/);
+assert.match(botanicalHome, /<b>Open daily<\/b><br>8 AM–2 AM/, 'home hero must show the corrected daily hours');
+assert.match(botanicalHome, /Every day 8:00 AM–2:00 AM \(next morning\)/, 'visit section must show daily hours');
+const updatedParkingPost = await read('dist/the-daily-kava/parking-hours-tribal-kava-west-palm-beach/index.html');
+assert.match(updatedParkingPost, /8:00 AM.2:00 AM/, 'corrected published parking article must reflect GBP hours');
+assert.doesNotMatch(updatedParkingPost, /Sun–Thu 8:00 AM|Fri–Sat 8:00 AM|Sun–Thu at midnight/);
+
 assert.match(botanicalHome, /Kratom refresher[^<]*21\+ ID required/);
 assert.match(botanicalHome, /In-lounge menu prices; pickup prices and availability may differ/);
 assert.match(botanicalHome, /query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'Google listing must use existing Tribal place ID');

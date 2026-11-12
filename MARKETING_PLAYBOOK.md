@@ -53,7 +53,7 @@ Phone: (561) 355-0561
 Existing listing: https://happykava.app/kava-bars/tribal-kava-bar-33415
 Story: https://happykava.app/stories/new-kava-bars-2026
 
-Your listing currently shows 8 AM–2 AM daily, while our current website shows Sun–Thu 8 AM–midnight and Fri–Sat 8 AM–1 AM. Please flag that discrepancy for confirmation with the lounge. The event descriptions and displayed start times also differ on Game Night and Loteria; please check the local timezone display against the organizer's original details.
+The Google Business Profile and website are now aligned at 8 AM–2 AM daily (next-morning close), verified November 12, 2026. The event descriptions and displayed start times also differ on Game Night and Loteria; please check the local timezone display against the organizer's original details.
 
 Thanks,
 JD

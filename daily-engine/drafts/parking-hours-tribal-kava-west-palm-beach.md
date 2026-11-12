@@ -2,7 +2,7 @@
 {
   "title": "Parking, hours, and walking in at Tribal Kava Lounge",
   "seoTitle": "Tribal Kava Lounge Parking West Palm Beach — Hours & What to Expect",
-  "metaDescription": "Practical arrival guide for 770 S Military Trail, Unit A1: where to park, current hours (Sun–Thu 8 AM–midnight; Fri–Sat 8 AM–1 AM), and what happens when you walk in.",
+  "metaDescription": "Practical arrival guide for 770 S Military Trail, Unit A1: where to park, current hours (daily 8 AM–2 AM, next morning), and what happens when you walk in.",
   "dek": "Everything you need to know before arriving at Tribal Kava Lounge — free parking, current hours, and the simple steps at the door so your first visit goes smoothly.",
   "category": "visit",
   "tags": [
@@ -25,14 +25,14 @@
     },
     {
       "question": "When is Tribal open?",
-      "answer": "Current lounge hours are Sun–Thu 8:00 AM–12:00 AM and Fri–Sat 8:00 AM–1:00 AM (https://www.thetribalkavalounge.com/visit)."
+      "answer": "Current lounge hours are 8:00 AM–2:00 AM daily (next morning) (https://www.thetribalkavalounge.com/visit)."
     }
   ],
   "contentFormat": "original-article",
   "slug": "parking-hours-tribal-kava-west-palm-beach",
   "primaryKeyword": "tribal kava lounge parking west palm beach",
   "date": "2026-09-18",
-  "modified": "2026-09-18",
+  "modified": "2026-11-12",
   "storyType": "guide",
   "sources": [
     {
@@ -60,14 +60,16 @@
   "writerReview": {
     "status": "pass",
     "issues": [],
-    "contentSha256": "1e711e68e60ed609cf163cfbe8e7c60c3aa83100091bc0b94c3afafdb8dd1ab5",
-    "model": "grok-4.6"
+    "contentSha256": "c1533e6e6583db2acef3c7b04997055cf6890a490f149b5b8d76b54f32366991",
+    "model": "verified-GBP-hours-factual-correction",
+    "verifiedAt": "2026-11-12",
+    "correctionScope": "Owner-authorized hours alignment with the verified Google Business Profile. Original model authorship remains in writer metadata and Git history."
   }
 }
 ---
 # Parking, hours, and walking in at Tribal Kava Lounge
 
-Start with the short answer: Tribal is at 770 S Military Trail, Unit A1, has unlimited free parking on-site, and is open Sun–Thu 8:00 AM–12:00 AM, Fri–Sat 8:00 AM–1:00 AM (see Visit) (https://www.thetribalkavalounge.com/visit). If this is your first time, walk up to the counter, tell the team what flavor style you like, and they’ll help you pick a drink (see New Here) (https://www.thetribalkavalounge.com/new-here).
+Start with the short answer: Tribal is at 770 S Military Trail, Unit A1, has unlimited free parking on-site, and is open daily from 8:00 AM to 2:00 AM the next morning (see Visit) (https://www.thetribalkavalounge.com/visit). If this is your first time, walk up to the counter, tell the team what flavor style you like, and they’ll help you pick a drink (see New Here) (https://www.thetribalkavalounge.com/new-here).
 
 ## Where to park
 
@@ -77,7 +79,7 @@ Tribal lists “unlimited free parking in the open lot on-site” at 770 S Milit
 
 ## Hours: when the lounge is open
 
-The lounge posts daily opening at 8:00 AM with these public hours: Sun–Thu 8:00 AM–12:00 AM and Fri–Sat 8:00 AM–1:00 AM (https://www.thetribalkavalounge.com/visit). If you like late-night plans, Friday and Saturday give you an extra hour; otherwise the lounge follows the midnight close for the rest of the week.
+The lounge posts daily opening at 8:00 AM with these public hours: 8:00 AM–2:00 AM every day (next morning) (https://www.thetribalkavalounge.com/visit). If you like late-night plans, the lounge now closes at 2:00 AM every night.
 
 (Claim source: Visit page — hours) (https://www.thetribalkavalounge.com/visit).
 
@@ -103,7 +105,7 @@ You do not need to study the menu before you arrive. The practical flow is simpl
 
 - Use the lot: parking is free and on-site, so plan to pull into the storefront lot rather than circling for street spots (https://www.thetribalkavalounge.com/visit).
 
-- Check hours before you go if you’re planning late-night plans — Fri–Sat close at 1:00 AM, Sun–Thu at midnight (https://www.thetribalkavalounge.com/visit).
+- Check hours before you go if you’re planning late-night plans — the lounge closes at 2:00 AM every day (https://www.thetribalkavalounge.com/visit).
 
 ## Where to go next on the site
 

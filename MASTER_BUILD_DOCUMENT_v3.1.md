@@ -190,7 +190,7 @@ Button: `Help Me Pick a Drink` (opens Ask the Kava Guide)
 
 **Section — Visit preview:**
 - Address: 770 S Military Trail, West Palm Beach, FL 33415 *(confirm exact Google Business Profile formatting before final publish)*
-- Hours: Sun–Thu 8:00 AM–12:00 AM · Fri–Sat 8:00 AM–1:00 AM
+- Hours: Daily 8:00 AM–2:00 AM (next morning)
 - Phone: `[Insert phone]` · Instagram: **@TribalKavaBarLounge** · TikTok: `[Insert TikTok]` · `[Google Maps embed placeholder]`
 - Buttons: `Get Directions` · `Call Us` · `Follow Us`
 - Note: **Online ordering coming soon** — join the VIP list to know when it drops.
@@ -289,7 +289,7 @@ CTA: `Join the VIP List`
 
 ### 6.6 VISIT US (`/visit`)
 
-Include: 770 S Military Trail, West Palm Beach, FL 33415 · Hours: Sun–Thu 8:00 AM–12:00 AM, Fri–Sat 8:00 AM–1:00 AM · Google Maps embed placeholder · Parking info placeholder · Phone `[Insert]` · Email `[Insert]` · @TribalKavaBarLounge + TikTok `[Insert]` · `Get Directions` · `Call`.
+Include: 770 S Military Trail, West Palm Beach, FL 33415 · Hours: Daily 8:00 AM–2:00 AM (next morning) · Google Maps embed placeholder · Parking info placeholder · Phone `[Insert]` · Email `[Insert]` · @TribalKavaBarLounge + TikTok `[Insert]` · `Get Directions` · `Call`.
 Local SEO copy: naturally mention serving West Palm Beach and nearby Lake Worth, Greenacres, Palm Springs, and Haverhill.
 `[Stock image / placeholder: dark lounge interior]`
 
@@ -309,7 +309,7 @@ Add FAQ schema markup (see §8).
 
 ### 6.8 Footer (sitewide)
 
-Tribal Kava Lounge · 770 S Military Trail, West Palm Beach, FL 33415 *(confirm GBP formatting before publish)* · Phone `[Insert phone]` · Sun–Thu 8 AM–12 AM, Fri–Sat 8 AM–1 AM · @TribalKavaBarLounge · TikTok `[Insert]` · links to Menu, New Here?, Kava vs. Kratom, FAQ, Events, Visit Us, Responsible Use.
+Tribal Kava Lounge · 770 S Military Trail, West Palm Beach, FL 33415 *(confirm GBP formatting before publish)* · Phone `[Insert phone]` · Daily 8 AM–2 AM (next morning) · @TribalKavaBarLounge · TikTok `[Insert]` · links to Menu, New Here?, Kava vs. Kratom, FAQ, Events, Visit Us, Responsible Use.
 Service-area line for local SEO: *Serving West Palm Beach, Lake Worth, Greenacres, Palm Springs, and Haverhill.*
 **Disclaimer:** Kratom products are for adults 21+ only. Valid ID required. Products are not intended to diagnose, treat, cure, or prevent any disease. Do not mix kava or kratom with alcohol or other substances. Consult a qualified professional if pregnant, nursing, taking medications, or if you have health concerns.
 
@@ -349,7 +349,7 @@ Service-area line for local SEO: *Serving West Palm Beach, Lake Worth, Greenacre
 
 **"What should I order first?" flow:** ask flavor style → recommend: Sweet & creamy → Banana Pudding Kava Cloud / La Nube Tres Leches · Fruity & refreshing → Passionfruit Mint Kratom Refresher / Guava Lime Agua Fresca · Bold & photo-ready → Blue Razz Coconut Cloud / Dubai Chocolate Pistachio Kava · Just here with friends → Agua Frescas or ask the team. Always invite first-timers to ask staff in person.
 
-**Knowledge base to load:** featured menu + all four kratom categories (tea, refreshers, shots, extracts — all 21+) · "full menu expanding soon" framing · beginner recommendations · education pages · Kava vs. Kratom · FAQ · responsible-use + age policy · hours (Sun–Thu 8 AM–12 AM, Fri–Sat 8 AM–1 AM) · location: 770 S Military Trail, West Palm Beach, FL 33415 · phone `[Insert]` · events · @TribalKavaBarLounge / TikTok / Google Maps links · online ordering + gift cards = "coming soon" · brand tone · disclaimers.
+**Knowledge base to load:** featured menu + all four kratom categories (tea, refreshers, shots, extracts — all 21+) · "full menu expanding soon" framing · beginner recommendations · education pages · Kava vs. Kratom · FAQ · responsible-use + age policy · hours (Daily 8 AM–2 AM (next morning)) · location: 770 S Military Trail, West Palm Beach, FL 33415 · phone `[Insert]` · events · @TribalKavaBarLounge / TikTok / Google Maps links · online ordering + gift cards = "coming soon" · brand tone · disclaimers.
 **Compliance API:** knowledge-base updates and any new canned responses pass the §3.6 Compliance API before going live.
 
 ---

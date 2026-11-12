@@ -42,7 +42,7 @@ Use a Domain property, not only a URL-prefix property, so both root and `www` ar
    - **Name:** Tribal Kava Lounge
    - **Address:** 770 S Military Trail, Unit A1, West Palm Beach, FL 33415
    - **Phone:** (561) 355-0561
-   - **Hours:** Sun–Thu 8 AM–12 AM; Fri–Sat 8 AM–1 AM
+   - **Hours:** Daily 8 AM–2 AM (next morning)
 3. Use this tracked website URL:
    `https://thetribalkavalounge.com/?utm_source=google&utm_medium=organic&utm_campaign=google_business_profile`
 4. Add the menu URL:
