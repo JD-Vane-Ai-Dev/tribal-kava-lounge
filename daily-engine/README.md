@@ -95,3 +95,31 @@ performs no deployment when there are no passing drafts.
 writer or authoring schedule. No newly researched manuscripts are invented or
 published when the editorial inventory is empty. The user must supply a validated
 writer/provider before automatic *new article generation* is restored.
+
+
+## Native Netlify scheduled publisher (cloud implementation)
+The existing Netlify site now has a scheduled function at
+netlify/functions/daily-kava-schedule.mjs, set to 12:15 PM
+America/New_York daily using UTC 16:15/17:15 with an Eastern-time
+DST gate. It compares the current public GitHub master source SHA against
+the daily-kava-build-state.json shipped with the last successful Netlify
+build. When current, it does not spend site-build credits. When behind,
+it triggers the existing project's Netlify build hook (stored as a
+production Functions-only secret, never committed in code).
+
+The cloud build executes scripts/netlify-approved-build.sh, which
+re-runs the existing Python Daily Kava manuscript approval and compliance
+checks, installs both Node package-lock sets, runs the complete test suite,
+and publishes the static catalog, sitemap and feeds in the SAME Netlify
+project. This does not start or pay for an LLM article author; the writer
+remains a separate workflow. The GitHub Actions billing restriction is
+irrelevant to this path. Netlify build/deploy credits and function calls
+are metered under the existing site.
+
+Netlify's build environment is ephemeral: staged catalog changes do
+not write back to the GitHub repository. The published static output
+persists on Netlify and is reproduced from the same approved drafts
+on future builds. Do not claim the source queue was marked published
+until a separate GitHub writeback has been implemented. Retire the Mac
+LaunchAgent only after cloud deployment and schedule registration are
+verified.
