@@ -170,6 +170,20 @@ assert.match(botanicalHome, /visibilitychange/);
 assert.match(botanicalHome, /<h2 id="daily-heading"[^>]*>THE DAILY KAVA/);
 assert.match(botanicalHome, /<a href="\/the-daily-kava">The Daily Kava<\/a>/);
 assert.match(botanicalHome, /data-daily-home-cards/);
+const existingMenu = await read('index.html');
+for (const [sourceName, featuredName, price] of [
+  ['Single Shell', 'Single Kava Shell', '$6'], ['Banana Pudding', 'Banana Pudding', '$10'],
+  ['Mango Chili Lime', 'Mango Chili Lime', '$14'], ['Guava Lime', 'Guava Lime', '$13']
+]) {
+  assert.ok(existingMenu.includes(sourceName), 'existing site menu must include ' + sourceName);
+  assert.ok(botanicalHome.includes(featuredName), 'featured drink must include ' + featuredName);
+  assert.ok(botanicalHome.includes('<strong>' + price + '</strong>'), 'featured menu must include ' + price);
+}
+assert.match(botanicalHome, /id="menu-highlights-title"/);
+assert.match(botanicalHome, /Kratom refresher[^<]*21\+ ID required/);
+assert.match(botanicalHome, /In-lounge menu prices; pickup prices and availability may differ/);
+assert.match(botanicalHome, /query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y/, 'Google listing must use existing Tribal place ID');
+
 assert.doesNotMatch(botanicalHome, /street-profit|streetwear|block tour/i, 'Unrelated clothing brand must not be promoted on Tribal homepage');
 assert.match(botanicalHome, /a\[href="\/the-daily-kava"\]:not\(\.nav-cta\)\{display:inline-flex/, 'Daily archive must remain visible from mobile header');
 assert.equal((botanicalHome.match(/class="daily-featured-card"/g) || []).length, 3, 'homepage must feature three approved Daily Kava posts');
