@@ -25,20 +25,20 @@ for (const item of ['addon_tables','addon_chairs','addon_lounge_seating','addon_
 }
 assert.match(config,/from = "\/private-events"[\s\S]*?to = "\/venue-rental\.html"[\s\S]*?force = true/);
 assert.match(publicQuoteForm,/<h1 id="hero-heading">Your event\.<br><em>Your space\.<\/em>/);
-assert.match(publicQuoteForm,/<img src="\/images\/tribal-private-events-room-edited\.jpeg"/);
+assert.match(publicQuoteForm,/<img src="\/images\/tribal-private-events-green-gold-75\.png"/);
 assert.match(publicQuoteForm,/customizable|custom layout|custom venue/i);
 assert.doesNotMatch(publicQuoteForm,/Not another empty banquet room|The lounge is already the vibe/);
-assert.match(publicQuoteForm,/<link rel="canonical" href="https:\/\/www\.thetribalkavalounge\.com\/private-events"/);
+assert.match(publicQuoteForm,/<link rel="canonical" href="https:\/\/(?:www\.)?thetribalkavalounge\.com\/private-events"/);
 assert.match(site,/YOUR VENUE/);
 console.log('Tribal Studio build and homepage-separation checks passed');
 assert.ok(!home.includes('href="/events"'));
 assert.ok(!home.includes('id="whats-on"'));
 
 // The owner-selected graphic must replace the old venue image without cropping its copy.
-assert.match(publicQuoteForm,/hero-venue-photo"><img src="\/images\/tribal-private-events-room-edited\.jpeg"/);
+assert.match(publicQuoteForm,/hero-venue-photo"><img src="\/images\/tribal-private-events-green-gold-75\.png"/);
 assert.doesNotMatch(publicQuoteForm,/<span>THE REAL VENUE<\/span>/);
 assert.match(publicQuoteForm,/object-fit:contain/);
-assert.ok(build.includes("'tribal-private-events-room-edited.jpeg'"));
+assert.ok(build.includes("'tribal-private-events-green-gold-75.png'"));
 
 // REA quote UX: all existing submission field names, same Netlify endpoint and clear add-on groups.
 assert.match(publicQuoteForm,/name="tribal-private-rental" method="POST" action="\/rental-inquiry-received" data-netlify="true"/);
@@ -54,3 +54,13 @@ assert.match(publicQuoteForm,/class="occasion-tile" data-event-type="Birthday \/
 assert.match(publicQuoteForm,/id="form-heading"/);
 assert.match(publicQuoteForm,/Common questions, clear answers/);
 assert.match(publicQuoteForm,/No payment collected/);
+
+// User-approved hero remains the actual green-and-gold 75-guest graphic.
+import {createHash} from 'node:crypto';
+const approvedHeroImage=await readFile('images/tribal-private-events-green-gold-75.png');
+assert.equal(createHash('sha256').update(approvedHeroImage).digest('hex'),
+  '5aa0b684793a1284a2a695d1c06abde2287777f3861131ec288256b424a6e916');
+assert.match(publicQuoteForm,/id="qguests" type="number" min="1" max="75" required/);
+assert.match(publicQuoteForm,/Maximum venue occupancy is 75|maximum occupancy of 75/);
+assert.doesNotMatch(publicQuoteForm,/60-guest|max="60"|up to 60 guests/i);
+assert.match(site,/Maximum venue occupancy is 75 guests/);

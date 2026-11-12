@@ -6,7 +6,7 @@ Page: https://thetribalkavalounge.com/private-events
 ## Constraints
 Separate venue offering; the Tribal Kava Lounge homepage stays kava-bar focused.
 Preserve owner-selected edited room photo, Netlify form action, all 16 add-on fields, valid location and actual existing venue amenities. The illustration is a styled setup concept, not an inventory guarantee.
-Approved offer: $250 for 3 event hours on select off-peak dates; +$50 per 30 minutes where available; 50% non-refundable initial booking payment credited to rental, remaining 50% upon arrival before setup, separate $100 refundable damage deposit. Capacity 60 is a planning ceiling subject to legal occupancy/layout confirmation. Other services custom-quoted.
+Approved offer: $250 for 3 event hours on select off-peak dates; +$50 per 30 minutes where available; 50% non-refundable initial booking payment credited to rental, remaining 50% upon arrival before setup, separate $100 refundable damage deposit. Venue maximum updated to 75 guests per owner confirmation; seating/layout requests can be lower. Other services custom-quoted.
 
 ## Three design directions
 - Chosen: botanical private venue — forest green, ivory and brass, real room imagery, distinct event-type entry points, visible quote CTA, clearly separated custom add-ons, WCAG-focused responsive fieldsets.

@@ -256,6 +256,7 @@ assert.deepEqual(publishedImages, [
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
   'tribal-mario-kart-racers.webp',
+  'tribal-private-events-green-gold-75.png',
   'tribal-private-events-room-edited.jpeg'
 ], 'production must publish only the verified Tribal media allowlist');
 assert.match(html, /verified[\s\S]*@TribalKavaLounge post published August 18, 2026/, 'owned photography must retain visible source provenance');

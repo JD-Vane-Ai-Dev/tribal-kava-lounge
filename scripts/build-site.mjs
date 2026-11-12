@@ -32,6 +32,7 @@ const files = [
 const imageFiles = [
   'haunted-tribe-shirt.webp',
   'tribal-bar-game-night.webp',
+  'tribal-private-events-green-gold-75.png',
   'tribal-private-events-room-edited.jpeg',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
