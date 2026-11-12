@@ -1,5 +1,8 @@
 [build]
-  publish = "."
+  # Safe for Git-connected Netlify builds; manual CLI deployments still supply --dir dist.
+  command = "npm ci --no-audit --no-fund && npm test"
+  publish = "dist"
+  functions = "netlify/functions"
 
 # Every public SEO URL is pre-rendered as a real file. Unknown routes\n# must return a true 404 instead of a soft-404 SPA homepage.
 # Owner-approved Botanical Kava homepage. Force this exact root path over
