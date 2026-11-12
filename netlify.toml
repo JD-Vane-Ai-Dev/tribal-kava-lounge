@@ -1,6 +1,6 @@
 [build]
   # Safe for Git-connected Netlify builds; manual CLI deployments still supply --dir dist.
-  command = "npm ci --no-audit --no-fund && npm test"
+  command = "npm ci --no-audit --no-fund && npm --prefix api ci --no-audit --no-fund && npm test"
   publish = "dist"
   functions = "netlify/functions"
 
