@@ -16,3 +16,11 @@ Private planning workspace: https://thetribalkavalounge.com/studio (not included
 - Introductory venue offer: $250 for 3 hours on select off-peak dates only; plus $50 per approved additional 30 minutes. Add-on prices/dates are custom-confirmed. Venue maximum occupancy is 75 guests as confirmed by the owner; event layouts can support fewer.
 - Vendor pop-up date and spaces are unconfirmed. Free booth consideration does not guarantee a slot.
 - Public lounge homepage is at / and built from the approved Botanical Kava source without rental advertising.
+
+## Live handoff verification status (November 12, 2026)
+
+The signed Netlify formSubmitted handler is deployed, and importer/UI/booking unit tests and the cloud build passed. Two owner-initiated synthetic form tests reached the public thank-you page and advanced the form last-submission timestamp. However, Netlify returned **zero verified submissions** and the owner Studio returned **zero imported records** at the time of inspection. Therefore **a production form-to-Studio import has not yet been witnessed**. The synthetic requests must not be treated as real bookings.
+
+To verify the handoff, sign into the existing Netlify project, open Forms > tribal-private-rental > Spam, and locate the clearly marked internal tests submitted November 12 around 1:37 PM or 1:42 PM Eastern. If present, mark only one as verified; this should invoke Netlify formSubmitted. Recheck Studio for a **new** lead, then remove the synthetic test from Studio and Netlify. If neither is in Spam, inspect Forms settings/detection and request logs before changing code. Never disable form spam checks merely to pass a test.
+
+Payment completion still requires connecting a Stripe account belonging to Tribal. The only currently visible connected Stripe account is Buildry; payments must not cross those business accounts.
