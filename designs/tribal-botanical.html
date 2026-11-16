@@ -113,6 +113,34 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 @media(max-width:1050px){.menu-highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-highlights-heading{align-items:start;flex-direction:column}}
 @media(max-width:560px){.menu-highlights-grid{grid-template-columns:1fr}.menu-highlight-card{padding:21px}.menu-highlight-type{min-height:0}.menu-highlights{padding:60px 0}}
 .visit-hours{color:var(--muted);font-size:15px;margin:12px 0 4px}.visit-hours strong{display:inline;font:800 15px var(--body);text-transform:none;margin:0;color:var(--cream)}
+
+/* Prestige pilot: owner-approved botanical identity, source photographs and editorial rhythm. */
+.hero-left{background:radial-gradient(ellipse at 78% 15%,#63824b35,transparent 44%),linear-gradient(135deg,#122b1e,#254731 65%,#123025)}
+.hero .large{font-size:clamp(62px,6.8vw,112px);line-height:.88;letter-spacing:-.027em}
+.hero .large em{color:#e4eeb5;letter-spacing:-.033em}
+.hero .body-lg{max-width:510px;color:#e2e9db}
+.hero .action.primary{background:#e7efbb;border-color:#e7efbb;color:#183825}
+.hero-caption strong{max-width:490px;letter-spacing:-.025em}
+.prestige-story{background:#eef0de;color:#193b2a;position:relative;overflow:hidden}
+.prestige-story:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 94% 5%,#fff5b585,transparent 32%)}
+.prestige-story-inner{position:relative;max-width:1440px;margin:auto;padding:clamp(75px,8vw,125px) clamp(22px,5vw,75px);display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:clamp(40px,7vw,115px)}
+.prestige-photos{position:relative;min-height:570px}
+.prestige-photos img:first-child{width:85%;height:510px;object-fit:cover;border-radius:260px 260px 16px 16px;box-shadow:0 25px 60px #233d2930}
+.prestige-photos img:nth-child(2){position:absolute;right:0;bottom:0;width:44%;aspect-ratio:4/5;object-fit:cover;border:9px solid #eef0de;box-shadow:0 20px 60px #112d2545}
+.prestige-stamp{position:absolute;left:0;bottom:0;transform:translate(-15%,5%) rotate(-12deg);height:132px;width:132px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#2c593d;color:#e5eeb5;text-align:center;text-transform:uppercase;letter-spacing:.13em;font:800 18px/1.1 var(--display);box-shadow:0 12px 30px #163a2940}
+.prestige-copy .eyebrow{color:#4d7255}
+.prestige-copy h2{font:900 clamp(55px,6vw,95px)/.91 var(--display);letter-spacing:-.027em;text-transform:uppercase;margin:16px 0 27px}
+.prestige-copy h2 em{font-style:normal;color:#67925a}
+.prestige-copy>p:not(.eyebrow){font-size:clamp(18px,1.9vw,24px);line-height:1.55;color:#43604a;max-width:560px}
+.prestige-notes{display:grid;grid-template-columns:1fr 1fr;gap:25px;margin:38px 0}
+.prestige-notes>div{border-top:1px solid #9cb29a;padding-top:16px;font-size:13px;line-height:1.6;color:#536d54}
+.prestige-notes strong{display:block;font:800 24px/1.03 var(--display);color:#244b34;text-transform:uppercase;margin-bottom:9px}
+.prestige-copy .action{border-color:#234f38;color:#193a29;background:transparent}
+.prestige-copy .action:hover{background:#d5e0c4}
+@media(max-width:950px){.prestige-story-inner{grid-template-columns:1fr;gap:40px}.prestige-photos{min-height:450px;max-width:600px;width:100%;margin:auto}.prestige-photos img:first-child{height:420px}.prestige-copy h2{font-size:clamp(56px,9vw,85px)}}
+@media(max-width:600px){.hero .large{font-size:clamp(49px,12.3vw,72px)}.prestige-story-inner{padding:66px 20px}.prestige-photos{min-height:330px}.prestige-photos img:first-child{height:310px}.prestige-photos img:nth-child(2){border-width:5px}.prestige-stamp{width:100px;height:100px;font-size:14px;left:13px;bottom:10px}.prestige-copy h2{font-size:clamp(50px,12vw,70px)}.prestige-notes{gap:18px}.prestige-notes strong{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.prestige-story *, .prestige-story *:before{animation:none!important;transition:none!important}}
+
 </style>
 </head><body>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
@@ -138,6 +166,27 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 </div></section>
 <div class="marquee" aria-label="The Tribal experience"><span>COME AS YOU ARE</span><i>✦</i><span>STAY FOR THE VIBE</span><i>✦</i><span>REAL KAVA · REAL CONNECTION</span></div>
 <section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b>Start with our easy beginner guide.</div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Staying awhile?</b>Stay awhile and unwind in the lounge.</div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
+
+<section class="prestige-story" aria-labelledby="prestige-heading">
+  <div class="prestige-story-inner">
+    <div class="prestige-photos">
+      <img src="/images/tribal-bar-game-night.webp" alt="Guests gathering at the real Tribal Kava Lounge bar" width="1200" height="750" loading="lazy">
+      <img src="/images/tribal-community-game-night.webp" alt="Community game night at Tribal" width="1000" height="1250" loading="lazy">
+      <div class="prestige-stamp" aria-hidden="true">Come<br>as you<br>are</div>
+    </div>
+    <div class="prestige-copy">
+      <p class="eyebrow">Your third place, West Palm Beach</p>
+      <h2 id="prestige-heading">NOT JUST<br>A KAVA BAR.<br><em>YOUR KIND<br>OF PLACE.</em></h2>
+      <p>There is always room for another chair at Tribal. Come in for your first shell, challenge somebody to a game, or make a regular Tuesday feel like a night worth remembering.</p>
+      <div class="prestige-notes">
+        <div><strong>Real connection.</strong>Conversation, games and community nights. No pressure to be anyone but yourself.</div>
+        <div><strong>Botanical ritual.</strong>Curious about kava? Start with a beginner-friendly guide and explore the menu.</div>
+      </div>
+      <a href="/new-here" class="action" data-conversion="new_here">New here? Start with us <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+
 <section class="discover" id="drinks"><div class="wrap discover-layout"><div class="drink-illustration" aria-hidden="true"><div class="shell-shadow"></div><div class="shell-rim"><div class="shell-drink"></div></div><div class="shell-caption">THE FIRST<br>SHELL IS<br>THE START.</div></div><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
 
 
