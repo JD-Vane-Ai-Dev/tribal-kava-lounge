@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "build": "node scripts/build-site.mjs",
-    "test": "npm run build && node scripts/site-check.mjs && node scripts/studio-check.mjs && node scripts/tribal-booking-check.mjs && node scripts/daily-kava-schedule-check.mjs && node scripts/analytics-check.mjs && npm run test:api",
+    "test": "npm run build && node scripts/site-check.mjs && node scripts/studio-check.mjs && node scripts/tribal-booking-check.mjs && node scripts/daily-kava-schedule-check.mjs && node scripts/analytics-check.mjs && npm run test:api && npm run test:prestige",
     "test:api": "npm --prefix api test",
     "deploy:azure": "zsh scripts/deploy-azure.sh",
     "submit:indexnow": "node scripts/submit-indexnow.mjs",
-    "serve": "npx --yes @azure/static-web-apps-cli start dist --api-location api"
+    "serve": "npx --yes @azure/static-web-apps-cli start dist --api-location api",
+    "test:prestige": "node scripts/prestige-check.mjs"
   },
   "dependencies": {
     "@netlify/blobs": "^11.1.9"
