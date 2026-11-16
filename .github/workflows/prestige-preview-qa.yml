@@ -63,3 +63,57 @@ jobs:
             throw Error('Preview homepage not protected');
           console.log(JSON.stringify({ok:true,htmlCount:files.length,previewNoindex:true,productionBuildUnaffected:true}));
           NODE
+
+
+      - name: Deploy the isolated preview project (never Tribal production)
+        if: github.repository == 'JD-Vane-Ai-Dev/tribal-kava-lounge' && github.ref == 'refs/heads/prestige/tribal-botanical-pilot-20261116'
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$NETLIFY_AUTH_TOKEN" ]]; then
+            echo "::error::Existing NETLIFY_AUTH_TOKEN repository secret not available; cannot update preview."
+            exit 1
+          fi
+          # Stage outside the repo so the original production netlify.toml and
+          # production Netlify Functions can never be included in this deploy.
+          stage="$(mktemp -d)"
+          cp -a dist-prestige-preview/. "$stage/"
+          printf '%s\n' '[build]' '  publish = "."' '  command = "echo staging-only"'             '' '[[redirects]]' '  from = "/"' '  to = "/botanical-home.html"'             '  status = 200' '  force = true'             '' '[[redirects]]' '  from = "/private-events"' '  to = "/venue-rental.html"'             '  status = 200' '  force = true' > "$stage/netlify.toml"
+          test ! -d "$stage/netlify/functions"
+          test -f "$stage/_headers"
+          test -f "$stage/botanical-home.html"
+          grep -q 'mobile-utility-nav' "$stage/botanical-home.html"
+          npm install --global netlify-cli@26.1.0 --no-audit --no-fund
+          cd "$stage"
+          netlify deploy --prod --no-build --dir .             --site 9efee41a-f76e-4754-9435-5ea0bc2c0977             --message "Prestige review branch GitHub QA $GITHUB_SHA"             --json > "$RUNNER_TEMP/prestige-netlify-deploy.json"
+          python3 - <<'PY'
+          import json, os
+          with open(os.environ['RUNNER_TEMP'] + '/prestige-netlify-deploy.json') as f:
+              result = json.load(f)
+          if not result.get('deploy_id'):
+              raise SystemExit('Netlify did not confirm preview deployment')
+          print('Prestige preview deploy ID:', result['deploy_id'])
+          print('Isolated preview:', 'https://tribal-prestige-preview-20261116.netlify.app/')
+          PY
+
+      - name: Verify public staging URL and navigation
+        if: github.repository == 'JD-Vane-Ai-Dev/tribal-kava-lounge' && github.ref == 'refs/heads/prestige/tribal-botanical-pilot-20261116'
+        run: |
+          set -euo pipefail
+          base='https://tribal-prestige-preview-20261116.netlify.app'
+          ready=0
+          for attempt in 1 2 3 4 5 6 7 8; do
+            if curl -fsS --max-time 12 "$base/" > "$RUNNER_TEMP/prestige-home.html" &&
+               grep -q 'mobile-utility-nav' "$RUNNER_TEMP/prestige-home.html" &&
+               grep -q 'skip-to-main' "$RUNNER_TEMP/prestige-home.html"; then
+              ready=1
+              break
+            fi
+            sleep 3
+          done
+          test "$ready" -eq 1
+          curl -fsSI --max-time 12 "$base/" | grep -iq 'x-robots-tag:.*noindex'
+          curl -fsS --max-time 12 "$base/menu/" > /dev/null
+          curl -fsS --max-time 12 "$base/new-here/" > /dev/null
+          echo 'Verified preview, noindex headers, menu, first-visit and mobile actions.'
