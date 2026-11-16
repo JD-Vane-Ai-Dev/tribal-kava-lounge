@@ -1,0 +1,65 @@
+name: Prestige isolated preview QA
+on:
+  push:
+    branches:
+      - prestige/tribal-botanical-pilot-20261116
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install application dependencies
+        run: |
+          npm ci
+          npm --prefix api ci
+      - name: Full existing test suite
+        run: npm test
+      - name: Create separate review-only build
+        run: npm run build:prestige-preview
+      - name: Verify isolation and preview indexing controls
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFile, readdir, stat } from 'node:fs/promises';
+          import path from 'node:path';
+          const production = 'dist';
+          const preview = 'dist-prestige-preview';
+          const collect = async (dir) => {
+            const out = [];
+            for (const ent of await readdir(dir, { withFileTypes: true })) {
+              const p = path.join(dir, ent.name);
+              if (ent.isDirectory()) out.push(...await collect(p));
+              else if (ent.name.endsWith('.html')) out.push(p);
+            }
+            return out;
+          };
+          const files = await collect(preview);
+          if (files.length < 20) throw Error('Preview lost expected HTML routes');
+          for (const file of files) {
+            const html = await readFile(file, 'utf8');
+            if (!/<meta name="robots" content="noindex,nofollow,noarchive">/.test(html))
+              throw Error('Preview is missing robots policy: ' + file);
+          }
+          const headers = await readFile(path.join(preview, '_headers'), 'utf8');
+          if (!headers.includes('X-Robots-Tag: noindex, nofollow, noarchive'))
+            throw Error('Missing preview HTTP robots header');
+          const sourceHome = await readFile(path.join(production, 'botanical-home.html'), 'utf8');
+          if (sourceHome.includes('name="robots" content="noindex,nofollow,noarchive"'))
+            throw Error('Preview exclusion leaked into production output');
+          const previewHome = await readFile(path.join(preview, 'botanical-home.html'), 'utf8');
+          if (!previewHome.includes('noindex,nofollow,noarchive'))
+            throw Error('Preview homepage not protected');
+          console.log(JSON.stringify({ok:true,htmlCount:files.length,previewNoindex:true,productionBuildUnaffected:true}));
+          NODE
