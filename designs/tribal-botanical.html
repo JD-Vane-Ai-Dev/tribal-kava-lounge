@@ -141,11 +141,30 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 @media(max-width:600px){.hero .large{font-size:clamp(49px,12.3vw,72px)}.prestige-story-inner{padding:66px 20px}.prestige-photos{min-height:330px}.prestige-photos img:first-child{height:310px}.prestige-photos img:nth-child(2){border-width:5px}.prestige-stamp{width:100px;height:100px;font-size:14px;left:13px;bottom:10px}.prestige-copy h2{font-size:clamp(50px,12vw,70px)}.prestige-notes{gap:18px}.prestige-notes strong{font-size:21px}}
 @media(prefers-reduced-motion:reduce){.prestige-story *, .prestige-story *:before{animation:none!important;transition:none!important}}
 
+/* Prestige pass: keyboard access and purposeful mobile conversion navigation. */
+html{scroll-padding-top:96px}
+.skip-to-main{position:fixed;top:10px;left:12px;z-index:120;transform:translateY(-180%);padding:12px 18px;background:#eef0de;color:#163e2b;border:3px solid #163e2b;font-weight:800;text-decoration:none;border-radius:4px}
+.skip-to-main:focus{transform:translateY(0)}
+.intro-notes a{color:#e8f0be;text-underline-offset:3px;font-weight:700}
+.mobile-utility-nav{display:none}
+@media(max-width:990px){
+ body{padding-bottom:calc(90px + env(safe-area-inset-bottom))}
+ .mobile-utility-nav{position:fixed;inset:auto 0 0;z-index:80;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#132d21f5;border-top:1px solid #84a58a;box-shadow:0 -12px 30px #0d261aa8;backdrop-filter:blur(14px)}
+ .mobile-utility-nav a{min-width:0;min-height:58px;display:flex;flex-direction:column;gap:2px;align-items:center;justify-content:center;text-decoration:none;text-align:center;border-radius:6px}
+ .mobile-utility-nav a+a{border-left:1px solid #547562;border-radius:0}
+ .mobile-utility-nav strong{font:800 17px/1 var(--display);letter-spacing:.035em;text-transform:uppercase;color:#ecf2ce}
+ .mobile-utility-nav small{font:600 10px/1.2 var(--body);color:#c7dcc5}
+ .mobile-utility-nav a:focus-visible{outline:3px solid #eaf4b5;outline-offset:-3px}
+ .preview-ribbon{position:static;display:block;width:fit-content;margin:0 auto;padding:7px 12px;transform:none}
+}
+@media(max-width:390px){.mobile-utility-nav{padding-left:4px;padding-right:4px}.mobile-utility-nav strong{font-size:15px}.mobile-utility-nav small{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.skip-to-main{transition:none}}
 </style>
 </head><body>
+<a href="#main-content" class="skip-to-main">Skip to main content</a>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
 <header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/the-daily-kava">The Daily Kava</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
-<main>
+<main id="main-content" tabindex="-1">
 <section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>STAY FOR<br>THE PEOPLE.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span><span><b>Open daily</b><br>8 AM–2 AM</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
 <img class="hero-slide is-active" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="Guests relaxing together around the bar at Tribal Kava Lounge" width="1200" height="750" fetchpriority="high" decoding="async">
 <img class="hero-slide" data-hero-slide src="/images/tribal-community-game-night.webp" alt="Guests enjoying a community gathering at Tribal Kava Lounge" width="1000" height="1250" aria-hidden="true" decoding="async">
@@ -165,7 +184,7 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 <span class="hero-visually-hidden" aria-live="polite" data-hero-status></span>
 </div></section>
 <div class="marquee" aria-label="The Tribal experience"><span>COME AS YOU ARE</span><i>✦</i><span>STAY FOR THE VIBE</span><i>✦</i><span>REAL KAVA · REAL CONNECTION</span></div>
-<section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b>Start with our easy beginner guide.</div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Staying awhile?</b>Stay awhile and unwind in the lounge.</div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
+<section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b><a href="/new-here">Read the first-timer guide ↗</a></div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Anything happening?</b><a href="/events">See upcoming community events ↗</a></div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
 
 <section class="prestige-story" aria-labelledby="prestige-heading">
   <div class="prestige-story-inner">
@@ -215,7 +234,12 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 
 <section class="block" id="visit"><div class="wrap visit"><div><p class="eyebrow">Find your way here</p><h2 class="display2">JUST AROUND<br>THE CORNER.<br>FEELS LIKE<br>YOUR PLACE.</h2><p class="address"><strong>770 S Military Trail, Unit A1</strong><br>West Palm Beach, FL 33415</p><p class="visit-hours"><strong>Hours:</strong> Every day 8:00 AM–2:00 AM (next morning)</p><div class="visit-actions"><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action primary" target="_blank" rel="noopener">Get directions ↗</a><a href="tel:+15613550561" class="action outline">Call the lounge ↗</a><a href="https://www.google.com/maps/search/?api=1&amp;query=Tribal+Kava+Lounge&amp;query_place_id=ChIJFe_zmzQp2YgRh1ooSVUot9Y" class="action outline" target="_blank" rel="noopener" data-conversion="google_reviews">Google listing &amp; hours ↗</a></div></div><div class="visit-photo"><img src="/images/tribal-community-game-night.webp" loading="lazy" width="1000" height="1250" alt="Actual guests during an event at Tribal Kava Lounge"><span>See you at Tribal · West Palm Beach</span></div></div></section>
 </main>
-<footer class="footer"><div class="wrap footer-grid"><div><div class="footer-brand">TRIBAL KAVA<br>LOUNGE.</div><p>770 S Military Trail, Unit A1 · West Palm Beach, FL</p><small>Alcohol-free lounge. Age restrictions apply to some products.</small></div><div class="footer-links"><a href="/menu">Menu</a><a href="/the-daily-kava">The Daily Kava</a><a href="/visit">Visit</a><a href="https://www.instagram.com/tribalkavalounge/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
+<footer class="footer"><div class="wrap footer-grid"><div><div class="footer-brand">TRIBAL KAVA<br>LOUNGE.</div><p>770 S Military Trail, Unit A1 · West Palm Beach, FL</p><small>Alcohol-free lounge. Age restrictions apply to some products.</small></div><div class="footer-links"><a href="/menu">Menu</a><a href="/new-here">First visit</a><a href="/the-daily-kava">The Daily Kava</a><a href="/visit">Visit</a><a href="https://www.instagram.com/tribalkavalounge/" target="_blank" rel="noopener">Instagram</a></div></div></footer>
+<nav class="mobile-utility-nav" aria-label="Quick visit links">
+  <a href="/menu" data-conversion="mobile_menu"><strong>Drinks</strong><small>Explore menu</small></a>
+  <a href="/new-here" data-conversion="mobile_new_here"><strong>First visit</strong><small>Start here</small></a>
+  <a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" target="_blank" rel="noopener" data-conversion="mobile_directions"><strong>Directions</strong><small>Get to Tribal</small></a>
+</nav>
 <div class="preview-ribbon">Kava bar · Botanical concept <span>· Preview only</span></div>
 <script>
 (() => {
