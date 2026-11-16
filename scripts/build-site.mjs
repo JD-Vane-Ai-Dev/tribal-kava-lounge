@@ -41,6 +41,10 @@ const imageFiles = [
 
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
+// Legacy lounge URL must never render the hard-404 page. These Netlify
+// redirect rules are included in upload-only previews as well as Git builds.
+await writeFile(path.join(output, '_redirects'),
+  '/the-lounge /#experience 301\\n/the-lounge/ /#experience 301\\n');
 await Promise.all(files.map((file) => cp(path.join(root, file), path.join(output, file))));
 await mkdir(path.join(output, 'images'), { recursive: true });
 await Promise.all(imageFiles.map((file) => cp(path.join(root, 'images', file), path.join(output, 'images', file))));
