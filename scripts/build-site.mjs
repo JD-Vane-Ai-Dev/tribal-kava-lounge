@@ -42,6 +42,9 @@ const imageFiles = [
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await Promise.all(files.map((file) => cp(path.join(root, file), path.join(output, file))));
+// Review-only Prestige Botanical concept. Never overrides the live homepage.
+await cp(path.join(root, 'designs/tribal-prestige-botanical.html'), path.join(output, 'prestige-botanical.html'));
+
 await mkdir(path.join(output, 'images'), { recursive: true });
 await Promise.all(imageFiles.map((file) => cp(path.join(root, 'images', file), path.join(output, 'images', file))));
 const calendarSource = await readFile(path.join(root, 'events.ics'), 'utf8');
