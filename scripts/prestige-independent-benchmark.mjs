@@ -8,7 +8,7 @@ const targets = [
   { name: 'prestige_preview', url: 'https://tribal-prestige-preview-20261116.netlify.app' },
   { name: 'production', url: 'https://thetribalkavalounge.com' },
 ];
-const routes = ['/', '/menu', '/visit', '/new-here', '/the-daily-kava'];
+const routes = ['/', '/menu', '/visit', '/new-here', '/the-daily-kava', '/the-lounge'];
 const deadlineMs = 12000;
 
 function count(html, pattern) { return (html.match(pattern) || []).length; }
