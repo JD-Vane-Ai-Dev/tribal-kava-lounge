@@ -39,7 +39,9 @@ assert.ok(!home.includes('href="/events"'));
 assert.ok(!home.includes('id="whats-on"'));
 
 // The owner-selected graphic must replace the old venue image without cropping its copy.
-assert.match(publicQuoteForm,/hero-venue-photo"><img src="\/images\/tribal-private-events-green-gold-75\.png"/);
+assert.match(publicQuoteForm,/hero-venue-photo"><picture><source/);
+assert.match(publicQuoteForm,/\/\.netlify\/images\?url=\/images\/tribal-private-events-green-gold-75\.png/);
+assert.match(publicQuoteForm,/<meta property="og:image:width" content="1448">/);
 assert.doesNotMatch(publicQuoteForm,/<span>THE REAL VENUE<\/span>/);
 assert.match(publicQuoteForm,/object-fit:contain/);
 assert.ok(build.includes("'tribal-private-events-green-gold-75.png'"));
