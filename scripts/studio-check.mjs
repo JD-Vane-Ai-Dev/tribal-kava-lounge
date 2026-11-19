@@ -24,11 +24,15 @@ for (const item of ['addon_tables','addon_chairs','addon_lounge_seating','addon_
  assert.ok(publicQuoteForm.includes('name="'+item+'"'), 'Missing explicit quote option: '+item);
 }
 assert.match(config,/from = "\/private-events"[\s\S]*?to = "\/venue-rental\.html"[\s\S]*?force = true/);
-assert.match(publicQuoteForm,/<h1 id="hero-heading">Your event\.<br><em>Your space\.<\/em>/);
+assert.match(publicQuoteForm,/<h1 id="hero-heading">Make room<br>for <em>your moment\.<\/em>/);
 assert.match(publicQuoteForm,/<img src="\/images\/tribal-private-events-green-gold-75\.png"/);
 assert.match(publicQuoteForm,/customizable|custom layout|custom venue/i);
 assert.doesNotMatch(publicQuoteForm,/Not another empty banquet room|The lounge is already the vibe/);
 assert.match(publicQuoteForm,/<link rel="canonical" href="https:\/\/(?:www\.)?thetribalkavalounge\.com\/private-events"/);
+assert.match(publicQuoteForm,/<title>ROOM 770 \| Private Event Venue in West Palm Beach, FL<\/title>/);
+assert.match(publicQuoteForm,/room-brand/);
+assert.match(publicQuoteForm,/Inside Tribal Kava Lounge/);
+assert.doesNotMatch(home,/ROOM 770/);
 assert.match(site,/YOUR VENUE/);
 console.log('Tribal Studio build and homepage-separation checks passed');
 assert.ok(!home.includes('href="/events"'));
@@ -39,6 +43,8 @@ assert.match(publicQuoteForm,/hero-venue-photo"><img src="\/images\/tribal-priva
 assert.doesNotMatch(publicQuoteForm,/<span>THE REAL VENUE<\/span>/);
 assert.match(publicQuoteForm,/object-fit:contain/);
 assert.ok(build.includes("'tribal-private-events-green-gold-75.png'"));
+assert.ok(build.includes("'room-770-mark.svg'"));
+assert.match(publicQuoteForm,/href="\/images\/room-770-mark\.svg"/);
 
 // REA quote UX: all existing submission field names, same Netlify endpoint and clear add-on groups.
 assert.match(publicQuoteForm,/name="tribal-private-rental" method="POST" action="\/rental-inquiry-received" data-netlify="true"/);
