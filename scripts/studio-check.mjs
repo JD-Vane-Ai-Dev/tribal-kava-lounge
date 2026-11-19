@@ -41,11 +41,15 @@ assert.ok(!home.includes('id="whats-on"'));
 // The owner-selected graphic must replace the old venue image without cropping its copy.
 assert.match(publicQuoteForm,/hero-venue-photo"><picture><source/);
 assert.match(publicQuoteForm,/\/\.netlify\/images\?url=\/images\/tribal-private-events-green-gold-75\.png/);
-assert.match(publicQuoteForm,/<meta property="og:image:width" content="1448">/);
+assert.match(publicQuoteForm,/<meta property="og:image:width" content="1200">/);
 assert.doesNotMatch(publicQuoteForm,/<span>THE REAL VENUE<\/span>/);
 assert.match(publicQuoteForm,/object-fit:contain/);
 assert.ok(build.includes("'tribal-private-events-green-gold-75.png'"));
 assert.ok(build.includes("'room-770-mark.svg'"));
+assert.ok(build.includes("'room770-social-share.jpg'"));
+assert.match(publicQuoteForm,/og:image.*room770-social-share\.jpg/);
+const shareImage=await readFile("images/room770-social-share.jpg");
+assert.ok(shareImage.length>50000 && shareImage[0]===255 && shareImage[1]===216, "ROOM 770 social share image should be a real original JPEG");
 assert.match(publicQuoteForm,/href="\/images\/room-770-mark\.svg"/);
 
 // REA quote UX: all existing submission field names, same Netlify endpoint and clear add-on groups.

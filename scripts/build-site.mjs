@@ -35,6 +35,7 @@ const imageFiles = [
   'tribal-private-events-green-gold-75.png',
   'tribal-private-events-room-edited.jpeg',
   'room-770-mark.svg',
+  'room770-social-share.jpg',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
   'tribal-mario-kart-racers.webp'

@@ -79,3 +79,8 @@ First protect current Tribal brand and publish the venue page with canonical SEO
 - Brand kit source and assets available to website and organic campaigns.
 - Existing build/tests pass on the changed source.
 - Production is only complete after fresh Netlify deploy and independent live readback of page AND form; GBP/social creation requires corresponding provider receipt.
+
+## Original production brand assets
+- 'images/room-770-mark.svg': brand mark and favicon; use for social avatars when platform accepts SVG or export PNG locally.
+- 'images/room770-social-share.jpg': 1200x630 branded social share card based on the approved edited room concept, with explicit concept label.
+- 'images/tribal-private-events-green-gold-75.png': preserved original approved venue graphic, optimized responsively by Netlify Image CDN at runtime.

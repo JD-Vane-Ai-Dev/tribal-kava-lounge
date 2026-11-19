@@ -306,6 +306,7 @@ assert.ok(racersPhoto.length > 50000, 'owned event photo must be a real optimize
 assert.deepEqual(publishedImages, [
   'haunted-tribe-shirt.webp',
   'room-770-mark.svg',
+  'room770-social-share.jpg',
   'tribal-bar-game-night.webp',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
