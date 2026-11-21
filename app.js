@@ -944,14 +944,14 @@ const VALID_ROUTES = new Set([
     'kava-bars-west-palm-beach'
 ]);
 
-function parsePathRoute() {
+function parsePathRoute(pathname) {
     // Migrate legacy hash URLs: /#/menu → /menu
-    if (window.location.hash && window.location.hash.startsWith('#/')) {
+    if (!pathname && window.location.hash && window.location.hash.startsWith('#/')) {
         const migrated = window.location.hash.slice(1); // /menu
         history.replaceState(null, '', migrated || '/');
     }
 
-    let path = window.location.pathname || '/';
+    let path = pathname || window.location.pathname || '/';
     // Strip trailing slash except root
     if (path.length > 1 && path.endsWith('/')) {
         path = path.slice(0, -1);
@@ -988,6 +988,13 @@ function pathForRoute(route, dailySlug) {
 
 function navigateTo(path, { replace = false } = {}) {
     if (!path.startsWith('/')) path = '/' + path;
+    const destination = parsePathRoute(new URL(path, window.location.origin).pathname);
+    // Published documents contain one view; fetch another document when needed.
+    if (!document.getElementById(`view-${destination.route}`)) {
+        if (replace) window.location.replace(path);
+        else window.location.assign(path);
+        return;
+    }
     if (replace) history.replaceState(null, '', path);
     else history.pushState(null, '', path);
     handleRoute();
@@ -1007,6 +1014,10 @@ function handleRoute() {
     const activeView = document.getElementById(`view-${route}`);
     if (activeView && (VALID_ROUTES.has(route) || route === 'the-daily-kava-article')) {
         activeView.style.display = 'block';
+    } else if (VALID_ROUTES.has(route) || route === 'the-daily-kava-article') {
+        // Legacy hash links can select a view absent from this static document.
+        window.location.replace(window.location.pathname + window.location.search + window.location.hash);
+        return;
     } else {
         document.getElementById('view-home').style.display = 'block';
         route = 'home';
@@ -1745,6 +1756,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (pathname === '/private-events') return;
             const route = pathname === '/' ? 'home' : pathname.slice(1);
             if (!VALID_ROUTES.has(route) && !/^\/(events|nearby|the-daily-kava)\/[^/.]+$/.test(pathname)) return;
+            const targetRoute = parsePathRoute(pathname).route;
+            if (!document.getElementById(`view-${targetRoute}`)) return;
             e.preventDefault();
             // Keep category and signup anchors in history; handleRoute scrolls to them.
             navigateTo(href);

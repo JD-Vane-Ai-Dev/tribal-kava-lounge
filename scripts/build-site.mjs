@@ -198,6 +198,23 @@ const articleActions = runInNewContext(
   { timeout: 1000, contextCodeGeneration: { strings: false, wasm: false } }
 );
 
+// Emit only the requested view. Each URL has its own readable document;
+// cross-page links use normal browser navigation rather than hidden copies.
+function retainRouteView(html, requestedView) {
+  const starts = [...html.matchAll(/<div id="view-([^"]+)" class="spa-view"[^>]*>/g)];
+  for (const start of starts.reverse()) {
+    if (start[1] === requestedView) continue;
+    const tags = /<\/?div\b[^>]*>/g;
+    tags.lastIndex = start.index + start[0].length;
+    let depth = 1;
+    let tag;
+    while (depth && (tag = tags.exec(html))) depth += tag[0].startsWith('</') ? -1 : 1;
+    if (depth) throw new Error(`Unbalanced route view: ${start[1]}`);
+    html = html.slice(0, start.index) + html.slice(tags.lastIndex);
+  }
+  return html;
+}
+
 function renderRouteHtml(route, metadata) {
   const title = escapeHtml(metadata.title);
   const description = escapeHtml(metadata.description);
@@ -214,7 +231,7 @@ function renderRouteHtml(route, metadata) {
   const detail = detailPages.find(page => page.route === route);
   const view = detail ? detail.view : post ? 'the-daily-kava-article' : route === '/' ? 'home' : route.slice(1);
   // Serve the same readable content to visitors and crawlers before JS runs.
-  // Keep all SPA views so client-side navigation still works after hydration.
+  // Only this route remains in the published document.
   if (htmlTemplate.includes(`id="view-${view}"`)) {
     rendered = rendered.replace(/<div id="view-([^"]+)" class="spa-view"(?: style="[^"]*")?>/g,
       (_, name) => `<div id="view-${name}" class="spa-view" style="display: ${name === view ? 'block' : 'none'};">`);
@@ -259,7 +276,7 @@ function renderRouteHtml(route, metadata) {
   }
   const cards = [...dailyPosts].sort((a, b) => (b.modified || b.date).localeCompare(a.modified || a.date) || b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug)).map(item => `<article class="daily-card"><h2 class="daily-card-title"><a href="/the-daily-kava/${item.slug}">${escapeHtml(item.title)}</a></h2><p>${escapeHtml(item.dek)}</p></article>`).join('\n');
   rendered = rendered.replace('<div id="daily-kava-grid" class="daily-grid"></div>', () => `<div id="daily-kava-grid" class="daily-grid">${cards}</div>`);
-  return rendered;
+  return retainRouteView(rendered, view);
 }
 
 for (const route of [...staticPaths, ...dailyPaths]) {

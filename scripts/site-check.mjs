@@ -458,3 +458,11 @@ for (const script of ['checkout', 'tickets', 'staff']) execFileSync(process.exec
 
 // Expired seasonal promotions must be absent from the active site shell.
 assert.doesNotMatch(html, /haunt-teaser|haunt-nav|ENTER THE HAUNT|THE HAUNTED TRIBE/);
+
+// Public routes must contain their own content, not hidden copies of every page.
+for (const match of sitemap.matchAll(/<loc>https:\/\/thetribalkavalounge\.com([^<]*)<\/loc>/g)) {
+  const route = match[1];
+  const page = await read(route === '/' ? 'dist/index.html' : `dist${route}/index.html`);
+  assert.equal((page.match(/<h1(?:\s[^>]*)?>/g) || []).length, 1, `${route}: one page heading before JS`);
+  assert.equal((page.match(/class="spa-view"/g) || []).length, 1, `${route}: only the requested view`);
+}
