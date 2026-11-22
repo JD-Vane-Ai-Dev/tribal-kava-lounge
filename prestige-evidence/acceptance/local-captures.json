@@ -1,0 +1,158 @@
+[
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "phone",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "at": "2026-11-22T21:28:17.183Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nMake it\nyour place."
+    ],
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/banana-pudding-cloud.jpg",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-phone.jpg",
+    "discoverScreenshot": "screenshots/botanical-discover-phone.jpg"
+  },
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "at": "2026-11-22T21:28:18.800Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nMake it\nyour place."
+    ],
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/banana-pudding-cloud.jpg",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-tablet.jpg",
+    "discoverScreenshot": "screenshots/botanical-discover-tablet.jpg"
+  },
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "at": "2026-11-22T21:28:20.137Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nMake it\nyour place."
+    ],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/banana-pudding-cloud.jpg",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-desktop.jpg",
+    "discoverScreenshot": "screenshots/botanical-discover-desktop.jpg"
+  }
+]

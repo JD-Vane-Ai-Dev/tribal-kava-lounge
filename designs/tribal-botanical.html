@@ -9,7 +9,7 @@
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght,SOFT,WONK@9..144,400,0,0;9..144,600,0,0;9..144,700,0,0&display=swap" rel="stylesheet">
 <style>
 :root{color-scheme:dark;--ink:#13251e;--ink2:#1e382a;--ink3:#284638;--line:#547262;--cream:#f6efe1;--muted:#d3dacb;--brass:#cfeb97;--mint:#ffcb8e;--display:"Barlow Condensed",Impact,"Arial Narrow",sans-serif;--body:"DM Sans",system-ui,sans-serif}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--ink);color:var(--cream);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased}img{display:block;max-width:100%}a{color:inherit}button,a{touch-action:manipulation}a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:4px}::selection{background:var(--brass);color:#17271f}
@@ -113,22 +113,301 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 @media(max-width:1050px){.menu-highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.menu-highlights-heading{align-items:start;flex-direction:column}}
 @media(max-width:560px){.menu-highlights-grid{grid-template-columns:1fr}.menu-highlight-card{padding:21px}.menu-highlight-type{min-height:0}.menu-highlights{padding:60px 0}}
 .visit-hours{color:var(--muted);font-size:15px;margin:12px 0 4px}.visit-hours strong{display:inline;font:800 15px var(--body);text-transform:none;margin:0;color:var(--cream)}
+
+/* PRESTIGE-BOTANICAL-V3
+   2026-11-22 · Original editorial direction; owner-approved photographic sources only.
+   Safe source-only redesign; the existing build, metadata, routes and Daily Kava remain authoritative.
+*/
+:root{
+ --ink:#143a2c;--ink2:#204733;--ink3:#2b5940;--line:#53795a;
+ --cream:#f5f0e2;--muted:#d7e2d2;--brass:#cbe98f;--mint:#e3a476;
+ --display:"Fraunces",Georgia,serif;--body:"DM Sans",system-ui,sans-serif
+}
+body{background:#15392b;color:#f5f0e2}
+.topline{background:#d0e796;color:#23402d;border:0;color:#23402d;font-size:10px;letter-spacing:.21em;padding:9px 16px}
+.topline strong{color:#23402d}
+header{background:#15392bf7;border-bottom:1px solid #577b5a;box-shadow:0 8px 24px #07261b23}
+.nav{max-width:1520px;padding:15px clamp(24px,4.9vw,82px);gap:18px}
+.brand{gap:12px}.brand img{height:47px;width:47px}
+.brand span{font-family:"DM Sans",system-ui,sans-serif;font-weight:800;font-size:20px;letter-spacing:-.035em}
+.brand small{font-size:9px;letter-spacing:.18em;color:#cfeb9b}
+.navlinks a{font-size:12px;letter-spacing:.02em;font-weight:700}
+.navlinks .nav-cta{background:#cae993;color:#15392b;border:1px solid #cae993;padding:12px 20px}
+.navlinks .nav-cta:hover{background:#f5f0e2}
+.hero{grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);min-height:730px;max-height:none;background:#f5f0e2;color:#193d2d}
+.hero-left{
+ background:#f5f0e2;border-right:0;
+ padding:clamp(66px,7vw,120px) clamp(34px,5vw,83px) clamp(48px,6vw,90px) max(clamp(26px,5vw,83px),calc((100vw - 1430px)/2));
+ position:relative
+}
+.hero-left:before{left:max(26px,calc((100vw - 1430px)/2));top:45px;border-color:#719575;width:65px}
+.hero-left:after{
+ content:"770 / WEST PALM BEACH";position:absolute;right:30px;top:44px;
+ font:700 10px/1 var(--body);letter-spacing:.15em;color:#618068
+}
+.hero-left .eyebrow{color:#55775d;font-size:11px;letter-spacing:.16em}
+.large{
+ font:700 clamp(54px,5.7vw,94px)/.925 "Fraunces",Georgia,serif;
+ letter-spacing:-.073em;text-transform:none;color:#153b2c;
+ margin:19px 0 28px
+}
+.large em{font-weight:400;font-style:italic;color:#5d805b}
+.hero-left .body-lg{color:#506654;font-size:clamp(15px,1.25vw,18px);line-height:1.7;max-width:510px}
+.hero-actions{margin-top:30px;gap:11px}
+.hero-left .action{font-size:11px;letter-spacing:.035em;min-height:52px;padding:15px 24px}
+.hero-left .action.primary{background:#163b2c;color:#f5f0e2;border-color:#163b2c}
+.hero-left .action.primary:hover{background:#2c6745;border-color:#2c6745}
+.hero-left .action.outline{background:transparent;color:#163b2c;border-color:#718d75}
+.hero-left .action.outline:hover{background:#e1e8d3}
+.hero-foot{border-top:1px solid #b1bda9;padding-top:20px;margin-top:44px;gap:22px;color:#6b7968;font-size:10px}
+.hero-foot b{color:#203f30;font-size:11px}
+.hero-media{margin:25px 25px 25px 0;border-radius:0 0 0 115px;min-height:680px;box-shadow:0 17px 35px #102b221b}
+.hero-media:before{background:linear-gradient(to bottom,#07170d16 52%,#0c2418bd 100%)}
+.hero-media .hero-slide{object-position:center 40%;transition:opacity .5s ease,visibility .5s}
+.hero-media .hero-slide:nth-of-type(2){object-position:center 40%}
+.hero-media .hero-slide:nth-of-type(3){object-position:center 40%}
+.hero-caption{bottom:45px;left:clamp(26px,4vw,70px)}
+.hero-caption strong{font:600 clamp(36px,4vw,62px)/1.03 "Fraunces",serif;letter-spacing:-.045em;text-transform:none;max-width:480px;text-shadow:0 2px 18px #0a2415ad;color:#ffffff}
+.hero-caption small{color:#d8eba9;letter-spacing:.19em}
+.hero-corner{right:19px;top:22px;transform:none;background:#d7e99b;color:#163d2e;border:0;padding:13px 15px;font-size:10px;border-radius:0}
+.hero-controls{top:22px;left:22px;background:#143b2cd9;border-color:#d7e8a069;box-shadow:0 5px 20px #152a2155}
+.marquee{background:#cbe98f;color:#214530;letter-spacing:.06em;padding:20px max(24px,calc((100vw - 1300px)/2));border-top:1px solid #b3d47b;border-bottom:1px solid #b3d47b}
+.marquee i{opacity:1;font-size:13px}
+section.block#experience{background:#153a2d;padding:clamp(85px,8vw,134px) 0}
+#experience .intro{gap:clamp(45px,6vw,100px)}
+#experience .display2,#drinks .display2,#daily .display2,#visit .display2,.menu-highlights .display2{
+ font-family:"Fraunces",Georgia,serif;letter-spacing:-.058em;text-transform:none;
+ font-weight:600;line-height:1.06
+}
+#experience .display2{font-size:clamp(47px,5vw,82px);max-width:770px}
+#experience .eyebrow{color:#cfe89c}
+#experience .intro-photo{transform:rotate(0deg);margin:0;box-shadow:18px 18px 0 #c8df99}
+#experience .intro-photo img{object-fit:cover}
+#experience .intro-photo figcaption{background:#c8df99;color:#14392a;transform:none;right:-18px;bottom:-18px;font:800 12px var(--body);letter-spacing:.1em;padding:13px 19px}
+#experience .intro-notes{border-top:1px solid #638167;padding-top:23px;margin-top:37px;gap:24px}
+#experience .intro-notes>div{border-color:#638167;background:transparent}
+.discover{background:#224933;border-top:1px solid #557960;border-bottom:1px solid #557960}
+#drinks .display2{font-size:clamp(48px,5.1vw,81px)}
+#drinks .eyebrow{color:#d1eb9a}
+#drinks .action.primary{background:#d0ed9a;color:#173d2d}
+#drinks .action.outline{background:transparent;border-color:#a6c598}
+.menu-highlights{background:#f4f0e3;color:#183c2c;padding:clamp(80px,7.5vw,112px) 0}
+.menu-highlights .display2{font-size:clamp(48px,5.4vw,86px);color:#153c2d}
+.menu-highlights .eyebrow{color:#517257}
+.menu-highlights-heading>div>p:not(.eyebrow){color:#566f5c}
+.menu-highlights .action.outline{background:transparent;border-color:#376d4a;color:#183d2b}
+.menu-highlights-grid{gap:0;border-top:1px solid #a3b4a0;border-bottom:1px solid #a3b4a0}
+.menu-highlight-card{
+ border:0;border-right:1px solid #a3b4a0;background:transparent;border-radius:0;
+ box-shadow:none;padding:27px 24px;transition:background .2s ease
+}
+.menu-highlight-card:last-child{border-right:0}
+.menu-highlight-card:hover{background:#e4e9d4;transform:none}
+.menu-highlight-card h3{font-family:"Fraunces",Georgia,serif;font-weight:600;letter-spacing:-.035em;text-transform:none;font-size:clamp(23px,2.2vw,35px)}
+.menu-highlight-type{color:#496c51}
+.menu-highlight-card p{color:#5d705c}
+.menu-highlight-meta{border-top:1px solid #b9c5b1}
+.menu-highlight-meta strong{font-family:"Fraunces",serif}
+.menu-highlight-meta a{color:#27583b}
+.menu-highlight-note{color:#5d705e}
+.daily-section{background:#193b2d;padding:clamp(85px,7.5vw,125px) 0;border-color:#537b5b}
+.daily-section .eyebrow{color:#cfe99a}
+#daily .display2{font-size:clamp(53px,5.5vw,86px)}
+.daily-featured-grid{gap:0;border-top:1px solid #6b9169}
+.daily-featured-card{background:transparent;border:0;border-right:1px solid #6b9169;box-shadow:none;min-height:290px}
+.daily-featured-card:last-child{border:0}
+.daily-featured-card a{padding:29px 26px 25px}
+.daily-featured-card:hover{background:#245239;transform:none}
+.daily-featured-card h3{font:600 clamp(25px,2.6vw,38px)/1.18 "Fraunces",Georgia,serif;text-transform:none;letter-spacing:-.035em}
+.daily-featured-card p{font-size:14px}
+.daily-featured-category{color:#d4eda5}
+.daily-featured-read{color:#d4eda5}
+section.block#visit{background:#f4f0e4;color:#1d3d30;padding:clamp(84px,8vw,126px) 0}
+#visit .eyebrow{color:#54775b}
+#visit .display2{font-size:clamp(52px,5.6vw,88px);color:#173c2b}
+#visit .address{color:#31533e}
+#visit .visit-hours{color:#496c52}
+#visit .action.primary{background:#193d2e;color:#f4f0e4;border-color:#193d2e}
+#visit .action.outline{background:transparent;color:#1c3f2f;border-color:#66866a}
+#visit .visit-photo{border-radius:0 100px 0 0;overflow:hidden}
+#visit .visit-photo img{object-fit:cover}
+#visit .visit-photo span{background:#d4e99f;color:#1c402d}
+.footer{background:#15382b;border-top:1px solid #618062}
+.footer-brand{font-family:"Fraunces",Georgia,serif!important;font-weight:650!important;letter-spacing:-.04em!important}
+@media(max-width:990px){
+ .hero{grid-template-columns:1fr 1fr;min-height:630px}
+ .hero-left{padding-left:36px;padding-right:24px}
+ .large{font-size:clamp(50px,6.1vw,75px)}
+ .hero-media{min-height:590px;border-radius:0 0 0 70px}
+ .menu-highlights-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .menu-highlight-card:nth-child(2){border-right:0}
+ .menu-highlight-card:nth-child(-n+2){border-bottom:1px solid #a3b4a0}
+ .daily-featured-card:last-child{border-left:1px solid #6b9169}
+}
+@media(max-width:700px){
+ .topline{font-size:8px;letter-spacing:.09em}
+ .nav{padding:13px 18px;gap:6px}
+ .brand{gap:7px}.brand img{width:36px;height:36px}
+ .brand span{font-size:16px}.brand small{font-size:7px;letter-spacing:.1em}
+ .navlinks{gap:8px}
+ .navlinks a[href="/the-daily-kava"]:not(.nav-cta){font-size:11px;max-width:64px}
+ .navlinks .nav-cta{font-size:10px!important;padding:9px 8px!important;min-height:40px}
+ .hero{display:flex;flex-direction:column;min-height:0;max-height:none}
+ .hero-left{order:0;padding:62px 22px 45px}
+ .hero-left:before{left:22px;top:31px;width:50px}
+ .hero-left:after{top:29px;right:22px;font-size:8px}
+ .hero-left .eyebrow{font-size:10px}
+ .large{font-size:clamp(49px,12.25vw,68px);line-height:.97;letter-spacing:-.065em;margin:16px 0 26px}
+ .hero-left .body-lg{font-size:15px;line-height:1.65}
+ .hero-actions{gap:10px}
+ .hero-left .action{min-height:49px;padding:13px 15px;font-size:11px}
+ .hero-foot{display:flex;gap:14px;margin-top:35px;padding-top:18px}
+ .hero-foot span{min-width:90px}
+ .hero-media{order:1;height:380px;min-height:380px;max-height:none;margin:0 14px 14px;border-radius:0 75px 0 0;aspect-ratio:auto}
+ .hero-controls{left:13px;top:15px;max-width:calc(100% - 26px)}
+ .hero-caption{bottom:25px;left:24px;right:18px}
+ .hero-caption strong{font-size:34px}
+ .hero-caption small{font-size:9px}
+ .hero-corner{display:none}
+ .marquee{padding:17px 8px;gap:8px;font-size:14px}
+ .wrap{padding-left:22px;padding-right:22px}
+ section.block#experience{padding:74px 0}
+ #experience .display2{font-size:clamp(48px,11vw,65px)}
+ #experience .intro-notes{grid-template-columns:1fr 1fr}
+ #experience .intro-photo{margin-right:18px}
+ .discover{padding:65px 0}
+ #drinks .display2{font-size:clamp(46px,10.4vw,65px)}
+ .menu-highlights-grid{grid-template-columns:1fr}
+ .menu-highlight-card{border-right:0;border-bottom:1px solid #a3b4a0!important;padding:27px 10px}
+ .menu-highlight-card:last-child{border-bottom:0!important}
+ .daily-featured-grid{grid-template-columns:1fr}
+ .daily-featured-card,.daily-featured-card:last-child{border:0;border-bottom:1px solid #6b9169}
+ .daily-featured-card a{padding:25px 4px}
+ #visit .display2{font-size:clamp(50px,11.4vw,65px)}
+ #visit .visit-photo{border-radius:0 68px 0 0}
+}
+@media(max-width:360px){
+ .brand span{font-size:15px}
+ .brand small{font-size:6px}
+ .navlinks a[href="/the-daily-kava"]:not(.nav-cta){max-width:52px}
+ .large{font-size:46px}
+ .hero-left .action{padding:12px 11px;font-size:10px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hero-media .hero-slide,.menu-highlight-card,.daily-featured-card{transition:none!important}
+ .action:hover{transform:none}
+}
+
+
+/* Independent visual critique: remove redundant phone metadata, improve
+   readability and give the original local-identity headline space to breathe. */
+@media(max-width:700px){
+  .topline{display:none}
+  .hero-foot{
+    display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+    gap:18px;align-items:start;padding-top:20px
+  }
+  .hero-foot span{min-width:0;font-size:12px;letter-spacing:0;line-height:1.52;text-transform:none}
+  .hero-foot span b{font-size:12px;letter-spacing:0}
+  .hero-foot span:nth-child(2){display:none}
+  .hero-left .eyebrow{letter-spacing:.11em;font-size:11px}
+}
+@media(max-width:360px){
+  .hero-foot{grid-template-columns:1.18fr .82fr;gap:13px}
+  .hero-foot span,.hero-foot span b{font-size:12px}
+}
+
+/* Independent round-two art direction: photo-based kava moment, not only
+   nighttime bar photography; calmer carousel chrome and consistent visit info. */
+.hero-foot{
+ display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+ gap:12px 24px;align-items:start;padding-top:17px;margin-top:42px
+}
+.hero-foot:before{
+ content:"PLAN YOUR VISIT";grid-column:1/-1;
+ color:#58785a;font:800 11px/1.4 "DM Sans",system-ui,sans-serif;letter-spacing:.12em
+}
+.hero-foot>span{min-width:0;font-size:12px;letter-spacing:0;line-height:1.55;text-transform:none;color:#526b57}
+.hero-foot>span b{font-size:13px;letter-spacing:0;color:#234632}
+.hero-foot>span:nth-of-type(2){display:none}
+.large em{font-size:1.025em;letter-spacing:-.075em}
+.hero-controls{
+ top:auto!important;bottom:13px;left:auto!important;right:13px;
+ background:#163e2df1;border-color:#d7e9b6e0;box-shadow:0 10px 25px #061a1470;
+ backdrop-filter:blur(13px)
+}
+.hero-controls button{color:#fff}
+.hero-caption{bottom:84px;left:clamp(24px,4vw,65px);max-width:calc(100% - 55px)}
+.hero-corner{display:none}
+.prestige-drink-photo{
+ min-height:480px;height:100%;position:relative;margin:0;border-radius:120px 0 0 0;
+ background:#1e3b29;overflow:hidden;display:block;box-shadow:18px 18px 0 #bdd58f
+}
+.prestige-drink-photo:after{
+ content:"";position:absolute;inset:35% 0 0;
+ background:linear-gradient(to bottom,#0f261200 0%,#0b251bdf 100%);pointer-events:none
+}
+.prestige-drink-photo img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+ object-position:center 46%
+}
+.prestige-drink-photo figcaption{
+ position:absolute;z-index:2;left:clamp(25px,4vw,65px);bottom:36px;color:#fff;
+ font:600 clamp(35px,3.5vw,52px)/1.1 "Fraunces",Georgia,serif;
+ text-shadow:0 2px 15px #0d1a13ac;letter-spacing:-.03em
+}
+@media(max-width:990px){
+ .hero-foot{gap:11px 16px}
+ .hero-foot>span,.hero-foot>span b{font-size:12px}
+ .prestige-drink-photo{min-height:430px;max-width:560px}
+}
+@media(max-width:700px){
+ .hero-foot{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:11px 16px;margin-top:35px;padding-top:18px}
+ .hero-foot>span:first-of-type{display:block!important}
+ .hero-foot>span:nth-of-type(2){display:none!important}
+ .hero-foot>span,.hero-foot>span b{font-size:12px;line-height:1.5}
+ .hero-caption{bottom:82px;left:23px;right:18px}
+ .hero-caption strong{font-size:32px}
+ .hero-controls{right:12px;bottom:12px}
+ .prestige-drink-photo{height:380px;min-height:380px;border-radius:70px 0 0 0;margin:0 12px 20px 0;box-shadow:12px 12px 0 #bdd58f}
+ .prestige-drink-photo figcaption{font-size:34px;left:23px;bottom:25px}
+}
+
+/* Independent contrast audit: discover must be light editorial sage, never
+   dark text on dark green. This section bridges nightlife and the actual drinks. */
+.discover{background:#dfead2;color:#183a2c;border-color:#a6c499}
+#drinks .display2{color:#183d2c}
+#drinks .eyebrow{color:#3f6747}
+#drinks .body-lg{color:#2c4a36}
+#drinks .action.primary{background:#173d2e;color:#fff;border:1px solid #173d2e}
+#drinks .action.primary:hover{background:#2d6342;color:#fff}
+#drinks .action.outline{color:#17432f;border:2px solid #345f45;background:transparent}
+#drinks .action.outline:hover{background:#c9ddba;color:#173f2d}
+.hero-foot>span{font-size:14px;line-height:1.55}
+.hero-foot>span b{font-size:14px}
+.hero-foot:before{font-size:12px;color:#43634b}
+@media(max-width:990px){
+ .hero-foot>span,.hero-foot>span b{font-size:13px}
+}
+@media(max-width:700px){
+ .hero-foot>span,.hero-foot>span b{font-size:13px;line-height:1.5}
+}
 </style>
 </head><body>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
 <header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/the-daily-kava">The Daily Kava</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
 <main>
-<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>STAY FOR<br>THE PEOPLE.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span><span><b>Open daily</b><br>8 AM–2 AM</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
-<img class="hero-slide is-active" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="Guests relaxing together around the bar at Tribal Kava Lounge" width="1200" height="750" fetchpriority="high" decoding="async">
-<img class="hero-slide" data-hero-slide src="/images/tribal-community-game-night.webp" alt="Guests enjoying a community gathering at Tribal Kava Lounge" width="1000" height="1250" aria-hidden="true" decoding="async">
+<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>Make it<br>your place.</em></h1><p class="body-lg">Your alcohol-free neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span><span><b>Open daily</b><br>8 AM–2 AM</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
+<img class="hero-slide is-active" data-hero-slide src="/images/tribal-community-game-night.webp" alt="A real guest enjoying a drink with friends at Tribal Kava Lounge" width="1000" height="1250" fetchpriority="high" decoding="async">
+<img class="hero-slide" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="A look inside Tribal Kava Lounge during a game night" width="1200" height="750" aria-hidden="true" decoding="async">
 <img class="hero-slide" data-hero-slide src="/images/tribal-mario-kart-racers.webp" alt="Friends playing Mario Kart at a Tribal Kava Lounge game night" width="900" height="600" aria-hidden="true" decoding="async">
 <div class="hero-corner">Sip slowly. Stay longer.</div>
-<div class="hero-caption"><strong>Kava nights.<br>Real connections.</strong><small>Three real moments at Tribal</small></div>
+<div class="hero-caption"><strong>The good<br>kind of company.</strong><small>A real look inside Tribal</small></div>
 <div class="hero-controls" aria-label="Slideshow controls">
 <button type="button" class="hero-nav-button" data-hero-prev aria-label="Previous lounge photo">‹</button>
 <div class="hero-dots" role="group" aria-label="Choose a lounge photo">
-<button type="button" data-hero-dot="0" aria-label="Show photo 1 of 3: At the bar" aria-current="true"></button>
-<button type="button" data-hero-dot="1" aria-label="Show photo 2 of 3: Community gathering" aria-current="false"></button>
+<button type="button" data-hero-dot="0" aria-label="Show photo 1 of 3: Guest at the lounge" aria-current="true"></button>
+<button type="button" data-hero-dot="1" aria-label="Show photo 2 of 3: The bar and games" aria-current="false"></button>
 <button type="button" data-hero-dot="2" aria-label="Show photo 3 of 3: Game night" aria-current="false"></button>
 </div>
 <button type="button" class="hero-nav-button" data-hero-next aria-label="Next lounge photo">›</button>
@@ -138,7 +417,7 @@ main{overflow:hidden}.eyebrow{font-size:12px;text-transform:uppercase;letter-spa
 </div></section>
 <div class="marquee" aria-label="The Tribal experience"><span>COME AS YOU ARE</span><i>✦</i><span>STAY FOR THE VIBE</span><i>✦</i><span>REAL KAVA · REAL CONNECTION</span></div>
 <section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b>Start with our easy beginner guide.</div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Staying awhile?</b>Stay awhile and unwind in the lounge.</div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
-<section class="discover" id="drinks"><div class="wrap discover-layout"><div class="drink-illustration" aria-hidden="true"><div class="shell-shadow"></div><div class="shell-rim"><div class="shell-drink"></div></div><div class="shell-caption">THE FIRST<br>SHELL IS<br>THE START.</div></div><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
+<section class="discover" id="drinks"><div class="wrap discover-layout"><figure class="drink-illustration prestige-drink-photo"><img loading="lazy" src="/images/banana-pudding-cloud.jpg" width="1024" height="1024" alt="Banana Pudding Kava Cloud drink on the Tribal Kava Lounge menu"><figcaption>THE FIRST SIP.<br>YOUR OWN RITUAL.</figcaption></figure><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
 
 
 <section class="menu-highlights" id="featured-drinks" aria-labelledby="menu-highlights-title">

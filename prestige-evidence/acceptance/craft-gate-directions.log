@@ -1,0 +1,10 @@
+$ python3 prestige-evidence/tooling/craft_gate.py prestige-evidence/acceptance/quality-receipt.json --root prestige-evidence/acceptance --stage directions
+exit=0
+{
+  "stage": "directions",
+  "ready": true,
+  "verified": false,
+  "production_authorized": false,
+  "errors": [],
+  "limitation": "Checks evidence integrity and recorded decisions; does not independently judge aesthetics or prove browser observations."
+}

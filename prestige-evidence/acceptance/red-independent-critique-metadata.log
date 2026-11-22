@@ -1,0 +1,114 @@
+Expected failed visual regression before fixes
+exit=2
+{
+  "failures": [
+    "phone-320: focused mobile metadata",
+    "phone-390: focused mobile metadata"
+  ],
+  "summaries": [
+    {
+      "label": "phone-320",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 1096,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": false,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "phone-390",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 1091,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": false,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "tablet",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 728,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "desktop",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 601,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    }
+  ]
+}

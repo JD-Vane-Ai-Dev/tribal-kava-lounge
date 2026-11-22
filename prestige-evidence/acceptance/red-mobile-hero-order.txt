@@ -1,0 +1,3 @@
+Expected mobile hero copy before photo; baseline failed
+exit=2
+RED expected text before photo, observed: {"text":2,"photo":1}

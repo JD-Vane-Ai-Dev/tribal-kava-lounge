@@ -1,0 +1,760 @@
+{
+  "schema_version": "2.0",
+  "target": "Tribal Kava Lounge botanical homepage",
+  "repository": "JD-Vane-Ai-Dev/tribal-kava-lounge",
+  "brief_hash": "88044838241b4393782a03ae7f60704c1cf614338e909cf1a8ef85055c91beef",
+  "brief_artifact": "brief",
+  "artifacts": {
+    "brief": {
+      "path": "brief.md",
+      "sha256": "88044838241b4393782a03ae7f60704c1cf614338e909cf1a8ef85055c91beef"
+    },
+    "design-contract": {
+      "path": "DESIGN.md",
+      "sha256": "528fb982a6d1be3d35054ed50099b45eb1219b37259f86090cbd5e267696b2b2"
+    },
+    "source-ledger": {
+      "path": "source-ledger.json",
+      "sha256": "848874016f73f984defffa8702bd560cf10e7ed2abdb2a93237751c5dad7a946"
+    },
+    "references-observations-json": {
+      "path": "references/observations.json",
+      "sha256": "38de3725671c10ce2742a599d741b89ddc9bbb3bcaf47e5eb3ad2fdb1ee306f9"
+    },
+    "final-viewport-observations-json": {
+      "path": "final-viewport-observations.json",
+      "sha256": "1f76f6be7e4548f01cfabbaf8071606655009279ec268f54af4426bc1f78c6db"
+    },
+    "browser-acceptance-json": {
+      "path": "browser-acceptance.json",
+      "sha256": "78cb1ec31123f0face469daa106fa367dfab86e897913269248fd8be15d4ff15"
+    },
+    "test-context-production-log": {
+      "path": "test-context-production.log",
+      "sha256": "d534f5535ee8b62795cc9e47264ba260ab9efc862aeee550769f08c8344e4c89"
+    },
+    "test-context-deploy-preview-log": {
+      "path": "test-context-deploy-preview.log",
+      "sha256": "40ec0672c3ab6ad811c5bea1ae57cdff97cde3641a3d6287d61e697c2a267489"
+    },
+    "test-context-branch-deploy-log": {
+      "path": "test-context-branch-deploy.log",
+      "sha256": "b593062d627f35a4d2c54d9534c2a171246327e5cb97ef65036a1757e2d93266"
+    },
+    "red-mobile-hero-order-txt": {
+      "path": "red-mobile-hero-order.txt",
+      "sha256": "45ccf10db662899285197c257f2ef28a1fc03cb0ecb712030b4c90947a48d862"
+    },
+    "red-preview-noindex-txt": {
+      "path": "red-preview-noindex.txt",
+      "sha256": "1bdcf626be078acb939569f3239b32716a25de123a188f36a6a437197173b2d9"
+    },
+    "study-kava-culture-desktop": {
+      "path": "references/kava-culture-desktop.jpg",
+      "sha256": "ca2df3505f07bcee435a6293149ef898e6a39382c53adabcf076e6ce5b6142a4"
+    },
+    "study-kava-culture-phone": {
+      "path": "references/kava-culture-phone.jpg",
+      "sha256": "9ff5bac73272edf1a8a1d328a5b0a4d9846bace255a8433c4f6963647401ea2d"
+    },
+    "study-decades-kava-desktop": {
+      "path": "references/decades-kava-desktop.jpg",
+      "sha256": "7e1a714e9e42c4d66391a42b1547a1df3601ef3d036fd19850600daa61f93051"
+    },
+    "study-decades-kava-phone": {
+      "path": "references/decades-kava-phone.jpg",
+      "sha256": "6165f8e781af76fbcf9b2b637466c0a8ec51144d9b58774189ca19a8536bf2cb"
+    },
+    "study-ritual-coffee-desktop": {
+      "path": "references/ritual-coffee-desktop.jpg",
+      "sha256": "fda0b8bac0b40fac27950b0b3a2871db16d458c73cb0a64a8014889a3b803cca"
+    },
+    "study-ritual-coffee-phone": {
+      "path": "references/ritual-coffee-phone.jpg",
+      "sha256": "bc3c95edfe17f42762a92ef2962ff48be5685c430c49c9452675700a5e6991fe"
+    },
+    "direction-01-botanical-editorial-phone": {
+      "path": "screenshots/01-botanical-editorial-phone.jpg",
+      "sha256": "4b8b32dfabe5b1f25eb82be064199ff8a4e630a35ffd0ccb3433b8e30b255a63"
+    },
+    "direction-01-botanical-editorial-tablet": {
+      "path": "screenshots/01-botanical-editorial-tablet.jpg",
+      "sha256": "e351013711c9fa4af5442ab4c79c64b907db5508f5aae5fa33324180cc6a8947"
+    },
+    "direction-01-botanical-editorial-desktop": {
+      "path": "screenshots/01-botanical-editorial-desktop.jpg",
+      "sha256": "76602d98b016bd6accab0d73eca55a4faedc2e13335dcf64c2fba495219ceaa9"
+    },
+    "direction-02-night-garden-phone": {
+      "path": "screenshots/02-night-garden-phone.jpg",
+      "sha256": "445db43ca837a3494f19cd6b81582e571e754f19139fe298ffba8989a6b9770e"
+    },
+    "direction-02-night-garden-tablet": {
+      "path": "screenshots/02-night-garden-tablet.jpg",
+      "sha256": "4057ce7870a0ccf8f2b130c0011b8ce723e93446c3957d1f4c5a1d73814c4b02"
+    },
+    "direction-02-night-garden-desktop": {
+      "path": "screenshots/02-night-garden-desktop.jpg",
+      "sha256": "ef845682ce529c733407f6a6d36557fc65ea194cea36dbe4a0fdb4e2d97f240b"
+    },
+    "direction-03-neighborhood-zine-phone": {
+      "path": "screenshots/03-neighborhood-zine-phone.jpg",
+      "sha256": "aa1074c2ded83c8341098dde2eac0e2052a92a5635be522c4a9869da325f7de3"
+    },
+    "direction-03-neighborhood-zine-tablet": {
+      "path": "screenshots/03-neighborhood-zine-tablet.jpg",
+      "sha256": "91b4aeeedfad59f2a5cf13903bd20e670329be6969dde5bc0f31b6ec76c2f30c"
+    },
+    "direction-03-neighborhood-zine-desktop": {
+      "path": "screenshots/03-neighborhood-zine-desktop.jpg",
+      "sha256": "da34f48c8af3ba1f450e8435e40314eccadab28d06524feaef8e4863f52b684b"
+    },
+    "directions-json": {
+      "path": "directions.json",
+      "sha256": "9123205e26ee7592687ee65dec5fe98120ca056c4aa5b6202855235b550abb50"
+    },
+    "page-phone": {
+      "path": "screenshots/botanical-home-phone.jpg",
+      "sha256": "2b333dd20c4ad6eaa8c5fb7f7ffeef6f7a83b916c8ce07435bec36f9e6e375bc"
+    },
+    "page-tablet": {
+      "path": "screenshots/botanical-home-tablet.jpg",
+      "sha256": "262c2f9d60440dddb57dd583c9b08e365b72a3e6f99eeb17fe277889d6f38e1d"
+    },
+    "page-desktop": {
+      "path": "screenshots/botanical-home-desktop.jpg",
+      "sha256": "d65d35a04c1fad453157354868b78004521d37cf52ddce9cdff468895f7cb952"
+    },
+    "keyboard-focus-photo": {
+      "path": "screenshots/botanical-keyboard-focus-phone.jpg",
+      "sha256": "f1cfc9b19a5441cb385430a572903c3e5fb8aff4e82ad998dc31c8fc89591c69"
+    },
+    "menu-navigation-photo": {
+      "path": "screenshots/botanical-menu-navigation-phone.jpg",
+      "sha256": "fa786222f554d000adc5e12ca25ec08db5d44bca66e7660e8f5b2894c5006395"
+    },
+    "independent-review-round1": {
+      "path": "independent-review-round1.json",
+      "sha256": "d71ddf74deaa65900c3305cfe5dc093c62c4f71186584898b5c7deed0631bbde"
+    },
+    "contact-selected-page": {
+      "path": "reviewer-contact/selected-page.jpg",
+      "sha256": "65cbaee378c8fa3386c1ac4e7c048a08f0e841ec1874e79a5c3bf9ea447434ae"
+    },
+    "contact-selected-page-after": {
+      "path": "reviewer-contact/selected-page-after.jpg",
+      "sha256": "d5549372b2501d0af9b836ec1e6b72229be179cd5ca7d4540b855894645e2f95"
+    },
+    "contact-concepts-phone": {
+      "path": "reviewer-contact/concepts-phone.jpg",
+      "sha256": "e3f805a7c4eaf727018b1e28033d5154ab47c0634505fc2e09fbd50ddb76bed6"
+    },
+    "contact-concepts-desktop": {
+      "path": "reviewer-contact/concepts-desktop.jpg",
+      "sha256": "79b256a0baa40829542048912fbf46651a66ee43da8555974e540b93705957f6"
+    },
+    "contact-reference-comparisons": {
+      "path": "reviewer-contact/reference-comparisons.jpg",
+      "sha256": "5493b7592f13b4a11d25251c83250cb367134f0e216ed3e202d2691c9b8f18fe"
+    },
+    "drink-phone": {
+      "path": "screenshots/botanical-discover-phone.jpg",
+      "sha256": "ff33450866f171bd4a38862f467a80e9258ff34d1eeec542653dc8f5b1dcfba9"
+    },
+    "drink-tablet": {
+      "path": "screenshots/botanical-discover-tablet.jpg",
+      "sha256": "dfabc62042e9608d0153961b7352c4f98fcee6ac873f29010f726afe7a8cc088"
+    },
+    "drink-desktop": {
+      "path": "screenshots/botanical-discover-desktop.jpg",
+      "sha256": "4ee856b8431ef175667b367c02147b56ec8cf25d4bd7cdfb01b9a7e3e943cb33"
+    },
+    "contact-selected-page-final": {
+      "path": "reviewer-contact/selected-page-final.jpg",
+      "sha256": "b844503005ec41ba840d582ed86196ff5389aee2f798702b71e5472b10baa519"
+    },
+    "contact-botanical-drinks-final": {
+      "path": "reviewer-contact/botanical-drinks-final.jpg",
+      "sha256": "51341f3ee52bb4214a230390db296d5acc646a3f3a23ae1296ac59af1b0ec235"
+    },
+    "independent-review-round2": {
+      "path": "independent-review-round2.json",
+      "sha256": "5f68ebe8630a6c729fb175fd496370dfa3986cfa5740d673e8c13875cb81446f"
+    },
+    "local-captures-json": {
+      "path": "local-captures.json",
+      "sha256": "db7be565dd840aa508e2b0ab08386fb3ba9a53fc3ab1fdb88b8ebeb540194973"
+    },
+    "contact-botanical-drinks-contrast-fixed": {
+      "path": "reviewer-contact/botanical-drinks-contrast-fixed.jpg",
+      "sha256": "9357e5518b689600d10f2ee5e990bfcad0ea5cc0efdc313eb8db3d17db0f7da7"
+    },
+    "contact-selected-page-contrast-fixed": {
+      "path": "reviewer-contact/selected-page-contrast-fixed.jpg",
+      "sha256": "35b9e806ffb8cbbe9c66b98726c7d72ee1c84dadf1ab5e4bd894b2a9fad31e89"
+    },
+    "independent-review-round3": {
+      "path": "independent-review-round3.json",
+      "sha256": "b807690f05b8ea8258759a507418eef792f8c06227f7dcb7056f2c6a099d6a4e"
+    },
+    "red-discover-contrast": {
+      "path": "red-discover-contrast.log",
+      "sha256": "a9bc1fa336995e33de9529c83020a216906107ae9d12a631b2c4064251ec066f"
+    },
+    "acceptance-status": {
+      "path": "ACCEPTANCE_STATUS.md",
+      "sha256": "c4472771c3b107bedcc26181013bb183744bfe1cf3821431c2a693afbdd88ee1"
+    }
+  },
+  "studies": [
+    {
+      "id": "kava-culture",
+      "kind": "shipped_site",
+      "url": "https://kavaculture.com/",
+      "observed_at": "2026-11-22T20:58:44.052Z",
+      "evidence_level": "observed",
+      "license_status": "Inspiration only: no permission to copy photos, code, branded designs, text",
+      "interaction_observation": "Read site, header links, H1 and responsive scroll width at phone and desktop using Chromium; no form submissions",
+      "limitations": "View-only browser research, no permission to reuse assets or assert conversion outcomes; evidence image is an attribution-marked source study excerpt (top content only), not a full-page reproduction",
+      "captures": [
+        {
+          "artifact": "study-kava-culture-desktop",
+          "captured_at": "2026-11-22T20:58:44.052Z",
+          "url": "https://kavaculture.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        },
+        {
+          "artifact": "study-kava-culture-phone",
+          "captured_at": "2026-11-22T20:58:46.180Z",
+          "url": "https://kavaculture.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        }
+      ],
+      "decisions": [
+        {
+          "element": "Navigation labels",
+          "observation": "Visible menu and locations destinations in observed desktop navigation",
+          "measurement": "desktop 1440px and mobile 390px; no horizontal overflow",
+          "why": "Visitors need clear menu and location options",
+          "use_when": "Local kava visitor landing",
+          "avoid_when": "Avoid copying the competing brand",
+          "adaptation": "Keep Tribal menu and find-us links visible"
+        },
+        {
+          "element": "Editorial imagery",
+          "observation": "Real venue imagery used to place kava in a social context",
+          "measurement": "Source page desktop 1440px and phone 390px screenshots captured",
+          "why": "The category is a physical shared place",
+          "use_when": "Showing actual Tribal community",
+          "avoid_when": "No permission to reuse competitor photos",
+          "adaptation": "Use owned photos without stock or invented customer scenes"
+        }
+      ]
+    },
+    {
+      "id": "decades-kava",
+      "kind": "shipped_site",
+      "url": "https://decadeskava.com/",
+      "observed_at": "2026-11-22T20:58:48.101Z",
+      "evidence_level": "observed",
+      "license_status": "Inspiration only: no permission to copy photos, code, branded designs, text",
+      "interaction_observation": "Read site, header links, H1 and responsive scroll width at phone and desktop using Chromium; no form submissions",
+      "limitations": "View-only browser research, no permission to reuse assets or assert conversion outcomes; evidence image is an attribution-marked source study excerpt (top content only), not a full-page reproduction",
+      "captures": [
+        {
+          "artifact": "study-decades-kava-desktop",
+          "captured_at": "2026-11-22T20:58:48.101Z",
+          "url": "https://decadeskava.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        },
+        {
+          "artifact": "study-decades-kava-phone",
+          "captured_at": "2026-11-22T20:58:49.630Z",
+          "url": "https://decadeskava.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        }
+      ],
+      "decisions": [
+        {
+          "element": "First Visit navigation",
+          "observation": "First Visit and Menu appear as separate navigation options",
+          "measurement": "Observed header across desktop 1440px and phone 390px",
+          "why": "Kava novices need orientation",
+          "use_when": "Explaining a first drink",
+          "avoid_when": "Avoid generic event-rental focus",
+          "adaptation": "Maintain Tribal /new-here journey"
+        },
+        {
+          "element": "Local visit flow",
+          "observation": "Visit Us and Directions are observed navigation/links",
+          "measurement": "At 390px source document scrollWidth equals viewport width",
+          "why": "Physical locations need directions",
+          "use_when": "In-person visit is primary goal",
+          "avoid_when": "Do not invent current opening hours",
+          "adaptation": "Keep correct Military Trail address and map link"
+        }
+      ]
+    },
+    {
+      "id": "ritual-coffee",
+      "kind": "shipped_site",
+      "url": "https://ritualcoffee.com/",
+      "observed_at": "2026-11-22T20:58:50.931Z",
+      "evidence_level": "observed",
+      "license_status": "Inspiration only: no permission to copy photos, code, branded designs, text",
+      "interaction_observation": "Read site, header links, H1 and responsive scroll width at phone and desktop using Chromium; no form submissions",
+      "limitations": "View-only browser research, no permission to reuse assets or assert conversion outcomes; evidence image is an attribution-marked source study excerpt (top content only), not a full-page reproduction",
+      "captures": [
+        {
+          "artifact": "study-ritual-coffee-desktop",
+          "captured_at": "2026-11-22T20:58:50.931Z",
+          "url": "https://ritualcoffee.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        },
+        {
+          "artifact": "study-ritual-coffee-phone",
+          "captured_at": "2026-11-22T20:58:52.668Z",
+          "url": "https://ritualcoffee.com/",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "live-reference-20261122",
+          "environment": "Mac Playwright Chromium / actual shipped webpage"
+        }
+      ],
+      "decisions": [
+        {
+          "element": "Headline hierarchy",
+          "observation": "A single observed seasonal H1 anchors the top of the retailer page",
+          "measurement": "Desktop h1 Holiday Gift Sets observed at 1440px",
+          "why": "Strong editorial priority aids scanning",
+          "use_when": "Use large clear typographic hierarchy",
+          "avoid_when": "Do not copy unrelated seasonal message",
+          "adaptation": "Build original Tribal editorial Fraunces composition"
+        },
+        {
+          "element": "Navigation scope",
+          "observation": "Shop and Visit destinations coexist with retail categories",
+          "measurement": "Observed desktop 1440px and phone 390px, without width overflow",
+          "why": "Product information competes with physical visits",
+          "use_when": "Use as a tradeoff reference",
+          "avoid_when": "Do not copy retailer menu breadth",
+          "adaptation": "Use a much shorter Tribal menu/daily/visit header"
+        }
+      ]
+    }
+  ],
+  "directions": [
+    {
+      "id": "01-botanical-editorial",
+      "thesis": "Botanical Editorial / selected",
+      "tradeoffs": "Airy cream text beside real community portrait; first-screen menu access, low animation",
+      "content_hash": "88044838241b4393782a03ae7f60704c1cf614338e909cf1a8ef85055c91beef",
+      "axes": {
+        "composition": "asymmetric cream-left portrait-right, organic corner",
+        "typography": "Fraunces serif headline with green italic",
+        "imagery": "one documentary portrait and second lower-section human photo",
+        "density": "airy editorial, generous whitespace",
+        "motion": "low motion: carousel only"
+      },
+      "hero_and_lower_section": true,
+      "study_ids": [
+        "kava-culture",
+        "decades-kava",
+        "ritual-coffee"
+      ],
+      "captures": [
+        {
+          "artifact": "direction-01-botanical-editorial-phone",
+          "captured_at": "2026-11-22T21:10:28.410Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        },
+        {
+          "artifact": "direction-01-botanical-editorial-desktop",
+          "captured_at": "2026-11-22T21:10:30.583Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        }
+      ]
+    },
+    {
+      "id": "02-night-garden",
+      "thesis": "Night Garden",
+      "tradeoffs": "Atmospheric immersive plum stage, condensed type; risks returning to night-venue tone",
+      "content_hash": "88044838241b4393782a03ae7f60704c1cf614338e909cf1a8ef85055c91beef",
+      "axes": {
+        "composition": "left immersive photograph and right plum copy panel",
+        "typography": "heavy condensed caps paired with soft italic Fraunces",
+        "imagery": "night bar photo emphasized as full stage",
+        "density": "compact, energetic and dense",
+        "motion": "photo movement only; no heavy transitions"
+      },
+      "hero_and_lower_section": true,
+      "study_ids": [
+        "kava-culture",
+        "decades-kava",
+        "ritual-coffee"
+      ],
+      "captures": [
+        {
+          "artifact": "direction-02-night-garden-phone",
+          "captured_at": "2026-11-22T21:10:31.342Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        },
+        {
+          "artifact": "direction-02-night-garden-desktop",
+          "captured_at": "2026-11-22T21:10:32.963Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        }
+      ]
+    },
+    {
+      "id": "03-neighborhood-zine",
+      "thesis": "Neighborhood Zine",
+      "tradeoffs": "Expressive neighborhood printed poster; stronger personality, less effortless mobile reading",
+      "content_hash": "88044838241b4393782a03ae7f60704c1cf614338e909cf1a8ef85055c91beef",
+      "axes": {
+        "composition": "printed paper portrait in angled poster with stamp",
+        "typography": "oversized compact zine typography and softer italics",
+        "imagery": "tilted social documentation with print caption",
+        "density": "higher-density poster and collage",
+        "motion": "nearly static print treatment"
+      },
+      "hero_and_lower_section": true,
+      "study_ids": [
+        "kava-culture",
+        "decades-kava",
+        "ritual-coffee"
+      ],
+      "captures": [
+        {
+          "artifact": "direction-03-neighborhood-zine-phone",
+          "captured_at": "2026-11-22T21:10:34.013Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
+          "method": "browser",
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        },
+        {
+          "artifact": "direction-03-neighborhood-zine-desktop",
+          "captured_at": "2026-11-22T21:10:35.543Z",
+          "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
+          "method": "browser",
+          "viewport": {
+            "width": 1440,
+            "height": 900
+          },
+          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+          "environment": "Mac Chromium local noindex concept"
+        }
+      ]
+    }
+  ],
+  "selected_direction": "01-botanical-editorial",
+  "selection_rationale": "Approved botanical DNA, authentic real lounge portrait, accessible mobile-first CTA, lower motion and code risk, without banned black/brass rental identity",
+  "design_contract": "design-contract",
+  "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+  "builder_run_id": "tribal-mac-prestige-builder-20261122-01",
+  "page": {
+    "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+    "complete_page": true,
+    "captures": [
+      {
+        "artifact": "page-phone",
+        "captured_at": "2026-11-22T21:28:17.183Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+        "method": "browser",
+        "environment": "Mac Playwright Chromium / local built dist",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        },
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
+      },
+      {
+        "artifact": "page-tablet",
+        "captured_at": "2026-11-22T21:28:18.800Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+        "method": "browser",
+        "environment": "Mac Playwright Chromium / local built dist",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        },
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
+      },
+      {
+        "artifact": "page-desktop",
+        "captured_at": "2026-11-22T21:28:20.137Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
+        "method": "browser",
+        "environment": "Mac Playwright Chromium / local built dist",
+        "viewport": {
+          "width": 1440,
+          "height": 900
+        },
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
+      }
+    ]
+  },
+  "reviews": [],
+  "findings": [
+    {
+      "id": "F01",
+      "location": "documentary photo caption",
+      "problem": "Dark text on a dim photo",
+      "fix": "White overlay text with shadow",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F02",
+      "location": "mobile / tablet / desktop visit details",
+      "problem": "Tiny cramped, redundant meta labels and microcaps",
+      "fix": "Two-column address/hours grid at 12\u201313px with a clear PLAN YOUR VISIT label; remove redundant alcohol-free microcaps and state it in body",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-desktop"
+    },
+    {
+      "id": "F03",
+      "location": "hero editorial tagline",
+      "problem": "Original Stay for the people copy resembled competitor phrasing",
+      "fix": "Rewrite as Make it your place, consistent with local third-place positioning",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F04",
+      "location": "hero carousel control chrome",
+      "problem": "Busy chrome partially over real people photography",
+      "fix": "Consolidate high-contrast controls at image lower edge, move caption above them and hide decorative badge",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F05",
+      "location": "discover a drink section",
+      "problem": "Site photos overemphasized nightlife without showing a real drink",
+      "fix": "Include existing verified Banana Pudding Cloud menu photography in a dedicated crafted-drink editorial figure",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "drink-desktop"
+    },
+    {
+      "id": "F06",
+      "location": "Discover the Kava drink lower section at all breakpoints",
+      "problem": "Independent reviewer found dark-on-dark headings, paragraph and browse menu label in prior revision",
+      "fix": "Restore light botanical sage section background (#dfead2) with dark forest heading/body/links, contrasting CTAs; browser test confirms body, heading and link CSS computed contrast across 320/390/768/1440",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "browser-acceptance-json"
+    }
+  ],
+  "checks": [
+    {
+      "name": "build",
+      "status": "pass",
+      "method": "CONTEXT=production npm test: build, site, Studio, booking, schedule, analytics, 38 API tests",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "test-context-production-log",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "primary_journey",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "navigation",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "responsive",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "keyboard",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "contrast",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "reduced_motion",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "assets",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "console",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "No production payment or form submission"
+    },
+    {
+      "name": "performance",
+      "status": "pass",
+      "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "browser-acceptance-json",
+      "limitations": "Local smoke timing only, not a Lighthouse benchmark, field LCP/CLS/INP or live CDN test"
+    },
+    {
+      "name": "seo",
+      "status": "pass",
+      "method": "CONTEXT=production npm test: build, site, Studio, booking, schedule, analytics, 38 API tests",
+      "environment": "Mac isolated review worktree / localhost static built dist",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "evidence": "test-context-production-log",
+      "limitations": "No production payment or form submission"
+    }
+  ],
+  "deployment_required": false,
+  "execution_policy": {
+    "batch_execution": "on_hold",
+    "experiment_100_sites": "on_hold",
+    "production_release": "not_authorized"
+  },
+  "directions_revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+  "direction_review": {
+    "reviewer_run_id": "OpenCode/hy4-flash-free: blind-visual-review-20261122-001",
+    "comparison": "A Botanical: refined editorial serif headline with sage italic, cream/forest-green/lime palette, airy two-column hero (text left, arcade photo right), dark-green second section; calm and premium. B Night Garden: dramatic plum hero with blush section, heavy condensed uppercase sans plus contrasting pink italic serif, photo-left/text-right split, moody and high-energy. C Neighborhood Zine: playful collage/zine treatment, heavy condensed orange type on cream, hand-drawn '7?'-style sticker and tape-label 'REAL PEOPLE. REAL PLACE.' on the photo, energetic and grassroots. All three survive the mobile size check in concepts-phone.jpg with identities intact.",
+    "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+    "blind_to_builder_rationale": true,
+    "decision": "pass",
+    "capture_ids": [
+      "direction-01-botanical-editorial-phone",
+      "direction-01-botanical-editorial-desktop",
+      "direction-02-night-garden-phone",
+      "direction-02-night-garden-desktop",
+      "direction-03-neighborhood-zine-phone",
+      "direction-03-neighborhood-zine-desktop"
+    ],
+    "evidence": "independent-review-round1",
+    "notes": "Reviewed actual source screenshots in independent desktop+phone contact sheets; tablet screenshots stored separately, motion judged only via browser tests",
+    "findings": [
+      "Differentiation is surface-level: all three reuse identical headline copy ('Come for the kava. Stay for the people.' / 'Good nights start here.'), the same two photographs (Mario Kart cabinet with 'REAL PEOPLE. REAL PLACE.' overlay, and the pool-table patron), and the same two-column hero + dark second-section structure. Content and layout are shared; only visual styling differs.",
+      "Concept C is the weakest of the three: the sticker/tape collage device reads slightly gimmicky, and the light orange/tan italic 'Stay for the people.' on cream in the C hero has weak text contrast (concept-desktop.jpg, right panel; concepts-phone.jpg, right column).",
+      "Concept A's sage italic 'Stay for the people.' on cream is moderate contrast, acceptable at display size but not strong.",
+      "Motion is unverifiable in stills \u2014 carousel dots and a 'Pause' control are visible in the selected page, but motion quality cannot be judged from these JPEGs. Marked unknown."
+    ]
+  },
+  "independent_visual_acceptance": "PENDING: latest revision not independently re-reviewed following contrast repair",
+  "technical_acceptance": "Verified local technical checks PASS; no production deploy or real-user metrics asserted",
+  "audit_history": [
+    "Blind reference/direction reviewer 1: directions visually distinct; selected page hierarchy scored 3/5; fixes made afterward.",
+    "Independent visual reviewer 2: rejected an earlier revision for photo controls, tablet/desktop metadata, imagery and typography; fixes made afterward.",
+    "Independent visual reviewer 3: rejected previous revision for dark-on-dark drink copy, weak secondary CTA, and dark imagery; low-contrast discover section fixed via a reproducible failing-then-passing browser contrast test.",
+    "Current revised build has passed local automated technical QA but has not received a fresh independent visual approval; full formal craft acceptance remains pending."
+  ],
+  "review_3_evaluated_revision": "08fb3dc7f2c266e834f2bbcb8413a2afccb72ccf14f41856e46d355cb59f8fdd"
+}

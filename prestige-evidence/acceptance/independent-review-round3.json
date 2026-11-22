@@ -1,0 +1,107 @@
+{
+  "reviewer_run_id": "tk-prestige-final-independent-qa-20261122-r1",
+  "image_viewing_method": "Image-aware read tool: all three supplied contact-sheet JPEGs were opened and their actual pixels visually inspected at phone, tablet, and desktop breakpoints. No filenames, DESIGN.md, quality receipts, past reviews, or builder rationale were consulted prior to judgment.",
+  "visually_examined": [
+    {
+      "file": "prestige-evidence/acceptance/reviewer-contact/selected-page-final.jpg",
+      "breakpoints": [
+        "FINAL Phone",
+        "FINAL Tablet",
+        "FINAL Desktop"
+      ],
+      "content": "Kava lounge hero, PLAN YOUR VISIT band, carousel imagery, lime marquee, dark 'THE SPOT YOU WISH YOU'D FOUND SOONER' community section"
+    },
+    {
+      "file": "prestige-evidence/acceptance/reviewer-contact/botanical-drinks-final.jpg",
+      "breakpoints": [
+        "Drink Phone",
+        "Drink Tablet",
+        "Drink Desktop"
+      ],
+      "content": "Real-menu drink section: product photo, 'THE FIRST SIP. YOUR OWN RITUAL.' overlay, 'SIP SOMETHING DIFFERENT.' copy block, Start Here / Explore Full Menu CTAs"
+    },
+    {
+      "file": "prestige-evidence/acceptance/reviewer-contact/selected-page-after.jpg",
+      "breakpoints": [
+        "AFTER Phone",
+        "AFTER Tablet",
+        "AFTER Desktop"
+      ],
+      "content": "Previous version used strictly for before/after visual comparison"
+    }
+  ],
+  "comparison_to_previous": "Partially improved, not fully resolved. IMPROVED: carousel chrome was demoted from a large top pill that overlapped the eyebrow/heading (AFTER tablet/desktop) to small bottom-anchored dots + Pause in FINAL; the stray 'EDIT YOUR LISTING' editor artifact visible on AFTER desktop is gone; PLAN YOUR VISIT is more spaciously arranged and now uses a divider rule. STILL WEAK: desktop/tablet visit micro-text remains small and dense; nightlife imagery is only partly reduced (tattooed patron hero and Mario Kart bar-tournament photo persist, plus a rainbow-gradient novelty filter on the inset photo). NEW REGRESSION: the final drink section exhibits a severe dark-on-dark contrast failure that is not attributable to the previous selected-page image (that section was not shown previously), so it must be treated as a fresh blocker.",
+  "page_review": {
+    "comparison_to_references": "Previous internal design and actual drink section; no external reference photos in this run",
+    "direction_distinctness": "Botanical editorial identity",
+    "direction_distinctness_pass": true,
+    "dimensions": {
+      "identity": {
+        "score": 4,
+        "observation": "Distinct, coherent premium system: deep forest green, cream, and lime accent with a serif display face, consistent logo lockup and marquee bars. Recognizably original and non-template.",
+        "reference_comparison": "Identity system is at least as strong as the previous internal design and more disciplined than its editor-chrome-laden desktop."
+      },
+      "hierarchy": {
+        "score": 3,
+        "observation": "Hero hierarchy works (eyebrow -> oversized headline -> body -> CTAs -> visit info -> carousel). Broken in the drink section, where the primary heading 'SIP SOMETHING DIFFERENT.' and its body collapse into the background and the intended focal order is lost.",
+        "reference_comparison": "Hero improves on previous; the drink section hierarchy is weaker than the hero and weaker than a formally acceptable standard."
+      },
+      "typography": {
+        "score": 3,
+        "observation": "Display serif is attractive and well-set. Typography fails on contrast in the drink section: the 'SIP SOMETHING DIFFERENT.' headline and the paragraph beneath it are rendered in a tone only marginally lighter than the dark green background, effectively illegible at all three breakpoints; the outlined 'EXPLORE THE FULL MENU' label is similarly low contrast.",
+        "reference_comparison": "Contrast level is a clear regression relative to the legible hero typography and falls below the previous design's readable body copy."
+      },
+      "imagery": {
+        "score": 3,
+        "observation": "The real kava drink product shot with offset lime frame is strong and on-brief (premium, botanical, real menu). Undercut by persistent nightlife-leaning content: tattooed patron as the dominant carousel face, dim bar-style setting, Mario Kart bar-tournament photo, and a rainbow gradient overlay on the inset photo that reads as a novelty filter rather than premium editorial.",
+        "reference_comparison": "Only partly improved over the previous version, which leaned even more heavily on nightlife imagery and prominent carousel chrome."
+      },
+      "rhythm": {
+        "score": 3,
+        "observation": "Section pacing on the selected page is good, with lime marquee bands cleanly separating hero, visit, and community blocks. The drink section feels sparse and unbalanced on desktop, with a large low-contrast text void dominating the right half beside a small image.",
+        "reference_comparison": "Comparable to previous for the selected page; weaker in the drink section than the established page rhythm."
+      },
+      "mobile": {
+        "score": 3,
+        "observation": "Phone stacking is sound: headline scales, CTAs stack and remain tappable, visit details and marquee read clearly, carousel chrome is discreet. The phone drink section inherits the same near-invisible heading/body and low-contrast secondary button, undermining mobile comprehension.",
+        "reference_comparison": "Better than previous phone (chrome demoted, cleaner visit block) but blocked by the drink-section contrast fault."
+      },
+      "conversion": {
+        "score": 3,
+        "observation": "Core paths are present and prominent: EXPLORE THE MENU, GET DIRECTIONS, header Find Us, and address/hours in PLAN YOUR VISIT make menu and directions easy. In the drink section, the Start Here button is clear but the supporting headline, body, and 'EXPLORE THE FULL MENU' button label are too low-contrast to persuade or even read.",
+        "reference_comparison": "Selected-page conversion is improved over previous; drink-section conversion presentation is below acceptance."
+      }
+    },
+    "decision": "reject",
+    "findings": [
+      {
+        "id": "F-01",
+        "severity": "critical",
+        "where": "botanical-drinks-final.jpg, all breakpoints (Drink Phone / Tablet / Desktop) - 'NEW TO THE KAVA BAR?' copy block",
+        "problem": "The primary heading 'SIP SOMETHING DIFFERENT.' and the paragraph beneath it are rendered in a dark green only marginally distinct from the dark green background, making them effectively illegible. This defeats the section's purpose and fails basic contrast/accessibility.",
+        "fix": "Re-render the heading and body in the cream/off-white foreground token (or a high-luminance tint) and verify WCAG AA contrast (>=4.5:1 body, >=3:1 large text) against the green background at every breakpoint."
+      },
+      {
+        "id": "F-02",
+        "severity": "high",
+        "where": "botanical-drinks-final.jpg, all breakpoints - secondary button 'EXPLORE THE FULL MENU'",
+        "problem": "Outlined button border and label are low-contrast against the dark background, reducing the visibility of the full-menu conversion path.",
+        "fix": "Use the light foreground color for the label and a visible light/lime border; re-check focus and hover states for contrast."
+      },
+      {
+        "id": "F-03",
+        "severity": "medium",
+        "where": "selected-page-final.jpg - hero carousel and lower community section, all breakpoints",
+        "problem": "Nightlife imagery persists: tattooed patron as the dominant hero face, dim bar setting, Mario Kart bar-tournament photo, and a rainbow-gradient novelty overlay on the inset photo. This dilutes the requested premium botanical, real-community identity.",
+        "fix": "Favor brighter, botanical/ingredient-led and genuine community imagery; remove the rainbow gradient filter; keep at most one subdued games/night shot as supporting content rather than the hero focal point."
+      },
+      {
+        "id": "F-04",
+        "severity": "medium",
+        "where": "selected-page-final.jpg - FINAL Desktop and FINAL Tablet, PLAN YOUR VISIT band",
+        "problem": "Visit micro-text remains small and compact. It is improved from the previous version but still strains legibility at desktop/tablet viewing distance, and easy menu/directions information is a stated brand priority.",
+        "fix": "Increase font size and weight of address/hours and supporting labels, add clearer spacing between the address, alcohol-free/relax-work-play, and open-daily groups."
+      }
+    ]
+  }
+}

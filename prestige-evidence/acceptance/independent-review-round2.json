@@ -1,0 +1,100 @@
+{
+  "reviewer_run_id": "visual-recheck-2026-11-22-01",
+  "image_viewing_method": "Direct multimodal read of both saved JPEG contact sheets (selected-page.jpg, selected-page-after.jpg) at full sheet scale; judged on pixels only, no OCR, no code execution, no file modification, no DESIGN.md/receipt/prior review consulted",
+  "visually_examined": [
+    "selected-page.jpg phone column",
+    "selected-page.jpg tablet column",
+    "selected-page.jpg desktop column",
+    "selected-page-after.jpg phone column",
+    "selected-page-after.jpg tablet column",
+    "selected-page-after.jpg desktop column",
+    "header lockup and nav on all breakpoints",
+    "hero eyebrow, display headline, italic tagline, body paragraph",
+    "paired CTA buttons",
+    "utility/meta cluster (address, hours, alcohol-free, relax-work-play)",
+    "hero video still, overlay caption and carousel chrome",
+    "lime marquee band",
+    "dark 'WELCOME TO TRIBAL' section headline and 4-up question grid"
+  ],
+  "before_after_comparison": "Tagline changed 'Stay for the people.' -> 'Make it your place.' (less generic, more specific to a neighborhood lounge); body copy now leads with 'alcohol-free' and 'neighborhood'; phone utility cluster rebuilt from a 3-row micro-caps table into two legible columns with the tiny 'RELAX · WORK · PLAY' row dropped; phone hero sequence now reads eyebrow -> display -> tagline -> body -> CTA pair -> address/hours -> photo without the footer-table feel. Tablet and desktop kept the old micro-caps utility cluster unchanged, so the fix is breakpoint-inconsistent.",
+  "page_review": {
+    "comparison_to_references": "Baseline screenshot is previous internal version; no external refs supplied",
+    "direction_distinctness": "Botanical editorial",
+    "direction_distinctness_pass": true,
+    "dimensions": {
+      "identity": {
+        "score": 4,
+        "observation": "All breakpoints read 'TRIBAL KAVA / WEST PALM BEACH FL', 'KAVA, CONVERSATION & A PLACE TO BELONG', 'Your alcohol-free neighborhood kava lounge for first-timers and regulars', '770 S Military Trail', 'Open daily 8 AM-2 AM'. No banquet, event-rental, or book-the-space language anywhere in frame. Botanical is carried by the cream/forest-green/lime palette and serif display rather than by the photography, which is neon nightlife.",
+        "reference_comparison": "Baseline = previous internal version; no external refs supplied. Identity is clearer than baseline thanks to the added 'alcohol-free neighborhood' line."
+      },
+      "hierarchy": {
+        "score": 4,
+        "observation": "Phone order is eyebrow -> 2-line display -> italic tagline -> body -> paired CTAs -> two-column address/hours -> hero video -> lime marquee -> dark 'WELCOME TO TRIBAL'. The utility block no longer competes with or mimics a footer table. Desktop splits text column against the video cleanly.",
+        "reference_comparison": "Baseline = previous internal version; the phone hierarchy is materially better than before."
+      },
+      "typography": {
+        "score": 3,
+        "observation": "Display serif with an italic second line is editorial and confident. Defects: tablet and desktop still set the address/hours in ~9-10px wide-tracked micro-caps, the smallest type on the page, while phone got the larger two-column version; desktop's italic line sits at roughly half the display size leaving an unresolved size step; the dark-section headline runs 4 lines on phone at very tight leading but does not collide.",
+        "reference_comparison": "Baseline = previous internal version; phone type scale improved, tablet/desktop micro-caps unchanged."
+      },
+      "imagery": {
+        "score": 3,
+        "observation": "Real, warm, specific people (tattooed man with cross necklace, four people at a pool table) satisfy the real-people requirement. But the hero is a video-carousel still and its chrome - dots, 'Pause', 'Longer' - is baked over the top-left of the frame on all three breakpoints; 'Longer' is low-contrast against the bright orange/green frame and reads as leftover player UI. The 'The good kind of company.' caption itself is legible over the dark gradient.",
+        "reference_comparison": "Baseline = previous internal version; same chrome defect existed before and was not addressed."
+      },
+      "rhythm": {
+        "score": 4,
+        "observation": "Hero -> lime marquee ('COME AS YOU ARE · STAY FOR THE VIBE · REAL KAVA · REAL CONNECTION') -> dark 'THE SPOT YOU WISH YOU'D FOUND SOONER.' with a 4-up question grid. Phone now breathes between CTA and photo; tablet stacks text then image cleanly. Desktop sheet only reaches the top of the dark section, so desktop rhythm below the fold is not judged here.",
+        "reference_comparison": "Baseline = previous internal version; phone spacing is tighter and more intentional."
+      },
+      "mobile": {
+        "score": 4,
+        "observation": "Clear improvement: display headline is the first strong element, CTAs sit as an equal pair, address/hours are two legible columns, and the video starts a full beat lower with the man's face intact. Residual: the address block floats unlabeled between the buttons and the photo, reading as neither CTA nor caption, and the carousel controls remain tiny and low-contrast.",
+        "reference_comparison": "Baseline = previous internal version; this is the dimension the revision most improved."
+      },
+      "conversion": {
+        "score": 4,
+        "observation": "'EXPLORE THE MENU' and 'GET DIRECTIONS' paired on every breakpoint, 'Find Us' pinned in the header, full street address and daily hours above the fold on phone/tablet, plus 'First kava shell?', 'Two pool tables', 'daytime spot' and 'staying awhile' answers below.",
+        "reference_comparison": "Baseline = previous internal version; conversion path is intact and slightly clearer."
+      }
+    },
+    "decision": "reject",
+    "findings": [
+      {
+        "id": "F1",
+        "severity": "major",
+        "where": "hero video, phone/tablet/desktop",
+        "issue": "Carousel chrome (dots, 'Pause', 'Longer') overlays the top-left of the photograph; 'Longer' is low-contrast over the bright orange/green frame and reads as leftover video-player UI rather than a designed control.",
+        "fix": "Consolidate into one high-contrast pill on the image edge or below the image, hide it on phone, and rename or remove 'Longer'."
+      },
+      {
+        "id": "F2",
+        "severity": "major",
+        "where": "tablet and desktop hero utility cluster",
+        "issue": "Address and hours are still set as ~9-10px wide-tracked micro-caps, the smallest type on the page, and no longer match the phone's two-column treatment.",
+        "fix": "Port the phone's two-column address/hours block to tablet and desktop at >=12px, and drop or fold the 'RELAX · WORK · PLAY' tracking row into a single line."
+      },
+      {
+        "id": "F3",
+        "severity": "minor",
+        "where": "phone, between 'GET DIRECTIONS' and the hero photo",
+        "issue": "The address/hours block floats unlabeled in the gap, belonging to neither the CTA group nor the image caption.",
+        "fix": "Add a small 'FIND US'/'VISIT' label or a hairline rule to anchor it to one side."
+      },
+      {
+        "id": "F4",
+        "severity": "minor",
+        "where": "desktop hero text column",
+        "issue": "The italic tagline sits at roughly half the display size, leaving an unresolved size step beside the 2-line display.",
+        "fix": "Raise the italic line or trim the display size so the two lines read as one lockup."
+      },
+      {
+        "id": "F5",
+        "severity": "minor",
+        "where": "all breakpoints, imagery",
+        "issue": "Botanical character is carried by palette and typography only; every photograph is neon nightlife.",
+        "fix": "Add one botanical still (plant, kava prep, shell) to the marquee or the dark section."
+      }
+    ]
+  }
+}
