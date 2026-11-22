@@ -1,0 +1,74 @@
+context=production
+npm test
+exit=0
+
+> tribal-kava-lounge@1.0.0 test
+> npm run build && node scripts/site-check.mjs && node scripts/studio-check.mjs && node scripts/tribal-booking-check.mjs && node scripts/daily-kava-schedule-check.mjs && node scripts/analytics-check.mjs && npm run test:api
+
+
+> tribal-kava-lounge@1.0.0 build
+> node scripts/build-site.mjs
+
+Catalogue editorial checks passed.
+Built 19 files, 9 verified images, 20 Daily Kava URLs, and 47 pre-rendered routes into /Users/jd/Documents/ChatGPT/tribal-kava-prestige-review-20261122/dist
+Site checks passed.
+Tribal Studio build and homepage-separation checks passed
+Tribal booking checks passed: verified intake, honeypot, consent, 75-person limit, idempotency, owner-controlled deposit and booking workflow.
+Daily Kava scheduled function tests passed: DST, no unnecessary builds, secret validation, provider errors.
+Analytics checks passed (routing, organic/AI referrals, campaign priority, storage failures, and stale attribution).
+
+> tribal-kava-lounge@1.0.0 test:api
+> npm --prefix api test
+
+
+> tribal-kava-social-proof-api@1.0.0 test
+> node --test test/*.test.mjs
+
+✔ AgentMail preserves recipient and uses the same idempotency key on retry (0.940167ms)
+✔ AgentMail rejects missing credentials, unapproved sender, errors and ambiguous acceptance (0.481791ms)
+✔ server computes price and one admission for each shirt (1.885291ms)
+✔ client amount and perk claims do not change trusted prices (0.080084ms)
+✔ rejects fractional, negative, oversized and empty quantities (0.163083ms)
+✔ each shirt needs a supported S–XL size (0.074708ms)
+✔ requires name, email and explicit terms acceptance (0.076625ms)
+✔ presale closes exactly at 7 PM Eastern (0.086083ms)
+✔ both entry windows work, break and out of hours do not (0.204792ms)
+✔ one walkthrough total across both windows (0.139291ms)
+✔ unpaid or refunded tickets cannot be admitted (0.088125ms)
+✔ payment verification requires matching amount, intent, event, currency and paid state (0.171209ms)
+✔ checkout fails closed until all activation settings exist (1.244208ms)
+✔ retry reuses existing intent and rejects changed cart (1.074167ms)
+✔ ticket retrieval rejects wrong token and never issues unpaid tickets (0.973041ms)
+✔ signed webhook issues confirmation and duplicate delivery does not resend (0.800417ms)
+✔ invalid signature has no fulfillment side effects (0.97375ms)
+✔ staff role required even with a valid ticket code (0.452042ms)
+✔ forged ticket signature is rejected (0.225458ms)
+✔ concurrent admission requests succeed exactly once (0.559916ms)
+✔ refund review is sticky after delayed payment success (0.368125ms)
+✔ per-ticket signatures are distinct from buyer access (0.058333ms)
+✔ test receipts and QR links stay on the preview and test orders use a separate table (0.492458ms)
+✔ mixed keys, wrong origins and missing mode fail closed (0.803125ms)
+✔ wrong-mode payment cannot issue tickets or send email (0.252541ms)
+✔ correctly signed wrong-mode webhook is rejected (0.227583ms)
+✔ buyer capability survives platform Authorization replacement and remains mandatory (0.484292ms)
+✔ provider acceptance is recorded separately from delivery, without ticket tokens in email metadata (0.392209ms)
+✔ submission failure preserves paid tickets and retry uses the same operation id (0.621125ms)
+✔ declined, canceled and processing intents cannot issue email or tickets even on a signed success event (0.647916ms)
+✔ legacy provider-accepted orders are not blindly resent or reclassified as delivered (0.212209ms)
+✔ new tickets have admission only and all ticket types reject removed drink redemptions (0.143583ms)
+✔ legacy test-order drink fields are neither exposed nor redeemable (0.836625ms)
+✔ AgentMail records provider acceptance and prevents retry beyond provider deduplication window (0.373542ms)
+✔ returns honest snapshots without provider credentials (1.940791ms)
+✔ hydrates live Google rating and curated Instagram carousel media (1.067541ms)
+✔ uses an explicit Google place override without a Text Search request (0.160083ms)
+✔ falls back cleanly when providers reject a request (0.152542ms)
+ℹ tests 38
+ℹ suites 0
+ℹ pass 38
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 291.828833
+
+ERR

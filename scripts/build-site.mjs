@@ -6,6 +6,8 @@ import { execFileSync } from 'node:child_process';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const output = path.join(root, 'dist');
+// The latest Netlify branch deploy may be indexable; make review output noindex.
+const isReviewDeploy = ['deploy-preview', 'branch-deploy'].includes(process.env.CONTEXT);
 // Every deployment, including unrelated site edits, checks the whole catalog.
 execFileSync('python3', [path.join(root, 'daily-engine/auto_publish.py'), 'check-catalog'], { cwd: root, stdio: 'inherit' });
 const files = [
@@ -322,17 +324,19 @@ if (!botanical.includes('<!-- DAILY_HOME_CARDS -->') || featuredDailyPosts.lengt
 botanical = botanical.replace('<!-- DAILY_HOME_CARDS -->', featuredDailyMarkup);
 
 botanical = botanical
-  .replace('<meta name="robots" content="noindex,nofollow">', '<meta name="robots" content="index,follow">')
+  .replace('<meta name="robots" content="noindex,nofollow">', isReviewDeploy ? '<meta name="robots" content="noindex,nofollow">' : '<meta name="robots" content="index,follow">')
   .replace('<meta name="description" content="Design exploration for Tribal Kava Lounge, West Palm Beach. Not the current public homepage.">', '<meta name="description" content="Visit Tribal Kava Lounge in West Palm Beach for kava, botanical drinks, pool, games, and an alcohol-free hangout at 770 S Military Trail.">')
   .replace('<title>Tribal Kava Lounge — Botanical Kava Bar Design</title>', '<title>Tribal Kava Lounge | Kava Bar &amp; Social Lounge in West Palm Beach</title>')
   .replace(/<div class="preview-ribbon">[\s\S]*?<\/div>\s*/, '')
   .replace('</head>', () => `\n<meta name="theme-color" content="#13251e">\n<meta name="google-site-verification" content="zXsp7qWCsUyKjaGf-yWfi92M_A_csa1mz6SO2WbTjP0">\n<meta name="msvalidate.01" content="988E2FE2A28E101485C326DA89BB091C">\n<link rel="canonical" href="https://thetribalkavalounge.com/">
 <link rel="alternate" type="application/rss+xml" title="The Daily Kava" href="/feed.xml">\n<meta property="og:type" content="website">\n<meta property="og:site_name" content="Tribal Kava Lounge">\n<meta property="og:title" content="Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach">\n<meta property="og:description" content="Come for the kava. Stay for the people. Experience West Palm Beach's alcohol-free neighborhood lounge.">\n<meta property="og:url" content="https://thetribalkavalounge.com/">\n<meta property="og:image" content="https://thetribalkavalounge.com/images/tribal-community-game-night.webp">\n<meta name="twitter:card" content="summary_large_image">\n<script id="seo-json-ld" type="application/ld+json">${homeSchemaMatch[1]}</script>\n</head>`)
   .replace('</body></html>', '<script src="/site-config.js" defer></script>\n<script src="/analytics.js" defer></script>\n</body></html>');
-if (/preview only|design exploration|noindex|\/events\/venue|\$250/i.test(botanical)) {
+if (/preview only|design exploration|\/events\/venue|\$250/i.test(botanical) || (!isReviewDeploy && /noindex/i.test(botanical))) {
   throw new Error('Botanical production homepage contains preview or venue-rental promotion');
 }
 await writeFile(path.join(output, 'botanical-home.html'), botanical);
+// Keep every review route out of search indices, not just the homepage.
+if (isReviewDeploy) await writeFile(path.join(output, '_headers'), '/*\n  X-Robots-Tag: noindex, nofollow\n');
 
 console.log(`Built ${files.length} files, ${imageFiles.length} verified images, ${dailyPaths.length} Daily Kava URLs, and ${routeMetadata.size} pre-rendered routes into ${output}`);
 

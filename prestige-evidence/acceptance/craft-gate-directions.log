@@ -1,0 +1,18 @@
+$ python3 prestige-evidence/tooling/craft_gate.py prestige-evidence/acceptance/quality-receipt.json --root prestige-evidence/acceptance --stage directions
+exit=1
+{
+  "stage": "directions",
+  "ready": false,
+  "verified": false,
+  "production_authorized": false,
+  "errors": [
+    "direction review: reviewer_run_id required",
+    "direction review: comparison required",
+    "direction review revision mismatch",
+    "direction review must exclude builder self-justification",
+    "independent direction review has not passed",
+    "direction review must cover all rendered concepts",
+    "direction review output: registered artifact required"
+  ],
+  "limitation": "Checks evidence integrity and recorded decisions; does not independently judge aesthetics or prove browser observations."
+}

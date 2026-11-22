@@ -1,0 +1,433 @@
+{
+  "results": [
+    {
+      "label": "phone-320",
+      "viewport": {
+        "width": 320,
+        "height": 780
+      },
+      "at": "2026-11-22T21:10:14.013Z",
+      "environment": "Mac Playwright Chromium local built dist",
+      "info": {
+        "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
+        "h1": 1,
+        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "hrefs": [
+          "/menu",
+          "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
+        ],
+        "scrollWidth": 320,
+        "clientWidth": 320,
+        "order": {
+          "copy": "0",
+          "photo": "1"
+        },
+        "cta": {
+          "visible": true,
+          "height": 49,
+          "foreground": "rgb(245, 240, 226)",
+          "background": "rgb(22, 59, 44)"
+        },
+        "body": {
+          "foreground": "rgb(80, 102, 84)",
+          "background": "rgb(245, 240, 226)"
+        },
+        "gallery": {
+          "slides": 3,
+          "active": 1
+        },
+        "reducedMotion": true,
+        "robot": "index,follow",
+        "canonical": "https://thetribalkavalounge.com/",
+        "paint": [
+          {
+            "name": "first-paint",
+            "ms": 360
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 360
+          }
+        ]
+      },
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "assets": [
+        {
+          "src": "/images/tribal-logo-cutout.png",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-community-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-bar-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-mario-kart-racers.webp",
+          "status": 200
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "href": "/menu",
+        "outline": "3px"
+      },
+      "menuDestination": {
+        "url": "http://127.0.0.1:58747/menu",
+        "heading": [
+          "Kava, Tea & Crafted Drinks"
+        ],
+        "path": "/menu"
+      },
+      "errors": [],
+      "badResponses": [
+        [
+          404,
+          "http://127.0.0.1:58747/api/social-proof"
+        ]
+      ],
+      "elapsedMs": 1054,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      }
+    },
+    {
+      "label": "phone-390",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "at": "2026-11-22T21:10:15.333Z",
+      "environment": "Mac Playwright Chromium local built dist",
+      "info": {
+        "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
+        "h1": 1,
+        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "hrefs": [
+          "/menu",
+          "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
+        ],
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "order": {
+          "copy": "0",
+          "photo": "1"
+        },
+        "cta": {
+          "visible": true,
+          "height": 49,
+          "foreground": "rgb(245, 240, 226)",
+          "background": "rgb(22, 59, 44)"
+        },
+        "body": {
+          "foreground": "rgb(80, 102, 84)",
+          "background": "rgb(245, 240, 226)"
+        },
+        "gallery": {
+          "slides": 3,
+          "active": 1
+        },
+        "reducedMotion": true,
+        "robot": "index,follow",
+        "canonical": "https://thetribalkavalounge.com/",
+        "paint": [
+          {
+            "name": "first-paint",
+            "ms": 188
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 188
+          }
+        ]
+      },
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "assets": [
+        {
+          "src": "/images/tribal-logo-cutout.png",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-community-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-bar-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-mario-kart-racers.webp",
+          "status": 200
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "href": "/menu",
+        "outline": "3px"
+      },
+      "menuDestination": {
+        "url": "http://127.0.0.1:58747/menu",
+        "heading": [
+          "Kava, Tea & Crafted Drinks"
+        ],
+        "path": "/menu"
+      },
+      "errors": [],
+      "badResponses": [
+        [
+          404,
+          "http://127.0.0.1:58747/api/social-proof"
+        ]
+      ],
+      "elapsedMs": 1247,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      }
+    },
+    {
+      "label": "tablet",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "at": "2026-11-22T21:10:16.167Z",
+      "environment": "Mac Playwright Chromium local built dist",
+      "info": {
+        "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
+        "h1": 1,
+        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "hrefs": [
+          "/menu",
+          "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
+        ],
+        "scrollWidth": 768,
+        "clientWidth": 768,
+        "order": {
+          "copy": "0",
+          "photo": "0"
+        },
+        "cta": {
+          "visible": true,
+          "height": 52,
+          "foreground": "rgb(245, 240, 226)",
+          "background": "rgb(22, 59, 44)"
+        },
+        "body": {
+          "foreground": "rgb(80, 102, 84)",
+          "background": "rgb(245, 240, 226)"
+        },
+        "gallery": {
+          "slides": 3,
+          "active": 1
+        },
+        "reducedMotion": true,
+        "robot": "index,follow",
+        "canonical": "https://thetribalkavalounge.com/",
+        "paint": [
+          {
+            "name": "first-paint",
+            "ms": 216
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 216
+          }
+        ]
+      },
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "assets": [
+        {
+          "src": "/images/tribal-logo-cutout.png",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-community-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-bar-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-mario-kart-racers.webp",
+          "status": 200
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "href": "/menu",
+        "outline": "3px"
+      },
+      "menuDestination": {
+        "url": "http://127.0.0.1:58747/menu",
+        "heading": [
+          "Kava, Tea & Crafted Drinks"
+        ],
+        "path": "/menu"
+      },
+      "errors": [],
+      "badResponses": [
+        [
+          404,
+          "http://127.0.0.1:58747/api/social-proof"
+        ]
+      ],
+      "elapsedMs": 777,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      }
+    },
+    {
+      "label": "desktop",
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "at": "2026-11-22T21:10:16.914Z",
+      "environment": "Mac Playwright Chromium local built dist",
+      "info": {
+        "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
+        "h1": 1,
+        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "hrefs": [
+          "/menu",
+          "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
+        ],
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "order": {
+          "copy": "0",
+          "photo": "0"
+        },
+        "cta": {
+          "visible": true,
+          "height": 52,
+          "foreground": "rgb(245, 240, 226)",
+          "background": "rgb(22, 59, 44)"
+        },
+        "body": {
+          "foreground": "rgb(80, 102, 84)",
+          "background": "rgb(245, 240, 226)"
+        },
+        "gallery": {
+          "slides": 3,
+          "active": 1
+        },
+        "reducedMotion": false,
+        "robot": "index,follow",
+        "canonical": "https://thetribalkavalounge.com/",
+        "paint": [
+          {
+            "name": "first-paint",
+            "ms": 216
+          },
+          {
+            "name": "first-contentful-paint",
+            "ms": 216
+          }
+        ]
+      },
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "assets": [
+        {
+          "src": "/images/tribal-logo-cutout.png",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-community-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-bar-game-night.webp",
+          "status": 200
+        },
+        {
+          "src": "/images/tribal-mario-kart-racers.webp",
+          "status": 200
+        }
+      ],
+      "keyboard": {
+        "tag": "A",
+        "href": "/menu",
+        "outline": "3px"
+      },
+      "menuDestination": {
+        "url": "http://127.0.0.1:58747/menu",
+        "heading": [
+          "Kava, Tea & Crafted Drinks"
+        ],
+        "path": "/menu"
+      },
+      "errors": [],
+      "badResponses": [
+        [
+          404,
+          "http://127.0.0.1:58747/api/social-proof"
+        ]
+      ],
+      "elapsedMs": 695,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      }
+    }
+  ],
+  "failures": []
+}

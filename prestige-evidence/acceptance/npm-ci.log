@@ -1,0 +1,7 @@
+$ npm ci --ignore-scripts --no-audit --no-fund
+exit=0
+
+added 48 packages in 1s
+
+npm warn deprecated @opentelemetry/sdk-trace-node@2.12.0: Use @opentelemetry/sdk-trace package
+npm warn deprecated @opentelemetry/sdk-trace-base@2.12.0: Use @opentelemetry/sdk-trace package

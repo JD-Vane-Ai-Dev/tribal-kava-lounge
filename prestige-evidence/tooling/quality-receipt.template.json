@@ -1,0 +1,30 @@
+{
+  "schema_version": "2.0",
+  "target": "",
+  "repository": "",
+  "brief_hash": "",
+  "brief_artifact": "",
+  "artifacts": {},
+  "studies": [],
+  "directions": [],
+  "selected_direction": "",
+  "selection_rationale": "",
+  "design_contract": "",
+  "revision": "",
+  "builder_run_id": "",
+  "page": {
+    "url": "",
+    "complete_page": false,
+    "captures": []
+  },
+  "reviews": [],
+  "findings": [],
+  "checks": [],
+  "deployment_required": false,
+  "execution_policy": {
+    "batch_execution": "on_hold",
+    "experiment_100_sites": "on_hold"
+  },
+  "directions_revision": "",
+  "direction_review": {}
+}

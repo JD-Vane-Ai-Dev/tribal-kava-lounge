@@ -1,0 +1,458 @@
+[
+  {
+    "relative": "designs/prestige-concepts/01-botanical-editorial.html",
+    "device": "phone",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "at": "2026-11-22T21:10:28.410Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
+    "status": 200,
+    "h1": [
+      "Come for\nthe kava.\nStay for\nthe people."
+    ],
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/01-botanical-editorial-phone.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/01-botanical-editorial.html",
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "at": "2026-11-22T21:10:29.564Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
+    "status": 200,
+    "h1": [
+      "Come for\nthe kava.\nStay for\nthe people."
+    ],
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/01-botanical-editorial-tablet.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/01-botanical-editorial.html",
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "at": "2026-11-22T21:10:30.583Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
+    "status": 200,
+    "h1": [
+      "Come for\nthe kava.\nStay for\nthe people."
+    ],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/01-botanical-editorial-desktop.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/02-night-garden.html",
+    "device": "phone",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "at": "2026-11-22T21:10:31.342Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/02-night-garden-phone.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/02-night-garden.html",
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "at": "2026-11-22T21:10:32.049Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/02-night-garden-tablet.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/02-night-garden.html",
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "at": "2026-11-22T21:10:32.963Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/02-night-garden-desktop.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/03-neighborhood-zine.html",
+    "device": "phone",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "at": "2026-11-22T21:10:34.013Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/03-neighborhood-zine-phone.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/03-neighborhood-zine.html",
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "at": "2026-11-22T21:10:34.795Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/03-neighborhood-zine-tablet.jpg"
+  },
+  {
+    "relative": "designs/prestige-concepts/03-neighborhood-zine.html",
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "at": "2026-11-22T21:10:35.543Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      }
+    ],
+    "links": 7,
+    "errors": [],
+    "screenshot": "screenshots/03-neighborhood-zine-desktop.jpg"
+  },
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "phone",
+    "viewport": {
+      "width": 390,
+      "height": 844
+    },
+    "at": "2026-11-22T21:10:36.676Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-phone.jpg"
+  },
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "tablet",
+    "viewport": {
+      "width": 768,
+      "height": 1024
+    },
+    "at": "2026-11-22T21:10:37.630Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 768,
+    "clientWidth": 768,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-tablet.jpg"
+  },
+  {
+    "relative": "dist/botanical-home.html",
+    "device": "desktop",
+    "viewport": {
+      "width": 1440,
+      "height": 900
+    },
+    "at": "2026-11-22T21:10:38.614Z",
+    "browser": "Playwright Chromium",
+    "motion": "reduce",
+    "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+    "status": 200,
+    "h1": [
+      "COME FOR\nTHE KAVA.\nStay for\nthe people."
+    ],
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "images": [
+      {
+        "src": "/images/tribal-logo-cutout.png",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-mario-kart-racers.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-bar-game-night.webp",
+        "loaded": true
+      },
+      {
+        "src": "/images/tribal-community-game-night.webp",
+        "loaded": false
+      }
+    ],
+    "links": 26,
+    "errors": [],
+    "screenshot": "screenshots/botanical-home-desktop.jpg"
+  }
+]

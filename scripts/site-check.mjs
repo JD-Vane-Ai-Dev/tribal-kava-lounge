@@ -179,11 +179,13 @@ assert.match(kavaBarDocument, /770 S Military Trail, Unit A1/);
 assert.doesNotMatch(kavaBarDocument.split(`<div id="view-kava-bars-west-palm-beach"`)[1].split('<!-- ================= NEARBY AREAS')[0], /href="[^"]*(?:404|lowkey)/i);
 // The public root is a standalone owner-approved botanical design, not the
 // pre-rendered SPA home. Other routes still serve their original SPA shell.
+const isReviewDeploy = ['deploy-preview', 'branch-deploy'].includes(process.env.CONTEXT);
 const botanicalHome = await read('dist/botanical-home.html');
 const botanicalSiteSchema = readRouteSchema(botanicalHome, '/');
 assert.ok(botanicalSiteSchema['@type'].includes('LocalBusiness'), 'botanical root preserves LocalBusiness JSON-LD');
 assert.equal(botanicalSiteSchema.address.streetAddress, '770 S Military Trail, Unit A1');
-assert.match(botanicalHome, /<meta name="robots" content="index,follow">/);
+assert.match(botanicalHome, isReviewDeploy ? /<meta name="robots" content="noindex,nofollow">/ : /<meta name="robots" content="index,follow">/);
+if (isReviewDeploy) assert.match(await read('dist/_headers'), /X-Robots-Tag: noindex, nofollow/, 'Review builds must include an anti-index header');
 assert.match(botanicalHome, /<link rel="canonical" href="https:\/\/thetribalkavalounge\.com\/">/);
 assert.match(botanicalHome, /type="application\/rss\+xml" title="The Daily Kava" href="\/feed\.xml"/, 'RSS feed must remain discoverable');
 assert.match(botanicalHome, /<meta name="google-site-verification"/);
@@ -235,7 +237,8 @@ assert.match(botanicalHome, /href="\/menu"/);
 assert.match(botanicalHome, /href="\/new-here"/);
 assert.doesNotMatch(botanicalHome, /href="\/events"/);
 assert.match(botanicalHome, /href="\/visit"/);
-assert.doesNotMatch(botanicalHome, /preview only|design exploration|noindex|\/events\/venue|\$250|haunted tribe/i);
+assert.doesNotMatch(botanicalHome, /preview only|design exploration|\/events\/venue|\$250|haunted tribe/i);
+if (!isReviewDeploy) assert.doesNotMatch(botanicalHome, /noindex/i, 'Production must remain indexable');
 const netlifyRouting = await read('netlify.toml');
 // A non-existent URL must not be rewritten to the SPA homepage with HTTP 200.
 assert.ok(!netlifyRouting.includes('from = "/*"'), 'Unknown URLs must not use an HTTP-200 SPA fallback');

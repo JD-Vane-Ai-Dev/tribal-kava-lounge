@@ -1,0 +1,12 @@
+context=branch-deploy
+sh -c npm run build && node scripts/site-check.mjs
+exit=0
+
+> tribal-kava-lounge@1.0.0 build
+> node scripts/build-site.mjs
+
+Catalogue editorial checks passed.
+Built 19 files, 9 verified images, 20 Daily Kava URLs, and 47 pre-rendered routes into /Users/jd/Documents/ChatGPT/tribal-kava-prestige-review-20261122/dist
+Site checks passed.
+
+ERR
