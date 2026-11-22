@@ -46,3 +46,16 @@ CTA contrast 10.87:1 and body contrast 5.47:1.
 Netlify deploy-preview and branch-deploy build with noindex meta and X-Robots-Tag.
 A separate independent visual reviewer, production deploy and field performance
 are not complete and must not be reported as completed.
+\n## Independent reviewer revision (2026-11-22)\nFirst independent blind critic rated hierarchy 3/5 because the mobile information row was crowded and detected similarity to a competing lounge headline. The selected page now uses an original local-identity headline Make it your place., removes the redundant mobile utility line, and uses a legible two-column address/hours strip. The after-fix independent review remains separate from the builder.\n
+
+## Final refinement for independent visual QA
+- New original editorial line: Make it your place.
+- Information hierarchy consistent across phone/tablet/desktop: 12–13px address and opening hours, with separate PLAN YOUR VISIT label. Redundant microcaps removed.
+- Photo carousel controls moved to lower image edge in one high-contrast cluster; decorative badge removed; caption separated.
+- Existing owned Banana Pudding Cloud menu photo now features in drinks editorial section as an actual beverage still.
+- Final local browser checks cover menu navigation, all media, keyboard access and carousel control placement at 320/390/768/1440.
+
+
+## Accessibility fix after independent review 3
+The independent critic correctly found dark-on-dark text in the drink-discovery section. A red browser regression reproduced the defect at 320, 390, 768 and 1440px. The final section uses an accessible pale-sage background with dark forest text, a distinct outlined menu action, and explicit computed-CSS contrast checks. Visit details also use larger text.
+No fresh independent visual approval has yet been obtained for this latest revision. Formal acceptance stays pending, even though technical checks pass.

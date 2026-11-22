@@ -11,7 +11,7 @@
     },
     "design-contract": {
       "path": "DESIGN.md",
-      "sha256": "b48fc46380852e473669428a4b15564515b99ea1dc6d5af52afcbc0b5c1ac9c3"
+      "sha256": "528fb982a6d1be3d35054ed50099b45eb1219b37259f86090cbd5e267696b2b2"
     },
     "source-ledger": {
       "path": "source-ledger.json",
@@ -23,23 +23,23 @@
     },
     "final-viewport-observations-json": {
       "path": "final-viewport-observations.json",
-      "sha256": "bf40570e8845bf6dab91f5809ae43e13beb3842d8b6542804e196ef366f674a7"
+      "sha256": "1f76f6be7e4548f01cfabbaf8071606655009279ec268f54af4426bc1f78c6db"
     },
     "browser-acceptance-json": {
       "path": "browser-acceptance.json",
-      "sha256": "e5761585b25e1f8333b8eb1692165c0d44fd44ab0228ec4e0dd980f4e18ca951"
+      "sha256": "78cb1ec31123f0face469daa106fa367dfab86e897913269248fd8be15d4ff15"
     },
     "test-context-production-log": {
       "path": "test-context-production.log",
-      "sha256": "f3653ad1ae03cc3c0925e47e198277f4366d86ff4b190838be5681ccaf49e22d"
+      "sha256": "d534f5535ee8b62795cc9e47264ba260ab9efc862aeee550769f08c8344e4c89"
     },
     "test-context-deploy-preview-log": {
       "path": "test-context-deploy-preview.log",
-      "sha256": "34f72755156a87a7b837050272588f6f32f9aaad71f45a273598af75d4451fc3"
+      "sha256": "40ec0672c3ab6ad811c5bea1ae57cdff97cde3641a3d6287d61e697c2a267489"
     },
     "test-context-branch-deploy-log": {
       "path": "test-context-branch-deploy.log",
-      "sha256": "438a344ed9796dc29153db479e109cd7d605763a1bef11d8fadb82b1c871c642"
+      "sha256": "b593062d627f35a4d2c54d9534c2a171246327e5cb97ef65036a1757e2d93266"
     },
     "red-mobile-hero-order-txt": {
       "path": "red-mobile-hero-order.txt",
@@ -111,27 +111,99 @@
     },
     "directions-json": {
       "path": "directions.json",
-      "sha256": "ce7e845c5515ffd4b41327d941fbd2ccb3578d9cd463513862c81ab9030fdb31"
+      "sha256": "9123205e26ee7592687ee65dec5fe98120ca056c4aa5b6202855235b550abb50"
     },
     "page-phone": {
       "path": "screenshots/botanical-home-phone.jpg",
-      "sha256": "412d18be6430e1e62f96e407314930d487b1cb6c67088301cec25da8c7a92853"
+      "sha256": "2b333dd20c4ad6eaa8c5fb7f7ffeef6f7a83b916c8ce07435bec36f9e6e375bc"
     },
     "page-tablet": {
       "path": "screenshots/botanical-home-tablet.jpg",
-      "sha256": "6b553db143188c26584a02779973d759bcdbc05295e1cfbfd94af7c18b2bb112"
+      "sha256": "262c2f9d60440dddb57dd583c9b08e365b72a3e6f99eeb17fe277889d6f38e1d"
     },
     "page-desktop": {
       "path": "screenshots/botanical-home-desktop.jpg",
-      "sha256": "36a3253a399382a33da45c2a18a3ad4fb26a45e75382a12c43eb697653f126d7"
+      "sha256": "d65d35a04c1fad453157354868b78004521d37cf52ddce9cdff468895f7cb952"
     },
     "keyboard-focus-photo": {
       "path": "screenshots/botanical-keyboard-focus-phone.jpg",
-      "sha256": "309a4422ea682f4aaafbf9c797832e1bda4575fa6895c734b76ac8e13f8804cc"
+      "sha256": "f1cfc9b19a5441cb385430a572903c3e5fb8aff4e82ad998dc31c8fc89591c69"
     },
     "menu-navigation-photo": {
       "path": "screenshots/botanical-menu-navigation-phone.jpg",
       "sha256": "fa786222f554d000adc5e12ca25ec08db5d44bca66e7660e8f5b2894c5006395"
+    },
+    "independent-review-round1": {
+      "path": "independent-review-round1.json",
+      "sha256": "d71ddf74deaa65900c3305cfe5dc093c62c4f71186584898b5c7deed0631bbde"
+    },
+    "contact-selected-page": {
+      "path": "reviewer-contact/selected-page.jpg",
+      "sha256": "65cbaee378c8fa3386c1ac4e7c048a08f0e841ec1874e79a5c3bf9ea447434ae"
+    },
+    "contact-selected-page-after": {
+      "path": "reviewer-contact/selected-page-after.jpg",
+      "sha256": "d5549372b2501d0af9b836ec1e6b72229be179cd5ca7d4540b855894645e2f95"
+    },
+    "contact-concepts-phone": {
+      "path": "reviewer-contact/concepts-phone.jpg",
+      "sha256": "e3f805a7c4eaf727018b1e28033d5154ab47c0634505fc2e09fbd50ddb76bed6"
+    },
+    "contact-concepts-desktop": {
+      "path": "reviewer-contact/concepts-desktop.jpg",
+      "sha256": "79b256a0baa40829542048912fbf46651a66ee43da8555974e540b93705957f6"
+    },
+    "contact-reference-comparisons": {
+      "path": "reviewer-contact/reference-comparisons.jpg",
+      "sha256": "5493b7592f13b4a11d25251c83250cb367134f0e216ed3e202d2691c9b8f18fe"
+    },
+    "drink-phone": {
+      "path": "screenshots/botanical-discover-phone.jpg",
+      "sha256": "ff33450866f171bd4a38862f467a80e9258ff34d1eeec542653dc8f5b1dcfba9"
+    },
+    "drink-tablet": {
+      "path": "screenshots/botanical-discover-tablet.jpg",
+      "sha256": "dfabc62042e9608d0153961b7352c4f98fcee6ac873f29010f726afe7a8cc088"
+    },
+    "drink-desktop": {
+      "path": "screenshots/botanical-discover-desktop.jpg",
+      "sha256": "4ee856b8431ef175667b367c02147b56ec8cf25d4bd7cdfb01b9a7e3e943cb33"
+    },
+    "contact-selected-page-final": {
+      "path": "reviewer-contact/selected-page-final.jpg",
+      "sha256": "b844503005ec41ba840d582ed86196ff5389aee2f798702b71e5472b10baa519"
+    },
+    "contact-botanical-drinks-final": {
+      "path": "reviewer-contact/botanical-drinks-final.jpg",
+      "sha256": "51341f3ee52bb4214a230390db296d5acc646a3f3a23ae1296ac59af1b0ec235"
+    },
+    "independent-review-round2": {
+      "path": "independent-review-round2.json",
+      "sha256": "5f68ebe8630a6c729fb175fd496370dfa3986cfa5740d673e8c13875cb81446f"
+    },
+    "local-captures-json": {
+      "path": "local-captures.json",
+      "sha256": "db7be565dd840aa508e2b0ab08386fb3ba9a53fc3ab1fdb88b8ebeb540194973"
+    },
+    "contact-botanical-drinks-contrast-fixed": {
+      "path": "reviewer-contact/botanical-drinks-contrast-fixed.jpg",
+      "sha256": "9357e5518b689600d10f2ee5e990bfcad0ea5cc0efdc313eb8db3d17db0f7da7"
+    },
+    "contact-selected-page-contrast-fixed": {
+      "path": "reviewer-contact/selected-page-contrast-fixed.jpg",
+      "sha256": "35b9e806ffb8cbbe9c66b98726c7d72ee1c84dadf1ab5e4bd894b2a9fad31e89"
+    },
+    "independent-review-round3": {
+      "path": "independent-review-round3.json",
+      "sha256": "b807690f05b8ea8258759a507418eef792f8c06227f7dcb7056f2c6a099d6a4e"
+    },
+    "red-discover-contrast": {
+      "path": "red-discover-contrast.log",
+      "sha256": "a9bc1fa336995e33de9529c83020a216906107ae9d12a631b2c4064251ec066f"
+    },
+    "acceptance-status": {
+      "path": "ACCEPTANCE_STATUS.md",
+      "sha256": "c4472771c3b107bedcc26181013bb183744bfe1cf3821431c2a693afbdd88ee1"
     }
   },
   "studies": [
@@ -337,18 +409,6 @@
           "environment": "Mac Chromium local noindex concept"
         },
         {
-          "artifact": "direction-01-botanical-editorial-tablet",
-          "captured_at": "2026-11-22T21:10:29.564Z",
-          "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
-          "method": "browser",
-          "viewport": {
-            "width": 768,
-            "height": 1024
-          },
-          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-          "environment": "Mac Chromium local noindex concept"
-        },
-        {
           "artifact": "direction-01-botanical-editorial-desktop",
           "captured_at": "2026-11-22T21:10:30.583Z",
           "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
@@ -389,18 +449,6 @@
           "viewport": {
             "width": 390,
             "height": 844
-          },
-          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-          "environment": "Mac Chromium local noindex concept"
-        },
-        {
-          "artifact": "direction-02-night-garden-tablet",
-          "captured_at": "2026-11-22T21:10:32.049Z",
-          "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
-          "method": "browser",
-          "viewport": {
-            "width": 768,
-            "height": 1024
           },
           "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
           "environment": "Mac Chromium local noindex concept"
@@ -451,18 +499,6 @@
           "environment": "Mac Chromium local noindex concept"
         },
         {
-          "artifact": "direction-03-neighborhood-zine-tablet",
-          "captured_at": "2026-11-22T21:10:34.795Z",
-          "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
-          "method": "browser",
-          "viewport": {
-            "width": 768,
-            "height": 1024
-          },
-          "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-          "environment": "Mac Chromium local noindex concept"
-        },
-        {
           "artifact": "direction-03-neighborhood-zine-desktop",
           "captured_at": "2026-11-22T21:10:35.543Z",
           "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
@@ -480,60 +516,105 @@
   "selected_direction": "01-botanical-editorial",
   "selection_rationale": "Approved botanical DNA, authentic real lounge portrait, accessible mobile-first CTA, lower motion and code risk, without banned black/brass rental identity",
   "design_contract": "design-contract",
-  "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+  "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
   "builder_run_id": "tribal-mac-prestige-builder-20261122-01",
   "page": {
-    "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+    "url": "http://127.0.0.1:61134/dist/botanical-home.html",
     "complete_page": true,
     "captures": [
       {
         "artifact": "page-phone",
-        "captured_at": "2026-11-22T21:10:36.676Z",
-        "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+        "captured_at": "2026-11-22T21:28:17.183Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
         "method": "browser",
         "environment": "Mac Playwright Chromium / local built dist",
         "viewport": {
           "width": 390,
           "height": 844
         },
-        "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d"
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
       },
       {
         "artifact": "page-tablet",
-        "captured_at": "2026-11-22T21:10:37.630Z",
-        "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+        "captured_at": "2026-11-22T21:28:18.800Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
         "method": "browser",
         "environment": "Mac Playwright Chromium / local built dist",
         "viewport": {
           "width": 768,
           "height": 1024
         },
-        "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d"
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
       },
       {
         "artifact": "page-desktop",
-        "captured_at": "2026-11-22T21:10:38.614Z",
-        "url": "http://127.0.0.1:58802/dist/botanical-home.html",
+        "captured_at": "2026-11-22T21:28:20.137Z",
+        "url": "http://127.0.0.1:61134/dist/botanical-home.html",
         "method": "browser",
         "environment": "Mac Playwright Chromium / local built dist",
         "viewport": {
           "width": 1440,
           "height": 900
         },
-        "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d"
+        "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01"
       }
     ]
   },
   "reviews": [],
   "findings": [
     {
-      "id": "caption-contrast-01",
-      "location": "botanical homepage / hero photo overlay caption",
-      "problem": "Initial visual inspection found dark caption text over portrait, reducing readability",
-      "fix": "Explicitly rendered caption white with shadow; rebuilt page and recaptured screenshots",
+      "id": "F01",
+      "location": "documentary photo caption",
+      "problem": "Dark text on a dim photo",
+      "fix": "White overlay text with shadow",
       "status": "resolved",
-      "verified_revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F02",
+      "location": "mobile / tablet / desktop visit details",
+      "problem": "Tiny cramped, redundant meta labels and microcaps",
+      "fix": "Two-column address/hours grid at 12\u201313px with a clear PLAN YOUR VISIT label; remove redundant alcohol-free microcaps and state it in body",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-desktop"
+    },
+    {
+      "id": "F03",
+      "location": "hero editorial tagline",
+      "problem": "Original Stay for the people copy resembled competitor phrasing",
+      "fix": "Rewrite as Make it your place, consistent with local third-place positioning",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F04",
+      "location": "hero carousel control chrome",
+      "problem": "Busy chrome partially over real people photography",
+      "fix": "Consolidate high-contrast controls at image lower edge, move caption above them and hide decorative badge",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "page-phone"
+    },
+    {
+      "id": "F05",
+      "location": "discover a drink section",
+      "problem": "Site photos overemphasized nightlife without showing a real drink",
+      "fix": "Include existing verified Banana Pudding Cloud menu photography in a dedicated crafted-drink editorial figure",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "drink-desktop"
+    },
+    {
+      "id": "F06",
+      "location": "Discover the Kava drink lower section at all breakpoints",
+      "problem": "Independent reviewer found dark-on-dark headings, paragraph and browse menu label in prior revision",
+      "fix": "Restore light botanical sage section background (#dfead2) with dark forest heading/body/links, contrasting CTAs; browser test confirms body, heading and link CSS computed contrast across 320/390/768/1440",
+      "status": "resolved",
+      "verified_revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
+      "resolution_evidence": "browser-acceptance-json"
     }
   ],
   "checks": [
@@ -542,7 +623,7 @@
       "status": "pass",
       "method": "CONTEXT=production npm test: build, site, Studio, booking, schedule, analytics, 38 API tests",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "test-context-production-log",
       "limitations": "No production payment or form submission"
     },
@@ -551,7 +632,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -560,7 +641,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -569,7 +650,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -578,7 +659,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -587,7 +668,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -596,7 +677,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -605,7 +686,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -614,7 +695,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "No production payment or form submission"
     },
@@ -623,7 +704,7 @@
       "status": "pass",
       "method": "Playwright Chromium local verification at 320/390/768/1440; navigation, layout, media, keyboard, motion, console and timing observed",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "browser-acceptance-json",
       "limitations": "Local smoke timing only, not a Lighthouse benchmark, field LCP/CLS/INP or live CDN test"
     },
@@ -632,7 +713,7 @@
       "status": "pass",
       "method": "CONTEXT=production npm test: build, site, Studio, booking, schedule, analytics, 38 API tests",
       "environment": "Mac isolated review worktree / localhost static built dist",
-      "revision": "e0070757109c4b0170749cdf818a787b8fb762c467fdb6a479cad43bb0ff339d",
+      "revision": "5969c7ecc0309d0f63150c0cde477a5b9e90ece7b4eb79808ee3806ba20a2a01",
       "evidence": "test-context-production-log",
       "limitations": "No production payment or form submission"
     }
@@ -644,7 +725,36 @@
     "production_release": "not_authorized"
   },
   "directions_revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-  "direction_review": {},
-  "independent_visual_acceptance": "pending: a separate reviewer was not available and cannot be simulated",
-  "technical_acceptance": "passed: full local suite, responsive browser QA, noindex preview build tests"
+  "direction_review": {
+    "reviewer_run_id": "OpenCode/hy4-flash-free: blind-visual-review-20261122-001",
+    "comparison": "A Botanical: refined editorial serif headline with sage italic, cream/forest-green/lime palette, airy two-column hero (text left, arcade photo right), dark-green second section; calm and premium. B Night Garden: dramatic plum hero with blush section, heavy condensed uppercase sans plus contrasting pink italic serif, photo-left/text-right split, moody and high-energy. C Neighborhood Zine: playful collage/zine treatment, heavy condensed orange type on cream, hand-drawn '7?'-style sticker and tape-label 'REAL PEOPLE. REAL PLACE.' on the photo, energetic and grassroots. All three survive the mobile size check in concepts-phone.jpg with identities intact.",
+    "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
+    "blind_to_builder_rationale": true,
+    "decision": "pass",
+    "capture_ids": [
+      "direction-01-botanical-editorial-phone",
+      "direction-01-botanical-editorial-desktop",
+      "direction-02-night-garden-phone",
+      "direction-02-night-garden-desktop",
+      "direction-03-neighborhood-zine-phone",
+      "direction-03-neighborhood-zine-desktop"
+    ],
+    "evidence": "independent-review-round1",
+    "notes": "Reviewed actual source screenshots in independent desktop+phone contact sheets; tablet screenshots stored separately, motion judged only via browser tests",
+    "findings": [
+      "Differentiation is surface-level: all three reuse identical headline copy ('Come for the kava. Stay for the people.' / 'Good nights start here.'), the same two photographs (Mario Kart cabinet with 'REAL PEOPLE. REAL PLACE.' overlay, and the pool-table patron), and the same two-column hero + dark second-section structure. Content and layout are shared; only visual styling differs.",
+      "Concept C is the weakest of the three: the sticker/tape collage device reads slightly gimmicky, and the light orange/tan italic 'Stay for the people.' on cream in the C hero has weak text contrast (concept-desktop.jpg, right panel; concepts-phone.jpg, right column).",
+      "Concept A's sage italic 'Stay for the people.' on cream is moderate contrast, acceptable at display size but not strong.",
+      "Motion is unverifiable in stills \u2014 carousel dots and a 'Pause' control are visible in the selected page, but motion quality cannot be judged from these JPEGs. Marked unknown."
+    ]
+  },
+  "independent_visual_acceptance": "PENDING: latest revision not independently re-reviewed following contrast repair",
+  "technical_acceptance": "Verified local technical checks PASS; no production deploy or real-user metrics asserted",
+  "audit_history": [
+    "Blind reference/direction reviewer 1: directions visually distinct; selected page hierarchy scored 3/5; fixes made afterward.",
+    "Independent visual reviewer 2: rejected an earlier revision for photo controls, tablet/desktop metadata, imagery and typography; fixes made afterward.",
+    "Independent visual reviewer 3: rejected previous revision for dark-on-dark drink copy, weak secondary CTA, and dark imagery; low-contrast discover section fixed via a reproducible failing-then-passing browser contrast test.",
+    "Current revised build has passed local automated technical QA but has not received a fresh independent visual approval; full formal craft acceptance remains pending."
+  ],
+  "review_3_evaluated_revision": "08fb3dc7f2c266e834f2bbcb8413a2afccb72ccf14f41856e46d355cb59f8fdd"
 }

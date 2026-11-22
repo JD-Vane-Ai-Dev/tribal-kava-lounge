@@ -6,12 +6,17 @@
         "width": 320,
         "height": 780
       },
-      "at": "2026-11-22T21:10:14.013Z",
+      "at": "2026-11-22T21:29:52.484Z",
       "environment": "Mac Playwright Chromium local built dist",
       "info": {
         "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
         "h1": 1,
-        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "h1Text": "COME FOR\nTHE KAVA.\nMake it\nyour place.",
+        "firstVisitClarity": {
+          "toplineDisplay": "none",
+          "alcoholFreeDisplay": "none",
+          "locationFontPx": 13
+        },
         "hrefs": [
           "/menu",
           "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
@@ -36,17 +41,23 @@
           "slides": 3,
           "active": 1
         },
+        "discoverContrast": {
+          "background": "rgb(223, 234, 210)",
+          "heading": "rgb(24, 61, 44)",
+          "body": "rgb(44, 74, 54)",
+          "secondaryButton": "rgb(23, 67, 47)"
+        },
         "reducedMotion": true,
         "robot": "index,follow",
         "canonical": "https://thetribalkavalounge.com/",
         "paint": [
           {
             "name": "first-paint",
-            "ms": 360
+            "ms": 432
           },
           {
             "name": "first-contentful-paint",
-            "ms": 360
+            "ms": 432
           }
         ]
       },
@@ -70,6 +81,10 @@
         {
           "src": "/images/tribal-mario-kart-racers.webp",
           "status": 200
+        },
+        {
+          "src": "/images/banana-pudding-cloud.jpg",
+          "status": 200
         }
       ],
       "keyboard": {
@@ -78,7 +93,7 @@
         "outline": "3px"
       },
       "menuDestination": {
-        "url": "http://127.0.0.1:58747/menu",
+        "url": "http://127.0.0.1:61314/menu",
         "heading": [
           "Kava, Tea & Crafted Drinks"
         ],
@@ -88,13 +103,18 @@
       "badResponses": [
         [
           404,
-          "http://127.0.0.1:58747/api/social-proof"
+          "http://127.0.0.1:61314/api/social-proof"
         ]
       ],
-      "elapsedMs": 1054,
+      "elapsedMs": 999,
       "conditions": {
         "exactly one h1": true,
         "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
         "CTA visible 44px": true,
         "responsive no overflow": true,
         "small mobile copy before photo": true,
@@ -102,6 +122,7 @@
         "all image resources load": true,
         "keyboard focus": true,
         "readability contrast": true,
+        "discover section accessible colors": true,
         "no page script errors": true,
         "reduced motion preference": true,
         "menu navigation": true
@@ -113,12 +134,17 @@
         "width": 390,
         "height": 844
       },
-      "at": "2026-11-22T21:10:15.333Z",
+      "at": "2026-11-22T21:29:53.451Z",
       "environment": "Mac Playwright Chromium local built dist",
       "info": {
         "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
         "h1": 1,
-        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "h1Text": "COME FOR\nTHE KAVA.\nMake it\nyour place.",
+        "firstVisitClarity": {
+          "toplineDisplay": "none",
+          "alcoholFreeDisplay": "none",
+          "locationFontPx": 13
+        },
         "hrefs": [
           "/menu",
           "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
@@ -143,17 +169,23 @@
           "slides": 3,
           "active": 1
         },
+        "discoverContrast": {
+          "background": "rgb(223, 234, 210)",
+          "heading": "rgb(24, 61, 44)",
+          "body": "rgb(44, 74, 54)",
+          "secondaryButton": "rgb(23, 67, 47)"
+        },
         "reducedMotion": true,
         "robot": "index,follow",
         "canonical": "https://thetribalkavalounge.com/",
         "paint": [
           {
             "name": "first-paint",
-            "ms": 188
+            "ms": 200
           },
           {
             "name": "first-contentful-paint",
-            "ms": 188
+            "ms": 200
           }
         ]
       },
@@ -177,6 +209,10 @@
         {
           "src": "/images/tribal-mario-kart-racers.webp",
           "status": 200
+        },
+        {
+          "src": "/images/banana-pudding-cloud.jpg",
+          "status": 200
         }
       ],
       "keyboard": {
@@ -185,7 +221,7 @@
         "outline": "3px"
       },
       "menuDestination": {
-        "url": "http://127.0.0.1:58747/menu",
+        "url": "http://127.0.0.1:61314/menu",
         "heading": [
           "Kava, Tea & Crafted Drinks"
         ],
@@ -195,13 +231,18 @@
       "badResponses": [
         [
           404,
-          "http://127.0.0.1:58747/api/social-proof"
+          "http://127.0.0.1:61314/api/social-proof"
         ]
       ],
-      "elapsedMs": 1247,
+      "elapsedMs": 931,
       "conditions": {
         "exactly one h1": true,
         "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
         "CTA visible 44px": true,
         "responsive no overflow": true,
         "small mobile copy before photo": true,
@@ -209,6 +250,7 @@
         "all image resources load": true,
         "keyboard focus": true,
         "readability contrast": true,
+        "discover section accessible colors": true,
         "no page script errors": true,
         "reduced motion preference": true,
         "menu navigation": true
@@ -220,12 +262,17 @@
         "width": 768,
         "height": 1024
       },
-      "at": "2026-11-22T21:10:16.167Z",
+      "at": "2026-11-22T21:29:54.159Z",
       "environment": "Mac Playwright Chromium local built dist",
       "info": {
         "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
         "h1": 1,
-        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "h1Text": "COME FOR\nTHE KAVA.\nMake it\nyour place.",
+        "firstVisitClarity": {
+          "toplineDisplay": "block",
+          "alcoholFreeDisplay": "none",
+          "locationFontPx": 13
+        },
         "hrefs": [
           "/menu",
           "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
@@ -250,6 +297,12 @@
           "slides": 3,
           "active": 1
         },
+        "discoverContrast": {
+          "background": "rgb(223, 234, 210)",
+          "heading": "rgb(24, 61, 44)",
+          "body": "rgb(44, 74, 54)",
+          "secondaryButton": "rgb(23, 67, 47)"
+        },
         "reducedMotion": true,
         "robot": "index,follow",
         "canonical": "https://thetribalkavalounge.com/",
@@ -284,6 +337,10 @@
         {
           "src": "/images/tribal-mario-kart-racers.webp",
           "status": 200
+        },
+        {
+          "src": "/images/banana-pudding-cloud.jpg",
+          "status": 200
         }
       ],
       "keyboard": {
@@ -292,7 +349,7 @@
         "outline": "3px"
       },
       "menuDestination": {
-        "url": "http://127.0.0.1:58747/menu",
+        "url": "http://127.0.0.1:61314/menu",
         "heading": [
           "Kava, Tea & Crafted Drinks"
         ],
@@ -302,13 +359,18 @@
       "badResponses": [
         [
           404,
-          "http://127.0.0.1:58747/api/social-proof"
+          "http://127.0.0.1:61314/api/social-proof"
         ]
       ],
-      "elapsedMs": 777,
+      "elapsedMs": 669,
       "conditions": {
         "exactly one h1": true,
         "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
         "CTA visible 44px": true,
         "responsive no overflow": true,
         "small mobile copy before photo": true,
@@ -316,6 +378,7 @@
         "all image resources load": true,
         "keyboard focus": true,
         "readability contrast": true,
+        "discover section accessible colors": true,
         "no page script errors": true,
         "reduced motion preference": true,
         "menu navigation": true
@@ -327,12 +390,17 @@
         "width": 1440,
         "height": 900
       },
-      "at": "2026-11-22T21:10:16.914Z",
+      "at": "2026-11-22T21:29:54.909Z",
       "environment": "Mac Playwright Chromium local built dist",
       "info": {
         "title": "Tribal Kava Lounge | Kava Bar & Social Lounge in West Palm Beach",
         "h1": 1,
-        "h1Text": "COME FOR\nTHE KAVA.\nStay for\nthe people.",
+        "h1Text": "COME FOR\nTHE KAVA.\nMake it\nyour place.",
+        "firstVisitClarity": {
+          "toplineDisplay": "block",
+          "alcoholFreeDisplay": "none",
+          "locationFontPx": 14
+        },
         "hrefs": [
           "/menu",
           "https://www.google.com/maps/dir/?api=1&destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415"
@@ -357,17 +425,23 @@
           "slides": 3,
           "active": 1
         },
+        "discoverContrast": {
+          "background": "rgb(223, 234, 210)",
+          "heading": "rgb(24, 61, 44)",
+          "body": "rgb(44, 74, 54)",
+          "secondaryButton": "rgb(23, 67, 47)"
+        },
         "reducedMotion": false,
         "robot": "index,follow",
         "canonical": "https://thetribalkavalounge.com/",
         "paint": [
           {
             "name": "first-paint",
-            "ms": 216
+            "ms": 200
           },
           {
             "name": "first-contentful-paint",
-            "ms": 216
+            "ms": 200
           }
         ]
       },
@@ -391,6 +465,10 @@
         {
           "src": "/images/tribal-mario-kart-racers.webp",
           "status": 200
+        },
+        {
+          "src": "/images/banana-pudding-cloud.jpg",
+          "status": 200
         }
       ],
       "keyboard": {
@@ -399,7 +477,7 @@
         "outline": "3px"
       },
       "menuDestination": {
-        "url": "http://127.0.0.1:58747/menu",
+        "url": "http://127.0.0.1:61314/menu",
         "heading": [
           "Kava, Tea & Crafted Drinks"
         ],
@@ -409,13 +487,18 @@
       "badResponses": [
         [
           404,
-          "http://127.0.0.1:58747/api/social-proof"
+          "http://127.0.0.1:61314/api/social-proof"
         ]
       ],
-      "elapsedMs": 695,
+      "elapsedMs": 694,
       "conditions": {
         "exactly one h1": true,
         "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
         "CTA visible 44px": true,
         "responsive no overflow": true,
         "small mobile copy before photo": true,
@@ -423,6 +506,7 @@
         "all image resources load": true,
         "keyboard focus": true,
         "readability contrast": true,
+        "discover section accessible colors": true,
         "no page script errors": true,
         "reduced motion preference": true,
         "menu navigation": true

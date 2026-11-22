@@ -1,6 +1,6 @@
 
 const {chromium}=require('playwright');const fs=require('fs'),http=require('http'),path=require('path');
-const root=path.resolve(process.argv[2]);const dir=path.join(root,'prestige-evidence');
+const root=path.resolve(process.argv[2]);const dir=path.join(root,'prestige-evidence','acceptance');
 const paths=process.argv.slice(3);
 const mime={'.html':'text/html','.svg':'image/svg+xml','.css':'text/css','.js':'text/javascript','.webp':'image/webp','.png':'image/png','.jpg':'image/jpeg','.woff2':'font/woff2','.json':'application/json'};
 const server=http.createServer((req,res)=>{
@@ -24,6 +24,12 @@ for(const relative of paths){const baseName=path.basename(relative,'.html');
    fs.mkdirSync(path.dirname(file),{recursive:true});
    await page.screenshot({path:file,type:'jpeg',quality:78,fullPage:true,animations:'disabled',timeout:25000});
    rec.screenshot=path.relative(dir,file);
+   if(relative==='dist/botanical-home.html'){
+    const drink=page.locator('#drinks');
+    const drinkPath=path.join(dir,'screenshots','botanical-discover-'+device+'.jpg');
+    await drink.screenshot({path:drinkPath,type:'jpeg',quality:78,timeout:25000,animations:'disabled'});
+    rec.discoverScreenshot=path.relative(dir,drinkPath);
+   }
   }catch(e){rec.error=String(e.message).slice(0,350)}
   records.push(rec);await page.close();
  }

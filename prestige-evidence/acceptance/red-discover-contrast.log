@@ -1,0 +1,132 @@
+Reviewer finding: dark-on-dark Discover section, expected red
+exit=2
+{
+  "failures": [
+    "phone-320: discover section accessible colors",
+    "phone-390: discover section accessible colors",
+    "tablet: discover section accessible colors",
+    "desktop: discover section accessible colors"
+  ],
+  "summaries": [
+    {
+      "label": "phone-320",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 934,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "discover section accessible colors": false,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "phone-390",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 882,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "discover section accessible colors": false,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "tablet",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 677,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "discover section accessible colors": false,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    },
+    {
+      "label": "desktop",
+      "contrast": {
+        "cta": 10.87,
+        "body": 5.47
+      },
+      "elapsedMs": 710,
+      "conditions": {
+        "exactly one h1": true,
+        "CTA link is menu": true,
+        "original location-led headline": true,
+        "focused mobile metadata": true,
+        "real crafted drink photo": true,
+        "carousel edge controls": true,
+        "decorative sticker removed": true,
+        "CTA visible 44px": true,
+        "responsive no overflow": true,
+        "small mobile copy before photo": true,
+        "real carousel controls": true,
+        "all image resources load": true,
+        "keyboard focus": true,
+        "readability contrast": true,
+        "discover section accessible colors": false,
+        "no page script errors": true,
+        "reduced motion preference": true,
+        "menu navigation": true
+      },
+      "brokenAssets": [],
+      "pageErrors": []
+    }
+  ]
+}

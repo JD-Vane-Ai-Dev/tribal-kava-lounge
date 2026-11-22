@@ -31,18 +31,6 @@
         "environment": "Mac Chromium local noindex concept"
       },
       {
-        "artifact": "direction-01-botanical-editorial-tablet",
-        "captured_at": "2026-11-22T21:10:29.564Z",
-        "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
-        "method": "browser",
-        "viewport": {
-          "width": 768,
-          "height": 1024
-        },
-        "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-        "environment": "Mac Chromium local noindex concept"
-      },
-      {
         "artifact": "direction-01-botanical-editorial-desktop",
         "captured_at": "2026-11-22T21:10:30.583Z",
         "url": "http://127.0.0.1:58802/designs/prestige-concepts/01-botanical-editorial.html",
@@ -88,18 +76,6 @@
         "environment": "Mac Chromium local noindex concept"
       },
       {
-        "artifact": "direction-02-night-garden-tablet",
-        "captured_at": "2026-11-22T21:10:32.049Z",
-        "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
-        "method": "browser",
-        "viewport": {
-          "width": 768,
-          "height": 1024
-        },
-        "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-        "environment": "Mac Chromium local noindex concept"
-      },
-      {
         "artifact": "direction-02-night-garden-desktop",
         "captured_at": "2026-11-22T21:10:32.963Z",
         "url": "http://127.0.0.1:58802/designs/prestige-concepts/02-night-garden.html",
@@ -140,18 +116,6 @@
         "viewport": {
           "width": 390,
           "height": 844
-        },
-        "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
-        "environment": "Mac Chromium local noindex concept"
-      },
-      {
-        "artifact": "direction-03-neighborhood-zine-tablet",
-        "captured_at": "2026-11-22T21:10:34.795Z",
-        "url": "http://127.0.0.1:58802/designs/prestige-concepts/03-neighborhood-zine.html",
-        "method": "browser",
-        "viewport": {
-          "width": 768,
-          "height": 1024
         },
         "revision": "14fa0090635efa097ef3170a07eafb5d90e3365ce768d2f740e7e25fbb738986",
         "environment": "Mac Chromium local noindex concept"

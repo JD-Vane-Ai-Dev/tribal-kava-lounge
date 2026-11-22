@@ -40,7 +40,8 @@ const imageFiles = [
   'room770-social-share.jpg',
   'tribal-community-game-night.webp',
   'tribal-logo-cutout.png',
-  'tribal-mario-kart-racers.webp'
+  'tribal-mario-kart-racers.webp',
+  'banana-pudding-cloud.jpg'
 ];
 
 await rm(output, { recursive: true, force: true });

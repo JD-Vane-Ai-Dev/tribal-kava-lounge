@@ -1,6 +1,6 @@
 
 const {chromium}=require('playwright'); const http=require('http'),fs=require('fs'),path=require('path');
-const root=path.join(process.argv[2],'dist'), out=path.join(process.argv[2],'prestige-evidence');
+const root=path.join(process.argv[2],'dist'), out=path.join(process.argv[2],'prestige-evidence','acceptance');
 const mime={'.html':'text/html','.js':'text/javascript','.css':'text/css','.webp':'image/webp','.jpg':'image/jpeg','.png':'image/png','.svg':'image/svg+xml','.xml':'application/xml','.json':'application/json'};
 const server=http.createServer((req,res)=>{
  const url=decodeURI((req.url||'/').split('?')[0]), rel=url.replace(/^\/+/,'');
@@ -27,13 +27,14 @@ function ratio(a,b){let x=luminance(a),y=luminance(b);return +((Math.max(x,y)+.0
    const cta=by('.hero-actions a[href="/menu"]');
    const media=by('.hero-media');
    return {title:document.title,h1:document.querySelectorAll('h1').length,
-    h1Text:by('h1')?.innerText,hrefs:[...document.querySelectorAll('.hero-actions a')].map(a=>a.getAttribute('href')),
+    h1Text:by('h1')?.innerText,firstVisitClarity:{toplineDisplay:css('.topline').display,alcoholFreeDisplay:css('.hero-foot span:nth-child(2)').display,locationFontPx:parseFloat(css('.hero-foot span:first-child').fontSize)},hrefs:[...document.querySelectorAll('.hero-actions a')].map(a=>a.getAttribute('href')),
     scrollWidth:document.documentElement.scrollWidth,clientWidth:document.documentElement.clientWidth,
     order:{copy:css('.hero-left').order,photo:css('.hero-media').order},
     cta:{visible:!!(cta && cta.getBoundingClientRect().width && cta.getBoundingClientRect().height),height:cta?.getBoundingClientRect().height,
       foreground:css('.action.primary').color,background:css('.action.primary').backgroundColor},
     body:{foreground:css('.hero-left .body-lg').color,background:css('.hero-left').backgroundColor},
     gallery:{slides:document.querySelectorAll('[data-hero-slide]').length,active:[...document.querySelectorAll('[data-hero-slide]')].filter(i=>i.classList.contains('is-active')).length},
+    discoverContrast:{background:css('#drinks').backgroundColor,heading:css('#drinks .display2').color,body:css('#drinks .body-lg').color,secondaryButton:css('#drinks .action.outline').color},
     reducedMotion:matchMedia('(prefers-reduced-motion: reduce)').matches,
     robot:by('meta[name="robots"]')?.content,
     canonical:by('link[rel="canonical"]')?.href,
@@ -64,6 +65,11 @@ function ratio(a,b){let x=luminance(a),y=luminance(b);return +((Math.max(x,y)+.0
   const conditions={
    'exactly one h1':info.h1===1,
    'CTA link is menu':info.hrefs[0]==='/menu',
+   'original location-led headline':!info.h1Text.toLowerCase().replace(/\s+/g,' ').includes('stay for the people'),
+   'focused mobile metadata':w>430 || (info.firstVisitClarity.toplineDisplay==='none' && info.firstVisitClarity.alcoholFreeDisplay==='none' && info.firstVisitClarity.locationFontPx>=12),
+   'real crafted drink photo':(await page.locator('.prestige-drink-photo img').count())===1,
+   'carousel edge controls':(await page.locator('.hero-controls').evaluate(e=>{const p=e.parentElement.getBoundingClientRect(),b=e.getBoundingClientRect();return b.bottom>=p.bottom-90 && b.bottom<=p.bottom && b.left>=p.left && b.right<=p.right})),
+   'decorative sticker removed':(await page.locator('.hero-corner').evaluate(e=>getComputedStyle(e).display==='none')),
    'CTA visible 44px':info.cta.visible && info.cta.height>=44,
    'responsive no overflow':info.scrollWidth<=info.clientWidth,
    'small mobile copy before photo':w>430 || Number(info.order.copy)<Number(info.order.photo),
@@ -71,6 +77,7 @@ function ratio(a,b){let x=luminance(a),y=luminance(b);return +((Math.max(x,y)+.0
    'all image resources load':assets.every(a=>a.status===200),
    'keyboard focus':focusPass,
    'readability contrast':contrast.cta>=4.5 && contrast.body>=4.5,
+   'discover section accessible colors':ratio(info.discoverContrast.heading,info.discoverContrast.background)>=3 && ratio(info.discoverContrast.body,info.discoverContrast.background)>=4.5 && ratio(info.discoverContrast.secondaryButton,info.discoverContrast.background)>=4.5,
    'no page script errors':errors.length===0,
    'reduced motion preference':info.reducedMotion===reduced
   };

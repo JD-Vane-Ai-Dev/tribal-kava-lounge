@@ -298,12 +298,106 @@ section.block#visit{background:#f4f0e4;color:#1d3d30;padding:clamp(84px,8vw,126p
  .action:hover{transform:none}
 }
 
+
+/* Independent visual critique: remove redundant phone metadata, improve
+   readability and give the original local-identity headline space to breathe. */
+@media(max-width:700px){
+  .topline{display:none}
+  .hero-foot{
+    display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+    gap:18px;align-items:start;padding-top:20px
+  }
+  .hero-foot span{min-width:0;font-size:12px;letter-spacing:0;line-height:1.52;text-transform:none}
+  .hero-foot span b{font-size:12px;letter-spacing:0}
+  .hero-foot span:nth-child(2){display:none}
+  .hero-left .eyebrow{letter-spacing:.11em;font-size:11px}
+}
+@media(max-width:360px){
+  .hero-foot{grid-template-columns:1.18fr .82fr;gap:13px}
+  .hero-foot span,.hero-foot span b{font-size:12px}
+}
+
+/* Independent round-two art direction: photo-based kava moment, not only
+   nighttime bar photography; calmer carousel chrome and consistent visit info. */
+.hero-foot{
+ display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);
+ gap:12px 24px;align-items:start;padding-top:17px;margin-top:42px
+}
+.hero-foot:before{
+ content:"PLAN YOUR VISIT";grid-column:1/-1;
+ color:#58785a;font:800 11px/1.4 "DM Sans",system-ui,sans-serif;letter-spacing:.12em
+}
+.hero-foot>span{min-width:0;font-size:12px;letter-spacing:0;line-height:1.55;text-transform:none;color:#526b57}
+.hero-foot>span b{font-size:13px;letter-spacing:0;color:#234632}
+.hero-foot>span:nth-of-type(2){display:none}
+.large em{font-size:1.025em;letter-spacing:-.075em}
+.hero-controls{
+ top:auto!important;bottom:13px;left:auto!important;right:13px;
+ background:#163e2df1;border-color:#d7e9b6e0;box-shadow:0 10px 25px #061a1470;
+ backdrop-filter:blur(13px)
+}
+.hero-controls button{color:#fff}
+.hero-caption{bottom:84px;left:clamp(24px,4vw,65px);max-width:calc(100% - 55px)}
+.hero-corner{display:none}
+.prestige-drink-photo{
+ min-height:480px;height:100%;position:relative;margin:0;border-radius:120px 0 0 0;
+ background:#1e3b29;overflow:hidden;display:block;box-shadow:18px 18px 0 #bdd58f
+}
+.prestige-drink-photo:after{
+ content:"";position:absolute;inset:35% 0 0;
+ background:linear-gradient(to bottom,#0f261200 0%,#0b251bdf 100%);pointer-events:none
+}
+.prestige-drink-photo img{
+ position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+ object-position:center 46%
+}
+.prestige-drink-photo figcaption{
+ position:absolute;z-index:2;left:clamp(25px,4vw,65px);bottom:36px;color:#fff;
+ font:600 clamp(35px,3.5vw,52px)/1.1 "Fraunces",Georgia,serif;
+ text-shadow:0 2px 15px #0d1a13ac;letter-spacing:-.03em
+}
+@media(max-width:990px){
+ .hero-foot{gap:11px 16px}
+ .hero-foot>span,.hero-foot>span b{font-size:12px}
+ .prestige-drink-photo{min-height:430px;max-width:560px}
+}
+@media(max-width:700px){
+ .hero-foot{grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:11px 16px;margin-top:35px;padding-top:18px}
+ .hero-foot>span:first-of-type{display:block!important}
+ .hero-foot>span:nth-of-type(2){display:none!important}
+ .hero-foot>span,.hero-foot>span b{font-size:12px;line-height:1.5}
+ .hero-caption{bottom:82px;left:23px;right:18px}
+ .hero-caption strong{font-size:32px}
+ .hero-controls{right:12px;bottom:12px}
+ .prestige-drink-photo{height:380px;min-height:380px;border-radius:70px 0 0 0;margin:0 12px 20px 0;box-shadow:12px 12px 0 #bdd58f}
+ .prestige-drink-photo figcaption{font-size:34px;left:23px;bottom:25px}
+}
+
+/* Independent contrast audit: discover must be light editorial sage, never
+   dark text on dark green. This section bridges nightlife and the actual drinks. */
+.discover{background:#dfead2;color:#183a2c;border-color:#a6c499}
+#drinks .display2{color:#183d2c}
+#drinks .eyebrow{color:#3f6747}
+#drinks .body-lg{color:#2c4a36}
+#drinks .action.primary{background:#173d2e;color:#fff;border:1px solid #173d2e}
+#drinks .action.primary:hover{background:#2d6342;color:#fff}
+#drinks .action.outline{color:#17432f;border:2px solid #345f45;background:transparent}
+#drinks .action.outline:hover{background:#c9ddba;color:#173f2d}
+.hero-foot>span{font-size:14px;line-height:1.55}
+.hero-foot>span b{font-size:14px}
+.hero-foot:before{font-size:12px;color:#43634b}
+@media(max-width:990px){
+ .hero-foot>span,.hero-foot>span b{font-size:13px}
+}
+@media(max-width:700px){
+ .hero-foot>span,.hero-foot>span b{font-size:13px;line-height:1.5}
+}
 </style>
 </head><body>
 <div class="topline">Kava, games & good company · <strong>West Palm Beach, Florida</strong></div>
 <header><div class="nav"><a href="/" class="brand"><img src="/images/tribal-logo-cutout.png" alt=""><div><span>TRIBAL KAVA</span><small>West Palm Beach · FL</small></div></a><nav class="navlinks" aria-label="Main"><a href="#experience">The Lounge</a><a href="/menu">Drinks &amp; Menu</a><a href="/the-daily-kava">The Daily Kava</a><a class="nav-cta" href="#visit">Find Us ↗</a></nav></div></header>
 <main>
-<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>Stay for<br>the people.</em></h1><p class="body-lg">Your neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span><span><b>Open daily</b><br>8 AM–2 AM</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
+<section class="hero" aria-labelledby="hero-title"><div class="hero-left"><p class="eyebrow">Kava, conversation & a place to belong</p><h1 id="hero-title" class="large">COME FOR<br>THE KAVA.<br><em>Make it<br>your place.</em></h1><p class="body-lg">Your alcohol-free neighborhood kava lounge for first-timers and regulars. Sip something botanical, shoot pool, get some work done, or just hang with good people.</p><div class="hero-actions"><a href="/menu" class="action primary" data-conversion="menu_view">Explore the menu <span aria-hidden="true">↗</span></a><a href="https://www.google.com/maps/dir/?api=1&amp;destination=770+S+Military+Trail+Unit+A1,+West+Palm+Beach,+FL+33415" class="action outline" target="_blank" rel="noopener" data-conversion="directions">Get directions <span aria-hidden="true">↗</span></a></div><div class="hero-foot"><span><b>770 S Military Trail</b><br>Unit A1 · West Palm Beach</span><span><b>Alcohol-free</b><br>Relax · Work · Play</span><span><b>Open daily</b><br>8 AM–2 AM</span></div></div><div class="hero-media" data-hero-carousel role="region" aria-roledescription="carousel" aria-label="Real photos of Tribal Kava Lounge">
 <img class="hero-slide is-active" data-hero-slide src="/images/tribal-community-game-night.webp" alt="A real guest enjoying a drink with friends at Tribal Kava Lounge" width="1000" height="1250" fetchpriority="high" decoding="async">
 <img class="hero-slide" data-hero-slide src="/images/tribal-bar-game-night.webp" alt="A look inside Tribal Kava Lounge during a game night" width="1200" height="750" aria-hidden="true" decoding="async">
 <img class="hero-slide" data-hero-slide src="/images/tribal-mario-kart-racers.webp" alt="Friends playing Mario Kart at a Tribal Kava Lounge game night" width="900" height="600" aria-hidden="true" decoding="async">
@@ -323,7 +417,7 @@ section.block#visit{background:#f4f0e4;color:#1d3d30;padding:clamp(84px,8vw,126p
 </div></section>
 <div class="marquee" aria-label="The Tribal experience"><span>COME AS YOU ARE</span><i>✦</i><span>STAY FOR THE VIBE</span><i>✦</i><span>REAL KAVA · REAL CONNECTION</span></div>
 <section class="block" id="experience"><div class="wrap intro"><div><p class="eyebrow">Welcome to Tribal</p><h2 class="display2">THE SPOT YOU<br>WISH YOU'D<br>FOUND SOONER.</h2><p class="body-lg">Come by for a kava shell. Catch a game. Set up your laptop. Meet someone new. Tribal is built for the kind of night you don't need an excuse to enjoy.</p><div class="intro-notes"><div><b>First kava shell?</b>Start with our easy beginner guide.</div><div><b>Here with friends?</b>Two pool tables and room to settle in.</div><div><b>Need a daytime spot?</b>Bring your laptop and settle in.</div><div><b>Staying awhile?</b>Stay awhile and unwind in the lounge.</div></div></div><figure class="intro-photo"><img loading="lazy" src="/images/tribal-bar-game-night.webp" width="1200" height="750" alt="Community gathering at the Tribal bar"><figcaption>THIS IS TRIBAL.</figcaption></figure></div></section>
-<section class="discover" id="drinks"><div class="wrap discover-layout"><div class="drink-illustration" aria-hidden="true"><div class="shell-shadow"></div><div class="shell-rim"><div class="shell-drink"></div></div><div class="shell-caption">THE FIRST<br>SHELL IS<br>THE START.</div></div><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
+<section class="discover" id="drinks"><div class="wrap discover-layout"><figure class="drink-illustration prestige-drink-photo"><img loading="lazy" src="/images/banana-pudding-cloud.jpg" width="1024" height="1024" alt="Banana Pudding Kava Cloud drink on the Tribal Kava Lounge menu"><figcaption>THE FIRST SIP.<br>YOUR OWN RITUAL.</figcaption></figure><div class="drink-copy"><p class="eyebrow">New to the kava bar?</p><h2 class="display2">SIP SOMETHING<br>DIFFERENT.</h2><p class="body-lg">Curious about kava? We can help you find your first drink. Come for the ritual, stay for the conversation and an easygoing night without alcohol.</p><div class="discover-actions"><a class="action primary" href="/new-here">Start here <span aria-hidden="true">↗</span></a><a class="action outline" href="/menu">Browse the drinks <span aria-hidden="true">↗</span></a></div></div></div></section>
 
 
 <section class="menu-highlights" id="featured-drinks" aria-labelledby="menu-highlights-title">

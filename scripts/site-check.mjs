@@ -307,6 +307,7 @@ assert.ok(communityPhoto.length > 50000, 'owned community photo must be a real o
 assert.ok(barPhoto.length > 50000, 'owned lounge photo must be a real optimized image asset');
 assert.ok(racersPhoto.length > 50000, 'owned event photo must be a real optimized image asset');
 assert.deepEqual(publishedImages, [
+  'banana-pudding-cloud.jpg',
   'haunted-tribe-shirt.webp',
   'room-770-mark.svg',
   'room770-social-share.jpg',
