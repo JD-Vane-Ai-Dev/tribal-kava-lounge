@@ -11,9 +11,11 @@ from pathlib import Path
 from unittest.mock import patch
 
 import compliance
+import azure_writer
 import run_daily
 import writer
 from test_article_fixture import article, encode
+from test_azure_writer import API_ENV, Response, completion
 
 
 class WriterPipelineTests(unittest.TestCase):
@@ -87,6 +89,39 @@ class WriterPipelineTests(unittest.TestCase):
         path = self.generate()
         self.assertIsNotNone(path)
         self.assertFalse(self.check(path)['pass'])
+
+    def test_third_transport_failure_keeps_exact_review_hold_and_daily_budget(self):
+        with patch.dict(os.environ, {**API_ENV, 'AZURE_OPENAI_REVIEW_DEPLOYMENT': 'grok-4.6'}), \
+                patch.object(azure_writer.urllib.request, 'build_opener') as opener_factory:
+            client = azure_writer.AzureWriter()
+            self.factory.side_effect = lambda: client
+            opener = opener_factory.return_value
+            opener.open.side_effect = [
+                Response(completion(content=json.dumps(self.payload))),
+                Response(completion(content=json.dumps(self.payload))),
+                TimeoutError('private-transport-detail'),
+            ]
+            path = self.generate()
+            self.assertIsNotNone(path)
+            saved = path.read_bytes()
+            self.assertFalse(self.check(path)['pass'])
+            request = opener.open.call_args_list[2].args[0]
+            payload = json.loads(request.data)
+            self.assertEqual(payload['model'], 'grok-4.6')
+            self.assertEqual(payload['messages'][1]['content'].split('ARTICLE TO REVIEW:\n', 1)[1], path.read_text())
+            attempt = next(iter(json.loads((self.root/'state/writer.json').read_text())['attempts'].values()))
+            self.assertEqual(attempt['status'], 'held')
+            self.assertEqual(attempt['model_calls'], 3)
+            self.assertEqual(attempt['usage']['total_tokens'], 300)
+            self.assertIn('category=timeout, phase=open, call=3', attempt['reason'])
+            self.assertNotIn('private-transport-detail', attempt['reason'])
+            self.assertIsNone(self.generate())
+            self.assertEqual(path.read_bytes(), saved)
+            self.assertEqual(opener.open.call_count, 3)
+            self.fetch.assert_called_once()
+            with self.assertRaisesRegex(azure_writer.WriterConnectionError, 'three-call'):
+                client.complete('System', 'User')
+            self.assertEqual(opener.open.call_count, 3)
 
     def test_source_failure_reserves_day_without_spend_or_filler(self):
         self.fetch.side_effect = writer.SourceResearchError('Source unavailable')
