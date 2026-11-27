@@ -27,9 +27,9 @@ export default async function handler(req){
   }catch(e){console.error("Tribal event storage unavailable",e?.name||"unknown");return json({error:"Not recorded"},503);}
  }
  if(req.method==="GET"){
-  // SHA-256 fingerprint of a 28-character randomly generated owner code.
+  // SHA-256 fingerprint of a 32-character randomly generated owner code.
   // No plaintext owner code is deployed or committed.
-  const ownerCodeHash="1da0514b3883849dfb58cf2612d38a08990a0ec7d03a59cb1e409770288a02c4";
+  const ownerCodeHash="55bd3dd2719cd20c233e76f865d1f2adfb06b1b0559f9a2720405e9f64ef733c";
   const got=(req.headers.get("authorization")||"").replace(/^Bearer\s+/i,"");
   const gotHash=createHash("sha256").update(got).digest("hex");
   if(!eq(ownerCodeHash,gotHash))return json({error:"Authentication required"},401);
