@@ -233,7 +233,8 @@ assert.match(botanicalHome, /data-conversion="directions"/);
 
 assert.match(botanicalHome, /href="\/menu"/);
 assert.match(botanicalHome, /href="\/new-here"/);
-assert.doesNotMatch(botanicalHome, /href="\/events"/);
+assert.match(botanicalHome, /<nav class="navlinks"[^>]*>[\s\S]*?href="\/events">Events<\/a>/, 'homepage navigation must link directly to Events');
+assert.match(botanicalHome, /<div class="footer-links">[\s\S]*?href="\/events">Events<\/a>/, 'homepage footer must link directly to Events');
 assert.match(botanicalHome, /href="\/visit"/);
 assert.doesNotMatch(botanicalHome, /preview only|design exploration|noindex|\/events\/venue|\$250|haunted tribe/i);
 const netlifyRouting = await read('netlify.toml');

@@ -35,7 +35,7 @@ assert.match(publicQuoteForm,/Inside Tribal Kava Lounge/);
 assert.doesNotMatch(home,/ROOM 770/);
 assert.match(site,/YOUR VENUE/);
 console.log('Tribal Studio build and homepage-separation checks passed');
-assert.ok(!home.includes('href="/events"'));
+assert.ok(home.includes('href="/events"'), 'homepage must link to public lounge events');
 assert.ok(!home.includes('id="whats-on"'));
 
 // The owner-selected graphic must replace the old venue image without cropping its copy.
